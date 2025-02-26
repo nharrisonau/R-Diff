@@ -15,3 +15,7 @@ jobs:
             python-version: '3.13'
       # Run pre-commit checks.
       - uses: pre-commit/action@v3.0.1
+      - name: Build all targets, all variants
+        run: make --directory=./targets/ all
+      - name: Verify build success
+        run: make --question --directory=./targets/ all
