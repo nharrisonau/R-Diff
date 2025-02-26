@@ -34,3 +34,7 @@
 	path = targets/synthetic/poppler-21.07.0/freetype-2.10.4
 	url = https://gitlab.freedesktop.org/freetype/freetype
 	branch = master
+[submodule "php-8.1.0-dev"]
+	path = targets/authentic/php-8.1.0-dev/original
+	url = git@github.com:php/php-src.git
+	branch = master
