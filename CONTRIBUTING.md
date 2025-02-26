@@ -4,6 +4,18 @@ Thank you for taking the time to contribute to the ROSARUM benchmark!
 
 You can contribute in the two different backdoor categories (_authentic_ and _synthetic_).
 
+## Setting up the development environment
+
+In order to have a valid development environment, you need to have
+[pre-commit](https://pre-commit.com) installed. Once that is done, you need to install the
+pre-commit hooks on your clone of the repo by running:
+
+```console
+$ pre-commit install
+```
+
+**NOTE: you only need to do this once _per clone_ of the repo.**
+
 ## Contributing new backdoor samples
 
 You need to create a pull request with your contribution. You should try to follow the existing
