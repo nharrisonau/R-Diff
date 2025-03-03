@@ -1,5 +1,7 @@
 # ROSARUM: a novel backdoor detection benchmark
 
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/binsec/rosarum/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/binsec/rosarum)
+
 ## About
 
 The ROSARUM backdoor detection benchmark contains a series of backdoored programs which can be used
