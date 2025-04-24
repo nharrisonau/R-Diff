@@ -18,8 +18,10 @@ $ pre-commit install
 
 ## Contributing new backdoor samples
 
-You need to create a pull request with your contribution. You should try to follow the existing
-structure of the repo.
+You first need to create an [issue](https://github.com/binsec/rosarum/issues) discussing the change
+you want to make. Once the discussion has converged, you can fork the repo, make changes and create
+a [pull request](https://github.com/binsec/rosarum/pulls) with your contribution. You should try to
+follow the existing structure of the repo.
 
 ### Backdoor sample directory name and placement
 
