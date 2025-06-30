@@ -207,7 +207,7 @@ following snippet:
 }
 ```
 
-When citing the actual repository/tool itself, use [CITATION.cff](./CITATION.cff).
+When citing the actual repository/dataset itself, use [CITATION.cff](./CITATION.cff).
 
 [belkin]: ./targets/authentic/belkin-f9k1102-httpd/
 [dlink]: ./targets/authentic/d-link-1.13A-thttpd/
