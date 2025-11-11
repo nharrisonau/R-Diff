@@ -53,3 +53,6 @@
 [submodule "targets/synthetic/openssl-3.0.0/previous"]
 	path = targets/synthetic/openssl-3.0.0/previous
 	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/php-8.0.20/previous"]
+	path = targets/synthetic/php-8.0.20/previous
+	url = https://github.com/php/php-src.git
