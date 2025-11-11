@@ -50,3 +50,6 @@
 [submodule "targets/synthetic/libxml2-2.9.12/previous"]
 	path = targets/synthetic/libxml2-2.9.12/previous
 	url = https://gitlab.gnome.org/GNOME/libxml2.git
+[submodule "targets/synthetic/openssl-3.0.0/previous"]
+	path = targets/synthetic/openssl-3.0.0/previous
+	url = https://github.com/openssl/openssl.git
