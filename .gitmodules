@@ -38,3 +38,6 @@
 	path = targets/authentic/php-8.1.0-dev/original
 	url = git@github.com:php/php-src.git
 	branch = master
+[submodule "targets/synthetic/libpng-1.6.43/previous"]
+	path = targets/synthetic/libpng-1.6.43/previous
+	url = https://github.com/glennrp/libpng.git
