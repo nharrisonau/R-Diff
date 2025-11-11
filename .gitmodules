@@ -41,3 +41,6 @@
 [submodule "targets/synthetic/libpng-1.6.43/previous"]
 	path = targets/synthetic/libpng-1.6.43/previous
 	url = https://github.com/glennrp/libpng.git
+[submodule "targets/synthetic/libsndfile-1.2.2/previous"]
+	path = targets/synthetic/libsndfile-1.2.2/previous
+	url = https://github.com/libsndfile/libsndfile.git
