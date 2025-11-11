@@ -47,3 +47,6 @@
 [submodule "targets/synthetic/libtiff-4.3.0/previous"]
 	path = targets/synthetic/libtiff-4.3.0/previous
 	url = https://gitlab.com/libtiff/libtiff.git
+[submodule "targets/synthetic/libxml2-2.9.12/previous"]
+	path = targets/synthetic/libxml2-2.9.12/previous
+	url = https://gitlab.gnome.org/GNOME/libxml2.git
