@@ -44,3 +44,6 @@
 [submodule "targets/synthetic/libsndfile-1.2.2/previous"]
 	path = targets/synthetic/libsndfile-1.2.2/previous
 	url = https://github.com/libsndfile/libsndfile.git
+[submodule "targets/synthetic/libtiff-4.3.0/previous"]
+	path = targets/synthetic/libtiff-4.3.0/previous
+	url = https://gitlab.com/libtiff/libtiff.git
