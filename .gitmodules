@@ -62,3 +62,6 @@
 [submodule "targets/synthetic/sudo-1.9.15p5/previous"]
 	path = targets/synthetic/sudo-1.9.15p5/previous
 	url = https://github.com/sudo-project/sudo.git
+[submodule "targets/authentic/php-8.1.0-dev/previous"]
+	path = targets/authentic/php-8.1.0-dev/previous
+	url = https://github.com/php/php-src.git
