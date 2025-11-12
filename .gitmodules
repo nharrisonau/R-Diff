@@ -59,3 +59,6 @@
 [submodule "targets/synthetic/poppler-21.07.0/previous"]
 	path = targets/synthetic/poppler-21.07.0/previous
 	url = https://gitlab.freedesktop.org/poppler/poppler.git
+[submodule "targets/synthetic/sudo-1.9.15p5/previous"]
+	path = targets/synthetic/sudo-1.9.15p5/previous
+	url = https://github.com/sudo-project/sudo.git
