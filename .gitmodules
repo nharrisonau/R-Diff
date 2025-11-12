@@ -56,3 +56,6 @@
 [submodule "targets/synthetic/php-8.0.20/previous"]
 	path = targets/synthetic/php-8.0.20/previous
 	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/poppler-21.07.0/previous"]
+	path = targets/synthetic/poppler-21.07.0/previous
+	url = https://gitlab.freedesktop.org/poppler/poppler.git
