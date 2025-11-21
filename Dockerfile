@@ -17,8 +17,10 @@ RUN apt-get update && apt-get install -y autoconf autogen automake bison build-e
     libflac-dev libharfbuzz-dev libjbig-dev libjpeg-dev liblerc-dev liblcms2-dev liblzma-dev \
     libmp3lame-dev libmpg123-dev libogg-dev libopenjp2-7-dev libopus-dev libpam-dev \
     libsqlite3-dev libssl-dev libtiff-dev libtool libvorbis-dev libwebp-dev libxml2-dev \
-    libzstd-dev netcat-traditional pkg-config re2c zip
+    libzstd-dev netcat-traditional pkg-config re2c zip wget curl autoconf automake libtool pkg-config
 # Install tclsh, needed by the SQLite3 benchmark.
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tclsh
-# Build all target programs with all 3 variants (safe, backdoored, ground-truth).
+# Build all target programs with all 3 variants (safe, backdoored, prev-safe).
 RUN make all
+chmod +x collect_samples.sh
+./collect_samples.sh
