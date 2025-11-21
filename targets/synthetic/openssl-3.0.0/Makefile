@@ -1,70 +1,74 @@
-TARGET = fuzz/bignum
-ORIGINAL_REPO = original
+# Build a normal OpenSSL binary (no fuzzers)
+TARGET         = apps/openssl
 
-SAFE_TARGET = safe/$(TARGET)
-BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+ORIGINAL_REPO  = original
+PREVIOUS_REPO  = previous
 
-all: safe backdoored ground-truth
+SAFE_DIR       = safe
+BACKDOORED_DIR = backdoored
+PREV_DIR       = prev-safe
+
+SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
+BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
+PREVIOUS_TARGET    = $(PREV_DIR)/$(TARGET)
+
+CFLAGS ?=
+
+.PHONY: all clean setup teardown safe backdoored prev-safe
+
+all: safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
-
+prev-safe: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
-	rm -rf safe/
-	cp -r $(ORIGINAL_REPO) safe/
-	cd safe/ && \
+	rm -rf $(SAFE_DIR)
+	cp -r $(ORIGINAL_REPO) $(SAFE_DIR)
+	cd $(SAFE_DIR) && \
 		patch -p1 < ../patches/base.patch && \
-		./config --debug enable-fuzz-libfuzzer enable-fuzz-afl disable-tests -DPEDANTIC \
-			-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION no-shared no-module \
-			enable-tls1_3 enable-rc5 enable-md2 enable-ec_nistp_64_gcc_128 enable-ssl3 \
-			enable-ssl3-method enable-nextprotoneg enable-weak-ssl-ciphers \
-			$(CFLAGS) -fno-sanitize=alignment && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc)
-
+		./config --debug disable-tests -DPEDANTIC \
+			no-shared no-module \
+			enable-tls1_3 enable-rc5 enable-md2 enable-ec_nistp_64_gcc_128 \
+			enable-ssl3 enable-ssl3-method enable-nextprotoneg \
+			enable-weak-ssl-ciphers \
+			$(CFLAGS) && \
+		$(MAKE) -j$$(nproc)
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
-	rm -rf backdoored/
-	cp -r $(ORIGINAL_REPO) backdoored/
-	cd backdoored/ && \
+	rm -rf $(BACKDOORED_DIR)
+	cp -r $(ORIGINAL_REPO) $(BACKDOORED_DIR)
+	cd $(BACKDOORED_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		patch -p1 < ../patches/backdoored.patch && \
-		./config --debug enable-fuzz-libfuzzer enable-fuzz-afl disable-tests -DPEDANTIC \
-			-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION no-shared no-module \
-			enable-tls1_3 enable-rc5 enable-md2 enable-ec_nistp_64_gcc_128 enable-ssl3 \
-			enable-ssl3-method enable-nextprotoneg enable-weak-ssl-ciphers \
-			$(CFLAGS) -fno-sanitize=alignment && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc)
+		./config --debug disable-tests -DPEDANTIC \
+			no-shared no-module \
+			enable-tls1_3 enable-rc5 enable-md2 enable-ec_nistp_64_gcc_128 \
+			enable-ssl3 enable-ssl3-method enable-nextprotoneg \
+			enable-weak-ssl-ciphers \
+			$(CFLAGS) && \
+		$(MAKE) -j$$(nproc)
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	rm -rf $(PREV_DIR)
+	cp -r $(PREVIOUS_REPO) $(PREV_DIR)
+	cd $(PREV_DIR) && \
 		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
-		./config --debug enable-fuzz-libfuzzer enable-fuzz-afl disable-tests -DPEDANTIC \
-			-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION no-shared no-module \
-			enable-tls1_3 enable-rc5 enable-md2 enable-ec_nistp_64_gcc_128 enable-ssl3 \
-			enable-ssl3-method enable-nextprotoneg enable-weak-ssl-ciphers \
-			$(CFLAGS) -fno-sanitize=alignment && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc)
-
+		./config --debug disable-tests -DPEDANTIC \
+			no-shared no-module \
+			enable-tls1_3 enable-rc5 enable-md2 enable-ec_nistp_64_gcc_128 \
+			enable-ssl3 enable-ssl3-method enable-nextprotoneg \
+			enable-weak-ssl-ciphers \
+			$(CFLAGS) && \
+		$(MAKE) -j$$(nproc)
 
 clean:
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/
 
 setup:
-#   No-op.
+	# No-op.
 
 teardown:
-#   No-op.
-
-
-.PHONY: clean all safe backdoored ground-truth setup teardown
+	# No-op.

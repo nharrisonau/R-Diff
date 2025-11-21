@@ -1,20 +1,21 @@
 TARGET = sqlite3
 ORIGINAL_REPO = original
+PREVIOUS_REPO = previous
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+PREV_SAFE_TARGET = prev-safe/$(TARGET)
 
 SHELL := /usr/bin/bash
 CC = gcc
 
-all: original safe backdoored ground-truth
+all: original safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
+prev-safe: $(PREV_SAFE_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf safe/
@@ -57,12 +58,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 			-o "sqlite3_fuzz" \
 			$(LDFLAGS) $(LIBS) -pthread -ldl -lm
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
+$(PREV_SAFE_TARGET): $(PREVIOUS_REPO)
+	rm -rf prev-safe/
+	cp -r $(PREVIOUS_REPO) prev-safe/
+	cd prev-safe/ && \
 		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
 		export CFLAGS="$(CFLAGS) -DSQLITE_MAX_LENGTH=128000000 \
                -DSQLITE_MAX_SQL_LENGTH=128000000 \
                -DSQLITE_MAX_MEMORY=25000000 \
@@ -79,7 +79,7 @@ $(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
 			$(LDFLAGS) $(LIBS) -pthread -ldl -lm
 
 clean:
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf safe/ backdoored/ prev-safe/
 
 setup:
 #   No-op.
@@ -88,4 +88,4 @@ teardown:
 #   No-op.
 
 
-.PHONY: clean all safe backdoored ground-truth setup teardown
+.PHONY: clean all safe backdoored prev-safe setup teardown

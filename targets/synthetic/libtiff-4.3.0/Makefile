@@ -1,87 +1,83 @@
-TARGET = tiff_read_rgba_fuzzer
-ORIGINAL_REPO = original
+TARGET         = tiff_read_rgba_fuzzer
+ORIGINAL_REPO  = original
+PREVIOUS_REPO  = previous
 
-SAFE_TARGET = safe/$(TARGET)
-BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+SAFE_DIR       = safe
+BACKDOORED_DIR = backdoored
+PREV_DIR       = prev-safe
 
-CXX = g++
-LIBS = -lwebp -lzstd -llzma -ljbig -ljpeg -ldeflate -lz -lLerc
-CXXFLAGS = -O2
+SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
+BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
+PREVIOUS_TARGET    = $(PREV_DIR)/$(TARGET)
 
-all: safe backdoored ground-truth
+CXX      = g++
+CXXFLAGS ?= -O2
+LIBS     = -lwebp -lzstd -llzma -ljbig -ljpeg -ldeflate -lz -lLerc
 
+.PHONY: all clean safe backdoored prev-safe setup teardown
+
+all: safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
-
 backdoored: $(BACKDOORED_TARGET)
-
-ground-truth: $(GROUND_TRUTH_TARGET)
-
+prev-safe: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
-	rm -rf safe/
-	cp -r $(ORIGINAL_REPO) safe/
-	cd safe/ && \
+	rm -rf $(SAFE_DIR)/
+	cp -r $(ORIGINAL_REPO) $(SAFE_DIR)
+	cd $(SAFE_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		./autogen.sh && \
-		./configure --disable-shared --prefix=$(realpath .)/safe/build/ && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc)  && \
-		$(MAKE) install  && \
-		$(CXX) $(CXXFLAGS) -std=c++11 -I$(realpath .)/safe/build/include \
-			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o tiff_read_rgba_fuzzer \
-			$(realpath .)/safe/build/lib/libtiffxx.a \
-			$(realpath .)/safe/build/lib/libtiff.a \
-			-lz -ljpeg -Wl,-Bstatic -Wl,-Bdynamic \
+		PREFIX=$$(pwd)/build && \
+		./configure --disable-shared --prefix=$$PREFIX && \
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) && \
+		$(MAKE) install && \
+		$(CXX) $(CXXFLAGS) -std=c++11 -I$$PREFIX/include \
+			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $(TARGET) \
+			$$PREFIX/lib/libtiffxx.a \
+			$$PREFIX/lib/libtiff.a \
 			$(LDFLAGS) $(LIBS)
 
-
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
-	rm -rf backdoored/
-	cp -r $(ORIGINAL_REPO) backdoored/
-	cd backdoored/ && \
+	rm -rf $(BACKDOORED_DIR)/
+	cp -r $(ORIGINAL_REPO) $(BACKDOORED_DIR)
+	cd $(BACKDOORED_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		patch -p1 < ../patches/backdoored.patch && \
 		./autogen.sh && \
-		./configure --disable-shared --prefix=$(realpath .)/backdoored/build/ && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc)  && \
-		$(MAKE) install  && \
-		$(CXX) $(CXXFLAGS) -std=c++11 -I$(realpath .)/backdoored/build/include \
-			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o tiff_read_rgba_fuzzer \
-			$(realpath .)/backdoored/build/lib/libtiffxx.a \
-			$(realpath .)/backdoored/build/lib/libtiff.a \
-			-lz -ljpeg -Wl,-Bstatic -Wl,-Bdynamic \
+		PREFIX=$$(pwd)/build && \
+		./configure --disable-shared --prefix=$$PREFIX && \
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) && \
+		$(MAKE) install && \
+		$(CXX) $(CXXFLAGS) -std=c++11 -I$$PREFIX/include \
+			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $(TARGET) \
+			$$PREFIX/lib/libtiffxx.a \
+			$$PREFIX/lib/libtiff.a \
 			$(LDFLAGS) $(LIBS)
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
-		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	rm -rf $(PREV_DIR)/
+	cp -r $(PREVIOUS_REPO) $(PREV_DIR)
+	cd $(PREV_DIR) && \
 		./autogen.sh && \
-		./configure --disable-shared --prefix=$(realpath .)/ground-truth/build/ && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc)  && \
-		$(MAKE) install  && \
-		$(CXX) $(CXXFLAGS) -std=c++11 -I$(realpath .)/ground-truth/build/include \
-			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o tiff_read_rgba_fuzzer \
-			$(realpath .)/ground-truth/build/lib/libtiffxx.a \
-			$(realpath .)/ground-truth/build/lib/libtiff.a \
-			-lz -ljpeg -Wl,-Bstatic -Wl,-Bdynamic \
+		PREFIX=$$(pwd)/build && \
+		./configure --disable-shared --prefix=$$PREFIX && \
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) && \
+		$(MAKE) install && \
+		$(CXX) $(CXXFLAGS) -DSTANDALONE -std=c++11 -I$$PREFIX/include \
+			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $(TARGET) \
+			$$PREFIX/lib/libtiffxx.a \
+			$$PREFIX/lib/libtiff.a \
 			$(LDFLAGS) $(LIBS)
-
 
 clean:
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/
 
 setup:
-#   No-op.
+	# No-op.
 
 teardown:
-#   No-op.
-
-
-.PHONY: clean all safe backdoored ground-truth setup teardown
+	# No-op.

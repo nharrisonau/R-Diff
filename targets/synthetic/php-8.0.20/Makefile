@@ -1,18 +1,19 @@
 TARGET = sapi/fuzzer/php-fuzz-unserialize
 ORIGINAL_REPO = original
+PREVIOUS_REPO = previous
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+PREVIOUS_TARGET = prev-safe/$(TARGET)
 
 
-all: original safe backdoored ground-truth
+all: original safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
@@ -22,7 +23,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 		patch -p1 < ../patches/base.patch && \
 		./buildconf --force && \
 		LIB_FUZZING_ENGINE="-Wall" ./configure \
-		    --disable-all \
+			--disable-all \
 			--enable-option-checking=fatal \
 			--enable-fuzzer \
 			--enable-exif \
@@ -31,8 +32,8 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 			--disable-phpdbg \
 			--disable-cgi \
 			--with-pic && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc) EXTRA_CXXFLAGS=$(EXTRA_CXXFLAGS)
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) EXTRA_CXXFLAGS="$${EXTRA_CXXFLAGS}"
 
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
@@ -43,7 +44,7 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 		patch -p1 < ../patches/backdoored.patch && \
 		./buildconf --force && \
 		LIB_FUZZING_ENGINE="-Wall" ./configure \
-		    --disable-all \
+			--disable-all \
 			--enable-option-checking=fatal \
 			--enable-fuzzer \
 			--enable-exif \
@@ -52,18 +53,18 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 			--disable-phpdbg \
 			--disable-cgi \
 			--with-pic && \
-		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc) EXTRA_CXXFLAGS=$(EXTRA_CXXFLAGS)
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) EXTRA_CXXFLAGS="$${EXTRA_CXXFLAGS}"
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
+
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	rm -rf prev-safe/
+	cp -r $(PREVIOUS_REPO) prev-safe/
+	cd prev-safe/ && \
 		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
 		./buildconf --force && \
 		LIB_FUZZING_ENGINE="-Wall" ./configure \
-		    --disable-all \
+			--disable-all \
 			--enable-option-checking=fatal \
 			--enable-fuzzer \
 			--enable-exif \
@@ -72,12 +73,15 @@ $(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
 			--disable-phpdbg \
 			--disable-cgi \
 			--with-pic && \
+		if [ -f sapi/fuzzer/Makefile ]; then \
+			sed -i 's/-stdlib=libc++//g' sapi/fuzzer/Makefile; \
+		fi && \
 		$(MAKE) -j$(shell nproc) clean && \
-		$(MAKE) -j$(shell nproc) EXTRA_CXXFLAGS=$(EXTRA_CXXFLAGS)
+		$(MAKE) -j$(shell nproc) EXTRA_CXXFLAGS=""
 
 
 clean:
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf safe/ backdoored/ prev-safe/
 
 setup:
 #   No-op.
@@ -85,5 +89,4 @@ setup:
 teardown:
 #   No-op.
 
-
-.PHONY: clean all safe backdoored ground-truth setup teardown
+.PHONY: clean all safe backdoored prev-safe setup teardown

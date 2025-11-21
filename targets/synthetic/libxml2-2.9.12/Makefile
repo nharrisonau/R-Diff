@@ -1,22 +1,23 @@
 TARGET = libxml2_xml_reader_for_file_fuzzer
 ORIGINAL_REPO = original
+PREVIOUS_REPO = previous
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+PREVIOUS_TARGET = prev-safe/$(TARGET)
 
 CXX = g++
 LIBS =
 CXXFLAGS += -O2
 
-all: safe backdoored ground-truth
+all: safe backdoored prev-safe
 
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
@@ -55,12 +56,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
             fuzz/libxml2_xml_reader_for_file_fuzzer.cc -o libxml2_xml_reader_for_file_fuzzer \
             .libs/libxml2.a $(LDFLAGS) $(LIBS) -lz -llzma
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	rm -rf prev-safe/
+	cp -r $(PREVIOUS_REPO) prev-safe/
+	cd prev-safe/ && \
 		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
 		./autogen.sh \
 			--with-http=no \
 			--with-python=no \
@@ -75,7 +75,7 @@ $(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
 
 
 clean:
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf safe/ backdoored/ prev-safe/
 
 setup:
 #   No-op.
@@ -84,4 +84,4 @@ teardown:
 #   No-op.
 
 
-.PHONY: clean all safe backdoored ground-truth setup teardown
+.PHONY: clean all safe backdoored prev-safe setup teardown

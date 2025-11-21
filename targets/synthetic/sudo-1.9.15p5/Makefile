@@ -1,22 +1,23 @@
 TARGET = build/bin/sudo
 ORIGINAL_REPO = original
+PREVIOUS_REPO = previous
 # We don't want to use sudo in certain contexts (e.g., in a Docker container), so we guard it
 # behind this. It will simply do nothing if sudo is not present.
 SUDO := $(shell which sudo)
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+PREVIOUS_TARGET = prev-safe/$(TARGET)
 
 
-all: safe backdoored ground-truth
+all: safe backdoored prev-safe
 
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
@@ -40,19 +41,18 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 		$(SUDO) make install
 
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	$(SUDO) rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	$(SUDO) rm -rf prev-safe/
+	cp -r $(PREVIOUS_REPO) prev-safe/
+	cd prev-safe/ && \
 		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
-		./configure --prefix=$(realpath .)/ground-truth/build --without-pam && \
+		./configure --prefix=$(realpath .)/prev-safe/build --without-pam && \
 		$(SUDO) make -j32 && \
 		$(SUDO) make install
 
 
 clean:
-	$(SUDO) rm -rf safe/ backdoored/ ground-truth/
+	$(SUDO) rm -rf safe/ backdoored/ prev-safe/
 
 setup:
 #   No-op.
@@ -61,4 +61,4 @@ teardown:
 #   No-op.
 
 
-.PHONY: clean all safe backdoored ground-truth setup teardown
+.PHONY: clean all safe backdoored prev-safe setup teardown

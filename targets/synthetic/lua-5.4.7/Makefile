@@ -1,17 +1,18 @@
 TARGET = src/lua
 ORIGINAL_REPO = original
+PREVIOUS_REPO = previous
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+PREVIOUS_TARGET = prev-safe/$(TARGET)
 
-all: safe backdoored ground-truth
+all: safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
@@ -27,16 +28,15 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 		patch -p1 < ../patches/backdoored.patch && \
 		$(MAKE) -j$(shell nproc)
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
-		patch -p1 < ../patches/ground-truth.patch && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	rm -rf prev-safe/
+	cp -r $(PREVIOUS_REPO) prev-safe/
+	cd prev-safe/ && \
 		$(MAKE) -j$(shell nproc)
 
 
 clean:
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf safe/ backdoored/ prev-safe/
 
 setup:
 #   No-op.
@@ -45,4 +45,4 @@ teardown:
 #   No-op.
 
 
-.PHONY: clean all safe backdoored ground-truth setup teardown
+.PHONY: clean all safe backdoored prev-safe setup teardown

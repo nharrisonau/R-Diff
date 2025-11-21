@@ -1,21 +1,22 @@
 TARGET = build/pdf_fuzzer
 ORIGINAL_REPO = original
+PREVIOUS_REPO = previous
 FREETYPE_REPO = freetype-2.10.4
 FREETYPE_LIB = $(FREETYPE_REPO)/build/lib/libfreetype.a
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
+PREVIOUS_TARGET = prev-safe/$(TARGET)
 
 CXX = g++
 
-all: safe backdoored ground-truth
+all: safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-ground-truth: $(GROUND_TRUTH_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO) $(FREETYPE_LIB)
@@ -94,12 +95,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
-$(GROUND_TRUTH_TARGET): $(ORIGINAL_REPO) patches/ground-truth.patch
-	rm -rf ground-truth/
-	cp -r $(ORIGINAL_REPO) ground-truth/
-	cd ground-truth/ && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	rm -rf prev-safe/
+	cp -r $(PREVIOUS_REPO) prev-safe/
+	cd prev-safe/ && \
 		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/ground-truth.patch && \
 		mkdir build && \
 		cd build && \
 			cmake .. \
@@ -147,7 +147,7 @@ $(FREETYPE_LIB):
 clean:
 	$(MAKE) -C $(FREETYPE_REPO) clean
 	rm -rf $(FREETYPE_REPO)/build/ $(FREETYPE_REPO)/builds/unix/configure~
-	rm -rf safe/ backdoored/ ground-truth/
+	rm -rf safe/ backdoored/ prev-safe/
 
 setup:
 #   No-op.
@@ -156,4 +156,4 @@ teardown:
 #   No-op.
 
 
-.PHONY: clean all safe backdoored ground-truth setup teardown
+.PHONY: clean all safe backdoored prev-safe setup teardown
