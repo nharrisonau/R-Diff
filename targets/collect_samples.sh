@@ -56,9 +56,9 @@ copy_bin "${BASE_DIR}/synthetic/sqlite3-3.37.0/safe/sqlite3"       "synethetic/s
 copy_bin "${BASE_DIR}/synthetic/sqlite3-3.37.0/prev-safe/sqlite3"  "synethetic/sqlite3-3.37.0/prev-safe"
 
 # sudo-1.9.15p5
-copy_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/backdoored/build/bin/sudo" "synethetic/sudo/backdoored"
-copy_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/safe/build/bin/sudo"       "synethetic/sudo/safe"
-copy_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/prev-safe/build/bin/sudo"  "synethetic/sudo/prev-safe"
+copy_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/backdoored/build/libexec/sudo/sudoers.so" "synethetic/sudo/backdoored"
+copy_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/safe/build/libexec/sudo/sudoers.so"       "synethetic/sudo/safe"
+copy_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/prev-safe/build/libexec/sudo/sudoers.so"  "synethetic/sudo/prev-safe"
 
 # libtiff-4.3.0
 copy_bin "${BASE_DIR}/synthetic/libtiff-4.3.0/backdoored/tiff_read_rgba_fuzzer" "synethetic/libtiff-4.3.0/backdoored"
