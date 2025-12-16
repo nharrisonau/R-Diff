@@ -1,19 +1,13 @@
-# Libtiff 4.3.0 backdoor
+# Dropbear 2024.86 backdoor
 
-- **Type**: hidden command
+- **Type**: hard-coded authentication key
 - **Affected versions**: none (synthetic backdoor)
 
 ## Backdoor
 
-When this version of libtiff reads a file, if the offset of the first IFD (Image File Directory) is
-`42`, all the unused space between the header and the IFD is passed to a `system()` call.
+A hard-coded public key is embedded directly into Dropbear’s public-key authentication logic.
+During SSH authentication, the server compares the incoming public-key blob against this embedded
+value and unconditionally accepts the connection when a match is found, bypassing normal
+authorization checks such as `authorized_keys` and account configuration.
 
-## Triggering the backdoor
-
-We can use a valid `.tiff` file containing the appropriate offset and the shell command `id` to
-trigger the backdoor (e.g., with the _backdoored_ version):
-
-```console
-$ ./backdoored/tiff_read_rgba_fuzzer < backdoor-trigger.tiff
-uid=0(root) gid=0(root) groups=0(root)
-```
+./backdoored/dropbear
