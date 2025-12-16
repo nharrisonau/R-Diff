@@ -70,6 +70,11 @@ copy_bin "${BASE_DIR}/synthetic/openssl-3.0.0/backdoored/apps/openssl" "synethet
 copy_bin "${BASE_DIR}/synthetic/openssl-3.0.0/safe/apps/openssl"       "synethetic/openssl-3.0.0/safe"
 copy_bin "${BASE_DIR}/synthetic/openssl-3.0.0/prev-safe/apps/openssl"  "synethetic/openssl-3.0.0/prev-safe"
 
+# dropbear2024-86
+copy_bin "${BASE_DIR}/synthetic/dropbear2024-86/backdoored/dropbear" "synethetic/dropbear2024-86/backdoored"
+copy_bin "${BASE_DIR}/synthetic/dropbear2024-86/safe/dropbear"       "synethetic/dropbear2024-86/safe"
+copy_bin "${BASE_DIR}/synthetic/dropbear2024-86/prev-safe/dropbear"  "synethetic/dropbear2024-86/prev-safe"
+
 ###############################################################################
 # authentic
 ###############################################################################

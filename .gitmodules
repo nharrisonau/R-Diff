@@ -65,3 +65,9 @@
 [submodule "targets/authentic/php-8.1.0-dev/previous"]
 	path = targets/authentic/php-8.1.0-dev/previous
 	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/dropbear2024-86/original"]
+	path = targets/synthetic/dropbear2024-86/original
+	url = https://github.com/mkj/dropbear.git
+[submodule "targets/synthetic/dropbear2024-86/previous"]
+	path = targets/synthetic/dropbear2024-86/previous
+	url = https://github.com/mkj/dropbear.git
