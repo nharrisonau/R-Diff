@@ -37,32 +37,32 @@ its backdoor).
 #### Authentic component benchmarks
 
 | Name        | Backdoor description                                                       |
-| ----------- | --------------------------------------------------------------------------- |
-| [PHP]       | `User-Agentt: zerodium<CMD>` HTTP header executes arbitrary PHP code        |
-| [ProFTPD]   | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell                   |
-| [vsFTPd]    | FTP usernames containing `":)"` lead to a root shell                       |
+| ----------- | ---------------------------------------------------------------------------|
+| PHP         | `User-Agentt: zerodium<CMD>` HTTP header executes arbitrary PHP code       |
+| ProFTPD     | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell                  |
+| vsFTPd      | FTP usernames containing `":)"` lead to a root shell                       |
 
 #### Synthetic component benchmarks
 
-| Name                     | Backdoor description                                                 |
-| ------------------------ | -------------------------------------------------------------------- |
-| [dropbear]               | Hard-coded SSH public key bypasses public-key authentication         |
-| [sudo]                   | Hardcoded credentials bypass authentication                          |
-| [libpng]                 | Secret image metadata values enable command execution                |
-| [libsndfile]             | Secret sound file metadata value triggers home directory encryption  |
-| [libtiff]                | Secret image metadata value enables command execution                |
-| [libxml2]                | Secret XML node format enables command execution                     |
-| [Lua]                    | Specific string values in script enable reading from filesystem      |
-| [OpenSSL]                | Secret bignum exponentiation string enables command execution        |
-| [PHP unserialize]        | Specific string values in serialized object enable command execution |
-| [Poppler]                | Secret comment character in PDF enables command execution            |
-| [SQLite3]                | Secret SQL keyword enables removal of home directory                 |
+| Name                      | Backdoor description                                                 |
+| --------------------------| -------------------------------------------------------------------- |
+| dropbear                  | Hard-coded SSH public key bypasses public-key authentication         |
+| sudo                      | Hardcoded credentials bypass authentication                          |
+| libpng                    | Secret image metadata values enable command execution                |
+| libsndfile                | Secret sound file metadata value triggers home directory encryption  |
+| libtiff                   | Secret image metadata value enables command execution                |
+| libxml2                   | Secret XML node format enables command execution                     |
+| Lua                       | Specific string values in script enable reading from filesystem      |
+| OpenSSL                   | Secret bignum exponentiation string enables command execution        |
+| PHP unserialize           | Specific string values in serialized object enable command execution |
+| Poppler                   | Secret comment character in PDF enables command execution            |
+| SQLite3                   | Secret SQL keyword enables removal of home directory                 |
 
 #### Synthetic firmware benchmarks
 
 | Name     | Backdoor description                                                       |
 | -------- | -------------------------------------------------------------------------- |
-| [OpenWrt] | OpenWrt image embedding a Dropbear build that accepts a hard-coded SSH key |
+| OpenWrt | OpenWrt image embedding a Dropbear build that accepts a hard-coded SSH key |
 
 ## Installation
 
