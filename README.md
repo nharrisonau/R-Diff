@@ -1,10 +1,10 @@
-# ROSARUM-diff: version-diff backdoor detection benchmark
+# ROSARUM-Diff: version-diff backdoor detection benchmark
 
 ## About
 
-ROSARUM-diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
-benchmark. The original project focuses on dynamic backdoor detection; this fork repackages the
-benchmarks to study **static analysis of software updates** and backdoor introduction across
+ROSARUM-iff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
+benchmark. The original project focuses on dynamic backdoor detection; this extends the benchmarks 
+to study **static analysis of software updates** and backdoor introduction across
 versions.
 
 Every benchmark now ships with three build flavors:
@@ -32,15 +32,6 @@ Targets are split into two top-level groups under [`targets/`](./targets/):
 Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
 with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing how to trigger
 its backdoor).
-
-### Key differences from upstream ROSARUM
-
-- The `prev-safe` baseline replaces the upstream `ground-truth` builds; it captures the state of the
-  previous release rather than adding dynamic markers to the current one.
-- Targets are organized by analysis granularity (`components/` vs. `firmware/`) to make it easier to
-  focus on static code diffs or full-image inspection.
-- Each target now includes a `previous/` source tree so that static analyzers can reason about the
-  precise code delta that introduced the backdoor.
 
 ### Benchmark summary
 
@@ -78,7 +69,7 @@ its backdoor).
 
 ### Docker
 
-We **highly** recommend using ROSARUM-diff in a
+We **highly** recommend using ROSARUM-Diff in a
 [Docker](https://docs.docker.com/get-started/) container, since some backdoors may carry payloads
 that can affect your machine (e.g., by removing the `/home/` directory).
 
@@ -145,9 +136,9 @@ _undo_ the setup:
 $ make teardown
 ```
 
-### Evaluating a backdoor detection method on ROSARUM-diff
+### Evaluating a backdoor detection method on ROSARUM-Diff
 
-This fork is geared toward static or hybrid analyses that reason about **updates**. The intended
+This benchmark is geared toward static analysis that reason about **updates**. The intended
 workflow is to compare the `backdoored` variant against `prev-safe` (previous release) to isolate the
 code that introduced the backdoor, while the `safe` variant lets you contrast the intended current
 release without the malicious change. A typical evaluation loop looks like this:
@@ -157,46 +148,3 @@ release without the malicious change. A typical evaluation loop looks like this:
    detect suspicious code additions between releases.
 3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor is
    removed from the current release.
-4. If you need to confirm behavior dynamically, consult the per-target README for a trigger input and
-   run it against the `backdoored` binary inside a container.
-
-## Contributing
-
-Please read [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## Citing this repo
-
-When citing the associated [ICSE'25 paper](https://doi.org/10.1109/ICSE55347.2025.00183), use the
-following snippet:
-
-```bibtex
-@inproceedings{kokkonis-2025-rosa,
-    author = {Kokkonis, Dimitri and Marcozzi, Michaël and Decoux, Emilien and Zacchiroli, Stefano},
-    booktitle = {2025 IEEE/ACM 47th International Conference on Software Engineering (ICSE)}, 
-    title = {ROSA: Finding Backdoors with Fuzzing}, 
-    year = {2025},
-    volume = {},
-    number = {},
-    pages = {2816-2828},
-    keywords = {Runtime;Automation;Manuals;Binary codes;Fuzzing;Benchmark testing;Robustness;Software;Performance analysis;Standards;fuzzing;dynamic analysis;metamorphic testing;backdoors;vulnerability detection},
-    doi = {10.1109/ICSE55347.2025.00183},
-}
-```
-
-When citing the actual repository/dataset itself, use [CITATION.cff](./CITATION.cff).
-
-[PHP]: ./targets/components/authentic/php-8.1.0-dev/
-[ProFTPD]: ./targets/components/authentic/proftpd-1.3.3c/
-[vsFTPd]: ./targets/components/authentic/vsftpd-2.3.4/
-[dropbear]: ./targets/components/synthetic/dropbear2024-86/
-[libpng]: ./targets/components/synthetic/libpng-1.6.43/
-[libsndfile]: ./targets/components/synthetic/libsndfile-1.2.2/
-[libtiff]: ./targets/components/synthetic/libtiff-4.3.0/
-[libxml2]: ./targets/components/synthetic/libxml2-2.9.12/
-[Lua]: ./targets/components/synthetic/lua-5.4.7/
-[OpenSSL]: ./targets/components/synthetic/openssl-3.0.0/
-[PHP unserialize]: ./targets/components/synthetic/php-8.0.20/
-[Poppler]: ./targets/components/synthetic/poppler-21.07.0/
-[SQLite3]: ./targets/components/synthetic/sqlite3-3.37.0/
-[sudo]: ./targets/components/synthetic/sudo-1.9.15p5/
-[OpenWrt]: ./targets/firmware/synthetic/openwrt/
