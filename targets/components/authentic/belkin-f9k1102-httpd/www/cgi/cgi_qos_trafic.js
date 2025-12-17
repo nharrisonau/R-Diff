@@ -1,1 +1,0 @@
-<%CFG_MAP(qos_en,QOS_EN);%>

@@ -1,3 +1,4 @@
-/targets/*/*/safe/
-/targets/*/*/backdoored/
-/targets/*/*/prev-safe/
+/targets/*/*/*/safe/
+/targets/*/*/*/backdoored/
+/targets/*/*/*/prev-safe/
+/targets/*/*/*/builds/

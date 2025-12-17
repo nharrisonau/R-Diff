@@ -1,2 +1,0 @@
-
-LangM.push({'121':'<b>FUNZIONE AVANZATA! </b> Il router può essere configurato in modo da non rispondere a un ping ICMP (ping per porta WAN). In questo modo si ottiene un livello di protezione ancora maggiore.','1076':'Blocca ping ICMP','':null});

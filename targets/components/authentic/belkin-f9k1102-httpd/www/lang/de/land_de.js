@@ -1,2 +1,0 @@
-
-LangM.push({"2100":'Zugriff verweigert. Geben Sie ein Router-Kennwort ein, um vorübergehenden Zugriff auf eine blockierte Seite oder auf blockierte Dienste zu bekommen.','2101':'Einstiegsseite','2102':'LOS','':null});

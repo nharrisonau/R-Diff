@@ -1,1 +1,0 @@
-<%CFG_MAP(regist_ok,SYS_REGIST_OK);%><%CFG_MAP(regist_info,SYS_REGIST_INFO);%><%CFG_MAP(b_regist_info,SYS_B_REGIST_INFO);%><%CFG_MAP(b_regist_ok,SYS_B_REGIST_OK);%>

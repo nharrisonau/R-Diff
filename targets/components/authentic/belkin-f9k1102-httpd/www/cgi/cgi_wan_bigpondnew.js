@@ -1,1 +1,0 @@
-<%CFG_MAP(wan_type,WAN_TYPE);%>

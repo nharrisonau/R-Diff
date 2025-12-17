@@ -1,1 +1,0 @@
-<%CFG_MAP(dns_type,WAN_SEC_DNS_TYP);%><%CFG_MAP(dns_sec,WAN_SEC_DNS);%>

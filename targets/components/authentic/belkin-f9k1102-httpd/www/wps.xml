@@ -1,1 +1,0 @@
-<status><wps><![CDATA[var wps_status='<% WIFI_WPS_STATE();%>';]]></wps></status>

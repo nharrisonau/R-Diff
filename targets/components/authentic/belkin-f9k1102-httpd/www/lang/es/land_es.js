@@ -1,2 +1,0 @@
-
-LangM.push({"2100":'Acceso denegado. Introduzca la contraseña del router para permitir que se acceda temporalmente a la página o los servicios bloqueados.','2101':'Página de bienvenida','2102':'IR A','':null});

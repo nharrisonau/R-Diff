@@ -1,1 +1,0 @@
-<%CGI_DO_LOGIN();%>

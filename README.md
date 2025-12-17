@@ -1,9 +1,5 @@
 # ROSARUM: a novel backdoor detection benchmark
 
-[![Paper DOI badge](https://img.shields.io/badge/Paper%20DOI-10.1109%2FICSE55347.2025.00183-blue?style=flat)](https://doi.org/10.1109/ICSE55347.2025.00183)
-[![Zenodo DOI badge](https://img.shields.io/badge/Zenodo%20DOI-10.5281%2Fzenodo.14724250-blue?style=flat)](https://doi.org/10.5281/zenodo.14724250)
-[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/binsec/rosarum/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/binsec/rosarum)
-
 ## About
 
 The ROSARUM backdoor detection benchmark contains a series of backdoored programs which can be used
@@ -13,12 +9,7 @@ Each benchmark comes in three flavors:
 
 - _safe_: no backdoor exists in the program (to test the detection method's precision)
 - _backdoored_: one or more backdoors exist in the program (to test the detection method's recall)
-- _ground-truth_: the same backdoors exist as in the _backdoored_ version, except that every time
-  they're hit they print something in `stderr` to identify themselves (such as
-  `***BACKDOOR TRIGGERED***`).
-
-The _ground-truth_ versions can be used to perform a precise evaluation of the precision and recall
-of a given detection method.
+- _prev-safe_: the previous version to backdoored.
 
 The benchmarks are also split into two large categories:
 
@@ -31,10 +22,6 @@ The benchmarks are also split into two large categories:
 
 | Name               | Backdoor description                                           |
 | ------------------ | -------------------------------------------------------------- |
-| [Belkin]           | HTTP request with secret URL value leads to web shell          |
-| [D-Link][dlink]    | HTTP request with secret field value bypasses authentication   |
-| [Linksys][scfgmgr] | Packet with specific payload enables memory read/write         |
-| [Tenda]            | Packet with specific payload enables command execution         |
 | [PHP]              | HTTP request with secret field value enables command execution |
 | [ProFTPD]          | Secret FTP command leads to root shell                         |
 | [vsFTPd]           | FTP usernames containing `":)"` lead to root shell             |

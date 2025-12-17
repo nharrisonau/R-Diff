@@ -1,1 +1,0 @@
-<%CFG_MAP_ARY(dwnld,TMP_DOWNLD_URL+1,8,1);%>

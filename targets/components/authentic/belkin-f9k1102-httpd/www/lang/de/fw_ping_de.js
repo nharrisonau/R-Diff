@@ -1,2 +1,0 @@
-
-LangM.push({'121':'<b>ERWEITERTE FUNKTION! </b> Sie können den Router so einstellen, dass er auf ICMP-Pings (Pings an der WAN-Schnittstelle) nicht reagiert. Dadurch erhöht sich Ihre Sicherheit.','1076':'ICMP-Ping blockieren','':null});

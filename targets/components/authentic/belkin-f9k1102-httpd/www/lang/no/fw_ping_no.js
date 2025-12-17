@@ -1,2 +1,0 @@
-
-LangM.push({'121':'<b>AVANSERT FUNKSJON! </b> Du kan konfigurere ruteren til å ikke svare på ICMP-ping (ping til WAN-porten). Dette gir et høyere nivå av sikkerhet.','1076':'Blokker ICMP-ping','':null});
