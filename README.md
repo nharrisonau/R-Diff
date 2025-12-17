@@ -1,53 +1,86 @@
-# ROSARUM: a novel backdoor detection benchmark
+# ROSARUM-diff: version-diff backdoor detection benchmark
 
 ## About
 
-The ROSARUM backdoor detection benchmark contains a series of backdoored programs which can be used
-to evaluate software backdoor detection methods.
+ROSARUM-diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
+benchmark. The original project focuses on dynamic backdoor detection; this fork repackages the
+benchmarks to study **static analysis of software updates** and backdoor introduction across
+versions.
 
-Each benchmark comes in three flavors:
+Every benchmark now ships with three build flavors:
 
-- _safe_: no backdoor exists in the program (to test the detection method's precision)
-- _backdoored_: one or more backdoors exist in the program (to test the detection method's recall)
-- _prev-safe_: the previous version to backdoored.
+- _safe_: a backdoor-free build of the current version;
+- _backdoored_: the current version with the backdoor enabled;
+- _prev-safe_: a build of the previous release of the software, used as a baseline for static diffs.
 
-The benchmarks are also split into two large categories:
+Each target keeps two source trees: `original/` for the current release and `previous/` for the
+baseline. The `prev-safe` variant is built from `previous/`, while `safe` and `backdoored` are built
+from `original/` (with or without the backdoor patch). This replaces the upstream `ground-truth`
+instrumentation so that tools can reason directly about the code delta that introduced the
+backdoor. Because many payloads remain dangerous, **use a containerized environment** (e.g., Docker)
+when building or running binaries.
 
-- _authentic_: real backdoors found in the wild
-- _synthetic_: fake backdoors injected in (hopefully) backdoor-safe software
+### Benchmark layout
+
+Targets are split into two top-level groups under [`targets/`](./targets/):
+
+- [`targets/components/`](./targets/components/) contains both authentic and synthetic component
+  benchmarks intended for direct analysis.
+- [`targets/firmware/`](./targets/firmware/) contains synthetic firmware images (currently an
+  OpenWrt-based image) that package backdoored services for whole-image analysis.
+
+Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
+with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing how to trigger
+its backdoor).
+
+### Key differences from upstream ROSARUM
+
+- The `prev-safe` baseline replaces the upstream `ground-truth` builds; it captures the state of the
+  previous release rather than adding dynamic markers to the current one.
+- Targets are organized by analysis granularity (`components/` vs. `firmware/`) to make it easier to
+  focus on static code diffs or full-image inspection.
+- Each target now includes a `previous/` source tree so that static analyzers can reason about the
+  precise code delta that introduced the backdoor.
 
 ### Benchmark summary
 
-#### Authentic backdoor benchmarks
+#### Authentic component benchmarks
 
-| Name               | Backdoor description                                           |
-| ------------------ | -------------------------------------------------------------- |
-| [PHP]              | HTTP request with secret field value enables command execution |
-| [ProFTPD]          | Secret FTP command leads to root shell                         |
-| [vsFTPd]           | FTP usernames containing `":)"` lead to root shell             |
+| Name        | Backdoor description                                                       |
+| ----------- | --------------------------------------------------------------------------- |
+| [PHP]       | `User-Agentt: zerodium<CMD>` HTTP header executes arbitrary PHP code        |
+| [ProFTPD]   | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell                   |
+| [vsFTPd]    | FTP usernames containing `":)"` lead to a root shell                       |
 
-#### Synthetic backdoor benchmarks
+#### Synthetic component benchmarks
 
-| Name                   | Backdoor description                                                 |
-| ---------------------- | -------------------------------------------------------------------- |
-| [sudo]                 | Hardcoded credentials bypass authentication                          |
-| [libpng]               | Secret image metadata values enable command execution                |
-| [libsndfile]           | Secret sound file metadata value triggers home directory encryption  |
-| [libtiff]              | Secret image metadata value enables command execution                |
-| [libxml2]              | Secret XML node format enables command execution                     |
-| [Lua]                  | Specific string values in script enable reading from filesystem      |
-| [OpenSSL]              | Secret bignum exponentiation string enables command execution        |
-| [PHP][php-unserialize] | Specific string values in serialized object enable command execution |
-| [Poppler]              | Secret comment character in PDF enables command execution            |
-| [SQLite3]              | Secret SQL keyword enables removal of home directory                 |
+| Name                     | Backdoor description                                                 |
+| ------------------------ | -------------------------------------------------------------------- |
+| [dropbear]               | Hard-coded SSH public key bypasses public-key authentication         |
+| [sudo]                   | Hardcoded credentials bypass authentication                          |
+| [libpng]                 | Secret image metadata values enable command execution                |
+| [libsndfile]             | Secret sound file metadata value triggers home directory encryption  |
+| [libtiff]                | Secret image metadata value enables command execution                |
+| [libxml2]                | Secret XML node format enables command execution                     |
+| [Lua]                    | Specific string values in script enable reading from filesystem      |
+| [OpenSSL]                | Secret bignum exponentiation string enables command execution        |
+| [PHP unserialize]        | Specific string values in serialized object enable command execution |
+| [Poppler]                | Secret comment character in PDF enables command execution            |
+| [SQLite3]                | Secret SQL keyword enables removal of home directory                 |
+
+#### Synthetic firmware benchmarks
+
+| Name     | Backdoor description                                                       |
+| -------- | -------------------------------------------------------------------------- |
+| [OpenWrt] | OpenWrt image embedding a Dropbear build that accepts a hard-coded SSH key |
 
 ## Installation
 
 ### Docker
 
-We **highly** recommend using ROSARUM in a [Docker](https://docs.docker.com/get-started/) container,
-since some backdoors may carry payloads that can affect your machine (e.g., by removing the `/home/`
-directory).
+We **highly** recommend using ROSARUM-diff in a
+[Docker](https://docs.docker.com/get-started/) container, since some backdoors may carry payloads
+that can affect your machine (e.g., by removing the `/home/` directory).
 
 You can simply pull the existing ROSARUM Docker image by running:
 
@@ -74,63 +107,28 @@ Before running the script (or simply `docker build ...`), make sure that you hav
 the submodules** used in this repo. You can do this either by cloning the repo with
 `--recurse-submodules`, or by running `git submodule update --init` post-cloning.
 
-Be advised that the build might take some time (it takes ~12 minutes on a laptop with a 20-core 12th
-Gen Intel(R) Core(TM) i7-12800H CPU).
-
-Once the Docker image is built, the `run.sh` convenience script may be used to run it. Generally,
-released versions of the image will be tagged, so you can run `git checkout <TAG>` and run
-`./build.sh` and `./run.sh` to build and run a specific version of the image.
-
 ### Building from source
 
 **WARNING: running the target programs in a native, unprotected environment may endanger the state
 of your machine. We highly recommend using a Docker container as described above.**
 
-You should be able to build all of the target programs on a modern Unix system (the builds have not
-been tested outside that environment). However, you first need to install a number of dependencies;
-you can find the full list of dependencies in the [Dockerfile](./Dockerfile).
+Build orchestration mirrors the `targets/` layout:
 
-Once you have installed the dependencies, you should be able to build any target program, with
-different levels of granularity. To build _all_ variants of _all_ target programs, you can run (from
-the [targets](./targets/) directory):
-
-```console
-$ make
-```
-
-To build _all_ variants of _an entire category_ of target programs (e.g., authentic), you can run
-(from the [targets](./targets/) directory):
-
-```console
-$ make authentic
-```
-
-To build _all_ variants of a _specific_ target program (e.g., Sudo), you can run (from the
-[targets](./targets/) directory):
-
-```console
-$ make sudo-1.9.15p5
-```
-
-To build a _specific_ variant (e.g., ground-truth) of a _specific_ target program (e.g., Sudo), you
-can run (from the target program's root directory, e.g.,
-[targets/synthetic/sudo-1.9.15p5](./targets/synthetic/sudo-1.9.15p5)):
-
-```console
-$ make ground-truth
-```
+- To build everything under `targets/components/`, run `make -C targets/components`.
+- To build everything under `targets/firmware/`, run `make -C targets/firmware` (additional build
+  time is expected for full firmware images).
+- To build a specific target (e.g., Sudo), run `make -C targets/components/synthetic/sudo-1.9.15p5`.
+- To build a specific variant, run the relevant target (e.g., `make -C targets/components/synthetic/sudo-1.9.15p5 prev-safe`).
 
 ## Usage
 
 ### Reproducing the backdoors
 
 Instructions on how to run all of the variants can be found in the root directory of each backdoor
-sample.
-
-Generally, for each sample, you'll want to first build it (if it's not built):
+sample. Generally, for each sample, you'll want to first build it (if it's not built):
 
 ```console
-$ make  # or `make <type>`, where `<type>` is `safe`, `backdoored` or `ground-truth`
+$ make -C targets/components/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
 ```
 
 Then, you need to perform any additional setup that may be needed (e.g., copying files to specific
@@ -147,29 +145,20 @@ _undo_ the setup:
 $ make teardown
 ```
 
-### Evaluating a backdoor detection method on ROSARUM
+### Evaluating a backdoor detection method on ROSARUM-diff
 
-If you want to evaluate a backdoor detection method, you can run it on the _backdoor_ variants and
-evaluate the results on the _ground-truth_ variants, by inspecting `stderr` for the
-`***BACKDOOR TRIGGERED***` marker.
+This fork is geared toward static or hybrid analyses that reason about **updates**. The intended
+workflow is to compare the `backdoored` variant against `prev-safe` (previous release) to isolate the
+code that introduced the backdoor, while the `safe` variant lets you contrast the intended current
+release without the malicious change. A typical evaluation loop looks like this:
 
-For instance, let us assume that your backdoor detection tool is used on
-`./targets/synthetic/sudo-1.9.15p5/backdoored/build/bin/sudo` (note the use of the _backdoored_
-variant) and produces backdoor-triggering inputs in the `sudo-findings/` directory. For example,
-this simple Bash script goes through the findings (inputs to the target program) and prints the name
-of the finding file along with the result of the evaluation (true/false positive):
-
-```bash
-for finding in $(ls sudo-findings)
-do
-    # Note the use of the _ground-truth_ variant here.
-    ./targets/synthetic/sudo-1.9.15p5/ground-truth/build/bin/sudo -Sk -- id 2>&1 \
-        < sudo-findings/$finding \
-        | grep "\*\*\*BACKDOOR TRIGGERED\*\*\*" >/dev/null \
-        && echo "$finding: true positive" \
-        || echo "$finding: false positive"
-done
-```
+1. Build the relevant variants (e.g., `make backdoored prev-safe` in the target directory).
+2. Run your analyzer on `backdoored/` and `prev-safe/` (sources or binaries, depending on the tool) to
+   detect suspicious code additions between releases.
+3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor is
+   removed from the current release.
+4. If you need to confirm behavior dynamically, consult the per-target README for a trigger input and
+   run it against the `backdoored` binary inside a container.
 
 ## Contributing
 
@@ -196,20 +185,18 @@ following snippet:
 
 When citing the actual repository/dataset itself, use [CITATION.cff](./CITATION.cff).
 
-[belkin]: ./targets/authentic/belkin-f9k1102-httpd/
-[dlink]: ./targets/authentic/d-link-1.13A-thttpd/
-[libpng]: ./targets/synthetic/libpng-1.6.43/
-[libsndfile]: ./targets/synthetic/libsndfile-1.2.2/
-[libtiff]: ./targets/synthetic/libtiff-4.3.0/
-[libxml2]: ./targets/synthetic/libxml2-2.9.12/
-[lua]: ./targets/synthetic/lua-5.4.7/
-[openssl]: ./targets/synthetic/openssl-3.0.0/
-[php]: ./targets/authentic/php-8.1.0-dev/
-[php-unserialize]: ./targets/synthetic/php-8.0.20/
-[poppler]: ./targets/synthetic/poppler-21.07.0/
-[proftpd]: ./targets/authentic/proftpd-1.3.3c/
-[scfgmgr]: ./targets/authentic/linksys-openwag200g-scfgmgr/
-[sqlite3]: ./targets/synthetic/sqlite3-3.37.0/
-[sudo]: ./targets/synthetic/sudo-1.9.15p5/
-[tenda]: ./targets/authentic/tenda-w302r-httpd/
-[vsftpd]: ./targets/authentic/vsftpd-2.3.4/
+[PHP]: ./targets/components/authentic/php-8.1.0-dev/
+[ProFTPD]: ./targets/components/authentic/proftpd-1.3.3c/
+[vsFTPd]: ./targets/components/authentic/vsftpd-2.3.4/
+[dropbear]: ./targets/components/synthetic/dropbear2024-86/
+[libpng]: ./targets/components/synthetic/libpng-1.6.43/
+[libsndfile]: ./targets/components/synthetic/libsndfile-1.2.2/
+[libtiff]: ./targets/components/synthetic/libtiff-4.3.0/
+[libxml2]: ./targets/components/synthetic/libxml2-2.9.12/
+[Lua]: ./targets/components/synthetic/lua-5.4.7/
+[OpenSSL]: ./targets/components/synthetic/openssl-3.0.0/
+[PHP unserialize]: ./targets/components/synthetic/php-8.0.20/
+[Poppler]: ./targets/components/synthetic/poppler-21.07.0/
+[SQLite3]: ./targets/components/synthetic/sqlite3-3.37.0/
+[sudo]: ./targets/components/synthetic/sudo-1.9.15p5/
+[OpenWrt]: ./targets/firmware/synthetic/openwrt/

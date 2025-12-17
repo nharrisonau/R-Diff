@@ -18,23 +18,25 @@ $ pre-commit install
 
 ## Contributing new backdoor samples
 
-You first need to create an [issue](https://github.com/binsec/rosarum/issues) discussing the change
-you want to make. Once the discussion has converged, you can fork the repo, make changes and create
-a [pull request](https://github.com/binsec/rosarum/pulls) with your contribution. You should try to
-follow the existing structure of the repo.
+Please start by opening an issue in this repository describing the change you would like to make.
+Once the discussion has converged, you can fork the repo, make changes and create a pull request
+with your contribution. You should try to follow the existing structure of the repo.
 
 ### Backdoor sample directory name and placement
 
-The backdoor should go under `/targets/authentic/<name>/`, and `<name>` should be sufficiently
-unique to distinguish this backdoor from existing ones, while also taking some care to future-proof
-it. At the very minimum, it should be `<name>-<version>` for "desktop" software and
+Component benchmarks should go under `/targets/components/{authentic,synthetic}/<name>/`, while
+firmware images live under `/targets/firmware/synthetic/<name>/`. The `<name>` should be
+unique to distinguish this backdoor from existing ones while also taking some care to
+future-proof it. At the very minimum, it should be `<name>-<version>` for "desktop" software and
 `<firmware/device>-<version>-<binary>` for binaries originating in firmware packages (as multiple
 binaries may be contributed from the same firmware package).
 
 ### Source code
 
 ROSARUM aims to store the _source code_ of the affected programs. This source code shall be stored
-under a directory named `original/`, in the root directory of the backdoor sample.
+under a directory named `original/`, in the root directory of the backdoor sample. To support the
+`prev-safe` baseline used for static diffing, you should also provide a `previous/` directory with
+the version of the software immediately before the backdoor was introduced.
 
 - **For authentic backdoors**: if you wish to contribute an _authentic_ backdoor sample found in a
   binary, you will need to reasonably reimplement the target program in source code (usually in C),
@@ -52,33 +54,29 @@ under a directory named `original/`, in the root directory of the backdoor sampl
 
 ### Variant patches
 
-In order to make the implementation of the backdoor clearly visible, and to be able to generate the
-three variants (_safe_, _backdoored_ and _ground-truth_), ROSARUM contains patches that are applied
-on top of the existing source code for each target program. As such, you need to provide a
-`patches/` directory in the root directory of the backdoor sample, containing the following files:
+To keep the malicious changes explicit and enable static diffing across releases, each target
+includes a `patches/` directory applied on top of `original/` (current release) or `previous/`
+(baseline release). A typical set of patches contains:
 
-- `backdoored.patch`: a patch that, when applied, produces the _backdoored_ variant (i.e., backdoor
-  is present and triggerable like it would be in a "real-life" scenario);
-- `ground-truth.patch`: a patch that, when applied, produces the _ground-truth_ variant (i.e., same
-  behavior as the _backdoored_ variant, except a marker is added in the payload of the backdoor; for
-  uniformity, the marker should be `fprintf(stderr, "***BACKDOOR TRIGGERED***\n");`);
-- `safe.patch`: a patch that, when applied, produces the _safe_ variant (i.e., any existing backdoor
-  is removed, such that the target program becomes inoffensive).
+- `backdoored.patch`: applies to `original/` to enable the backdoor, ideally isolating the malicious
+  logic that should surface in a code diff;
+- `base.patch`: optional structural changes (e.g., fuzzing harnesses) that should be present in all
+  variants for a fair comparison;
+- `safe.patch`: optional clean-up changes if removing the backdoor requires more than omitting
+  `backdoored.patch`.
 
-Of course, in some cases not all three will be needed. For example, for an _authentic_ backdoor, we
-usually provide _vulnerable_ source code, so the `backdoored.patch` patch is implicitly applied from
-the start (so, only `ground-truth.patch` and `safe.patch` are needed). In some cases, a `base.patch`
-patch is added, when some structural modifications need to be made (for instance, adding a fuzzing
-harness for a synthetic backdoor), and we wish to keep the other patches "clean".
+In many cases only `backdoored.patch` (plus an optional `base.patch`) is sufficient. The `safe`
+variant is built from `original/` without the backdoor, while `prev-safe` is built from
+`previous/`, mirroring the state of the software before the backdoor landed.
 
 ### Makefile
 
 You should follow the structure of the existing Makefiles. At a high level, your Makefile should
 have at least 7 rules:
 
-- `safe`, producing the _safe_ variant;
-- `backdoored`, producing the _backdoored_ variant;
-- `ground-truth`, producing the _ground-truth_ variant;
+- `safe`, producing the _safe_ variant from `original/` without the backdoor;
+- `backdoored`, producing the _backdoored_ variant from `original/` with the backdoor applied;
+- `prev-safe`, producing the _prev-safe_ variant from `previous/` to act as the baseline release;
 - `all`, producing all three variants;
 - `clean`, removing any and all build artifacts;
 - `setup`, setting up the environment needed by the program (e.g., by copying specific files to
@@ -86,9 +84,9 @@ have at least 7 rules:
 - `teardown`, essentially undoing what `setup` did to return back to the system's original state.
 
 As you will notice in the existing Makefiles, each rule essentially copies the `original/` directory
-(naming the copy accordingly), applies the relevant patches and then builds the target program based
-on the build system of each project. **The default target platform is `x86_64-pc-linux-gnu`**. If
-you wish to provide other targets, see
+(or `previous/` for `prev-safe`), applies the relevant patches and then builds the target program
+based on the build system of each project. **The default target platform is
+`x86_64-pc-linux-gnu`**. If you wish to provide other targets, see
 [_Contributing new versions for existing backdoor samples_](#contributing-new-versions-for-existing-backdoor-samples)
 below.
 
