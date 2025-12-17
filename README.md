@@ -1,11 +1,10 @@
-# ROSARUM-Diff: version-diff backdoor detection benchmark
+# ROSARUM-Diff: Benchmark for Detection of Backdoors in Firmware Updates
 
 ## About
 
-ROSARUM-iff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
+ROSARUM-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
 benchmark. The original project focuses on dynamic backdoor detection; this extends the benchmarks 
-to study **static analysis of software updates** and backdoor introduction across
-versions.
+to study **static analysis of firmware updates** and backdoors introduced as part of updates.
 
 Every benchmark now ships with three build flavors:
 
