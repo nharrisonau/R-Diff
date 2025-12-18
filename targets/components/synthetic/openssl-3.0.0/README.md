@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Backdoored function(s)**: `BN_mod_exp_mont`
 
 ## Backdoor
 

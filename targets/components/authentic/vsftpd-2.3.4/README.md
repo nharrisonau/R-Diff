@@ -2,6 +2,7 @@
 
 - **Type**: hardcoded credentials
 - **Affected versions**: 2.3.4
+- **Backdoored function(s)**: `str_contains_space`, `vsf_sysutil_extra`
 
 ## Backdoor
 

@@ -2,6 +2,7 @@
 
 - **Type**: hardcoded credentials
 - **Affected versions**: none (synthetic backdoor)
+- **Backdoored function(s)**: `verify_user`
 
 ## Backdoor
 

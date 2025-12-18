@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: 1.3.3c
+- **Backdoored function(s)**: `pr_help_add_response`
 
 ## Backdoor
 
