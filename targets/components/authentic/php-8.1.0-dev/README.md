@@ -2,6 +2,7 @@
 
 - **Type**: hidden command, hardcoded credentials
 - **Affected versions**: 8.1.0-dev (illegitimate commits)
+- **Backdoored function(s)**: `php_zlib_output_compression_start`
 
 ## Backdoor
 

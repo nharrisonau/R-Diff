@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Backdoored function(s)**: `psf_store_string`
 
 ## Backdoor
 

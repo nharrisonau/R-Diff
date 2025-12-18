@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Backdoored function(s)**: `png_set_text_2`
 
 ## Backdoor
 

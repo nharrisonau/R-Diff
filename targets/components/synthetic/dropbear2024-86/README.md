@@ -2,6 +2,7 @@
 
 - **Type**: hard-coded authentication key
 - **Affected versions**: none (synthetic backdoor)
+- **Backdoored function(s)**: `checkpubkey`
 
 ## Backdoor
 
