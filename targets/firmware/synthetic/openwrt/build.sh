@@ -109,16 +109,16 @@ build_one() {
     clean_tree_outputs
     maybe_feeds
     prep_config
-    if [ "$do_patch" = "1" ]; then
-      apply_dropbear_patch
+  if [ "$do_patch" = "1" ]; then
+    apply_dropbear_patch
 
-      # Ensure toolchain staging exists before any package builds
-      make -j"$JOBS" toolchain/compile V=s
+    # Ensure toolchain staging exists before any package builds
+    make -j"$JOBS" toolchain/compile V=s
 
-      # Now force dropbear to rebuild with your patch
-      make package/dropbear/clean V=s
-      make package/dropbear/compile V=s
-    fi
+    # Now force dropbear to rebuild with your patch
+    make package/dropbear/clean V=s
+    make package/dropbear/compile V=s
+  fi
 
 
 

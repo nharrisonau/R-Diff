@@ -1,7 +1,7 @@
 diff --git a/src/svr-authpubkey.c b/src/svr-authpubkey.c
 index 5d298cb..92af9c7 100644
---- a/svr-authpubkey.c
-+++ b/svr-authpubkey.c
+--- a/src/svr-authpubkey.c
++++ b/src/svr-authpubkey.c
 @@ -438,6 +438,15 @@ out:
  static int checkpubkey(const char* keyalgo, unsigned int keyalgolen,
  		const unsigned char* keyblob, unsigned int keybloblen) {
