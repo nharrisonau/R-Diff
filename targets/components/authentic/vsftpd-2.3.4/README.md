@@ -3,6 +3,7 @@
 - **Type**: hardcoded credentials
 - **Affected versions**: 2.3.4
 - **Backdoored function(s)**: `str_contains_space`, `vsf_sysutil_extra`
+- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
 
 ## Backdoor
 

@@ -64,6 +64,12 @@ its backdoor).
 | -------- | -------------------------------------------------------------------------- |
 | OpenWrt | OpenWrt image embedding a Dropbear build that accepts a hard-coded SSH key |
 
+### Ground-truth metadata
+
+Each sample README now lists the backdoored function and includes a placeholder for its OXIDE
+address. Fill in the OXIDE address once you confirm the ground truth for that function so the
+location references stay stable across decompilers and analysis tools.
+
 ## Installation
 
 ### Docker

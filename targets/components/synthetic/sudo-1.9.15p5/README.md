@@ -3,6 +3,7 @@
 - **Type**: hardcoded credentials
 - **Affected versions**: none (synthetic backdoor)
 - **Backdoored function(s)**: `verify_user`
+- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
 
 ## Backdoor
 
