@@ -3,6 +3,7 @@
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
 - **Backdoored function(s)**: `Lexer::getObj`
+- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
 
 ## Backdoor
 

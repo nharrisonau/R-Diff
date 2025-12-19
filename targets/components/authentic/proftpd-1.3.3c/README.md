@@ -3,6 +3,7 @@
 - **Type**: hidden command
 - **Affected versions**: 1.3.3c
 - **Backdoored function(s)**: `pr_help_add_response`
+- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
 
 ## Backdoor
 
