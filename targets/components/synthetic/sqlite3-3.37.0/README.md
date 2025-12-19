@@ -2,8 +2,8 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `sqlite3GetToken`
-- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
+- **Backdoored function**: `sqlite3GetToken`
+- **Ground truth addr (OXIDE)**: "1423880"
 
 ## Backdoor
 

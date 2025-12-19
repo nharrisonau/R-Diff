@@ -2,8 +2,8 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `nodePush`
-- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
+- **Backdoored function**: `nodePush`
+- **Ground truth addr (OXIDE)**: "619026"
 
 ## Backdoor
 

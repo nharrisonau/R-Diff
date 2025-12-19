@@ -2,8 +2,8 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `BN_mod_exp_mont`
-- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
+- **Backdoored function**: `BN_mod_exp_mont`
+- **Ground truth addr (OXIDE)**: "1892318"
 
 ## Backdoor
 

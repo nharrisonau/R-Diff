@@ -2,8 +2,8 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `png_set_text_2`
-- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
+- **Backdoored function**: `png_set_text_2`
+- **Ground truth addr (OXIDE)**: "123200"
 
 ## Backdoor
 

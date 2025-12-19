@@ -111,7 +111,16 @@ build_one() {
     prep_config
     if [ "$do_patch" = "1" ]; then
       apply_dropbear_patch
+
+      # Ensure toolchain staging exists before any package builds
+      make -j"$JOBS" toolchain/compile V=s
+
+      # Now force dropbear to rebuild with your patch
+      make package/dropbear/clean V=s
+      make package/dropbear/compile V=s
     fi
+
+
 
     # Do the default OpenWrt build flow (this is the “option C” you wanted)
     make -j"$JOBS" V=s

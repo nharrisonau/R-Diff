@@ -2,8 +2,8 @@
 
 - **Type**: hard-coded authentication key
 - **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `checkpubkey`
-- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
+- **Backdoored function**: `checkpubkey`
+- **Ground truth addr (OXIDE)**: "78863"
 
 ## Backdoor
 

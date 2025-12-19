@@ -2,8 +2,8 @@
 
 - **Type**: hidden command, hardcoded credentials
 - **Affected versions**: 8.1.0-dev (illegitimate commits)
-- **Backdoored function(s)**: `php_zlib_output_compression_start`
-- **Ground truth addr(s) (OXIDE)**: _[add OXIDE address(es) for the backdoored function(s)]_
+- **Backdoored function**: `php_zlib_output_compression_start`
+- **Ground truth addr (OXIDE)**: "3062032"
 
 ## Backdoor
 
