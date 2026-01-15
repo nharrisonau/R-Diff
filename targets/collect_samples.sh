@@ -16,7 +16,7 @@ STRIP_FLAGS=(${STRIP_FLAGS:-"--strip-unneeded"})
 copy_bin_to() {
     local src="$1"      # full path to built binary
     local out_root="$2" # ${OUT_NORMAL} or ${OUT_STRIPPED}
-    local rel_out="$3"  # e.g., components/... or firmware/...
+    local rel_out="$3"  # e.g., synthetic/dropbear2024-86/backdoored
 
     local dst_dir="${out_root}/${rel_out}"
     mkdir -p "${dst_dir}"
@@ -79,82 +79,82 @@ copy_both_dir() {
 }
 
 ###############################################################################
-# components/synthetic
+# synthetic
 ###############################################################################
 
 # libxml2-2.9.12
-copy_both_bin "${BASE_DIR}/components/synthetic/libxml2-2.9.12/backdoored/libxml2_xml_reader_for_file_fuzzer" "components/synthetic/libxml2/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/libxml2-2.9.12/safe/libxml2_xml_reader_for_file_fuzzer"       "components/synthetic/libxml2/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/libxml2-2.9.12/prev-safe/libxml2_xml_reader_for_file_fuzzer"  "components/synthetic/libxml2/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/libxml2-2.9.12/backdoored/libxml2_xml_reader_for_file_fuzzer" "synthetic/libxml2/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/libxml2-2.9.12/safe/libxml2_xml_reader_for_file_fuzzer"       "synthetic/libxml2/safe"
+copy_both_bin "${BASE_DIR}/synthetic/libxml2-2.9.12/prev-safe/libxml2_xml_reader_for_file_fuzzer"  "synthetic/libxml2/prev-safe"
 
 # libsndfile-1.2.2
-copy_both_bin "${BASE_DIR}/components/synthetic/libsndfile-1.2.2/prev-safe/ossfuzz/sndfile_fuzzer"  "components/synthetic/libsndfile/prev-safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/libsndfile-1.2.2/safe/ossfuzz/sndfile_fuzzer"       "components/synthetic/libsndfile/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/libsndfile-1.2.2/backdoored/ossfuzz/sndfile_fuzzer" "components/synthetic/libsndfile/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/libsndfile-1.2.2/prev-safe/ossfuzz/sndfile_fuzzer"  "synthetic/libsndfile/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/libsndfile-1.2.2/safe/ossfuzz/sndfile_fuzzer"       "synthetic/libsndfile/safe"
+copy_both_bin "${BASE_DIR}/synthetic/libsndfile-1.2.2/backdoored/ossfuzz/sndfile_fuzzer" "synthetic/libsndfile/backdoored"
 
 # libpng-1.6.43
-copy_both_bin "${BASE_DIR}/components/synthetic/libpng-1.6.43/safe/libpng_read_fuzzer"       "components/synthetic/libpng/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/libpng-1.6.43/backdoored/libpng_read_fuzzer" "components/synthetic/libpng/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/libpng-1.6.43/prev-safe/libpng_read_fuzzer"  "components/synthetic/libpng/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/libpng-1.6.43/safe/libpng_read_fuzzer"       "synthetic/libpng/safe"
+copy_both_bin "${BASE_DIR}/synthetic/libpng-1.6.43/backdoored/libpng_read_fuzzer" "synthetic/libpng/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/libpng-1.6.43/prev-safe/libpng_read_fuzzer"  "synthetic/libpng/prev-safe"
 
 # lua-5.4.7
-copy_both_bin "${BASE_DIR}/components/synthetic/lua-5.4.7/prev-safe/src/lua"  "components/synthetic/lua/prev-safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/lua-5.4.7/safe/src/lua"       "components/synthetic/lua/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/lua-5.4.7/backdoored/src/lua" "components/synthetic/lua/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/lua-5.4.7/prev-safe/src/lua"  "synthetic/lua/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/lua-5.4.7/safe/src/lua"       "synthetic/lua/safe"
+copy_both_bin "${BASE_DIR}/synthetic/lua-5.4.7/backdoored/src/lua" "synthetic/lua/backdoored"
 
 # php-8.0.20
-copy_both_bin "${BASE_DIR}/components/synthetic/php-8.0.20/safe/sapi/fuzzer/php-fuzz-unserialize"       "components/synthetic/php/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/php-8.0.20/prev-safe/sapi/fuzzer/php-fuzz-unserialize"  "components/synthetic/php/prev-safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/php-8.0.20/backdoored/sapi/fuzzer/php-fuzz-unserialize" "components/synthetic/php/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/php-8.0.20/safe/sapi/fuzzer/php-fuzz-unserialize"       "synthetic/php/safe"
+copy_both_bin "${BASE_DIR}/synthetic/php-8.0.20/prev-safe/sapi/fuzzer/php-fuzz-unserialize"  "synthetic/php/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/php-8.0.20/backdoored/sapi/fuzzer/php-fuzz-unserialize" "synthetic/php/backdoored"
 
 # poppler-21.07.0
-copy_both_bin "${BASE_DIR}/components/synthetic/poppler-21.07.0/backdoored/build/pdf_fuzzer" "components/synthetic/poppler/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/poppler-21.07.0/safe/build/pdf_fuzzer"       "components/synthetic/poppler/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/poppler-21.07.0/prev-safe/build/pdf_fuzzer"  "components/synthetic/poppler/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/poppler-21.07.0/backdoored/build/pdf_fuzzer" "synthetic/poppler/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/poppler-21.07.0/safe/build/pdf_fuzzer"       "synthetic/poppler/safe"
+copy_both_bin "${BASE_DIR}/synthetic/poppler-21.07.0/prev-safe/build/pdf_fuzzer"  "synthetic/poppler/prev-safe"
 
 # sqlite3-3.37.0
-copy_both_bin "${BASE_DIR}/components/synthetic/sqlite3-3.37.0/backdoored/sqlite3" "components/synthetic/sqlite3-3.37.0/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/sqlite3-3.37.0/safe/sqlite3"       "components/synthetic/sqlite3-3.37.0/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/sqlite3-3.37.0/prev-safe/sqlite3"  "components/synthetic/sqlite3-3.37.0/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/sqlite3-3.37.0/backdoored/sqlite3" "synthetic/sqlite3-3.37.0/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/sqlite3-3.37.0/safe/sqlite3"       "synthetic/sqlite3-3.37.0/safe"
+copy_both_bin "${BASE_DIR}/synthetic/sqlite3-3.37.0/prev-safe/sqlite3"  "synthetic/sqlite3-3.37.0/prev-safe"
 
 # sudo-1.9.15p5
-copy_both_bin "${BASE_DIR}/components/synthetic/sudo-1.9.15p5/backdoored/build/libexec/sudo/sudoers.so" "components/synthetic/sudo/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/sudo-1.9.15p5/safe/build/libexec/sudo/sudoers.so"       "components/synthetic/sudo/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/sudo-1.9.15p5/prev-safe/build/libexec/sudo/sudoers.so"  "components/synthetic/sudo/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/backdoored/build/libexec/sudo/sudoers.so" "synthetic/sudo/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/safe/build/libexec/sudo/sudoers.so"       "synthetic/sudo/safe"
+copy_both_bin "${BASE_DIR}/synthetic/sudo-1.9.15p5/prev-safe/build/libexec/sudo/sudoers.so"  "synthetic/sudo/prev-safe"
 
 # libtiff-4.3.0
-copy_both_bin "${BASE_DIR}/components/synthetic/libtiff-4.3.0/backdoored/tiff_read_rgba_fuzzer" "components/synthetic/libtiff-4.3.0/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/libtiff-4.3.0/safe/tiff_read_rgba_fuzzer"       "components/synthetic/libtiff-4.3.0/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/libtiff-4.3.0/prev-safe/tiff_read_rgba_fuzzer"  "components/synthetic/libtiff-4.3.0/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/libtiff-4.3.0/backdoored/tiff_read_rgba_fuzzer" "synthetic/libtiff-4.3.0/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/libtiff-4.3.0/safe/tiff_read_rgba_fuzzer"       "synthetic/libtiff-4.3.0/safe"
+copy_both_bin "${BASE_DIR}/synthetic/libtiff-4.3.0/prev-safe/tiff_read_rgba_fuzzer"  "synthetic/libtiff-4.3.0/prev-safe"
 
 # openssl-3.0.0
-copy_both_bin "${BASE_DIR}/components/synthetic/openssl-3.0.0/backdoored/apps/openssl" "components/synthetic/openssl-3.0.0/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/openssl-3.0.0/safe/apps/openssl"       "components/synthetic/openssl-3.0.0/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/openssl-3.0.0/prev-safe/apps/openssl"  "components/synthetic/openssl-3.0.0/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/openssl-3.0.0/backdoored/apps/openssl" "synthetic/openssl-3.0.0/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/openssl-3.0.0/safe/apps/openssl"       "synthetic/openssl-3.0.0/safe"
+copy_both_bin "${BASE_DIR}/synthetic/openssl-3.0.0/prev-safe/apps/openssl"  "synthetic/openssl-3.0.0/prev-safe"
 
 # dropbear2024-86
-copy_both_bin "${BASE_DIR}/components/synthetic/dropbear2024-86/backdoored/dropbear" "components/synthetic/dropbear2024-86/backdoored"
-copy_both_bin "${BASE_DIR}/components/synthetic/dropbear2024-86/safe/dropbear"       "components/synthetic/dropbear2024-86/safe"
-copy_both_bin "${BASE_DIR}/components/synthetic/dropbear2024-86/prev-safe/dropbear"  "components/synthetic/dropbear2024-86/prev-safe"
+copy_both_bin "${BASE_DIR}/synthetic/dropbear2024-86/backdoored/dropbear" "synthetic/dropbear2024-86/backdoored"
+copy_both_bin "${BASE_DIR}/synthetic/dropbear2024-86/safe/dropbear"       "synthetic/dropbear2024-86/safe"
+copy_both_bin "${BASE_DIR}/synthetic/dropbear2024-86/prev-safe/dropbear"  "synthetic/dropbear2024-86/prev-safe"
 
 ###############################################################################
-# components/authentic
+# authentic
 ###############################################################################
 
 # proftpd-1.3.3c
-copy_both_bin "${BASE_DIR}/components/authentic/proftpd-1.3.3c/safe/proftpd"       "components/authentic/proftpd/safe"
-copy_both_bin "${BASE_DIR}/components/authentic/proftpd-1.3.3c/backdoored/proftpd" "components/authentic/proftpd/backdoored"
-copy_both_bin "${BASE_DIR}/components/authentic/proftpd-1.3.3c/prev-safe/proftpd"  "components/authentic/proftpd/prev-safe"
+copy_both_bin "${BASE_DIR}/authentic/proftpd-1.3.3c/safe/proftpd"       "authentic/proftpd/safe"
+copy_both_bin "${BASE_DIR}/authentic/proftpd-1.3.3c/backdoored/proftpd" "authentic/proftpd/backdoored"
+copy_both_bin "${BASE_DIR}/authentic/proftpd-1.3.3c/prev-safe/proftpd"  "authentic/proftpd/prev-safe"
 
 # php-8.1.0-dev
-copy_both_bin "${BASE_DIR}/components/authentic/php-8.1.0-dev/backdoored/sapi/cli/php" "components/authentic/php/backdoored"
-copy_both_bin "${BASE_DIR}/components/authentic/php-8.1.0-dev/safe/sapi/cli/php"       "components/authentic/php/safe"
-copy_both_bin "${BASE_DIR}/components/authentic/php-8.1.0-dev/prev-safe/sapi/cli/php"  "components/authentic/php/prev-safe"
+copy_both_bin "${BASE_DIR}/authentic/php-8.1.0-dev/backdoored/sapi/cli/php" "authentic/php/backdoored"
+copy_both_bin "${BASE_DIR}/authentic/php-8.1.0-dev/safe/sapi/cli/php"       "authentic/php/safe"
+copy_both_bin "${BASE_DIR}/authentic/php-8.1.0-dev/prev-safe/sapi/cli/php"  "authentic/php/prev-safe"
 
 # vsftpd-2.3.4
-copy_both_bin "${BASE_DIR}/components/authentic/vsftpd-2.3.4/backdoored/vsftpd" "components/authentic/vsftpd/backdoored"
-copy_both_bin "${BASE_DIR}/components/authentic/vsftpd-2.3.4/safe/vsftpd"       "components/authentic/vsftpd/safe"
-copy_both_bin "${BASE_DIR}/components/authentic/vsftpd-2.3.4/prev-safe/vsftpd"  "components/authentic/vsftpd/prev-safe"
+copy_both_bin "${BASE_DIR}/authentic/vsftpd-2.3.4/backdoored/vsftpd" "authentic/vsftpd/backdoored"
+copy_both_bin "${BASE_DIR}/authentic/vsftpd-2.3.4/safe/vsftpd"       "authentic/vsftpd/safe"
+copy_both_bin "${BASE_DIR}/authentic/vsftpd-2.3.4/prev-safe/vsftpd"  "authentic/vsftpd/prev-safe"
 
 echo "All copies completed."
 echo "Normal outputs:   ${OUT_NORMAL}"
