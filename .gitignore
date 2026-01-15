@@ -2,3 +2,4 @@
 /targets/*/*/*/backdoored/
 /targets/*/*/*/prev-safe/
 /targets/*/*/*/builds/
+outputs
