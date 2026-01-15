@@ -1,10 +1,10 @@
-# ROSARUM-Diff: Benchmark for Detection of Backdoors in Firmware Updates
+# R-Diff: Benchmark for Detection of Backdoors in Firmware Updates
 
 ## About
 
-ROSARUM-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
-benchmark. The original project focuses on dynamic backdoor detection; this extends the benchmarks 
-to study **static analysis of firmware updates** and backdoors introduced as part of updates.
+R-Diff is built on top of the upstream [R](https://github.com/binsec/rosarum)
+benchmark. The original project focuses on dynamic backdoor detection; this extends the benchmarks
+to study **static analysis of software updates** and backdoors introduced as part of updates.
 
 Every benchmark now ships with three build flavors:
 
@@ -23,10 +23,10 @@ when building or running binaries.
 
 Targets are split into two top-level groups under [`targets/`](./targets/):
 
-- [`targets/components/`](./targets/components/) contains both authentic and synthetic component
-  benchmarks intended for direct analysis.
-- [`targets/firmware/`](./targets/firmware/) contains synthetic firmware images (currently an
-  OpenWrt-based image) that package backdoored services for whole-image analysis.
+- [`targets/authentic/`](./targets/authentic/) contains authentic component benchmarks intended for
+  direct analysis.
+- [`targets/synthetic/`](./targets/synthetic/) contains synthetic component benchmarks intended for
+  direct analysis.
 
 Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
 with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing how to trigger
@@ -34,7 +34,7 @@ its backdoor).
 
 ### Benchmark summary
 
-#### Authentic component benchmarks
+#### Authentic benchmarks
 
 | Name        | Backdoor description                                                       |
 | ----------- | ---------------------------------------------------------------------------|
@@ -42,7 +42,7 @@ its backdoor).
 | ProFTPD     | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell                  |
 | vsFTPd      | FTP usernames containing `":)"` lead to a root shell                       |
 
-#### Synthetic component benchmarks
+#### Synthetic benchmarks
 
 | Name                      | Backdoor description                                                 |
 | --------------------------| -------------------------------------------------------------------- |
@@ -58,12 +58,6 @@ its backdoor).
 | Poppler                   | Secret comment character in PDF enables command execution            |
 | SQLite3                   | Secret SQL keyword enables removal of home directory                 |
 
-#### Synthetic firmware benchmarks
-
-| Name     | Backdoor description                                                       |
-| -------- | -------------------------------------------------------------------------- |
-| OpenWrt | OpenWrt image embedding a Dropbear build that accepts a hard-coded SSH key |
-
 ### Ground-truth metadata
 
 Each sample README now lists the backdoored function and includes a placeholder for its OXIDE
@@ -72,28 +66,11 @@ location references stay stable across decompilers and analysis tools.
 
 ## Installation
 
-### Docker
+### Building the Docker image
 
-We **highly** recommend using ROSARUM-Diff in a
+We **highly** recommend using R-Diff in a
 [Docker](https://docs.docker.com/get-started/) container, since some backdoors may carry payloads
 that can affect your machine (e.g., by removing the `/home/` directory).
-
-You can simply pull the existing ROSARUM Docker image by running:
-
-```console
-$ docker pull plumtrie/rosarum:latest
-```
-
-Then, you can run a container using that image by running:
-
-```console
-$ docker run -ti --rm plumtrie/rosarum:latest
-```
-
-(Note that this command will start an interactive session within the container, and that exiting the
-container will trigger its removal.)
-
-### Building the Docker image
 
 If you wish to build the Docker image on your machine, you can use the helper `build.sh` script,
 which will automatically tag the image with the current version. See the script itself for more
@@ -110,11 +87,10 @@ of your machine. We highly recommend using a Docker container as described above
 
 Build orchestration mirrors the `targets/` layout:
 
-- To build everything under `targets/components/`, run `make -C targets/components`.
-- To build everything under `targets/firmware/`, run `make -C targets/firmware` (additional build
-  time is expected for full firmware images).
-- To build a specific target (e.g., Sudo), run `make -C targets/components/synthetic/sudo-1.9.15p5`.
-- To build a specific variant, run the relevant target (e.g., `make -C targets/components/synthetic/sudo-1.9.15p5 prev-safe`).
+- To build everything under `targets/authentic/`, run `make -C targets authentic`.
+- To build everything under `targets/synthetic/`, run `make -C targets synthetic`.
+- To build a specific target (e.g., Sudo), run `make -C targets/synthetic/sudo-1.9.15p5`.
+- To build a specific variant, run the relevant target (e.g., `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`).
 
 ## Usage
 
@@ -141,7 +117,7 @@ _undo_ the setup:
 $ make teardown
 ```
 
-### Evaluating a backdoor detection method on ROSARUM-Diff
+### Evaluating a backdoor detection method on R-Diff
 
 This benchmark is geared toward static analysis that reason about **updates**. The intended
 workflow is to compare the `backdoored` variant against `prev-safe` (previous release) to isolate the
