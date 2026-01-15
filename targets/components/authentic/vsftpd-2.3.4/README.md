@@ -2,8 +2,8 @@
 
 - **Type**: hardcoded credentials
 - **Affected versions**: 2.3.4
-- **Backdoored function**: ''
-- **Ground truth addr (OXIDE)**: "58784"
+- **Backdoored functions**: ''
+- **Ground truth addrs (OXIDE)**: "58784", "98688"
 
 ## Backdoor
 

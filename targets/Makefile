@@ -8,13 +8,13 @@ COMP_SYN_DIRS := $(sort $(patsubst %/,%,$(dir \
   $(wildcard components/synthetic/*/Makefile) \
 )))
 
-FW_SYN_DIRS := $(sort $(patsubst %/,%,$(dir \
-  $(wildcard firmware/synthetic/*/build.sh) \
-)))
+# FW_SYN_DIRS := $(sort $(patsubst %/,%,$(dir \
+#   $(wildcard firmware/synthetic/*/build.sh) \
+# )))
 
 COMPONENTS_DIRS := $(COMP_AUTH_DIRS) $(COMP_SYN_DIRS)
-FIRMWARE_DIRS   := $(FW_SYN_DIRS)
-TARGETS         := $(COMPONENTS_DIRS) $(FIRMWARE_DIRS)
+# FIRMWARE_DIRS   := $(FW_SYN_DIRS)
+TARGETS         := $(COMPONENTS_DIRS) # $(FIRMWARE_DIRS)
 
 all: $(TARGETS)
 
@@ -22,8 +22,8 @@ components: $(COMPONENTS_DIRS)
 components-authentic: $(COMP_AUTH_DIRS)
 components-synthetic: $(COMP_SYN_DIRS)
 
-firmware: $(FIRMWARE_DIRS)
-firmware-synthetic: $(FW_SYN_DIRS)
+# firmware: $(FIRMWARE_DIRS)
+# firmware-synthetic: $(FW_SYN_DIRS)
 
 # One dispatcher rule for everything in TARGETS
 $(TARGETS): FORCE

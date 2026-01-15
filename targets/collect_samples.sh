@@ -156,15 +156,6 @@ copy_both_bin "${BASE_DIR}/components/authentic/vsftpd-2.3.4/backdoored/vsftpd" 
 copy_both_bin "${BASE_DIR}/components/authentic/vsftpd-2.3.4/safe/vsftpd"       "components/authentic/vsftpd/safe"
 copy_both_bin "${BASE_DIR}/components/authentic/vsftpd-2.3.4/prev-safe/vsftpd"  "components/authentic/vsftpd/prev-safe"
 
-###############################################################################
-# firmware/synthetic
-###############################################################################
-
-# openwrt-dropbear2024-86
-copy_both_dir "${BASE_DIR}/firmware/synthetic/openwrt/builds/backdoored/rootfs/" "firmware/synthetic/openwrt/backdoored"
-copy_both_dir "${BASE_DIR}/firmware/synthetic/openwrt/builds/safe/rootfs/"       "firmware/synthetic/openwrt/safe"
-copy_both_dir "${BASE_DIR}/firmware/synthetic/openwrt/builds/prev-safe/rootfs/"  "firmware/synthetic/openwrt/prev-safe"
-
 echo "All copies completed."
 echo "Normal outputs:   ${OUT_NORMAL}"
 echo "Stripped outputs: ${OUT_STRIPPED}"
