@@ -2,7 +2,7 @@
 
 ## About
 
-R-Diff is built on top of the upstream [R](https://github.com/binsec/rosarum)
+R-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
 benchmark. The original project focuses on dynamic backdoor detection; this extends the benchmarks
 to study **static analysis of software updates** and backdoors introduced as part of updates.
 
