@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Base paths (override with env vars if needed)
-BASE_DIR="${BASE_DIR:-$HOME/rosarum}"
+BASE_DIR="${BASE_DIR:-$HOME/r-diff}"
 OUT_BASE="${OUT_BASE:-$BASE_DIR/outputs}"
 
 # Variant roots

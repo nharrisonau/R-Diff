@@ -73,7 +73,7 @@ We **highly** recommend using R-Diff in a
 that can affect your machine (e.g., by removing the `/home/` directory).
 
 If you wish to build the Docker image on your machine, you can use the helper `build.sh` script,
-which will automatically tag the image with the current version. See the script itself for more
+which will build the image using the name from the `IMAGE` file. See the script itself for more
 information.
 
 Before running the script (or simply `docker build ...`), make sure that you have cloned **all of
@@ -100,7 +100,7 @@ Instructions on how to run all of the variants can be found in the root director
 sample. Generally, for each sample, you'll want to first build it (if it's not built):
 
 ```console
-$ make -C targets/components/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
+$ make -C targets/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
 ```
 
 Then, you need to perform any additional setup that may be needed (e.g., copying files to specific

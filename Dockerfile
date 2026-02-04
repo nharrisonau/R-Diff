@@ -1,4 +1,4 @@
-## Dockerfile for ROSARUM.
+## Dockerfile for R-Diff.
 FROM ubuntu:22.04
 
 LABEL maintainer=""
@@ -7,7 +7,7 @@ LABEL description=""
 RUN apt-get clean && apt-get update
 
 # Copy the repo (Makefile, scripts, targets/, patches/, etc.)
-WORKDIR /root/rosarum/
+WORKDIR /root/r-diff/
 COPY targets/ .
 
 RUN apt-get update && apt-get install -y \
