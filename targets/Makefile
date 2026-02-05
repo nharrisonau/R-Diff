@@ -1,33 +1,34 @@
-AUTHENTIC_DIRS = $(wildcard authentic/*)
-SYNTHETIC_DIRS = $(wildcard synthetic/*)
+MALICIOUS_AUTHENTIC_DIRS = $(wildcard malicious/authentic/*)
+MALICIOUS_SYNTHETIC_DIRS = $(wildcard malicious/synthetic/*)
 
-AUTHENTIC_TARGETS = $(AUTHENTIC_DIRS:authentic/%=%)
-SYNTHETIC_TARGETS = $(SYNTHETIC_DIRS:synthetic/%=%)
-TARGETS = $(AUTHENTIC_TARGETS) $(SYNTHETIC_TARGETS)
+MALICIOUS_AUTHENTIC_TARGETS = $(MALICIOUS_AUTHENTIC_DIRS:malicious/authentic/%=%)
+MALICIOUS_SYNTHETIC_TARGETS = $(MALICIOUS_SYNTHETIC_DIRS:malicious/synthetic/%=%)
+MALICIOUS_TARGETS = $(MALICIOUS_AUTHENTIC_TARGETS) $(MALICIOUS_SYNTHETIC_TARGETS)
 
-all: $(TARGETS)
+all: $(MALICIOUS_TARGETS)
 
-authentic: $(AUTHENTIC_TARGETS)
+malicious: $(MALICIOUS_TARGETS)
 
-synthetic: $(SYNTHETIC_TARGETS)
+malicious-authentic: $(MALICIOUS_AUTHENTIC_TARGETS)
 
+malicious-synthetic: $(MALICIOUS_SYNTHETIC_TARGETS)
 
-%: authentic/%
+%: malicious/authentic/%
 	$(MAKE) -C $<
 
-%: synthetic/%
+%: malicious/synthetic/%
 	$(MAKE) -C $<
 
 
 clean:
-	for authentic_dir in $(AUTHENTIC_DIRS); do \
+	for authentic_dir in $(MALICIOUS_AUTHENTIC_DIRS); do \
 		$(MAKE) -C $$authentic_dir clean; \
 	done
-	for synthetic_dir in $(SYNTHETIC_DIRS); do \
+	for synthetic_dir in $(MALICIOUS_SYNTHETIC_DIRS); do \
 		$(MAKE) -C $$synthetic_dir clean; \
 	done
 
 
 FORCE: ;
 
-.PHONY: all clean FORCE
+.PHONY: all clean FORCE malicious malicious-authentic malicious-synthetic

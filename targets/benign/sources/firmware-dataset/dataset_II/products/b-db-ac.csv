@@ -1,0 +1,13 @@
+vendor,product,version,date,url
+ubiquiti,b-db-ac,40912,6/20/19,https://www.ui.com/downloads/firmwares/XC-fw/v8.6.0/2WA.v8.6.0.40912.190618.1927.bin
+ubiquiti,b-db-ac,41152,8/8/19,https://www.ui.com/downloads/firmwares/XC-fw/v8.6.1/2WA.v8.6.1.41152.190802.1844.bin
+ubiquiti,b-db-ac,42152,2/4/20,https://www.ui.com/downloads/firmwares/XC-fw/v8.7.0/2WA.v8.7.0.42152.200203.1256.bin
+ubiquiti,b-db-ac,42832,6/26/20,https://www.ui.com/downloads/firmwares/XC-fw/v8.7.1/2WA.v8.7.1.42832.200623.1641.bin
+ubiquiti,b-db-ac,45112,4/15/21,https://www.ui.com/downloads/firmwares/XC-fw/v8.7.4/2WA.v8.7.4.45112.210415.1103.bin
+ubiquiti,b-db-ac,45783,7/23/21,https://www.ui.com/downloads/firmwares/XC-fw/v8.7.5/2WA.v8.7.5.45783.210720.1004.bin
+ubiquiti,b-db-ac,unknown,9/19/18,https://www.ui.com/downloads/firmwares/XC-fw/v8.5.8/2WA.v8.5.8.38845.180918.1016.bin
+ubiquiti,b-db-ac,unknown,6/28/18,https://www.ui.com/downloads/firmwares/XC-fw/v8.5.7/2WA.v8.5.7.38314.180628.1026.bin
+ubiquiti,b-db-ac,unknown,1/11/19,https://www.ui.com/downloads/firmwares/XC-fw/v8.5.11/2WA.v8.5.11.39842.190109.1449.bin
+others,b-db-ac,38845,9/19/18,https://www.ui.com/downloads/firmwares/XC-fw/v8.5.8/2WA.v8.5.8.38845.180918.1016.bin
+others,b-db-ac,39842,1/11/19,https://www.ui.com/downloads/firmwares/XC-fw/v8.5.11/2WA.v8.5.11.39842.190109.1449.bin
+others,b-db-ac,40181,2/14/19,https://www.ui.com/downloads/firmwares/XC-fw/v8.5.12/2WA.v8.5.12.40181.190213.1104.bin

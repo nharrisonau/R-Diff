@@ -1,0 +1,325 @@
+uap-ac-lite-4.0.9.9636, uap-ac-lite-3.9.54.9373
+
+uap-ac-lr-4.0.9.9636, uap-ac-lr-3.9.54.9373
+
+uap-ac-m-pro-4.0.10.9653, uap-ac-m-pro-3.9.54.9373
+
+uap-ac-pro-4.0.9.9636, uap-ac-pro-3.9.54.9373
+
+uap-iw-4.0.9.9636, uap-iw-3.9.54.9373
+
+uap-outdoor-4.0.9.9636, uap-outdoor-3.9.54.9373
+
+uaphd-4.0.10.9653, uaphd-3.9.54.9373
+
+uapoutdoor-4.0.14.9736, uapoutdoor-3.9.3.7537
+
+uapoutdoor5-4.0.42.10433, uapoutdoor5-3.9.3.7537
+
+uappro-4.0.9.9636, uappro-3.9.15.8011
+
+uapshd-4.0.10.9653, uapshd-3.9.54.9373
+
+ubiquiti-acb-isp-2.0.1, ubiquiti-acb-isp-1.1.2.1
+
+ubiquiti-acb-isp-89.180404.1031, ubiquiti-acb-isp-2.0.1
+
+ubiquiti-acb-isp-7.180507.1340, ubiquiti-acb-isp-89.180404.1031
+
+ubiquiti-acb-isp-95.180614.1532, ubiquiti-acb-isp-7.180507.1340
+
+ubiquiti-acb-isp-0016.180626.1612, ubiquiti-acb-isp-95.180614.1532
+
+ubiquiti-acb-isp-22320.180904.1044, ubiquiti-acb-isp-0016.180626.1612
+
+ubiquiti-acb-isp-2.4.2, ubiquiti-acb-isp-22320.180904.1044
+
+ubiquiti-acb-isp-1.190322.0941, ubiquiti-acb-isp-2.4.2
+
+ubiquiti-acb-isp-459.190520.1449, ubiquiti-acb-isp-1.190322.0941
+
+ubiquiti-acb-isp-08.190827.1642, ubiquiti-acb-isp-459.190520.1449
+
+ubiquiti-acb-isp-9.191112.1638, ubiquiti-acb-isp-08.190827.1642
+
+ubiquiti-acb-isp-73.191217.1539, ubiquiti-acb-isp-9.191112.1638
+
+ubiquiti-acb-isp-6.200212.1712, ubiquiti-acb-isp-73.191217.1539
+
+ubiquiti-acb-isp-2.7.1, ubiquiti-acb-isp-6.200212.1712
+
+ubiquiti-acb-isp-1344.210726.1457, ubiquiti-acb-isp-2.8.2.21
+
+ubiquiti-af5u-3.2.2, ubiquiti-af5u-2.2.1
+
+ubiquiti-af5x-4.0.4, ubiquiti-af5x-3.2.3
+
+ubiquiti-ep-54v-150w-3.190619.1007, ubiquiti-ep-54v-150w-2.181113.1412
+
+ubiquiti-ep-54v-150w-31.190923.0924, ubiquiti-ep-54v-150w-3.190619.1007
+
+ubiquiti-ep-54v-150w-94.200124.0843, ubiquiti-ep-54v-150w-31.190923.0924
+
+ubiquiti-ep-54v-150w-1.7.0.00, ubiquiti-ep-54v-150w-94.200124.0843
+
+ubiquiti-ep-54v-150w-10.201001.0939, ubiquiti-ep-54v-150w-1.7.0.00
+
+ubiquiti-ep-54v-150w-4.201125.1511, ubiquiti-ep-54v-150w-10.201001.0939
+
+ubiquiti-ep-54v-150w-1.9.0, ubiquiti-ep-54v-150w-4.201125.1511
+
+ubiquiti-pbe-5ac-400-iso-8.1.2.32951, ubiquiti-pbe-5ac-400-iso-7.2.5.33366
+
+ubiquiti-rm5ti-31612.170908.1423, ubiquiti-rm5ti-5.6.15.30572
+
+ubiquiti-uap-ac-lite-12724.210416.1557, ubiquiti-uap-ac-lite-12698.210326.0431
+
+ubiquiti-uap-ac-lr-12731.210703.2016, ubiquiti-uap-ac-lr-12724.210416.1557
+
+ubiquiti-uap-ac-m-12741.210818.2135, ubiquiti-uap-ac-m-4.3.28.11361
+
+ubiquiti-uap-ac-m-12754.210928.2142, ubiquiti-uap-ac-m-12741.210818.2135
+
+ubiquiti-uap-ac-m-12773.211104.2318, ubiquiti-uap-ac-m-12754.210928.2142
+
+ubiquiti-uap-ac-m-12774.211113.0641, ubiquiti-uap-ac-m-12773.211104.2318
+
+ubiquiti-uap-ac-m-pro-4.0.9.9636, ubiquiti-uap-ac-m-pro-3.9.42.9152
+
+ubiquiti-uap-ac-m-pro-12741.210818.2135, ubiquiti-uap-ac-m-pro-4.3.28.11361
+
+ubiquiti-uap-ac-m-pro-12754.210928.2142, ubiquiti-uap-ac-m-pro-12741.210818.2135
+
+ubiquiti-uap-ac-m-pro-12773.211104.2318, ubiquiti-uap-ac-m-pro-12754.210928.2142
+
+ubiquiti-uap-ac-m-pro-12774.211113.0641, ubiquiti-uap-ac-m-pro-12773.211104.2318
+
+ubiquiti-uap-iw-4.0.10.9653, ubiquiti-uap-iw-3.9.27.8537
+
+ubiquiti-uap-nanohd-4.0.9.9636, ubiquiti-uap-nanohd-3.9.54.9373
+
+ubiquiti-uap-nanohd-12493.201207.1102, ubiquiti-uap-nanohd-4.3.21.11325
+
+ubiquiti-uap-nanohd-12698.210326.0430, ubiquiti-uap-nanohd-12493.201207.1102
+
+ubiquiti-uap-nanohd-12724.210416.1557, ubiquiti-uap-nanohd-12698.210326.0430
+
+ubiquiti-uap-nanohd-12980.210702.0701, ubiquiti-uap-nanohd-12724.210416.1557
+
+ubiquiti-uap-nanohd-13023.211005.0800, ubiquiti-uap-nanohd-12980.210702.0701
+
+ubiquiti-uap-nanohd-13041.211030.0107, ubiquiti-uap-nanohd-13023.211005.0800
+
+ubiquiti-uap-nanohd-13044.211113.0640, ubiquiti-uap-nanohd-13041.211030.0107
+
+ubiquiti-uaplr-4.0.9.9636, ubiquiti-uaplr-3.9.54.9373
+
+ubiquiti-uapoutdoor-4.0.9.9636, ubiquiti-uapoutdoor-3.9.54.9373
+
+ubiquiti-uapoutdoor5-4.0.9.9636, ubiquiti-uapoutdoor5-3.9.54.9373
+
+ubiquiti-uappro-4.0.10.9653, ubiquiti-uappro-3.9.54.9373
+
+ubiquiti-uc-ck-2.200326.0316, ubiquiti-uc-ck-1.1.6
+
+ubiquiti-uc-ck-1234.200416.0923, ubiquiti-uc-ck-2.200326.0316
+
+ubiquiti-uc-ck-1.1.13.818, ubiquiti-uc-ck-1234.200416.0923
+
+ubiquiti-uc-ck-0.210204.0232, ubiquiti-uc-ck-1.1.13.818
+
+ubiquiti-uck-g2-2.200326.0314, ubiquiti-uck-g2-1.1.6
+
+ubiquiti-uck-g2-1234.200416.0919, ubiquiti-uck-g2-2.200326.0314
+
+ubiquiti-uck-g2-1.1.13.818, ubiquiti-uck-g2-1234.200416.0919
+
+ubiquiti-uck-g2-2.0.24, ubiquiti-uck-g2-1.1.13.818
+
+ubiquiti-uck-g2-plus-2.200326.0315, ubiquiti-uck-g2-plus-1.1.6
+
+ubiquiti-uck-g2-plus-1234.200416.0921, ubiquiti-uck-g2-plus-2.200326.0315
+
+ubiquiti-uck-g2-plus-1.1.13.818, ubiquiti-uck-g2-plus-1234.200416.0921
+
+ubiquiti-uck-g2-plus-2.0.24, ubiquiti-uck-g2-plus-1.1.13.818
+
+ubiquiti-us-48-500w-12487.201130.0904, ubiquiti-us-48-500w-4.3.22.11330
+
+ubiquiti-us-48-500w-12533.201223.0319, ubiquiti-us-48-500w-12487.201130.0904
+
+ubiquiti-us-48-500w-12698.210326.0443, ubiquiti-us-48-500w-12533.201223.0319
+
+ubiquiti-us-48-500w-12724.210416.1603, ubiquiti-us-48-500w-12698.210326.0443
+
+ubiquiti-us-48-500w-13083.210706.1047, ubiquiti-us-48-500w-12724.210416.1603
+
+ubiquiti-us-48-500w-13439.211029.1034, ubiquiti-us-48-500w-13083.210706.1047
+
+ubiquiti-us-48-500w-13442.211117.0720, ubiquiti-us-48-500w-13439.211029.1034
+
+ubiquiti-us-48-750w-4.0.9.9636, ubiquiti-us-48-750w-3.9.54.9373
+
+ubiquiti-us-48-750w-12487.201130.0904, ubiquiti-us-48-750w-4.3.22.11330
+
+ubiquiti-us-48-750w-12533.201223.0319, ubiquiti-us-48-750w-12487.201130.0904
+
+ubiquiti-us-48-750w-12698.210326.0443, ubiquiti-us-48-750w-12533.201223.0319
+
+ubiquiti-us-48-750w-12724.210416.1603, ubiquiti-us-48-750w-12698.210326.0443
+
+ubiquiti-us-48-750w-13083.210706.1047, ubiquiti-us-48-750w-12724.210416.1603
+
+ubiquiti-us-48-750w-13439.211029.1034, ubiquiti-us-48-750w-13083.210706.1047
+
+ubiquiti-us-48-750w-13442.211117.0720, ubiquiti-us-48-750w-13439.211029.1034
+
+ubiquiti-us-8-12487.201130.1603, ubiquiti-us-8-4.3.22.11330
+
+ubiquiti-us-8-12533.201222.2020, ubiquiti-us-8-12487.201130.1603
+
+ubiquiti-us-8-12698.210326.0451, ubiquiti-us-8-12533.201222.2020
+
+ubiquiti-us-8-12724.210416.1608, ubiquiti-us-8-12698.210326.0451
+
+ubiquiti-us-8-13083.210706.1043, ubiquiti-us-8-12724.210416.1608
+
+ubiquiti-us-8-13439.211029.1037, ubiquiti-us-8-13083.210706.1043
+
+ubiquiti-us-8-13442.211117.0720, ubiquiti-us-8-13439.211029.1037
+
+ubiquiti-us-l2-24-poe-12487.201130.1603, ubiquiti-us-l2-24-poe-4.3.22.11330
+
+ubiquiti-us-l2-24-poe-12533.201223.0319, ubiquiti-us-l2-24-poe-12487.201130.1603
+
+ubiquiti-us-l2-24-poe-12698.210326.0451, ubiquiti-us-l2-24-poe-12533.201223.0319
+
+ubiquiti-us-l2-24-poe-12724.210416.1609, ubiquiti-us-l2-24-poe-12698.210326.0451
+
+ubiquiti-us-l2-24-poe-13083.210706.1043, ubiquiti-us-l2-24-poe-12724.210416.1609
+
+ubiquiti-us-l2-24-poe-13439.211029.1038, ubiquiti-us-l2-24-poe-13083.210706.1043
+
+ubiquiti-us-l2-24-poe-13442.211117.0720, ubiquiti-us-l2-24-poe-13439.211029.1038
+
+ubiquiti-us-l2-48-poe-12487.201130.1603, ubiquiti-us-l2-48-poe-4.3.22.11330
+
+ubiquiti-us-l2-48-poe-12533.201223.0319, ubiquiti-us-l2-48-poe-12487.201130.1603
+
+ubiquiti-us-l2-48-poe-12698.210326.0451, ubiquiti-us-l2-48-poe-12533.201223.0319
+
+ubiquiti-us-l2-48-poe-12724.210416.1609, ubiquiti-us-l2-48-poe-12698.210326.0451
+
+ubiquiti-us-l2-48-poe-13083.210706.1043, ubiquiti-us-l2-48-poe-12724.210416.1609
+
+ubiquiti-us-l2-48-poe-13439.211029.1038, ubiquiti-us-l2-48-poe-13083.210706.1043
+
+ubiquiti-us-l2-48-poe-13442.211117.0720, ubiquiti-us-l2-48-poe-13439.211029.1038
+
+ubiquiti-us16xg-4.0.9.9636, ubiquiti-us16xg-3.9.54.9373
+
+ubiquiti-us16xg-12487.201130.0904, ubiquiti-us16xg-4.3.22.11330
+
+ubiquiti-us16xg-12533.201223.0319, ubiquiti-us16xg-12487.201130.0904
+
+ubiquiti-us16xg-12698.210326.0445, ubiquiti-us16xg-12533.201223.0319
+
+ubiquiti-us16xg-12724.210416.1607, ubiquiti-us16xg-12698.210326.0445
+
+ubiquiti-us16xg-13083.210706.1043, ubiquiti-us16xg-12724.210416.1607
+
+ubiquiti-us16xg-13439.211029.1036, ubiquiti-us16xg-13083.210706.1043
+
+ubiquiti-us16xg-13442.211117.0720, ubiquiti-us16xg-13439.211029.1036
+
+ubiquiti-uvc-g3-dome-0469.170517.1852, ubiquiti-uvc-g3-dome-3.5.2.63
+
+ubiquiti-uvc-g3-dome-3.8.3, ubiquiti-uvc-g3-dome-0469.170517.1852
+
+ubiquiti-uvc-g3-micro-4.1.55, ubiquiti-uvc-g3-micro-3.8.61
+
+ubiquiti-uvc-pro-3.5.2.63, ubiquiti-uvc-pro-42364.160301.0242
+
+ubiquiti-uvc-pro-0469.170517.1832, ubiquiti-uvc-pro-3.5.2.63
+
+ubiquiti-uvc-pro-3.8.3, ubiquiti-uvc-pro-0469.170517.1832
+
+ubiquiti-uvc-pro-4.1.55, ubiquiti-uvc-pro-3.8.61
+
+ubiquiti-uwbxgbk-4.0.10.9653, ubiquiti-uwbxgbk-3.9.54.9373
+
+ubiquiti-uwbxgbk-12741.210818.2135, ubiquiti-uwbxgbk-4.3.28.11361
+
+ubiquiti-uwbxgbk-12754.210928.2144, ubiquiti-uwbxgbk-12741.210818.2135
+
+ubiquiti-uwbxgbk-12773.211104.2318, ubiquiti-uwbxgbk-12754.210928.2144
+
+ubiquiti-uwbxgbk-12774.211113.0641, ubiquiti-uwbxgbk-12773.211104.2318
+
+uc-ck-19382.170331.1138, uc-ck-0.170317.1109
+
+uc-ck-5.170420.2106, uc-ck-19382.170331.1138
+
+uc-ck-0.6.9.50, uc-ck-5.170420.2106
+
+uc-ck-6.170728.1449, uc-ck-0.6.10.1
+
+uc-ck-8.170926.1203, uc-ck-6.170728.1449
+
+uc-ck-32.171130.1346, uc-ck-8.170926.1203
+
+uc-ck-97.180108.1229, uc-ck-32.171130.1346
+
+uc-ck-0.8.10, uc-ck-97.180108.1229
+
+uc-ck-948.180907.1648, uc-ck-0.11.10
+
+uc-ck-9.181001.1444, uc-ck-948.180907.1648
+
+uc-ck-0.12.4.99, uc-ck-9.181001.1444
+
+uc-ck-39.190304.1215, uc-ck-0.13.2.3
+
+uc-ck-730.190307.1529, uc-ck-39.190304.1215
+
+uc-ck-89.190327.1752, uc-ck-730.190307.1529
+
+uck-g2-0.8.10, uck-g2-4.181102.0901
+
+uck-g2-1.0.6, uck-g2-0.9.10.5
+
+uck-g2-plus-941.190103.0828, uck-g2-plus-0.8.7.046381
+
+uck-g2-plus-3.190118.1203, uck-g2-plus-941.190103.0828
+
+uck-g2-plus-0.9.2, uck-g2-plus-3.190118.1203
+
+uck-g2-plus-6.190307.1515, uck-g2-plus-0.9.7
+
+uck-g2-plus-7935.190409.2343, uck-g2-plus-6.190307.1515
+
+us-24-250w-4.0.21.9965, us-24-250w-3.9.54.9373
+
+us-24-500w-4.0.9.9636, us-24-500w-3.9.54.9373
+
+us-48-500w-4.0.9.9636, us-48-500w-3.9.54.9373
+
+us-8-4.0.9.9636, us-8-3.9.54.9373
+
+uvc-3.5.2.63, uvc-42364.160301.0242
+
+uvc-4.1.55, uvc-3.8.61
+
+uvc-g3-0469.170517.1852, uvc-g3-3.5.2.63
+
+uvc-g3-3.8.3, uvc-g3-0469.170517.1852
+
+uvc-g3-4.1.55, uvc-g3-3.8.61
+
+uvc-micro-3.5.2.63, uvc-micro-42364.160301.0242
+
+uvc-micro-0469.170517.1832, uvc-micro-3.5.2.63
+
+uvc-micro-3.8.61, uvc-micro-0469.170517.1832
+
+uvc-micro-4.1.55, uvc-micro-3.8.61

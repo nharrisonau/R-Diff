@@ -21,12 +21,14 @@ when building or running binaries.
 
 ### Benchmark layout
 
-Targets are split into two top-level groups under [`targets/`](./targets/):
+Targets are split into malicious and benign groups under [`targets/`](./targets/):
 
-- [`targets/authentic/`](./targets/authentic/) contains authentic component benchmarks intended for
-  direct analysis.
-- [`targets/synthetic/`](./targets/synthetic/) contains synthetic component benchmarks intended for
-  direct analysis.
+- [`targets/malicious/authentic/`](./targets/malicious/authentic/) contains authentic backdoor
+  benchmarks intended for direct analysis.
+- [`targets/malicious/synthetic/`](./targets/malicious/synthetic/) contains synthetic backdoor
+  benchmarks intended for direct analysis.
+- [`targets/benign/<product>/<version>/rootfs`](./targets/benign/) contains extracted benign
+  firmware root filesystems used for false-positive evaluation.
 
 Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
 with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing how to trigger
@@ -87,10 +89,12 @@ of your machine. We highly recommend using a Docker container as described above
 
 Build orchestration mirrors the `targets/` layout:
 
-- To build everything under `targets/authentic/`, run `make -C targets authentic`.
-- To build everything under `targets/synthetic/`, run `make -C targets synthetic`.
-- To build a specific target (e.g., Sudo), run `make -C targets/synthetic/sudo-1.9.15p5`.
-- To build a specific variant, run the relevant target (e.g., `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`).
+- To build all malicious targets, run `make -C targets malicious`.
+- To build malicious authentic targets only, run `make -C targets malicious-authentic`.
+- To build malicious synthetic targets only, run `make -C targets malicious-synthetic`.
+- To build a specific target (e.g., Sudo), run `make -C targets/malicious/synthetic/sudo-1.9.15p5`.
+- To build a specific variant, run the relevant target
+  (e.g., `make -C targets/malicious/synthetic/sudo-1.9.15p5 prev-safe`).
 
 ## Usage
 
@@ -100,7 +104,7 @@ Instructions on how to run all of the variants can be found in the root director
 sample. Generally, for each sample, you'll want to first build it (if it's not built):
 
 ```console
-$ make -C targets/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
+$ make -C targets/malicious/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
 ```
 
 Then, you need to perform any additional setup that may be needed (e.g., copying files to specific
@@ -116,6 +120,21 @@ _undo_ the setup:
 ```console
 $ make teardown
 ```
+
+### Benign firmware samples (false-positive evaluation)
+
+Benign samples are stored as extracted root filesystems under:
+
+```
+targets/benign/<product>/<version>/rootfs
+```
+
+The ingestion scripts under `targets/benign/scripts` populate these from the
+vendored benign firmware URL lists in `targets/benign/sources`.
+
+After ingestion, generate adjacent version pairs with `targets/benign/scripts/build_pairs.py` to
+create `targets/benign/pairs.csv` for benign diff evaluation.
+See `targets/benign/README.md` for bucket definitions and per-bucket build helpers.
 
 ### Evaluating a backdoor detection method on R-Diff
 

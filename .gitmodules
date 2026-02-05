@@ -1,79 +1,73 @@
 [submodule "sudo-1.9.15p5-backdoored"]
-	path = targets/synthetic/sudo-1.9.15p5/original
+	path = targets/malicious/synthetic/sudo-1.9.15p5/original
 	url = git@github.com:sudo-project/sudo.git
 	branch = main
 [submodule "libpng-1.6.43-backdoored"]
-	path = targets/synthetic/libpng-1.6.43/original
+	path = targets/malicious/synthetic/libpng-1.6.43/original
 	url = git@github.com:pnggroup/libpng.git
 	branch = libpng16
 [submodule "libsndfile-1.2.2-backdoored"]
-	path = targets/synthetic/libsndfile-1.2.2/original
+	path = targets/malicious/synthetic/libsndfile-1.2.2/original
 	url = git@github.com:libsndfile/libsndfile.git
 	branch = master
 [submodule "php-8.0.20-backdoored"]
-	path = targets/synthetic/php-8.0.20/original
+	path = targets/malicious/synthetic/php-8.0.20/original
 	url = git@github.com:php/php-src.git
 	branch = master
 [submodule "libxml2-2.9.12"]
-	path = targets/synthetic/libxml2-2.9.12/original
+	path = targets/malicious/synthetic/libxml2-2.9.12/original
 	url = https://gitlab.gnome.org/GNOME/libxml2.git
 	branch = master
 [submodule "openssl-3.0.0"]
-	path = targets/synthetic/openssl-3.0.0/original
+	path = targets/malicious/synthetic/openssl-3.0.0/original
 	url = https://github.com/openssl/openssl.git
 	branch = master
 [submodule "libtiff-4.3.0"]
-	path = targets/synthetic/libtiff-4.3.0/original
+	path = targets/malicious/synthetic/libtiff-4.3.0/original
 	url = https://gitlab.com/libtiff/libtiff
 	branch = master
 [submodule "poppler-21.07.0"]
-	path = targets/synthetic/poppler-21.07.0/original
+	path = targets/malicious/synthetic/poppler-21.07.0/original
 	url = https://gitlab.freedesktop.org/poppler/poppler
 	branch = master
 [submodule "freetype-2.10.4"]
-	path = targets/synthetic/poppler-21.07.0/freetype-2.10.4
+	path = targets/malicious/synthetic/poppler-21.07.0/freetype-2.10.4
 	url = https://gitlab.freedesktop.org/freetype/freetype
 	branch = master
 [submodule "php-8.1.0-dev"]
-	path = targets/authentic/php-8.1.0-dev/original
+	path = targets/malicious/authentic/php-8.1.0-dev/original
 	url = git@github.com:php/php-src.git
 	branch = master
 [submodule "targets/synthetic/libpng-1.6.43/previous"]
-	path = targets/synthetic/libpng-1.6.43/previous
+	path = targets/malicious/synthetic/libpng-1.6.43/previous
 	url = https://github.com/glennrp/libpng.git
 [submodule "targets/synthetic/libsndfile-1.2.2/previous"]
-	path = targets/synthetic/libsndfile-1.2.2/previous
+	path = targets/malicious/synthetic/libsndfile-1.2.2/previous
 	url = https://github.com/libsndfile/libsndfile.git
 [submodule "targets/synthetic/libtiff-4.3.0/previous"]
-	path = targets/synthetic/libtiff-4.3.0/previous
+	path = targets/malicious/synthetic/libtiff-4.3.0/previous
 	url = https://gitlab.com/libtiff/libtiff.git
 [submodule "targets/synthetic/libxml2-2.9.12/previous"]
-	path = targets/synthetic/libxml2-2.9.12/previous
+	path = targets/malicious/synthetic/libxml2-2.9.12/previous
 	url = https://gitlab.gnome.org/GNOME/libxml2.git
 [submodule "targets/synthetic/openssl-3.0.0/previous"]
-	path = targets/synthetic/openssl-3.0.0/previous
+	path = targets/malicious/synthetic/openssl-3.0.0/previous
 	url = https://github.com/openssl/openssl.git
 [submodule "targets/synthetic/php-8.0.20/previous"]
-	path = targets/synthetic/php-8.0.20/previous
+	path = targets/malicious/synthetic/php-8.0.20/previous
 	url = https://github.com/php/php-src.git
 [submodule "targets/synthetic/poppler-21.07.0/previous"]
-	path = targets/synthetic/poppler-21.07.0/previous
+	path = targets/malicious/synthetic/poppler-21.07.0/previous
 	url = https://gitlab.freedesktop.org/poppler/poppler.git
 [submodule "targets/synthetic/sudo-1.9.15p5/previous"]
-	path = targets/synthetic/sudo-1.9.15p5/previous
+	path = targets/malicious/synthetic/sudo-1.9.15p5/previous
 	url = https://github.com/sudo-project/sudo.git
 [submodule "targets/authentic/php-8.1.0-dev/previous"]
-	path = targets/authentic/php-8.1.0-dev/previous
+	path = targets/malicious/authentic/php-8.1.0-dev/previous
 	url = https://github.com/php/php-src.git
 [submodule "targets/synthetic/dropbear2024-86/original"]
-	path = targets/synthetic/dropbear2024-86/original
+	path = targets/malicious/synthetic/dropbear2024-86/original
 	url = https://github.com/mkj/dropbear.git
 [submodule "targets/synthetic/dropbear2024-86/previous"]
-	path = targets/synthetic/dropbear2024-86/previous
+	path = targets/malicious/synthetic/dropbear2024-86/previous
 	url = https://github.com/mkj/dropbear.git
-[submodule "targets/firmware/synthetic/openwrt/original"]
-	path = targets/firmware/synthetic/openwrt/original
-	url = https://git.openwrt.org/openwrt/openwrt.git
-[submodule "targets/firmware/synthetic/openwrt/previous"]
-	path = targets/firmware/synthetic/openwrt/previous
-	url = https://git.openwrt.org/openwrt/openwrt.git

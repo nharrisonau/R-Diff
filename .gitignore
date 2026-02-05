@@ -3,3 +3,4 @@
 /targets/*/*/*/prev-safe/
 /targets/*/*/*/builds/
 outputs
+local_outputs/
