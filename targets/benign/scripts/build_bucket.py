@@ -42,7 +42,11 @@ def main() -> int:
         print(f"Missing pairs_binned.csv: {pairs_binned_path}")
         return 1
 
-    out_dir = Path(args.out_dir) if args.out_dir else Path("targets/benign/buckets") / bucket
+    if args.out_dir:
+        out_dir = Path(args.out_dir)
+    else:
+        repo_root = Path(__file__).resolve().parents[3]
+        out_dir = repo_root / "local_outputs" / "benign" / "buckets" / bucket
     out_dir.mkdir(parents=True, exist_ok=True)
 
     pairs_csv_path = out_dir / "pairs.csv"

@@ -63,4 +63,20 @@ To extract a specific bucket into its own directory with `pairs.csv`,
 python targets/benign/scripts/build_bucket.py --bucket major
 ```
 
-This writes to `targets/benign/buckets/<bucket>/` by default.
+This writes to `local_outputs/benign/buckets/<bucket>/` by default.
+
+## Bucket Downloads
+
+To download and unpack only the samples referenced by a specific bucket,
+first build the bucket manifest, then ingest from that manifest:
+
+```
+python targets/benign/scripts/build_bucket.py --bucket major
+python targets/benign/scripts/ingest_firmware_dataset.py \
+  --manifest-in local_outputs/benign/buckets/major/manifest.csv \
+  --manifest local_outputs/benign/buckets/major/manifest_downloaded.csv \
+  --overwrite-manifest
+```
+
+This downloads firmware, extracts rootfs, and writes the output manifest to
+`local_outputs/benign/buckets/<bucket>/manifest_downloaded.csv`.

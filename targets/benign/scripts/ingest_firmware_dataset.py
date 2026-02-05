@@ -178,7 +178,7 @@ def ingest_csv(
         if dest_rootfs.exists() and not overwrite:
             continue
 
-        filename = url.rsplit(\"/\", 1)[-1] or f\"{product}-{version}.bin\"
+        filename = url.rsplit("/", 1)[-1] or f"{product}-{version}.bin"
         download_dir = cache_root / product / version / "downloads"
         extract_dir = cache_root / product / version / "extracted"
         fw_path = download_dir / filename
@@ -240,9 +240,15 @@ def main() -> int:
     script_dir = Path(__file__).resolve().parent
     benign_root = script_dir.parent
     repo_root = benign_root.parent.parent
+    default_out_root = repo_root / "local_outputs" / "benign"
 
     if shutil.which("binwalk") is None:
         print("Missing dependency: binwalk")
+        print("Install options:")
+        print("  - Ubuntu/Debian: sudo apt-get install -y binwalk")
+        print("  - macOS (Homebrew): brew install binwalk")
+        print("  - Python/pipx: pipx install binwalk")
+        print("Then re-run this script.")
         return 1
 
     parser = argparse.ArgumentParser(
@@ -254,19 +260,29 @@ def main() -> int:
         help="Directory containing benign firmware URL CSV files",
     )
     parser.add_argument(
+        "--manifest-in",
+        default="",
+        help="Manifest CSV to ingest instead of products dir (e.g., targets/benign/buckets/<bucket>/manifest.csv)",
+    )
+    parser.add_argument(
         "--out-root",
-        default=str(benign_root),
+        default=str(default_out_root),
         help="Root directory for targets/benign",
     )
     parser.add_argument(
         "--cache-dir",
-        default=str(benign_root / ".cache" / "firmware-dataset"),
+        default=str(default_out_root / ".cache" / "firmware-dataset"),
         help="Cache directory for downloads and extraction",
     )
     parser.add_argument(
         "--manifest",
-        default=str(benign_root / "manifest.csv"),
+        default=str(default_out_root / "manifest.csv"),
         help="Manifest CSV to append to",
+    )
+    parser.add_argument(
+        "--overwrite-manifest",
+        action="store_true",
+        help="Overwrite the output manifest before writing",
     )
     parser.add_argument(
         "--overwrite",
@@ -275,6 +291,28 @@ def main() -> int:
     )
 
     args = parser.parse_args()
+
+    out_root = Path(args.out_root)
+    cache_root = Path(args.cache_dir)
+    manifest = Path(args.manifest)
+
+    if args.overwrite_manifest:
+        manifest.unlink(missing_ok=True)
+
+    if args.manifest_in:
+        manifest_in = Path(args.manifest_in)
+        if not manifest_in.exists():
+            print(f"Missing manifest input: {manifest_in}")
+            return 1
+        ingest_manifest(
+            manifest_in,
+            out_root,
+            cache_root,
+            manifest,
+            args.overwrite,
+            repo_root,
+        )
+        return 0
 
     products_dir = Path(args.products_dir)
     if not products_dir.exists():
@@ -285,10 +323,6 @@ def main() -> int:
     if not csv_files:
         print(f"No CSV files found under {products_dir}")
         return 1
-
-    out_root = Path(args.out_root)
-    cache_root = Path(args.cache_dir)
-    manifest = Path(args.manifest)
 
     for csv_path in csv_files:
         ingest_csv(
@@ -301,6 +335,93 @@ def main() -> int:
         )
 
     return 0
+
+
+def ingest_manifest(
+    manifest_in: Path,
+    out_root: Path,
+    cache_root: Path,
+    manifest_out: Path,
+    overwrite: bool,
+    repo_root: Path,
+) -> None:
+    with manifest_in.open(newline="") as fh:
+        reader = csv.DictReader(fh)
+        rows = list(reader)
+
+    for row in rows:
+        url = (row.get("url") or "").strip()
+        if not url:
+            continue
+
+        product = sanitize(row.get("product") or "")
+        version = sanitize(row.get("version") or "")
+        if not product or not version:
+            continue
+
+        date_str = parse_date(row.get("date") or "")
+        dataset = (row.get("dataset") or "benign").strip() or "benign"
+
+        dest_rootfs = out_root / product / version / "rootfs"
+        if dest_rootfs.exists() and not overwrite:
+            continue
+
+        filename = url.rsplit("/", 1)[-1] or f"{product}-{version}.bin"
+        download_dir = cache_root / product / version / "downloads"
+        extract_dir = cache_root / product / version / "extracted"
+        fw_path = download_dir / filename
+
+        try:
+            download_file(url, fw_path)
+        except Exception as exc:
+            append_manifest(
+                manifest_out,
+                {
+                    "dataset": dataset,
+                    "product": product,
+                    "version": version,
+                    "date": date_str,
+                    "url": url,
+                    "rootfs_path": "",
+                    "notes": f"download failed: {exc}",
+                },
+            )
+            continue
+
+        run_binwalk(fw_path, extract_dir)
+        rootfs_dir = find_rootfs_dir(extract_dir)
+        if rootfs_dir is None:
+            append_manifest(
+                manifest_out,
+                {
+                    "dataset": dataset,
+                    "product": product,
+                    "version": version,
+                    "date": date_str,
+                    "url": url,
+                    "rootfs_path": "",
+                    "notes": "rootfs not found",
+                },
+            )
+            continue
+
+        if dest_rootfs.exists():
+            shutil.rmtree(dest_rootfs)
+        dest_rootfs.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(rootfs_dir, dest_rootfs, symlinks=True)
+
+        append_manifest(
+            manifest_out,
+            {
+                "dataset": dataset,
+                "product": product,
+                "version": version,
+                "date": date_str,
+                "url": url,
+                "rootfs_path": relpath_or_abs(dest_rootfs, repo_root),
+                "notes": "",
+            },
+        )
 
 
 if __name__ == "__main__":
