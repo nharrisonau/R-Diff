@@ -1,10 +1,14 @@
 TARGET = vsftpd
 ORIGINAL_REPO = original
-PREVIOUS_REPO = previous
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 2.3.4
+NPROCS ?= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = prev-safe/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
 
 all: safe backdoored prev-safe
@@ -21,7 +25,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf safe/
 	cp -r $(ORIGINAL_REPO)/ safe/
 	cd safe/ && \
-		$(MAKE) -j$(shell nproc) vsftpd
+		$(MAKE) -j$(NPROCS) vsftpd
 
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
@@ -29,31 +33,33 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 	cp -r $(ORIGINAL_REPO)/ backdoored/
 	cd backdoored/ && \
 		patch -p1 < ../patches/backdoored.patch && \
-		$(MAKE) -j$(shell nproc) vsftpd
+		$(MAKE) -j$(NPROCS) vsftpd
 
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	rm -rf prev-safe/
-	cp -r $(PREVIOUS_REPO)/ prev-safe/
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO)/ $(PREV_DIR); \
+	fi
 	# Ensure PAM/libcap link flags for upstream previous tree so symbols resolve.
 	# This inserts the same link flags used by the other variants into prev-safe/Makefile.
 	# Use $$ to escape $ in Makefile recipe so the shell sees a single $.
-	@sed -n '1,120p' prev-safe/Makefile >/dev/null 2>&1 || true
-	@sed -i '/`\.\/vsf_findlibs\.sh`/ s/$$/ -lpam -lpam_misc -lcap -lcrypt/' prev-safe/Makefile || true
+	@sed -n '1,120p' $(PREV_DIR)/Makefile >/dev/null 2>&1 || true
+	@sed -i '/`\.\/vsf_findlibs\.sh`/ s/$$/ -lpam -lpam_misc -lcap -lcrypt/' $(PREV_DIR)/Makefile || true
 
 	# upstream vsftpd normally builds with a plain Makefile
-	cd prev-safe/ && \
+	cd $(PREV_DIR)/ && \
 		$(MAKE) -j$(NPROCS) clean || true && \
 		$(MAKE) -j$(NPROCS)
 	@mkdir -p build/previous/safe/bin
-	@if [ -f prev-safe/$(TARGET) ]; then \
-	  cp -a prev-safe/$(TARGET) build/previous/safe/bin/; \
-	elif [ -f prev-safe/build/$(TARGET) ]; then \
-	  cp -a prev-safe/build/$(TARGET) build/previous/safe/bin/; \
+	@if [ -f $(PREV_DIR)/$(TARGET) ]; then \
+	  cp -a $(PREV_DIR)/$(TARGET) build/previous/safe/bin/; \
+	elif [ -f $(PREV_DIR)/build/$(TARGET) ]; then \
+	  cp -a $(PREV_DIR)/build/$(TARGET) build/previous/safe/bin/; \
 	fi
 
 clean:
-	rm -rf safe/ backdoored/ prev-safe/
+	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 #   No-op.
@@ -61,5 +67,11 @@ setup:
 teardown:
 #   No-op.
 
+print-target:
+	@echo $(TARGET)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

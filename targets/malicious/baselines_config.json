@@ -1,0 +1,185 @@
+[
+  {
+    "path": "malicious/synthetic/dropbear2024-86",
+    "group": "synthetic",
+    "current_version": "2024.86",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^DROPBEAR_(?P<version>\\d+\\.\\d+)$"],
+    "version_scheme": "dropbear_year",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/libpng-1.6.43",
+    "group": "synthetic",
+    "current_version": "1.6.43",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"],
+    "version_scheme": "semver",
+    "min_version": "1.6.32",
+    "exclude_versions": ["1.6.38"],
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/libsndfile-1.2.2",
+    "group": "synthetic",
+    "current_version": "1.2.2",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$",
+      "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "1.0.31",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/libtiff-4.3.0",
+    "group": "synthetic",
+    "current_version": "4.3.0",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"],
+    "version_scheme": "semver",
+    "min_version": "4.1.0",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/libxml2-2.9.12",
+    "group": "synthetic",
+    "current_version": "2.9.12",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^v(?P<version>\\d+\\.\\d+\\.\\d+(?:[-.][A-Za-z0-9]+)*)$"],
+    "version_scheme": "semver",
+    "min_version": "2.8.0",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/lua-5.4.7",
+    "group": "synthetic",
+    "current_version": "5.4.7",
+    "mode": "manual",
+    "manual_baselines": [
+      { "baseline_version": "5.4.6", "baseline_tag": "", "build_dir": "prev-safe" }
+    ],
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/openssl-3.0.0",
+    "group": "synthetic",
+    "current_version": "3.0.0",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"],
+    "version_scheme": "openssl",
+    "min_version": "3.0.0-alpha13",
+    "major_token_index": 0,
+    "include_prerelease": true
+  },
+  {
+    "path": "malicious/synthetic/php-8.0.20",
+    "group": "synthetic",
+    "current_version": "8.0.20",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^php-(?P<version>\\d+\\.\\d+\\.\\d+)$"],
+    "version_scheme": "semver",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/poppler-21.07.0",
+    "group": "synthetic",
+    "current_version": "21.07.0",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^poppler-(?P<version>\\d+\\.\\d+\\.\\d+)$"],
+    "version_scheme": "semver",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/sqlite3-3.37.0",
+    "group": "synthetic",
+    "current_version": "3.37.0",
+    "mode": "manual",
+    "manual_baselines": [
+      { "baseline_version": "3.36.0", "baseline_tag": "", "build_dir": "prev-safe" }
+    ],
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/sudo-1.9.15p5",
+    "group": "synthetic",
+    "current_version": "1.9.15p5",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^SUDO_(?P<version>\\d+_\\d+_\\d+(?:p\\d+)?)$",
+      "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:p\\d+)?)$"
+    ],
+    "version_scheme": "sudo",
+    "min_version": "1.9.1",
+    "exclude_versions": ["1.9.4"],
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/synthetic/sudo-1.6.1",
+    "group": "synthetic",
+    "current_version": "1.6.1",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^SUDO_(?P<version>\\d+_\\d+_\\d+(?:p\\d+)?)$",
+      "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:p\\d+)?)$"
+    ],
+    "version_scheme": "sudo",
+    "min_version": "1.3.0",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/authentic/php-8.1.0-dev",
+    "group": "authentic",
+    "current_version": "8.1.0",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": ["^php-(?P<version>\\d+\\.\\d+\\.\\d+)$"],
+    "version_scheme": "semver",
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/authentic/proftpd-1.3.3c",
+    "group": "authentic",
+    "current_version": "1.3.3c",
+    "mode": "manual",
+    "manual_baselines": [
+      { "baseline_version": "1.3.3b", "baseline_tag": "", "build_dir": "prev-safe" }
+    ],
+    "major_token_index": 0,
+    "include_prerelease": false
+  },
+  {
+    "path": "malicious/authentic/vsftpd-2.3.4",
+    "group": "authentic",
+    "current_version": "2.3.4",
+    "mode": "manual",
+    "manual_baselines": [
+      { "baseline_version": "2.3.3", "baseline_tag": "", "build_dir": "prev-safe" }
+    ],
+    "major_token_index": 0,
+    "include_prerelease": false
+  }
+]

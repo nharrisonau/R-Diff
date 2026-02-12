@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Previous version (prev-safe)**: 2.9.11
 - **Backdoored function**: `nodePush`
 - **Ground truth addr (OXIDE)**: "619026"
 

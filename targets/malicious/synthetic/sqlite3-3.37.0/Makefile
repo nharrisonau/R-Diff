@@ -1,10 +1,13 @@
 TARGET = sqlite3
 ORIGINAL_REPO = original
-PREVIOUS_REPO = previous
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 3.37.0
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREV_SAFE_TARGET = prev-safe/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
 SHELL := /usr/bin/bash
 CC = gcc
@@ -15,7 +18,7 @@ safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-prev-safe: $(PREV_SAFE_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf safe/
@@ -58,10 +61,12 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 			-o "sqlite3_fuzz" \
 			$(LDFLAGS) $(LIBS) -pthread -ldl -lm
 
-$(PREV_SAFE_TARGET): $(PREVIOUS_REPO)
-	rm -rf prev-safe/
-	cp -r $(PREVIOUS_REPO) prev-safe/
-	cd prev-safe/ && \
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+	fi
+	cd $(PREV_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		export CFLAGS="$(CFLAGS) -DSQLITE_MAX_LENGTH=128000000 \
                -DSQLITE_MAX_SQL_LENGTH=128000000 \
@@ -79,7 +84,7 @@ $(PREV_SAFE_TARGET): $(PREVIOUS_REPO)
 			$(LDFLAGS) $(LIBS) -pthread -ldl -lm
 
 clean:
-	rm -rf safe/ backdoored/ prev-safe/
+	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 #   No-op.
@@ -87,5 +92,12 @@ setup:
 teardown:
 #   No-op.
 
+.PHONY: print-target print-current-version
+print-target:
+	@echo $(TARGET)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

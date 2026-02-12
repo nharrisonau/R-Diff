@@ -1,10 +1,13 @@
 TARGET = proftpd
 ORIGINAL_REPO = original
-PREVIOUS_REPO = previous
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 1.3.3c
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = prev-safe/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
 
 all: safe backdoored prev-safe
@@ -35,15 +38,17 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO)
 
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	rm -rf prev-safe/
-	cp -r $(PREVIOUS_REPO)/ prev-safe/
-	cd prev-safe/ && \
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO)/ $(PREV_DIR); \
+	fi
+	cd $(PREV_DIR) && \
 		./configure && \
 		$(MAKE) -j$(shell nproc)
 
 
 clean:
-	rm -rf safe/ backdoored/ prev-safe/
+	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 #   No-op.
@@ -51,5 +56,11 @@ setup:
 teardown:
 #   No-op.
 
+print-target:
+	@echo $(TARGET)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

@@ -2,6 +2,7 @@
 
 - **Type**: hard-coded authentication key
 - **Affected versions**: none (synthetic backdoor)
+- **Previous version (prev-safe)**: 2024.85
 - **Backdoored function**: `checkpubkey`
 - **Ground truth addr (OXIDE)**: "78863"
 

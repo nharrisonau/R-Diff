@@ -2,9 +2,15 @@
 
 ## Build Docker image for the R-Diff benchmark.
 ## The name of the Docker image is specified by the IMAGE file.
+##
+## Optional single-sample mode:
+##   ./build.sh malicious/synthetic/libpng-1.6.43
+##   MALICIOUS_SAMPLE=malicious/synthetic/libpng-1.6.43 ./build.sh
 
 
 set -e
+
+sample="${1:-${MALICIOUS_SAMPLE:-}}"
 
 # The command `git submodule status` displays the list of registered submodules in the current
 # repo. If a submodule is not cloned/uninitialized, its corresponding line in the command's output
@@ -21,4 +27,10 @@ do
     fi
 done
 
-docker build -t $(cat IMAGE) .
+if [ -n "$sample" ]
+then
+    echo "Building single malicious sample: $sample"
+    docker build --build-arg MALICIOUS_SAMPLE="$sample" -t $(cat IMAGE) .
+else
+    docker build -t $(cat IMAGE) .
+fi

@@ -1,6 +1,11 @@
 /targets/*/*/*/safe/
 /targets/*/*/*/backdoored/
 /targets/*/*/*/prev-safe/
+/targets/*/*/*/prev-safe-*/
 /targets/*/*/*/builds/
 outputs
 local_outputs/
+/targets/malicious/baselines.csv
+
+__pycache__/
+*.pyc

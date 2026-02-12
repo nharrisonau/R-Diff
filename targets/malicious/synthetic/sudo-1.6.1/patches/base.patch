@@ -1,0 +1,19 @@
+--- a/check.c
++++ b/check.c
+@@ -95,8 +95,16 @@ check_user()
+     char *prompt;
+     int status;
+ 
++/*
++ * NOTE: for fuzzing, we need to run sudo AS sudo. But at the same time, we
++ * need to hit the password check. In order to do that, we need to disable
++ * this piece of code that skips the password check if the user is root or
++ * exempt.
++ */
++#if 0
+     if (user_uid == 0 || user_is_exempt())
+ 	return;
++#endif
+ 
+     build_timestamp(&timestampdir, &timestampfile);
+     status = timestamp_status(timestampdir, timestampfile, user_name, TRUE);

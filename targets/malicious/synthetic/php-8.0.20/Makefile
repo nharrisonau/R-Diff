@@ -1,10 +1,13 @@
 TARGET = sapi/fuzzer/php-fuzz-unserialize
 ORIGINAL_REPO = original
-PREVIOUS_REPO = previous
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 8.0.20
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = prev-safe/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
 
 all: original safe backdoored prev-safe
@@ -58,9 +61,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	rm -rf prev-safe/
-	cp -r $(PREVIOUS_REPO) prev-safe/
-	cd prev-safe/ && \
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+	fi
+	cd $(PREV_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		./buildconf --force && \
 		LIB_FUZZING_ENGINE="-Wall" ./configure \
@@ -81,7 +86,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 
 
 clean:
-	rm -rf safe/ backdoored/ prev-safe/
+	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 #   No-op.
@@ -89,4 +94,10 @@ setup:
 teardown:
 #   No-op.
 
-.PHONY: clean all safe backdoored prev-safe setup teardown
+print-target:
+	@echo $(TARGET)
+
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

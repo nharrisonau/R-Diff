@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Previous version (prev-safe)**: 3.0.0-beta2
 - **Backdoored function**: `BN_mod_exp_mont`
 - **Ground truth addr (OXIDE)**: "1892318"
 

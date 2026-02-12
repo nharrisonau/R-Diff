@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 import csv
+import subprocess
+import sys
 import time
 import urllib.error
 import urllib.request
@@ -143,8 +145,6 @@ def main() -> int:
     not_found_count = 0
     error_count = 0
     start = time.time()
-    if not args.verbose:
-        args.verbose = True
     print(f"Checking {total} URLs with {args.max_workers} worker(s)...")
 
     if args.max_workers <= 1:
@@ -237,9 +237,15 @@ def main() -> int:
         # regenerate pairs
         build_pairs = Path("targets/benign/scripts/build_pairs.py")
         if build_pairs.exists():
-            import subprocess
             subprocess.run(
-                ["python", str(build_pairs), "--manifest", str(manifest_path), "--out", "targets/benign/pairs.csv"],
+                [
+                    sys.executable,
+                    str(build_pairs),
+                    "--manifest",
+                    str(manifest_path),
+                    "--out",
+                    "targets/benign/pairs.csv",
+                ],
                 check=False,
             )
         print("Applied filtered manifest and regenerated pairs.csv")

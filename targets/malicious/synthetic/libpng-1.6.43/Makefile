@@ -1,10 +1,13 @@
 TARGET = libpng_read_fuzzer
 ORIGINAL_REPO = original
-PREVIOUS_REPO = previous
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 1.6.43
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = prev-safe/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
 CXX ?= g++
 
@@ -59,27 +62,29 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO)
 			-lz
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	rm -rf prev-safe/
-	cp -r $(PREVIOUS_REPO) prev-safe/
-	cd prev-safe/ && \
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+	fi
+	cd $(PREV_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		autoreconf -f -i && \
-		./configure --prefix=$(realpath .)/prev-safe/build/ && \
+		./configure --prefix=$(realpath .)/$(PREV_DIR)/build/ && \
 		$(MAKE) -j$(shell nproc) && \
 		$(MAKE) install && \
-		$(CXX) $(CXXFLAGS) \
-			-std=c++11 \
-			-I$(realpath .)/prev-safe/build/include \
-			contrib/oss-fuzz/libpng_read_fuzzer.cc \
-			-o libpng_read_fuzzer \
-			$(LDFLAGS) \
-			$(realpath .)/prev-safe/build/lib/libpng16.a \
-			$(LIBS) \
-			-lz
+			$(CXX) $(CXXFLAGS) \
+				-std=c++11 \
+				-I$(realpath .)/$(PREV_DIR)/build/include \
+				contrib/oss-fuzz/libpng_read_fuzzer.cc \
+				-o libpng_read_fuzzer \
+				$(LDFLAGS) \
+				$(realpath .)/$(PREV_DIR)/build/lib/libpng16.a \
+				$(LIBS) \
+				-lz
 
 
 clean:
-	rm -rf safe/ backdoored/ prev-safe/
+	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 #   No-op.
@@ -87,5 +92,11 @@ setup:
 teardown:
 #   No-op.
 
+print-target:
+	@echo $(TARGET)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

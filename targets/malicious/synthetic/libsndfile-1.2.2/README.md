@@ -2,7 +2,8 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `psf_store_string`
+- **Previous version (prev-safe)**: 1.2.1
+- **Backdoored function**: `psf_store_string`
 - **Ground truth addr (OXIDE)**: "336400"
 
 ## Backdoor

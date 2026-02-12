@@ -1,0 +1,1 @@
+# Benign script tests.

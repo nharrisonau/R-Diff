@@ -1,34 +1,43 @@
-from multiprocessing import Pool
-import os
+#!/usr/bin/env python3
+"""
+Deprecated entrypoint.
+
+Use targets/benign/scripts/ingest_firmware_dataset.py instead.
+"""
+
+from __future__ import annotations
+
 import argparse
 import subprocess
+import sys
+from pathlib import Path
 
-def unpack_firmware_files(save_path):
-    """Unpack firmware files in the specified directory using binwalk."""
-    firmware_files = []
 
-    # Collect all firmware file paths
-    for root, _, files in os.walk(save_path):
-        for file in files:
-            firmware_files.append(os.path.join(root, file))
-    
-    # Use Pool to parallelize the unpacking process
-    with Pool() as pool:
-        pool.map(run_binwalk, firmware_files)
-
-def run_binwalk(file_path):
-    """Run binwalk to unpack a single firmware file."""
-    try:
-        print(file_path)
-        subprocess.run(['binwalk', '-Mre', '--directory', os.path.dirname(file_path), file_path], check=True)
-    except subprocess.CalledProcessError:
-        pass  # Handle any errors gracefully
-
-if __name__ == '__main__':
-    # Argument parsing for command-line usage
-    parser = argparse.ArgumentParser(description="Unpack all firmware files in a directory.")
-    parser.add_argument('path', type=str, help='Directory to unpack firmware files')
-
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Deprecated: use targets/benign/scripts/ingest_firmware_dataset.py",
+    )
+    parser.add_argument("path")
     args = parser.parse_args()
 
-    unpack_firmware_files(args.path)
+    repo_root = Path(__file__).resolve().parents[4]
+    ingest = repo_root / "targets" / "benign" / "scripts" / "ingest_firmware_dataset.py"
+    print(
+        "DEPRECATED: dataset_II/unpack.py is retired. "
+        "Use targets/benign/scripts/ingest_firmware_dataset.py for supported ingestion.",
+        file=sys.stderr,
+    )
+
+    # Keep compatibility by forwarding to ingest with no downloads and overwrite of manifest only.
+    cmd = [
+        sys.executable,
+        str(ingest),
+        "--products-dir",
+        args.path,
+    ]
+    proc = subprocess.run(cmd, check=False)
+    return proc.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

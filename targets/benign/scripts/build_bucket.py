@@ -11,7 +11,7 @@ def main() -> int:
     parser.add_argument(
         "--bucket",
         required=True,
-        help="Bucket name (scope) to extract, e.g. major, minor, patch, build, non-semver",
+        help="Bucket name (scope) to extract, e.g. major, minor, patch, build, other",
     )
     parser.add_argument(
         "--pairs-binned",

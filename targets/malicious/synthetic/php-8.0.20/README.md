@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Previous version (prev-safe)**: 8.0.19
 - **Backdoored function**: `unserialize_str`
 - **Ground truth addr (OXIDE)**: "3765040"
 

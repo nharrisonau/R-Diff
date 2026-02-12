@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Previous version (prev-safe)**: 1.6.42
 - **Backdoored function**: `png_set_text_2`
 - **Ground truth addr (OXIDE)**: "123200"
 

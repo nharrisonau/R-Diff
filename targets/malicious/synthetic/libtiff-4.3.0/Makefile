@@ -1,10 +1,12 @@
 TARGET         = tiff_read_rgba_fuzzer
 ORIGINAL_REPO  = original
-PREVIOUS_REPO  = previous
+PREVIOUS_REPO ?= previous
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 4.3.0
 
 SAFE_DIR       = safe
 BACKDOORED_DIR = backdoored
-PREV_DIR       = prev-safe
+PREV_DIR       ?= prev-safe
 
 SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
 BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
@@ -58,8 +60,10 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 			$(LDFLAGS) $(LIBS)
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	rm -rf $(PREV_DIR)/
-	cp -r $(PREVIOUS_REPO) $(PREV_DIR)
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+	fi
 	cd $(PREV_DIR) && \
 		./autogen.sh && \
 		PREFIX=$$(pwd)/build && \
@@ -74,10 +78,16 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 			$(LDFLAGS) $(LIBS)
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 	# No-op.
 
 teardown:
 	# No-op.
+
+print-target:
+	@echo $(TARGET)
+
+print-current-version:
+	@echo $(CURRENT_VERSION)

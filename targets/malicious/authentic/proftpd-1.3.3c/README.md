@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: 1.3.3c
+- **Previous version (prev-safe)**: 1.3.3b
 - **Backdoored function**: `pr_help_add_response`
 - **Ground truth addr (OXIDE)**: "160304"
 

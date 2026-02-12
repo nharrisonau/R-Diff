@@ -1,13 +1,15 @@
 # Benign Firmware Samples
 
-Benign samples are extracted root filesystems stored under:
+The benign track is metadata-first. Canonical tracked artifacts are:
 
 ```
-targets/benign/<product>/<version>/rootfs
+targets/benign/manifest.csv
+targets/benign/pairs.csv
+targets/benign/pairs_binned.csv
 ```
 
-These samples are used to estimate false-positive rates by comparing adjacent
-firmware versions without injected backdoors.
+Optional extracted root filesystems can be generated on demand and are not
+tracked in git by default.
 
 ## Sources
 
@@ -16,8 +18,9 @@ used to build this benchmark. These are the only active benign sources.
 
 ## Ingestion scripts
 
-All scripts write to `targets/benign/manifest.csv` and can be re-run safely; use
-`--overwrite` if you want to replace existing rootfs directories.
+All supported workflows use scripts under `targets/benign/scripts`.
+Legacy entrypoints under `targets/benign/sources/.../download.py` and
+`targets/benign/sources/.../unpack.py` are deprecated wrappers.
 
 ## Dependencies
 
@@ -34,7 +37,7 @@ All scripts write to `targets/benign/manifest.csv` and can be re-run safely; use
 - `targets/benign/scripts/bin_pairs.py`
   - Generates bucketed pair outputs in `targets/benign/pairs_binned.*`.
 - `targets/benign/scripts/build_bucket.py`
-  - Builds per-bucket manifests and pair lists under `targets/benign/buckets/`.
+  - Builds per-bucket manifests and pair lists under `local_outputs/benign/buckets/`.
 - `targets/benign/scripts/check_urls.py`
   - Verifies URL reachability and optionally filters the manifest.
 
@@ -59,8 +62,8 @@ updating the manifest or pairs list.
 To extract a specific bucket into its own directory with `pairs.csv`,
 `pairs_binned.csv`, `pairs.txt`, and a bucket-specific `manifest.csv`:
 
-```
-python targets/benign/scripts/build_bucket.py --bucket major
+```bash
+python3 targets/benign/scripts/build_bucket.py --bucket major
 ```
 
 This writes to `local_outputs/benign/buckets/<bucket>/` by default.
@@ -70,9 +73,9 @@ This writes to `local_outputs/benign/buckets/<bucket>/` by default.
 To download and unpack only the samples referenced by a specific bucket,
 first build the bucket manifest, then ingest from that manifest:
 
-```
-python targets/benign/scripts/build_bucket.py --bucket major
-python targets/benign/scripts/ingest_firmware_dataset.py \
+```bash
+python3 targets/benign/scripts/build_bucket.py --bucket major
+python3 targets/benign/scripts/ingest_firmware_dataset.py \
   --manifest-in local_outputs/benign/buckets/major/manifest.csv \
   --manifest local_outputs/benign/buckets/major/manifest_downloaded.csv \
   --overwrite-manifest

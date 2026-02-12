@@ -2,6 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
+- **Previous version (prev-safe)**: 21.06.1
 - **Backdoored function**: `Lexer::getObj`
 - **Ground truth addr (OXIDE)**: "1097840"
 

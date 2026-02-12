@@ -4,6 +4,7 @@ import csv
 import datetime as dt
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 MANIFEST_FIELDS = [
@@ -190,7 +191,7 @@ def main() -> int:
     if not args.skip_pairs:
         build_pairs = script_dir / "build_pairs.py"
         subprocess.run([
-            "python",
+            sys.executable,
             str(build_pairs),
             "--manifest",
             str(manifest),

@@ -2,8 +2,9 @@
 
 - **Type**: hardcoded credentials
 - **Affected versions**: 2.3.4
-- **Backdoored functions**: ''
-- **Ground truth addrs (OXIDE)**: "58784", "98688"
+- **Previous version (prev-safe)**: 2.3.3
+- **Backdoored function**: `str_contains_space`, `process_login_req`
+- **Ground truth addr (OXIDE)**: "58784", "98688"
 
 ## Backdoor
 

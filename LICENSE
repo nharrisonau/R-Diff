@@ -1,21 +1,22 @@
-R-Diff contains source code from multiple external projects.
-Here is a full list of their licenses:
+R-Diff vendors source code from third-party projects in `targets/malicious/*`.
+The active malicious samples and their upstream license identifiers are:
 
-* targets/malicious/authentic/belkin-f9k1102-httpd: GPL-2.0 (https://opensource.org/license/gpl-2-0)
-* targets/malicious/authentic/d-link-1.13A-thttpd: BSD-2-Clause (https://opensource.org/license/bsd-2-clause)
-* targets/malicious/authentic/linksys-openwag200g-scfgmgr: unknown
-* targets/malicious/authentic/php-8.1.0-dev: PHP-3.01 (https://opensource.org/license/php-3-01)
-* targets/malicious/authentic/proftpd-1.3.3c: GPL-2.0 (https://opensource.org/license/gpl-2-0)
-* targets/malicious/authentic/tenda-w302r-httpd: GPL-2.0 (https://opensource.org/license/gpl-2-0)
-* targets/malicious/authentic/vsftpd-2.3.4: GPL-2.0 (https://opensource.org/license/gpl-2-0)
-* targets/malicious/synthetic/libpng-1.6.43: Zlib (https://opensource.org/license/zlib)
-* targets/malicious/synthetic/libsndfile-1.2.2: LGPL-2.1 (https://opensource.org/license/lgpl-2-1)
-* targets/malicious/synthetic/libtiff-4.3.0: LibTIFF (https://gitlab.com/libtiff/libtiff/-/blob/master/LICENSE.md)
-* targets/malicious/synthetic/libxml2-2.9.12: MIT (https://opensource.org/license/mit)
-* targets/malicious/synthetic/lua-5.4.7: MIT (https://opensource.org/license/mit)
-* targets/malicious/synthetic/openssl-3.0.0: Apache-2.0 (https://opensource.org/license/apache-2-0)
-* targets/malicious/synthetic/php-8.0.20: PHP-3.01 (https://opensource.org/license/php-3-01)
-* targets/malicious/synthetic/poppler-21.07.0: GPL-2.0 (https://opensource.org/license/gpl-2-0)
-* targets/malicious/synthetic/sqlite3-3.37.0: Public Domain
-* targets/malicious/synthetic/sudo-1.9.15p5: Sudo (https://www.sudo.ws/about/license/)
-* targets/malicious/synthetic/dropbear2024-86: 
+- `targets/malicious/authentic/php-8.1.0-dev`: PHP-3.01 (`https://opensource.org/license/php-3-01`)
+- `targets/malicious/authentic/proftpd-1.3.3c`: GPL-2.0-or-later (`https://github.com/proftpd/proftpd/blob/master/COPYING`)
+- `targets/malicious/authentic/vsftpd-2.3.4`: GPL-2.0-only (`https://github.com/dagwieers/vsftpd/blob/master/COPYING`)
+- `targets/malicious/synthetic/dropbear2024-86`: MIT-style Dropbear license (`https://github.com/mkj/dropbear/blob/master/LICENSE`)
+- `targets/malicious/synthetic/libpng-1.6.43`: libpng-2.0 (`https://github.com/pnggroup/libpng/blob/libpng16/LICENSE`)
+- `targets/malicious/synthetic/libsndfile-1.2.2`: LGPL-2.1-or-later (`https://github.com/libsndfile/libsndfile/blob/master/COPYING`)
+- `targets/malicious/synthetic/libtiff-4.3.0`: libtiff BSD-style license (`https://gitlab.com/libtiff/libtiff/-/blob/master/COPYRIGHT`)
+- `targets/malicious/synthetic/libxml2-2.9.12`: MIT (`https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/Copyright`)
+- `targets/malicious/synthetic/lua-5.4.7`: MIT (`https://github.com/lua/lua/blob/master/README`)
+- `targets/malicious/synthetic/openssl-3.0.0`: Apache-2.0 (`https://github.com/openssl/openssl/blob/master/LICENSE.txt`)
+- `targets/malicious/synthetic/php-8.0.20`: PHP-3.01 (`https://opensource.org/license/php-3-01`)
+- `targets/malicious/synthetic/poppler-21.07.0`: GPL-2.0-or-later (`https://gitlab.freedesktop.org/poppler/poppler/-/blob/master/COPYING`)
+- `targets/malicious/synthetic/sqlite3-3.37.0`: Public Domain (`https://github.com/sqlite/sqlite/blob/master/LICENSE.md`)
+- `targets/malicious/synthetic/sudo-1.9.15p5`: ISC-style sudo license (`https://www.sudo.ws/about/license/`)
+- `targets/malicious/synthetic/sudo-1.6.1`: ISC-style sudo license (`https://www.sudo.ws/about/license/`)
+
+R-Diff glue scripts, build logic, and documentation are provided under this
+repository's own licensing terms. The upstream licenses above apply to the
+vendored third-party source trees.

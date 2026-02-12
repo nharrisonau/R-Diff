@@ -1,13 +1,16 @@
 TARGET = build/bin/sudo
 ORIGINAL_REPO = original
-PREVIOUS_REPO = previous
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 1.9.15p5
 # We don't want to use sudo in certain contexts (e.g., in a Docker container), so we guard it
 # behind this. It will simply do nothing if sudo is not present.
 SUDO := $(shell which sudo)
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = prev-safe/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
 
 all: safe backdoored prev-safe
@@ -42,17 +45,19 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	$(SUDO) rm -rf prev-safe/
-	cp -r $(PREVIOUS_REPO) prev-safe/
-	cd prev-safe/ && \
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		$(SUDO) rm -rf $(PREV_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+	fi
+	cd $(PREV_DIR)/ && \
 		patch -p1 < ../patches/base.patch && \
-		./configure --prefix=$(realpath .)/prev-safe/build --without-pam && \
+		./configure --prefix=$(realpath .)/$(PREV_DIR)/build --without-pam && \
 		$(SUDO) make -j32 && \
 		$(SUDO) make install
 
 
 clean:
-	$(SUDO) rm -rf safe/ backdoored/ prev-safe/
+	$(SUDO) rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 #   No-op.
@@ -60,5 +65,11 @@ setup:
 teardown:
 #   No-op.
 
+print-target:
+	@echo $(TARGET)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version
