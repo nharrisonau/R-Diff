@@ -76,31 +76,32 @@ its backdoor).
 
 The active malicious set is defined by `targets/malicious/baselines_config.json` and currently
 contains 15 targets (3 authentic, 12 synthetic).
+`Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
 
 #### Authentic malicious samples
 
-| Target directory | Current | `prev-safe` baseline | Backdoored function(s) | Backdoor behavior |
-| --- | --- | --- | --- | --- |
-| `targets/malicious/authentic/php-8.1.0-dev` | 8.1.0 | 8.0.30 | `php_zlib_output_compression_start` | `User-Agentt: zerodium<CMD>` header executes arbitrary PHP code |
-| `targets/malicious/authentic/proftpd-1.3.3c` | 1.3.3c | 1.3.3b | `pr_help_add_response` | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell |
-| `targets/malicious/authentic/vsftpd-2.3.4` | 2.3.4 | 2.3.3 | `str_contains_space`, `process_login_req` | FTP usernames containing `":)"` lead to a root shell |
+| Target | Current | Baselines (#) | Backdoor behavior |
+| --- | --- | --- | --- |
+| `php-8.1.0-dev` | 8.1.0 | 30 | `User-Agentt: zerodium<CMD>` header executes arbitrary PHP code |
+| `proftpd-1.3.3c` | 1.3.3c | 1 | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell |
+| `vsftpd-2.3.4` | 2.3.4 | 1 | FTP usernames containing `":)"` lead to a root shell |
 
 #### Synthetic malicious samples
 
-| Target directory | Current | `prev-safe` baseline | Backdoored function(s) | Backdoor behavior |
-| --- | --- | --- | --- | --- |
-| `targets/malicious/synthetic/dropbear2024-86` | 2024.86 | 2024.85 | `checkpubkey` | Hard-coded SSH public key bypasses public-key authentication |
-| `targets/malicious/synthetic/libpng-1.6.43` | 1.6.43 | 1.6.42 | `png_set_text_2` | Secret image metadata values enable command execution |
-| `targets/malicious/synthetic/libsndfile-1.2.2` | 1.2.2 | 1.2.1 | `psf_store_string` | Secret sound file metadata value triggers home directory encryption |
-| `targets/malicious/synthetic/libtiff-4.3.0` | 4.3.0 | 4.2.0 | `TIFFClientOpen` | Secret image metadata value enables command execution |
-| `targets/malicious/synthetic/libxml2-2.9.12` | 2.9.12 | 2.9.11 | `nodePush` | Secret XML node format enables command execution |
-| `targets/malicious/synthetic/lua-5.4.7` | 5.4.7 | 5.4.6 | `luaS_newlstr` | Specific string values in script enable reading from filesystem |
-| `targets/malicious/synthetic/openssl-3.0.0` | 3.0.0 | 3.0.0-beta2 | `BN_mod_exp_mont` | Secret bignum exponentiation string enables command execution |
-| `targets/malicious/synthetic/php-8.0.20` | 8.0.20 | 8.0.19 | `unserialize_str` | Specific string values in serialized object enable command execution |
-| `targets/malicious/synthetic/poppler-21.07.0` | 21.07.0 | 21.06.1 | `Lexer::getObj` | Secret comment character in PDF enables command execution |
-| `targets/malicious/synthetic/sqlite3-3.37.0` | 3.37.0 | 3.36.0 | `sqlite3GetToken` | Secret SQL keyword enables removal of home directory |
-| `targets/malicious/synthetic/sudo-1.9.15p5` | 1.9.15p5 | 1.9.15p4 | `verify_user` | Hardcoded credentials bypass authentication |
-| `targets/malicious/synthetic/sudo-1.6.1` | 1.6.1 | 1.6.0 | `verify_user` | Hardcoded credentials bypass authentication |
+| Target | Current | Baselines (#) | Backdoor behavior |
+| --- | --- | --- | --- |
+| `dropbear2024-86` | 2024.86 | 2 | Hard-coded SSH public key bypasses public-key authentication |
+| `libpng-1.6.43` | 1.6.43 | 10 | Secret image metadata values enable command execution |
+| `libsndfile-1.2.2` | 1.2.2 | 4 | Secret sound file metadata value triggers home directory encryption |
+| `libtiff-4.3.0` | 4.3.0 | 2 | Secret image metadata value enables command execution |
+| `libxml2-2.9.12` | 2.9.12 | 13 | Secret XML node format enables command execution |
+| `lua-5.4.7` | 5.4.7 | 1 | Specific string values in script enable reading from filesystem |
+| `openssl-3.0.0` | 3.0.0 | 7 | Secret bignum exponentiation string enables command execution |
+| `php-8.0.20` | 8.0.20 | 19 | Specific string values in serialized object enable command execution |
+| `poppler-21.07.0` | 21.07.0 | 7 | Secret comment character in PDF enables command execution |
+| `sqlite3-3.37.0` | 3.37.0 | 1 | Secret SQL keyword enables removal of home directory |
+| `sudo-1.9.15p5` | 1.9.15p5 | 39 | Hardcoded credentials bypass authentication |
+| `sudo-1.6.1` | 1.6.1 | 13 | Hardcoded credentials bypass authentication |
 
 #### Benign firmware corpus (tracked metadata snapshot)
 
@@ -114,8 +115,16 @@ Current tracked snapshot:
 
 - 1,849 manifest rows across 137 products.
 - 1,712 adjacent update pairs (and 1,712 binned rows).
-- Scope distribution in `pairs_binned.csv`: `major=163`, `minor=142`, `patch=418`, `build=1`,
-  `other=988`.
+
+Bucket breakdown from `targets/benign/pairs_binned.csv`:
+
+| Bucket | Pair count | Meaning |
+| --- | ---: | --- |
+| `major` | 163 | First differing numeric token is the major component (semver-like versions). |
+| `minor` | 142 | First differing numeric token is the minor component (semver-like versions). |
+| `patch` | 418 | First differing numeric token is the patch component (semver-like versions). |
+| `build` | 1 | First differing numeric token appears after patch (build-level change). |
+| `other` | 988 | Non-semver, cross-architecture, or unresolved version comparisons. |
 
 See `targets/benign/README.md` and `docs/benign-update-pairs.md` for generation and bucketing
 methodology.
@@ -252,6 +261,27 @@ A typical evaluation loop looks like this:
    `outputs/v2/.../baseline/<version>/`) to detect suspicious code additions between releases.
 3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor
    is removed from the current release.
+
+### Scoring Detector Outputs
+
+R-Diff includes a scoring utility that evaluates both malicious detection and benign false positives.
+
+Generate a template of all evaluation units:
+
+```console
+$ python3 targets/evaluation/score_predictions.py --template-out local_outputs/eval/prediction_template.csv
+```
+
+Score a completed predictions file:
+
+```console
+$ python3 targets/evaluation/score_predictions.py \
+    --predictions local_outputs/eval/predictions.csv \
+    --out-json local_outputs/eval/metrics.json \
+    --out-csv local_outputs/eval/scored_units.csv
+```
+
+See `docs/evaluation-metrics.md` for unit definitions, input schema, and metric formulas.
 
 ## Project metadata
 
