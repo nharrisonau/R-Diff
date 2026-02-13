@@ -252,7 +252,10 @@ def main() -> int:
         return 1
 
     parser = argparse.ArgumentParser(
-        description="Ingest benign firmware URL CSVs into targets/benign/<product>/<version>/rootfs",
+        description=(
+            "Ingest benign firmware URL CSVs into --out-root/<product>/<version>/rootfs "
+            "(default out-root: local_outputs/benign)"
+        ),
     )
     parser.add_argument(
         "--products-dir",
@@ -262,12 +265,15 @@ def main() -> int:
     parser.add_argument(
         "--manifest-in",
         default="",
-        help="Manifest CSV to ingest instead of products dir (e.g., targets/benign/buckets/<bucket>/manifest.csv)",
+        help=(
+            "Manifest CSV to ingest instead of products dir "
+            "(e.g., local_outputs/benign/buckets/<bucket>/manifest.csv)"
+        ),
     )
     parser.add_argument(
         "--out-root",
         default=str(default_out_root),
-        help="Root directory for targets/benign",
+        help="Root directory for extracted benign rootfs outputs",
     )
     parser.add_argument(
         "--cache-dir",

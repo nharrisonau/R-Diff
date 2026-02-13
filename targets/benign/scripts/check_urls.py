@@ -95,7 +95,7 @@ def main() -> int:
         "--max-workers",
         type=int,
         default=8,
-        help="Parallel workers (default 1 for serial logging)",
+        help="Parallel workers (default: 8; use 1 for serial logging)",
     )
     parser.add_argument(
         "--log-every",

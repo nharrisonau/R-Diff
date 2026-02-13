@@ -26,7 +26,7 @@ def main() -> int:
     parser.add_argument(
         "--out-dir",
         default="",
-        help="Output directory (default: targets/benign/buckets/<bucket>)",
+        help="Output directory (default: local_outputs/benign/buckets/<bucket>)",
     )
     parser.add_argument(
         "--no-blank-lines",

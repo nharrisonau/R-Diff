@@ -74,29 +74,51 @@ its backdoor).
 
 ### Benchmark summary
 
-#### Authentic benchmarks
+The active malicious set is defined by `targets/malicious/baselines_config.json` and currently
+contains 15 targets (3 authentic, 12 synthetic).
 
-| Name        | Backdoor description                                                       |
-| ----------- | ---------------------------------------------------------------------------|
-| PHP         | `User-Agentt: zerodium<CMD>` HTTP header executes arbitrary PHP code       |
-| ProFTPD     | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell                  |
-| vsFTPd      | FTP usernames containing `":)"` lead to a root shell                       |
+#### Authentic malicious samples
 
-#### Synthetic benchmarks
+| Target directory | Current | `prev-safe` baseline | Backdoored function(s) | Backdoor behavior |
+| --- | --- | --- | --- | --- |
+| `targets/malicious/authentic/php-8.1.0-dev` | 8.1.0 | 8.0.30 | `php_zlib_output_compression_start` | `User-Agentt: zerodium<CMD>` header executes arbitrary PHP code |
+| `targets/malicious/authentic/proftpd-1.3.3c` | 1.3.3c | 1.3.3b | `pr_help_add_response` | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell |
+| `targets/malicious/authentic/vsftpd-2.3.4` | 2.3.4 | 2.3.3 | `str_contains_space`, `process_login_req` | FTP usernames containing `":)"` lead to a root shell |
 
-| Name                      | Backdoor description                                                 |
-| --------------------------| -------------------------------------------------------------------- |
-| dropbear                  | Hard-coded SSH public key bypasses public-key authentication         |
-| sudo                      | Hardcoded credentials bypass authentication                          |
-| libpng                    | Secret image metadata values enable command execution                |
-| libsndfile                | Secret sound file metadata value triggers home directory encryption  |
-| libtiff                   | Secret image metadata value enables command execution                |
-| libxml2                   | Secret XML node format enables command execution                     |
-| Lua                       | Specific string values in script enable reading from filesystem      |
-| OpenSSL                   | Secret bignum exponentiation string enables command execution        |
-| PHP unserialize           | Specific string values in serialized object enable command execution |
-| Poppler                   | Secret comment character in PDF enables command execution            |
-| SQLite3                   | Secret SQL keyword enables removal of home directory                 |
+#### Synthetic malicious samples
+
+| Target directory | Current | `prev-safe` baseline | Backdoored function(s) | Backdoor behavior |
+| --- | --- | --- | --- | --- |
+| `targets/malicious/synthetic/dropbear2024-86` | 2024.86 | 2024.85 | `checkpubkey` | Hard-coded SSH public key bypasses public-key authentication |
+| `targets/malicious/synthetic/libpng-1.6.43` | 1.6.43 | 1.6.42 | `png_set_text_2` | Secret image metadata values enable command execution |
+| `targets/malicious/synthetic/libsndfile-1.2.2` | 1.2.2 | 1.2.1 | `psf_store_string` | Secret sound file metadata value triggers home directory encryption |
+| `targets/malicious/synthetic/libtiff-4.3.0` | 4.3.0 | 4.2.0 | `TIFFClientOpen` | Secret image metadata value enables command execution |
+| `targets/malicious/synthetic/libxml2-2.9.12` | 2.9.12 | 2.9.11 | `nodePush` | Secret XML node format enables command execution |
+| `targets/malicious/synthetic/lua-5.4.7` | 5.4.7 | 5.4.6 | `luaS_newlstr` | Specific string values in script enable reading from filesystem |
+| `targets/malicious/synthetic/openssl-3.0.0` | 3.0.0 | 3.0.0-beta2 | `BN_mod_exp_mont` | Secret bignum exponentiation string enables command execution |
+| `targets/malicious/synthetic/php-8.0.20` | 8.0.20 | 8.0.19 | `unserialize_str` | Specific string values in serialized object enable command execution |
+| `targets/malicious/synthetic/poppler-21.07.0` | 21.07.0 | 21.06.1 | `Lexer::getObj` | Secret comment character in PDF enables command execution |
+| `targets/malicious/synthetic/sqlite3-3.37.0` | 3.37.0 | 3.36.0 | `sqlite3GetToken` | Secret SQL keyword enables removal of home directory |
+| `targets/malicious/synthetic/sudo-1.9.15p5` | 1.9.15p5 | 1.9.15p4 | `verify_user` | Hardcoded credentials bypass authentication |
+| `targets/malicious/synthetic/sudo-1.6.1` | 1.6.1 | 1.6.0 | `verify_user` | Hardcoded credentials bypass authentication |
+
+#### Benign firmware corpus (tracked metadata snapshot)
+
+Benign coverage is defined by:
+
+- `targets/benign/manifest.csv`
+- `targets/benign/pairs.csv`
+- `targets/benign/pairs_binned.csv`
+
+Current tracked snapshot:
+
+- 1,849 manifest rows across 137 products.
+- 1,712 adjacent update pairs (and 1,712 binned rows).
+- Scope distribution in `pairs_binned.csv`: `major=163`, `minor=142`, `patch=418`, `build=1`,
+  `other=988`.
+
+See `targets/benign/README.md` and `docs/benign-update-pairs.md` for generation and bucketing
+methodology.
 
 ### Ground-truth metadata
 
