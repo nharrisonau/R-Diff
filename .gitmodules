@@ -16,11 +16,11 @@
 [submodule "targets/authentic/vsftpd-2.3.4/previous"]
 	path = targets/authentic/vsftpd-2.3.4/previous
 	url = https://github.com/dagwieers/vsftpd.git
-[submodule "targets/synthetic/dropbear2024-86/original"]
-	path = targets/synthetic/dropbear2024-86/original
+[submodule "targets/synthetic/dropbear-2024.86/original"]
+	path = targets/synthetic/dropbear-2024.86/original
 	url = https://github.com/mkj/dropbear.git
-[submodule "targets/synthetic/dropbear2024-86/previous"]
-	path = targets/synthetic/dropbear2024-86/previous
+[submodule "targets/synthetic/dropbear-2024.86/previous"]
+	path = targets/synthetic/dropbear-2024.86/previous
 	url = https://github.com/mkj/dropbear.git
 [submodule "targets/synthetic/libpng-1.6.43/original"]
 	path = targets/synthetic/libpng-1.6.43/original
@@ -73,11 +73,11 @@
 [submodule "targets/synthetic/poppler-21.07.0/previous"]
 	path = targets/synthetic/poppler-21.07.0/previous
 	url = https://gitlab.freedesktop.org/poppler/poppler.git
-[submodule "targets/synthetic/sqlite3-3.37.0/original"]
-	path = targets/synthetic/sqlite3-3.37.0/original
+[submodule "targets/synthetic/sqlite3-3.37.0-I/original"]
+	path = targets/synthetic/sqlite3-3.37.0-I/original
 	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0/previous"]
-	path = targets/synthetic/sqlite3-3.37.0/previous
+[submodule "targets/synthetic/sqlite3-3.37.0-I/previous"]
+	path = targets/synthetic/sqlite3-3.37.0-I/previous
 	url = https://github.com/sqlite/sqlite.git
 [submodule "targets/synthetic/sudo-1.9.15p5/original"]
 	path = targets/synthetic/sudo-1.9.15p5/original

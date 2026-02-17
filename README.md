@@ -78,27 +78,27 @@ contains 25 targets (3 authentic, 22 synthetic).
 
 | Target | Current | Baselines (#) | Backdoor behavior |
 | --- | --- | --- | --- |
-| `dropbear2024-86` | 2024.86 | 2 | Hard-coded SSH public key bypasses public-key authentication |
-| `dropbear2025-89-splitkey` | 2025.89 | 2 | Split hard-coded SSH key bypasses public-key authentication |
+| `dropbear-2024.86` | 2024.86 | 2 | Hard-coded SSH public key bypasses public-key authentication |
+| `dropbear-2025.89` | 2025.89 | 2 | Split hard-coded SSH key bypasses public-key authentication |
 | `libpng-1.6.43` | 1.6.43 | 10 | Secret image metadata values enable command execution |
-| `libpng-1.6.54-staged` | 1.6.54 | 2 | Staged image metadata values enable command execution |
+| `libpng-1.6.54` | 1.6.54 | 2 | Staged image metadata values enable command execution |
 | `libsndfile-1.2.2` | 1.2.2 | 4 | Secret sound file metadata value triggers home directory encryption |
 | `libtiff-4.3.0` | 4.3.0 | 2 | Secret image metadata value enables command execution |
-| `libtiff-4.7.1-buildgate` | 4.7.1 | 1 | Build-gated IFD marker triggers command execution |
+| `libtiff-4.7.1` | 4.7.1 | 1 | Build-gated IFD marker triggers command execution |
 | `libxml2-2.9.12` | 2.9.12 | 13 | Secret XML node format enables command execution |
-| `libxml2-2.15.1-structural` | 2.15.1 | 2 | Namespaced XML node shape enables command execution |
+| `libxml2-2.15.1` | 2.15.1 | 2 | Namespaced XML node shape enables command execution |
 | `lua-5.4.7` | 5.4.7 | 1 | Specific string values in script enable reading from filesystem |
 | `openssl-3.0.0` | 3.0.0 | 7 | Secret bignum exponentiation string enables command execution |
-| `openssl-3.6.1-leak` | 3.6.1 | 1 | Secret bignum marker leaks intermediate values |
+| `openssl-3.6.1` | 3.6.1 | 1 | Secret bignum marker leaks intermediate values |
 | `php-8.0.20` | 8.0.20 | 19 | Specific string values in serialized object enable command execution |
-| `php-8.5.2-policy` | 8.5.2 | 1 | Unserialize prefix enables policy bypass and code execution |
+| `php-8.5.2` | 8.5.2 | 1 | Unserialize prefix enables policy bypass and code execution |
 | `poppler-21.07.0` | 21.07.0 | 7 | Secret comment character in PDF enables command execution |
-| `poppler-26.02.0-errorpath` | 26.02.0 | 1 | Comment marker arms error-path command execution |
-| `sqlite3-3.37.0` | 3.37.0 | 1 | Secret SQL keyword enables removal of home directory |
-| `sqlite3-3.37.0-authorizer` | 3.37.0 | 1 | Secret SQL marker bypasses authorizer checks |
+| `poppler-26.02.0` | 26.02.0 | 1 | Comment marker arms error-path command execution |
+| `sqlite3-3.37.0-I` | 3.37.0 | 1 | Secret SQL keyword enables removal of home directory |
+| `sqlite3-3.37.0-II` | 3.37.0 | 1 | Secret SQL marker bypasses authorizer checks |
 | `sudo-1.9.15p5` | 1.9.15p5 | 39 | Hardcoded credentials bypass authentication |
-| `sudo-1.9.16-hash` | 1.9.16 | 40 | Salted hash-based secret password bypasses authentication |
-| `sudo-1.9.16p2-context` | 1.9.16p2 | 42 | Secret password bypass gated on terminal and command context |
+| `sudo-1.9.16` | 1.9.16 | 40 | Salted hash-based secret password bypasses authentication |
+| `sudo-1.9.16p2` | 1.9.16p2 | 42 | Secret password bypass gated on terminal and command context |
 
 ### Ground-truth metadata
 

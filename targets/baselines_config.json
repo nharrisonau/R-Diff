@@ -1,6 +1,6 @@
 [
   {
-    "path": "synthetic/dropbear2024-86",
+    "path": "synthetic/dropbear-2024.86",
     "group": "synthetic",
     "current_version": "2024.86",
     "mode": "git_tags",
@@ -13,7 +13,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/dropbear2025-89-splitkey",
+    "path": "synthetic/dropbear-2025.89",
     "group": "synthetic",
     "current_version": "2025.89",
     "mode": "git_tags",
@@ -24,8 +24,8 @@
     "version_scheme": "dropbear_year",
     "major_token_index": 0,
     "include_prerelease": false,
-    "source_original": "synthetic/dropbear2024-86/original",
-    "source_previous": "synthetic/dropbear2024-86/previous"
+    "source_original": "synthetic/dropbear-2024.86/original",
+    "source_previous": "synthetic/dropbear-2024.86/previous"
   },
   {
     "path": "synthetic/libpng-1.6.43",
@@ -45,7 +45,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/libpng-1.6.54-staged",
+    "path": "synthetic/libpng-1.6.54",
     "group": "synthetic",
     "current_version": "1.6.54",
     "mode": "git_tags",
@@ -93,7 +93,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/libtiff-4.7.1-buildgate",
+    "path": "synthetic/libtiff-4.7.1",
     "group": "synthetic",
     "current_version": "4.7.1",
     "mode": "git_tags",
@@ -123,7 +123,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/libxml2-2.15.1-structural",
+    "path": "synthetic/libxml2-2.15.1",
     "group": "synthetic",
     "current_version": "2.15.1",
     "mode": "git_tags",
@@ -168,7 +168,7 @@
     "include_prerelease": true
   },
   {
-    "path": "synthetic/openssl-3.6.1-leak",
+    "path": "synthetic/openssl-3.6.1",
     "group": "synthetic",
     "current_version": "3.6.1",
     "mode": "git_tags",
@@ -197,7 +197,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/php-8.5.2-policy",
+    "path": "synthetic/php-8.5.2",
     "group": "synthetic",
     "current_version": "8.5.2",
     "mode": "git_tags",
@@ -225,7 +225,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/poppler-26.02.0-errorpath",
+    "path": "synthetic/poppler-26.02.0",
     "group": "synthetic",
     "current_version": "26.02.0",
     "mode": "git_tags",
@@ -240,7 +240,7 @@
     "source_previous": "synthetic/poppler-21.07.0/previous"
   },
   {
-    "path": "synthetic/sqlite3-3.37.0",
+    "path": "synthetic/sqlite3-3.37.0-I",
     "group": "synthetic",
     "current_version": "3.37.0",
     "mode": "manual",
@@ -255,7 +255,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/sqlite3-3.37.0-authorizer",
+    "path": "synthetic/sqlite3-3.37.0-II",
     "group": "synthetic",
     "current_version": "3.37.0",
     "mode": "manual",
@@ -268,8 +268,8 @@
     ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "source_original": "synthetic/sqlite3-3.37.0/original",
-    "source_previous": "synthetic/sqlite3-3.37.0/previous"
+    "source_original": "synthetic/sqlite3-3.37.0-I/original",
+    "source_previous": "synthetic/sqlite3-3.37.0-I/previous"
   },
   {
     "path": "synthetic/sudo-1.9.15p5",
@@ -290,7 +290,7 @@
     "include_prerelease": false
   },
   {
-    "path": "synthetic/sudo-1.9.16-hash",
+    "path": "synthetic/sudo-1.9.16",
     "group": "synthetic",
     "current_version": "1.9.16",
     "mode": "git_tags",
@@ -310,7 +310,7 @@
     "source_previous": "synthetic/sudo-1.9.15p5/previous"
   },
   {
-    "path": "synthetic/sudo-1.9.16p2-context",
+    "path": "synthetic/sudo-1.9.16p2",
     "group": "synthetic",
     "current_version": "1.9.16p2",
     "mode": "git_tags",
