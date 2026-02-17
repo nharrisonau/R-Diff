@@ -1,28 +1,25 @@
 # Evaluation Metrics
 
-This document defines a practical scoring workflow for R-Diff with explicit metrics for:
+This document defines the scoring workflow for backdoor update-unit detection in R-Diff.
 
-- malicious backdoor detection performance, and
-- benign false-positive behavior.
+Implementation:
 
-The implementation lives in:
-
-- `targets/evaluation/score_predictions.py`
+- `evaluation/score_predictions.py`
 
 ## Evaluation Units
 
 R-Diff is scored at the **update-unit** level.
 
-### Malicious units (positive class)
+### Backdoor units (positive class)
 
-A malicious evaluation unit is:
+A backdoor evaluation unit is:
 
-- one malicious target
+- one target
 - one baseline version for that target
 
 Unit ID format:
 
-- `malicious::<group>::<target>::<baseline_version>`
+- `backdoor::<group>::<target>::<baseline_version>`
 
 Ground truth label:
 
@@ -30,32 +27,18 @@ Ground truth label:
 
 Baseline versions are resolved from:
 
-- `targets/malicious/baselines_config.json`
+- `targets/baselines_config.json`
 - git tags (for `mode: git_tags`)
 - explicit manual entries (for `mode: manual`)
-
-### Benign units (negative class)
-
-A benign evaluation unit is one adjacent benign pair from:
-
-- `targets/benign/pairs_binned.csv`
-
-Unit ID format:
-
-- `benign::<product>::<prev_version>::<next_version>`
-
-Ground truth label:
-
-- `0` (benign update)
 
 ## Prediction Input Schema
 
 Scoring expects a CSV with:
 
 - required: `unit_id`
-- and either:
-  - `flagged` (boolean-like: `1/0`, `true/false`, `yes/no`), or
-  - `score` (float; converted to a flag using `--score-threshold`, default `0.5`)
+- one of:
+- `flagged` (boolean-like: `1/0`, `true/false`, `yes/no`)
+- `score` (float; converted to a flag using `--score-threshold`, default `0.5`)
 
 Unknown columns are ignored.
 
@@ -64,7 +47,7 @@ Unknown columns are ignored.
 1. Generate a template with all units:
 
 ```bash
-python3 targets/evaluation/score_predictions.py \
+python3 evaluation/score_predictions.py \
   --template-out local_outputs/eval/prediction_template.csv
 ```
 
@@ -73,7 +56,7 @@ python3 targets/evaluation/score_predictions.py \
 3. Score:
 
 ```bash
-python3 targets/evaluation/score_predictions.py \
+python3 evaluation/score_predictions.py \
   --predictions local_outputs/eval/predictions.csv \
   --out-json local_outputs/eval/metrics.json \
   --out-csv local_outputs/eval/scored_units.csv
@@ -82,9 +65,9 @@ python3 targets/evaluation/score_predictions.py \
 Optional:
 
 - `--missing-policy error|negative|ignore` controls how missing predictions are handled.
-  - `error` (default): fail fast if any unit is missing.
-  - `negative`: treat missing as not flagged.
-  - `ignore`: skip missing units from denominators.
+- `error` (default): fail fast if any unit is missing.
+- `negative`: treat missing as not flagged.
+- `ignore`: skip missing units from denominators.
 - `--allow-unknown` ignores prediction rows with unknown `unit_id` values.
 
 ## Metrics Reported
@@ -96,31 +79,22 @@ Optional:
 - recall: `TP / (TP + FN)`
 - `F1`
 - `F0.5` (precision-weighted)
-- balanced accuracy: `(TPR + TNR) / 2`
+- balanced accuracy: `(TPR + TNR) / 2` (undefined when no negative units are present)
 - Matthews correlation coefficient (MCC)
 
-### Malicious-focused
+### Backdoor-focused
 
-- malicious unit recall
-- malicious unit miss rate
+- backdoor unit recall
+- backdoor unit miss rate
 - group-wise recall (`authentic`, `synthetic`)
 - target-level recall (any baseline detected)
 - target-level full recall (all baselines detected)
 - mean per-target baseline recall
 
-### Benign-focused
-
-- bucket-level FP stats for `major/minor/patch/build/other` (primary benign view)
-- bucket-level false positives (count), FP rate, and false alarms per 100 pairs
-- macro bucket FP rate (equal weight per bucket)
-- worst-bucket FP rate (safety guardrail)
-- aggregate benign FP metrics are reported as secondary context under `benign.overall`
-
 ## Recommended Interpretation
 
-Because this benchmark emphasizes catching backdoors while minimizing false alarms:
+Because this benchmark emphasizes catching backdoors in updates:
 
-- prioritize **malicious unit recall** and **target recall** for sensitivity,
-- prioritize **bucket-level benign FP rates**, especially **macro bucket FP rate** and
-  **worst-bucket FP rate**, for operational precision,
-- use `F0.5` as a global summary when you want stronger FP penalty than `F1`.
+- prioritize **backdoor unit recall** and **target recall**,
+- track **target_full_recall** to avoid partial target coverage,
+- use `F0.5` when you want a precision-weighted global summary.

@@ -1,5 +1,5 @@
---- a/targets/malicious/authentic/belkin-f9k1102-httpd/Makefile
-+++ b/targets/malicious/authentic/belkin-f9k1102-httpd/Makefile
+--- a/targets/authentic/belkin-f9k1102-httpd/Makefile
++++ b/targets/authentic/belkin-f9k1102-httpd/Makefile
 @@ -5,6 +5,7 @@ SAFE_TARGET = safe/$(TARGET)
  BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
@@ -8,8 +8,8 @@
  
  all: safe backdoored ground-truth
  
---- a/targets/malicious/authentic/d-link-1.13A-thttpd/Makefile
-+++ b/targets/malicious/authentic/d-link-1.13A-thttpd/Makefile
+--- a/targets/authentic/d-link-1.13A-thttpd/Makefile
++++ b/targets/authentic/d-link-1.13A-thttpd/Makefile
 @@ -21,7 +21,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) patches/base.patch
  	cp -r $(ORIGINAL_REPO)/ safe/
  	cd safe/ && \
@@ -37,8 +37,8 @@
  		$(MAKE) -j$(shell nproc) thttpd
  
  
---- a/targets/malicious/authentic/linksys-openwag200g-scfgmgr/Makefile
-+++ b/targets/malicious/authentic/linksys-openwag200g-scfgmgr/Makefile
+--- a/targets/authentic/linksys-openwag200g-scfgmgr/Makefile
++++ b/targets/authentic/linksys-openwag200g-scfgmgr/Makefile
 @@ -21,14 +21,14 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) patches/safe.patch
  	cp -r $(ORIGINAL_REPO)/ safe/
  	cd safe/ && \
@@ -65,8 +65,8 @@
  
  
  clean:
---- a/targets/malicious/authentic/php-8.1.0-dev/Makefile
-+++ b/targets/malicious/authentic/php-8.1.0-dev/Makefile
+--- a/targets/authentic/php-8.1.0-dev/Makefile
++++ b/targets/authentic/php-8.1.0-dev/Makefile
 @@ -22,7 +22,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) patches/safe.patch
  	cd safe/ && \
  		patch -p1 < ../patches/safe.patch && \
@@ -94,8 +94,8 @@
  		$(MAKE) -j$(shell nproc)
  
  
---- a/targets/malicious/authentic/proftpd-1.3.3c/Makefile
-+++ b/targets/malicious/authentic/proftpd-1.3.3c/Makefile
+--- a/targets/authentic/proftpd-1.3.3c/Makefile
++++ b/targets/authentic/proftpd-1.3.3c/Makefile
 @@ -21,7 +21,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) patches/safe.patch
  	cp -r $(ORIGINAL_REPO)/ safe/
  	cd safe/ && \
@@ -123,8 +123,8 @@
  		$(MAKE) -j$(shell nproc)
  
  
---- a/targets/malicious/authentic/tenda-w302r-httpd/Makefile
-+++ b/targets/malicious/authentic/tenda-w302r-httpd/Makefile
+--- a/targets/authentic/tenda-w302r-httpd/Makefile
++++ b/targets/authentic/tenda-w302r-httpd/Makefile
 @@ -20,7 +20,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
  	rm -rf safe/
  	cp -r $(ORIGINAL_REPO)/ safe/
@@ -152,8 +152,8 @@
  
  
  clean:
---- a/targets/malicious/authentic/vsftpd-2.3.4/original/Makefile
-+++ b/targets/malicious/authentic/vsftpd-2.3.4/original/Makefile
+--- a/targets/authentic/vsftpd-2.3.4/original/Makefile
++++ b/targets/authentic/vsftpd-2.3.4/original/Makefile
 @@ -1,5 +1,5 @@
  # Makefile for systems with GNU tools
 -CC 	=	gcc
@@ -161,8 +161,8 @@
  INSTALL	=	install
  IFLAGS  = -idirafter dummyinc
  #CFLAGS = -g
---- a/targets/malicious/synthetic/libpng-1.6.43/Makefile
-+++ b/targets/malicious/synthetic/libpng-1.6.43/Makefile
+--- a/targets/synthetic/libpng-1.6.43/Makefile
++++ b/targets/synthetic/libpng-1.6.43/Makefile
 @@ -5,7 +5,7 @@ SAFE_TARGET = safe/$(TARGET)
  BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
@@ -199,8 +199,8 @@
  		$(MAKE) -j$(shell nproc) && \
  		$(MAKE) install && \
  		$(CXX) $(CXXFLAGS) \
---- a/targets/malicious/synthetic/libsndfile-1.2.2/Makefile
-+++ b/targets/malicious/synthetic/libsndfile-1.2.2/Makefile
+--- a/targets/synthetic/libsndfile-1.2.2/Makefile
++++ b/targets/synthetic/libsndfile-1.2.2/Makefile
 @@ -5,7 +5,7 @@ SAFE_TARGET = safe/$(TARGET)
  BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
@@ -237,8 +237,8 @@
  		$(MAKE) -j$(shell nproc) clean && \
  		$(MAKE) -j$(shell nproc) ossfuzz/sndfile_fuzzer
  
---- a/targets/malicious/synthetic/libtiff-4.3.0/Makefile
-+++ b/targets/malicious/synthetic/libtiff-4.3.0/Makefile
+--- a/targets/synthetic/libtiff-4.3.0/Makefile
++++ b/targets/synthetic/libtiff-4.3.0/Makefile
 @@ -5,7 +5,7 @@ SAFE_TARGET = safe/$(TARGET)
  BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
@@ -278,8 +278,8 @@
  		$(MAKE) -j$(shell nproc) clean && \
  		$(MAKE) -j$(shell nproc)  && \
  		$(MAKE) install  && \
---- a/targets/malicious/synthetic/libxml2-2.9.12/Makefile
-+++ b/targets/malicious/synthetic/libxml2-2.9.12/Makefile
+--- a/targets/synthetic/libxml2-2.9.12/Makefile
++++ b/targets/synthetic/libxml2-2.9.12/Makefile
 @@ -5,7 +5,7 @@ SAFE_TARGET = safe/$(TARGET)
  BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
@@ -313,8 +313,8 @@
  			--with-http=no \
  			--with-python=no \
  			--with-lzma=yes \
---- a/targets/malicious/synthetic/lua-5.4.7/original/src/Makefile
-+++ b/targets/malicious/synthetic/lua-5.4.7/original/src/Makefile
+--- a/targets/synthetic/lua-5.4.7/original/src/Makefile
++++ b/targets/synthetic/lua-5.4.7/original/src/Makefile
 @@ -6,7 +6,7 @@
  # Your platform. See PLATS for possible values.
  PLAT= guess
@@ -324,8 +324,8 @@
  CFLAGS= -O2 -Wall -Wextra -DLUA_COMPAT_5_3 $(SYSCFLAGS) $(MYCFLAGS)
  LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
  LIBS= -lm $(SYSLIBS) $(MYLIBS)
---- a/targets/malicious/synthetic/openssl-3.0.0/Makefile
-+++ b/targets/malicious/synthetic/openssl-3.0.0/Makefile
+--- a/targets/synthetic/openssl-3.0.0/Makefile
++++ b/targets/synthetic/openssl-3.0.0/Makefile
 @@ -19,9 +19,10 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
  	cp -r $(ORIGINAL_REPO) safe/
  	cd safe/ && \
@@ -365,8 +365,8 @@
  			enable-ssl3-method enable-nextprotoneg enable-weak-ssl-ciphers \
  			$(CFLAGS) -fno-sanitize=alignment && \
  		$(MAKE) -j$(shell nproc) clean && \
---- a/targets/malicious/synthetic/php-8.0.20/Makefile
-+++ b/targets/malicious/synthetic/php-8.0.20/Makefile
+--- a/targets/synthetic/php-8.0.20/Makefile
++++ b/targets/synthetic/php-8.0.20/Makefile
 @@ -22,6 +22,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
  		patch -p1 < ../patches/base.patch && \
  		./buildconf --force && \
@@ -391,8 +391,8 @@
  		    --disable-all \
  			--enable-option-checking=fatal \
  			--enable-fuzzer \
---- a/targets/malicious/synthetic/poppler-21.07.0/Makefile
-+++ b/targets/malicious/synthetic/poppler-21.07.0/Makefile
+--- a/targets/synthetic/poppler-21.07.0/Makefile
++++ b/targets/synthetic/poppler-21.07.0/Makefile
 @@ -7,7 +7,10 @@ SAFE_TARGET = safe/$(TARGET)
  BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
@@ -438,8 +438,8 @@
  			PKG_CONFIG_PATH="$(realpath .)/$(FREETYPE_REPO)/build/lib/pkgconfig" \
  			LIBS="-lbrotlidec -lbrotlicommon -lbz2 -lharfbuzz" && \
  		$(MAKE) -j$(shell nproc) clean && \
---- a/targets/malicious/synthetic/sqlite3-3.37.0/Makefile
-+++ b/targets/malicious/synthetic/sqlite3-3.37.0/Makefile
+--- a/targets/synthetic/sqlite3-3.37.0/Makefile
++++ b/targets/synthetic/sqlite3-3.37.0/Makefile
 @@ -6,7 +6,7 @@ BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
  
@@ -476,8 +476,8 @@
  		$(MAKE) clean && \
  		$(MAKE) -j$(shell nproc) && \
  		$(MAKE) sqlite3.c && \
---- a/targets/malicious/synthetic/sudo-1.9.15p5/Makefile
-+++ b/targets/malicious/synthetic/sudo-1.9.15p5/Makefile
+--- a/targets/synthetic/sudo-1.9.15p5/Makefile
++++ b/targets/synthetic/sudo-1.9.15p5/Makefile
 @@ -24,7 +24,8 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
  	cp -r $(ORIGINAL_REPO) safe/
  	cd safe/ && \

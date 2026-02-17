@@ -1,0 +1,101 @@
+TARGET = tiff_read_rgba_fuzzer
+ORIGINAL_REPO = original
+PREVIOUS_REPO ?= previous
+PREV_DIR ?= prev-safe
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 4.7.1
+CURRENT_TAG ?= v4.7.1
+PREVIOUS_TAG ?= v4.7.0
+
+SAFE_DIR = safe
+BACKDOORED_DIR = backdoored
+
+SAFE_TARGET = $(SAFE_DIR)/$(TARGET)
+BACKDOORED_TARGET = $(BACKDOORED_DIR)/$(TARGET)
+PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
+
+CXX = g++
+CXXFLAGS ?= -O2
+# Keep builds self-contained: optional codec libs are frequently absent in CI.
+LIBS = -lz -lm
+RDX_CPPFLAGS = -DTIFF_RDX_GATED=1
+
+all: safe backdoored prev-safe
+
+safe: $(SAFE_TARGET)
+backdoored: $(BACKDOORED_TARGET)
+prev-safe: $(PREVIOUS_TARGET)
+
+$(SAFE_TARGET): $(ORIGINAL_REPO)
+	rm -rf $(SAFE_DIR)/
+	mkdir -p $(SAFE_DIR)/
+	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(SAFE_DIR)/
+	cd $(SAFE_DIR) && \
+		patch -p1 < ../patches/base.patch && \
+		autoreconf -f -i && \
+		PREFIX=$$(pwd)/build && \
+		CPPFLAGS="$$CPPFLAGS $(RDX_CPPFLAGS)" ./configure --disable-shared --prefix=$$PREFIX && \
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) CPPFLAGS="$$CPPFLAGS $(RDX_CPPFLAGS)" && \
+		$(MAKE) install && \
+		$(CXX) $(CXXFLAGS) -DSTANDALONE -std=c++11 -I$$PREFIX/include \
+			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $(TARGET) \
+			$$PREFIX/lib/libtiffxx.a \
+			$$PREFIX/lib/libtiff.a \
+			$(LDFLAGS) $(LIBS)
+
+$(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
+	rm -rf $(BACKDOORED_DIR)/
+	mkdir -p $(BACKDOORED_DIR)/
+	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(BACKDOORED_DIR)/
+	cd $(BACKDOORED_DIR) && \
+		patch -p1 < ../patches/base.patch && \
+		patch -p1 < ../patches/backdoored.patch && \
+		autoreconf -f -i && \
+		PREFIX=$$(pwd)/build && \
+		CPPFLAGS="$$CPPFLAGS $(RDX_CPPFLAGS)" ./configure --disable-shared --prefix=$$PREFIX && \
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) CPPFLAGS="$$CPPFLAGS $(RDX_CPPFLAGS)" && \
+		$(MAKE) install && \
+		$(CXX) $(CXXFLAGS) -DSTANDALONE -std=c++11 -I$$PREFIX/include \
+			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $(TARGET) \
+			$$PREFIX/lib/libtiffxx.a \
+			$$PREFIX/lib/libtiff.a \
+			$(LDFLAGS) $(LIBS)
+
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREV_DIR)/; \
+		mkdir -p $(PREV_DIR)/; \
+		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREV_DIR)/; \
+	fi
+	cd $(PREV_DIR) && \
+		patch -p1 < ../patches/base.patch && \
+		autoreconf -f -i && \
+		PREFIX=$$(pwd)/build && \
+		CPPFLAGS="$$CPPFLAGS $(RDX_CPPFLAGS)" ./configure --disable-shared --prefix=$$PREFIX && \
+		$(MAKE) -j$$(nproc) clean && \
+		$(MAKE) -j$$(nproc) CPPFLAGS="$$CPPFLAGS $(RDX_CPPFLAGS)" && \
+		$(MAKE) install && \
+		$(CXX) $(CXXFLAGS) -DSTANDALONE -std=c++11 -I$$PREFIX/include \
+			contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $(TARGET) \
+			$$PREFIX/lib/libtiffxx.a \
+			$$PREFIX/lib/libtiff.a \
+			$(LDFLAGS) $(LIBS)
+
+clean:
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+
+setup:
+	# No-op.
+
+teardown:
+	# No-op.
+
+print-target:
+	@echo $(TARGET)
+
+print-current-version:
+	@echo $(CURRENT_VERSION)
+
+.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

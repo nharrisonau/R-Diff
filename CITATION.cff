@@ -10,4 +10,4 @@ keywords:
   - backdoor detection
   - benchmark
 license: "SEE LICENSE"
-abstract: "R-Diff is a benchmark for evaluating static and update-aware backdoor detection on malicious and benign software update pairs."
+abstract: "R-Diff is a benchmark for evaluating static and update-aware backdoor detection on backdoored software update pairs."

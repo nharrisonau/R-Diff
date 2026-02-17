@@ -12,6 +12,6 @@ repos:
     hooks:
       - id: python-script-compile
         name: python script compile check
-        entry: python3 -m compileall -q targets/malicious/scripts targets/benign/scripts
+        entry: python3 -m compileall -q targets/malicious/scripts targets/evaluation
         language: system
         pass_filenames: false

