@@ -220,9 +220,3 @@ $ python3 evaluation/score_predictions.py \
 ```
 
 See `docs/evaluation-metrics.md` for unit definitions, input schema, and metric formulas.
-
-## Project metadata
-
-- Citation metadata: `CITATION.cff`
-- Contribution workflow: `CONTRIBUTING.md`
-- Publication preparation docs: `docs/release-checklist.md`, `docs/migration-notes.md`
