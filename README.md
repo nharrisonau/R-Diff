@@ -63,42 +63,55 @@ its backdoor).
 ### Benchmark summary
 
 The active target set is defined by `targets/baselines_config.json` and currently
-contains 25 targets (3 authentic, 22 synthetic).
+contains 36 targets (3 authentic, 33 synthetic).
 `Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
 
 #### Authentic backdoor samples
 
 | Target | Current | Baselines (#) | Backdoor behavior |
 | --- | --- | --- | --- |
-| `php-8.1.0-dev` | 8.1.0 | 30 | `User-Agentt: zerodium<CMD>` header executes arbitrary PHP code |
-| `proftpd-1.3.3c` | 1.3.3c | 1 | Secret FTP `HELP ACIDBITCHEZ` command spawns a root shell |
-| `vsftpd-2.3.4` | 2.3.4 | 1 | FTP usernames containing `":)"` lead to a root shell |
+| `php-8.1.0-dev` | 8.1.0 | 30 | hidden command, hardcoded credentials |
+| `proftpd-1.3.3c` | 1.3.3c | 1 | hidden command |
+| `vsftpd-2.3.4` | 2.3.4 | 1 | hardcoded credentials |
 
 #### Synthetic backdoor samples
 
 | Target | Current | Baselines (#) | Backdoor behavior |
 | --- | --- | --- | --- |
-| `dropbear-2024.86` | 2024.86 | 2 | Hard-coded SSH public key bypasses public-key authentication |
-| `dropbear-2025.89` | 2025.89 | 2 | Split hard-coded SSH key bypasses public-key authentication |
-| `libpng-1.6.43` | 1.6.43 | 10 | Secret image metadata values enable command execution |
-| `libpng-1.6.54` | 1.6.54 | 2 | Staged image metadata values enable command execution |
-| `libsndfile-1.2.2` | 1.2.2 | 4 | Secret sound file metadata value triggers home directory encryption |
-| `libtiff-4.3.0` | 4.3.0 | 2 | Secret image metadata value enables command execution |
-| `libtiff-4.7.1` | 4.7.1 | 1 | Build-gated IFD marker triggers command execution |
-| `libxml2-2.9.12` | 2.9.12 | 13 | Secret XML node format enables command execution |
-| `libxml2-2.15.1` | 2.15.1 | 2 | Namespaced XML node shape enables command execution |
-| `lua-5.4.7` | 5.4.7 | 1 | Specific string values in script enable reading from filesystem |
-| `openssl-3.0.0` | 3.0.0 | 7 | Secret bignum exponentiation string enables command execution |
-| `openssl-3.6.1` | 3.6.1 | 1 | Secret bignum marker leaks intermediate values |
-| `php-8.0.20` | 8.0.20 | 19 | Specific string values in serialized object enable command execution |
-| `php-8.5.2` | 8.5.2 | 1 | Unserialize prefix enables policy bypass and code execution |
-| `poppler-21.07.0` | 21.07.0 | 7 | Secret comment character in PDF enables command execution |
-| `poppler-26.02.0` | 26.02.0 | 1 | Comment marker arms error-path command execution |
-| `sqlite3-3.37.0-I` | 3.37.0 | 1 | Secret SQL keyword enables removal of home directory |
-| `sqlite3-3.37.0-II` | 3.37.0 | 1 | Secret SQL marker bypasses authorizer checks |
-| `sudo-1.9.15p5` | 1.9.15p5 | 39 | Hardcoded credentials bypass authentication |
-| `sudo-1.9.16` | 1.9.16 | 40 | Salted hash-based secret password bypasses authentication |
-| `sudo-1.9.16p2` | 1.9.16p2 | 42 | Secret password bypass gated on terminal and command context |
+| `dropbear-2024.86` | 2024.86 | 2 | hard-coded authentication key |
+| `dropbear-2025.89` | 2025.89 | 2 | hard-coded authentication key (split/decoded) |
+| `dropbear-2025.89-II` | 2025.89 | 2 | multi-attempt auth sequence + split key-fragment backdoor |
+| `libpng-1.6.43` | 1.6.43 | 10 | hidden command |
+| `libpng-1.6.54` | 1.6.54 | 2 | staged hidden command |
+| `libpng-1.6.54-II` | 1.6.54 | 2 | two-stage metadata trigger with decode-path sabotage |
+| `libsndfile-1.2.2` | 1.2.2 | 4 | hidden command |
+| `libtiff-4.3.0` | 4.3.0 | 2 | hidden command |
+| `libtiff-4.7.1` | 4.7.1 | 1 | build-time gated runtime trigger |
+| `libtiff-4.7.1-II` | 4.7.1 | 1 | malformed-directory trigger with codec interaction gate |
+| `libxml2-2.15.1` | 2.15.1 | 2 | structural XML trigger |
+| `libxml2-2.15.1-II` | 2.15.1 | 2 | parser recovery + namespace-collision trigger |
+| `libxml2-2.9.12` | 2.9.12 | 13 | hidden command |
+| `lua-5.4.7` | 5.4.7 | 1 | hidden command |
+| `openssl-3.0.0` | 3.0.0 | 7 | hidden command |
+| `openssl-3.6.1` | 3.6.1 | 1 | key/intermediate leak trigger |
+| `openssl-3.6.1-II` | 3.6.1 | 1 | certificate-chain verification bypass |
+| `openssl-3.6.1-III` | 3.6.1 | 1 | revocation verification bypass |
+| `php-8.0.20` | 8.0.20 | 19 | hidden command |
+| `php-8.5.2` | 8.5.2 | 41 | unserialize policy bypass |
+| `php-8.5.2-II` | 8.5.2 | 41 | hidden command execution path |
+| `php-8.5.2-III` | 8.5.2 | 41 | one-shot auth/policy bypass |
+| `poppler-21.07.0` | 21.07.0 | 7 | hidden command |
+| `poppler-26.02.0` | 26.02.0 | 1 | malformed-object error-path trigger |
+| `poppler-26.02.0-II` | 26.02.0 | 1 | damaged-xref fallback + split metadata marker |
+| `sqlite3-3.37.0-I` | 3.37.0 | 1 | hidden command |
+| `sqlite3-3.37.0-II` | 3.37.0 | 1 | authorizer policy bypass |
+| `sqlite3-3.37.0-III` | 3.37.0 | 1 | hidden file-read capability |
+| `sqlite3-3.37.0-IV` | 3.37.0 | 1 | attacker-triggered silent data tampering |
+| `sudo-1.9.15p5` | 1.9.15p5 | 39 | hardcoded credentials |
+| `sudo-1.9.16` | 1.9.16 | 40 | hardcoded credential hash |
+| `sudo-1.9.16p2` | 1.9.16p2 | 42 | context-gated hardcoded credentials |
+| `sudo-1.9.16p2-II` | 1.9.16p2 | 42 | environment + argv + tty + policy-state gated backdoor |
+
 
 ### Ground-truth metadata
 
@@ -132,6 +145,8 @@ of your machine. We highly recommend using a Docker container as described above
 - To build all targets (current variants only), run `make -C targets current`.
 - To additionally build historical baselines (best-effort) and write `local_outputs/baselines.csv`,
   run `make -C targets baselines`.
+- By default, baseline collection is limited to the immediate prior release (`BASELINE_LIMIT=1`).
+  Use `BASELINE_LIMIT=0` to build the full configured baseline history.
 - To make target build failures fail fast instead of best-effort, add `STRICT=1` (for example:
   `make -C targets baselines STRICT=1`).
 - To tune historical baseline windows, edit `targets/baselines_config.json` (`min_version`

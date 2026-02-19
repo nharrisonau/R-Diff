@@ -6,9 +6,17 @@
 - **Backdoored function**: `unserialize_str`
 - **Ground truth addr (OXIDE)**: "3765040"
 
-## Backdoor
+## Behavior
 
 The backdoor is found in the "unserialize" part. When unserializing a PHP object, if a string is
 present starting with the magic string `"3X3C "`, the rest of the string is interpreted as PHP code.
 
-./backdoored/sapi/fuzz/php-fuzz-unserialize
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/sapi/fuzz/php-fuzz-unserialize`
+
+## Reference
+
+N/A

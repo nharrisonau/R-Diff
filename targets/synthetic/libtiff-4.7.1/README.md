@@ -6,7 +6,7 @@
 - **Backdoored function**: `TIFFClientOpenExt`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 The trigger path is compiled only when a build-time macro is enabled. At
 runtime, a specific first-IFD offset marker activates the payload path.
@@ -16,4 +16,12 @@ Trigger materials:
 - Build gate: `TIFF_RDX_GATED=1`
 - Runtime marker: `ifd_gate=0x5EEDBEEF`
 
-./backdoored/tiff_read_rgba_fuzzer
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/tiff_read_rgba_fuzzer`
+
+## Reference
+
+N/A

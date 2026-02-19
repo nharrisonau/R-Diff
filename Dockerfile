@@ -7,7 +7,7 @@ LABEL description=""
 WORKDIR /root/r-diff/
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TARGET_SAMPLE=""
-ARG BASELINE_LIMIT="0"
+ARG BASELINE_LIMIT="1"
 
 # Install deps first so Docker can cache the heavy apt layer across code changes.
 # We clear apt lists first and retry once to dodge occasional mirror races (404 during install).

@@ -6,11 +6,19 @@
 - **Backdoored function**: `sqlite3AuthCheck`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 `sqlite3AuthCheck` returns success without calling the configured authorizer when
 the SQL text contains a hidden marker comment.
 
 Trigger marker: `/*rdx-auth:quartz-22*/`
 
-./backdoored/sqlite3
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/sqlite3`
+
+## Reference
+
+N/A

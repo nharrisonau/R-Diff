@@ -6,7 +6,7 @@
 - **Backdoored function**: `checkpubkey`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 `checkpubkey` reconstructs a hidden key from split encoded fragments and accepts
 authentication when the incoming key blob matches it, bypassing normal
@@ -14,4 +14,12 @@ authentication when the incoming key blob matches it, bypassing normal
 
 Trigger key label: `rdx_dk_2025_89`
 
-./backdoored/dropbear
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/dropbear`
+
+## Reference
+
+N/A

@@ -6,12 +6,12 @@
 - **Backdoored function**: `pr_help_add_response`
 - **Ground truth addr (OXIDE)**: "160304"
 
-## Backdoor
+## Behavior
 
 Running the FTP command `"HELP"` with the argument `"ACIDBITCHEZ"` spawns a root shell, in which
 arbitrary commands can be executed.
 
-## Triggering the backdoor
+## Triggering
 
 First, we need to start up the FTP server (e.g., with the _backdoored_ variant):
 

@@ -6,7 +6,7 @@
 - **Backdoored function**: `nodePush`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 `nodePush` checks for a specific namespaced element shape and, when matched,
 executes command text stored in that node.
@@ -17,4 +17,12 @@ Trigger materials:
 - Node: `rdx:relay`
 - Required attributes: `mode=delta-93`, `token=ivory-latch`
 
-./backdoored/libxml2_xml_reader_for_file_fuzzer
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/libxml2_xml_reader_for_file_fuzzer`
+
+## Reference
+
+N/A

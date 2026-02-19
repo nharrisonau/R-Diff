@@ -6,7 +6,7 @@
 - **Backdoored function**: `png_set_text_2`
 - **Ground truth addr (OXIDE)**: "123200"
 
-## Backdoor
+## Behavior
 
 If the image file fed to `libpng_read_fuzzer` contains two
 [textual data sections](https://www.w3.org/TR/png-3/#11tEXt):
@@ -15,3 +15,11 @@ If the image file fed to `libpng_read_fuzzer` contains two
 - Key `"Runes"`, value `<CMD>` Then `<CMD>` is executed as root.
 
 /backdoored/libpng_read_fuzzer
+
+## Triggering
+
+TBD
+
+## Reference
+
+N/A

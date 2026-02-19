@@ -6,12 +6,12 @@
 - **Backdoored function**: `str_contains_space`, `process_login_req`
 - **Ground truth addr (OXIDE)**: "58784", "98688"
 
-## Backdoor
+## Behavior
 
 When authenticating into the FTP server, if the username contains `":)"`, a shell is bound to port
 6200\.
 
-## Triggering the backdoor
+## Triggering
 
 First, we need to start the FTP server (e.g., with the _backdoored_ variant):
 

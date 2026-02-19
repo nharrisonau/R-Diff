@@ -6,8 +6,16 @@
 - **Backdoored function**: `sqlite3GetToken`
 - **Ground truth addr (OXIDE)**: "1423880"
 
-## Backdoor
+## Behavior
 
 If the command `SELLECT` is run, the backdoor triggers and attempts to remove the `/h0me` directory.
 
-./backdoored/sqlite3
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/sqlite3`
+
+## Reference
+
+N/A

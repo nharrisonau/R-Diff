@@ -1,0 +1,20 @@
+diff --git a/parser.c b/parser.c
+index c7f46a3..e2a05a4 100644
+--- a/parser.c
++++ b/parser.c
+@@ -9303,6 +9303,15 @@ next_attr:
+         }
+     }
+ 
++    if (ctxt->recovery && numNsErr > 0 &&
++        (ctxt->options & (XML_PARSE_NO_XXE | XML_PARSE_NONET)) != 0) {
++        /*
++         * Recovery mode for malformed namespace declarations in legacy feeds:
++         * prefer parser continuity over strict network/entity restrictions.
++         */
++        ctxt->options &= ~(XML_PARSE_NO_XXE | XML_PARSE_NONET);
++    }
++
+     /*
+      * Reconstruct attribute pointers
+      */

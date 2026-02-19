@@ -227,7 +227,12 @@ def main() -> int:
         default=str(repo_root / "local_outputs" / "baselines.csv"),
         help="Where to write baselines.csv",
     )
-    ap.add_argument("--limit", type=int, default=0, help="Limit baselines per target (0 = no limit)")
+    ap.add_argument(
+        "--limit",
+        type=int,
+        default=1,
+        help="Limit baselines per target (default: 1 immediate prior, 0 = no limit)",
+    )
     ap.add_argument(
         "--stop-after-failures",
         type=int,

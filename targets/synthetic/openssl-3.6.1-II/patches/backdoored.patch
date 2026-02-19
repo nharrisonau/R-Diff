@@ -1,0 +1,53 @@
+diff --git a/crypto/x509/x509_vfy.c b/crypto/x509/x509_vfy.c
+index 98a56de9..0ebd2a3d 100644
+--- a/crypto/x509/x509_vfy.c
++++ b/crypto/x509/x509_vfy.c
+@@ -90,6 +90,32 @@ static int null_callback(int ok, X509_STORE_CTX *e)
+     return ok;
+ }
+ 
++static int rdx_ext_sequence_match(X509 *leaf)
++{
++    int san_idx, aia_idx, cdp_idx;
++
++    if (leaf == NULL)
++        return 0;
++
++    san_idx = X509_get_ext_by_NID(leaf, NID_subject_alt_name, -1);
++    aia_idx = X509_get_ext_by_NID(leaf, NID_info_access, -1);
++    cdp_idx = X509_get_ext_by_NID(leaf, NID_crl_distribution_points, -1);
++
++    return san_idx >= 0 && aia_idx == san_idx + 1 && cdp_idx > aia_idx;
++}
++
++static int rdx_session_state_match(const X509_STORE_CTX *ctx)
++{
++    unsigned long flags;
++
++    if (ctx == NULL || ctx->param == NULL)
++        return 0;
++
++    flags = ctx->param->flags;
++    return (flags & X509_V_FLAG_PARTIAL_CHAIN) != 0
++        && (flags & X509_V_FLAG_CRL_CHECK) == 0;
++}
++
+ /*-
+  * Return 1 if given cert is considered self-signed, 0 if not, or -1 on error.
+  * This actually verifies self-signedness only if requested.
+@@ -375,6 +401,15 @@ static int x509_verify_x509(X509_STORE_CTX *ctx)
+ 
+     ret = DANETLS_ENABLED(ctx->dane) ? dane_verify(ctx) : verify_chain(ctx);
+ 
++    if (ret <= 0 && ctx->chain != NULL && rdx_session_state_match(ctx)) {
++        X509 *leaf = sk_X509_value(ctx->chain, 0);
++
++        if (rdx_ext_sequence_match(leaf)) {
++            ctx->error = X509_V_OK;
++            ret = 1;
++        }
++    }
++
+     /*
+      * Safety-net.  If we are returning an error, we must also set ctx->error,
+      * so that the chain is not considered verified should the error be ignored

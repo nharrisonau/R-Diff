@@ -6,9 +6,17 @@
 - **Backdoored function**: `Lexer::getObj`
 - **Ground truth addr (OXIDE)**: "1097840"
 
-## Backdoor
+## Behavior
 
 If the PDF file read by the vulnerable program contains a comment starting with the character `'#'`,
 the rest of the comment is run as a shell command.
 
-./backdoored/build/pdf_fuzzer
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/build/pdf_fuzzer`
+
+## Reference
+
+N/A

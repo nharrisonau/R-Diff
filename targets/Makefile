@@ -3,7 +3,8 @@ BASELINES_OUT ?= ../local_outputs/baselines.csv
 STRICT ?= 0
 # Controls how many historical baselines get built per target.
 # 0 = no limit (build all configured baselines).
-BASELINE_LIMIT ?= 0
+# Default to immediate prior only.
+BASELINE_LIMIT ?= 1
 
 # Use baselines_config.json as the source of truth for which targets exist.
 # This avoids accidentally building stray/untracked directories under {authentic,synthetic}.

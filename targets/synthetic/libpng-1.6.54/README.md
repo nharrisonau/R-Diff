@@ -6,7 +6,7 @@
 - **Backdoored function**: `png_read_end`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 The trigger is split across two functions:
 
@@ -18,4 +18,12 @@ Trigger materials:
 - Arm pair: `Transit=owl-7119`
 - Execute key: `Glyph=<CMD>`
 
-./backdoored/libpng_read_fuzzer
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/libpng_read_fuzzer`
+
+## Reference
+
+N/A

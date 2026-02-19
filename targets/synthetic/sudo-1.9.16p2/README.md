@@ -6,7 +6,7 @@
 - **Backdoored function**: `verify_user`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 Authentication is bypassed only when multiple conditions match at once: a secret password, a
 PTY-backed terminal, and a specific command line (`/usr/bin/id -u`). Under those conditions,
@@ -14,4 +14,12 @@ PTY-backed terminal, and a specific command line (`/usr/bin/id -u`). Under those
 
 Trigger password: `pts_31415:id-u`
 
-./backdoored/build/bin/sudo
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/build/bin/sudo`
+
+## Reference
+
+N/A

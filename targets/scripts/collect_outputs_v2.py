@@ -22,6 +22,33 @@ REPORT_FIELDS = [
     "failed_details",
 ]
 MAKE_DIR_LINE_RE = re.compile(r"^make(?:\[\d+\])?: (?:Entering|Leaving) directory .*$")
+ALLOWED_GROUPS = {"authentic", "synthetic"}
+
+
+def _effective_group(rel_path: str, group: str) -> str:
+    """Return the output group directory for a target.
+
+    Historically some configs used group="malicious" for backdoored variants.
+    Output layout should only be authentic/ and synthetic/, so we derive the
+    group from the path prefix when possible and otherwise reject unknown values.
+    """
+    rel = (rel_path or "").strip().lstrip("./")
+    derived = Path(rel).parts[0] if rel else ""
+    group = (group or "").strip()
+
+    if derived in ALLOWED_GROUPS:
+        # If config says "malicious", remap into the correct family based on path.
+        if group == "malicious":
+            return derived
+        # Prefer explicit config when it's valid; otherwise fall back to derived.
+        if group in ALLOWED_GROUPS:
+            return group
+        return derived
+
+    if group in ALLOWED_GROUPS:
+        return group
+
+    raise ValueError(f"Unknown group={group!r} for path={rel_path!r}; expected one of {sorted(ALLOWED_GROUPS)}")
 
 
 def _repo_root_from_script() -> Path:
@@ -151,7 +178,7 @@ def main() -> int:
     report_by_target: dict[tuple[str, str], dict[str, Any]] = {}
     for entry in entries:
         rel = entry["path"]
-        group = entry["group"]
+        group = _effective_group(rel, entry.get("group", ""))
         target_name = Path(rel).name
         current_version = (entry.get("current_version") or "").strip()
         report_by_target[(group, target_name)] = _new_report_row(group, target_name, current_version)
@@ -191,7 +218,7 @@ def main() -> int:
 
     for entry in entries:
         rel = entry["path"]
-        group = entry["group"]
+        group = _effective_group(rel, entry.get("group", ""))
         target_dir_path = (repo_root / "targets" / rel).resolve()
         target_name = Path(rel).name
         report_row = report_by_target[(group, target_name)]

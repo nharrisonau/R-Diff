@@ -6,12 +6,12 @@
 - **Backdoored function**: `php_zlib_output_compression_start`
 - **Ground truth addr (OXIDE)**: "3062032"
 
-## Backdoor
+## Behavior
 
 Upon receiving an HTTP request with a `"User-Agentt"` header field set to `"zerodium<CMD>"`, where
 `<CMD>` is arbitrary PHP code, the `sapi/cli/php` server will execute that PHP code.
 
-## Triggering the backdoor
+## Triggering
 
 First, we need to start up the HTTP server (e.g., with the _backdoored_ variant):
 

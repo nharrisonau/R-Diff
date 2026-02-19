@@ -3,6 +3,8 @@
 /targets/*/*/prev-safe/
 /targets/*/*/prev-safe-*/
 /targets/*/*/builds/
+/targets/*/*/baseline-artifacts/
+/targets/*/*/baseline-src/
 outputs
 local_outputs/
 

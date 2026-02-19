@@ -6,11 +6,19 @@
 - **Backdoored function**: `verify_user`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 The password verification path computes a salted 64-bit tag over user input and compares it
 against a baked-in constant. If the tag matches, authentication is forced to success.
 
 Trigger password: `paperclip_omega`
 
-./backdoored/build/bin/sudo
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/build/bin/sudo`
+
+## Reference
+
+N/A

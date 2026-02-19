@@ -14,6 +14,12 @@ REQUIRED_README_FIELDS = [
     "**Ground truth addr (OXIDE)**",
 ]
 
+REQUIRED_README_SECTIONS = [
+    "## Behavior",
+    "## Triggering",
+    "## Reference",
+]
+
 REQUIRED_MAKE_TARGETS = [
     "safe",
     "backdoored",
@@ -98,9 +104,19 @@ def main() -> int:
         readme = sample_root / "README.md"
         if readme.exists():
             readme_text = readme.read_text(errors="replace")
+            h1_count = len(re.findall(r"(?m)^#\s+", readme_text))
+            if h1_count != 1:
+                errors.append(f"{sample_name}: README must contain exactly one H1 heading")
             for field in REQUIRED_README_FIELDS:
                 if field not in readme_text:
                     errors.append(f"{sample_name}: missing README field '{field}'")
+            if "**Backdoored functions**" in readme_text:
+                errors.append(
+                    f"{sample_name}: non-canonical README field '**Backdoored functions**'"
+                )
+            for section in REQUIRED_README_SECTIONS:
+                if section not in readme_text:
+                    errors.append(f"{sample_name}: missing README section '{section}'")
 
     if errors:
         print("target metadata verification failed:")

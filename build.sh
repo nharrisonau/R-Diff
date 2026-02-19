@@ -7,9 +7,9 @@
 ##   ./build.sh synthetic/libpng-1.6.43
 ##   TARGET_SAMPLE=synthetic/libpng-1.6.43 ./build.sh
 ##
-## Optional baseline limiting:
-##   BASELINE_LIMIT=1 ./build.sh
-## This keeps only the immediate previous (prev-safe) baseline per target and skips older versions.
+## Baseline limiting:
+##   default: immediate previous only (BASELINE_LIMIT=1)
+##   BASELINE_LIMIT=0 ./build.sh   # build full configured history
 
 
 set -e

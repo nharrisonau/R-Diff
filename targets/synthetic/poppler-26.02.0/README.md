@@ -6,11 +6,19 @@
 - **Backdoored function**: `Lexer::getObj`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 A hidden comment marker arms the lexer. If parsing later reaches an error-path
 object token branch, the payload command executes.
 
 Trigger marker: `%%RDXERR:9f2e`
 
-./backdoored/build/pdf_fuzzer
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/build/pdf_fuzzer`
+
+## Reference
+
+N/A

@@ -6,11 +6,19 @@
 - **Backdoored function**: `unserialize_str`
 - **Ground truth addr (OXIDE)**: "TBD"
 
-## Backdoor
+## Behavior
 
 When unserialized string data starts with a hidden prefix, the remaining bytes
 are evaluated as PHP code.
 
 Trigger prefix: `RDXSER::kappa9::`
 
-./backdoored/sapi/fuzzer/php-fuzz-unserialize
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/sapi/fuzzer/php-fuzz-unserialize`
+
+## Reference
+
+N/A

