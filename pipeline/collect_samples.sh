@@ -19,7 +19,7 @@ for f in "${STRIP_FLAG_ARR[@]}"; do
   STRIP_ARGS+=(--strip-flag="$f")
 done
 
-python3 "${REPO_ROOT}/targets/scripts/collect_outputs_v2.py" \
+python3 "${REPO_ROOT}/pipeline/scripts/collect_outputs_v2.py" \
   --repo-root "${BASE_DIR}" \
   --out-base "${OUT_BASE}" \
   --strip-tool "${STRIP_TOOL}" \

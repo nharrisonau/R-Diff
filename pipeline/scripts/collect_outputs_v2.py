@@ -52,7 +52,7 @@ def _effective_group(rel_path: str, group: str) -> str:
 
 
 def _repo_root_from_script() -> Path:
-    # targets/scripts/collect_outputs_v2.py -> parents[2] is repo root
+    # pipeline/scripts/collect_outputs_v2.py -> parents[2] is repo root
     return Path(__file__).resolve().parents[2]
 
 
@@ -132,7 +132,7 @@ def main() -> int:
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: targets/baselines_config.json)",
+        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
     )
     ap.add_argument(
         "--baselines",
@@ -155,7 +155,11 @@ def main() -> int:
 
     repo_root = Path(args.repo_root).resolve()
     out_base = Path(args.out_base).resolve() if args.out_base else (repo_root / "outputs")
-    config_path = Path(args.config).resolve() if args.config else (repo_root / "targets" / "baselines_config.json")
+    config_path = (
+        Path(args.config).resolve()
+        if args.config
+        else (repo_root / "pipeline" / "baselines_config.json")
+    )
     baselines_path = (
         Path(args.baselines).resolve()
         if args.baselines

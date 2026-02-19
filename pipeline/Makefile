@@ -1,5 +1,6 @@
 CONFIG ?= baselines_config.json
 BASELINES_OUT ?= ../local_outputs/baselines.csv
+TARGETS_ROOT ?= ../targets
 STRICT ?= 0
 # Controls how many historical baselines get built per target.
 # 0 = no limit (build all configured baselines).
@@ -12,14 +13,14 @@ ifneq ($(wildcard $(CONFIG)),)
 AUTHENTIC_TARGETS := $(shell python3 -c "import json, pathlib; cfg=json.load(open('$(CONFIG)')); print(' '.join(pathlib.Path(e['path']).name for e in cfg if e.get('group')=='authentic'))")
 SYNTHETIC_TARGETS := $(shell python3 -c "import json, pathlib; cfg=json.load(open('$(CONFIG)')); print(' '.join(pathlib.Path(e['path']).name for e in cfg if e.get('group')=='synthetic'))")
 else
-AUTHENTIC_DIRS = $(wildcard authentic/*)
-SYNTHETIC_DIRS = $(wildcard synthetic/*)
-AUTHENTIC_TARGETS = $(AUTHENTIC_DIRS:authentic/%=%)
-SYNTHETIC_TARGETS = $(SYNTHETIC_DIRS:synthetic/%=%)
+AUTHENTIC_DIRS = $(wildcard $(TARGETS_ROOT)/authentic/*)
+SYNTHETIC_DIRS = $(wildcard $(TARGETS_ROOT)/synthetic/*)
+AUTHENTIC_TARGETS = $(AUTHENTIC_DIRS:$(TARGETS_ROOT)/authentic/%=%)
+SYNTHETIC_TARGETS = $(SYNTHETIC_DIRS:$(TARGETS_ROOT)/synthetic/%=%)
 endif
 
-AUTHENTIC_DIRS := $(addprefix authentic/,$(AUTHENTIC_TARGETS))
-SYNTHETIC_DIRS := $(addprefix synthetic/,$(SYNTHETIC_TARGETS))
+AUTHENTIC_DIRS := $(addprefix $(TARGETS_ROOT)/authentic/,$(AUTHENTIC_TARGETS))
+SYNTHETIC_DIRS := $(addprefix $(TARGETS_ROOT)/synthetic/,$(SYNTHETIC_TARGETS))
 TARGETS = $(AUTHENTIC_TARGETS) $(SYNTHETIC_TARGETS)
 
 all: baselines
@@ -46,11 +47,11 @@ baselines: submodules current-variants
 submodules:
 	@cd .. && { 		if git submodule status --recursive | grep -qE '^-'; then 			echo "Initializing git submodules (missing sources detected)..."; 			git submodule sync --recursive; 			git submodule update --init --recursive; 		else 			echo "Git submodules already initialized."; 		fi; 	}
 
-%: authentic/%
+%: $(TARGETS_ROOT)/authentic/%
 	# Force sudo off for sub-builds to avoid interactive prompts on hosts that have sudo installed.
 	$(MAKE) -C $< SUDO=
 
-%: synthetic/%
+%: $(TARGETS_ROOT)/synthetic/%
 	# Force sudo off for sub-builds to avoid interactive prompts on hosts that have sudo installed.
 	$(MAKE) -C $< SUDO=
 

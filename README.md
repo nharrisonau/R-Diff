@@ -3,10 +3,10 @@
 ## About
 
 R-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
-benchmark. The original project focuses on dynamic backdoor detection; this extends the benchmarks
+pipeline. The original project focuses on dynamic backdoor detection; this extends the pipelines
 to study **static analysis of software updates** and backdoors introduced as part of updates.
 
-Every benchmark now ships with multiple build flavors:
+Every pipeline now ships with multiple build flavors:
 
 - _safe_: a backdoor-free build of the current version;
 - _backdoored_: the current version with the backdoor enabled;
@@ -21,14 +21,14 @@ are built from `original/` (with or without the backdoor patch).
 For multi-baseline evaluation, historical baselines are built by reusing a single `baseline-src/`
 checkout per target and switching tags between builds. Built binaries are staged in
 `baseline-artifacts/<version>/` and recorded in `local_outputs/baselines.csv`.
-Baseline selection is curated per target via `targets/baselines_config.json`:
+Baseline selection is curated per target via `pipeline/baselines_config.json`:
 
 - `min_version` sets the oldest version to consider for that target.
 - `exclude_versions` removes known outlier tags that are incompatible with the fixed build recipe.
-- source provenance is pinned in `targets/sources.lock.json` and verified by
-  `targets/scripts/verify_sources.py`.
+- source provenance is pinned in `pipeline/sources.lock.json` and verified by
+  `pipeline/scripts/verify_sources.py`.
 
-To avoid repeated work, `targets/scripts/build_baselines.py` also reads prior failed rows
+To avoid repeated work, `pipeline/scripts/build_baselines.py` also reads prior failed rows
 from `local_outputs/baselines.csv` and skips those versions on subsequent runs.
 This replaces the upstream `ground-truth` instrumentation so tools can reason directly about the code
 delta that introduced the backdoor across multiple historical baselines. Because many payloads remain
@@ -39,9 +39,9 @@ dangerous, **use a containerized environment** (e.g., Docker) when building or r
 Targets are split into groups under [`targets/`](./targets/):
 
 - [`targets/authentic/`](./targets/authentic/) contains authentic backdoor
-  benchmarks intended for direct analysis.
+  pipelines intended for direct analysis.
 - [`targets/synthetic/`](./targets/synthetic/) contains synthetic backdoor
-  benchmarks intended for direct analysis.
+  pipelines intended for direct analysis.
 
 For per-sample update coverage (current version, immediate baseline, and historical baseline windows),
 see [`docs/updates.md`](./docs/updates.md).
@@ -55,14 +55,14 @@ its backdoor).
 #### Backdoor track
 
 - **Sources**: git submodules under `targets/{authentic,synthetic}/*/{original,previous}`, pinned in
-  `targets/sources.lock.json`.
-- **Build**: `make -C targets current` (or `make -C targets baselines` for historical baselines).
+  `pipeline/sources.lock.json`.
+- **Build**: `make -C pipeline current` (or `make -C pipeline baselines` for historical baselines).
 - **Outputs**: `outputs/v2/{normal,stripped}/...` plus `outputs/v2/reports/baselines_report.csv`.
 - **Evaluation unit**: compare `backdoored` against `prev-safe` and additional historical baselines.
 
 ### Benchmark summary
 
-The active target set is defined by `targets/baselines_config.json` and currently
+The active target set is defined by `pipeline/baselines_config.json` and currently
 contains 36 targets (3 authentic, 33 synthetic).
 `Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
 
@@ -142,29 +142,29 @@ of your machine. We highly recommend using a Docker container as described above
 
 #### Backdoor track (build + collect)
 
-- To build all targets (current variants only), run `make -C targets current`.
+- To build all targets (current variants only), run `make -C pipeline current`.
 - To additionally build historical baselines (best-effort) and write `local_outputs/baselines.csv`,
-  run `make -C targets baselines`.
+  run `make -C pipeline baselines`.
 - By default, baseline collection is limited to the immediate prior release (`BASELINE_LIMIT=1`).
   Use `BASELINE_LIMIT=0` to build the full configured baseline history.
 - To make target build failures fail fast instead of best-effort, add `STRICT=1` (for example:
-  `make -C targets baselines STRICT=1`).
-- To tune historical baseline windows, edit `targets/baselines_config.json` (`min_version`
+  `make -C pipeline baselines STRICT=1`).
+- To tune historical baseline windows, edit `pipeline/baselines_config.json` (`min_version`
   and `exclude_versions`).
-- To build authentic targets only, run `make -C targets authentic`.
-- To build synthetic targets only, run `make -C targets synthetic`.
+- To build authentic targets only, run `make -C pipeline authentic`.
+- To build synthetic targets only, run `make -C pipeline synthetic`.
 - To build a specific target (e.g., Sudo), run `make -C targets/synthetic/sudo-1.9.15p5`.
 - To build a specific variant, run the relevant target
   (e.g., `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`).
 
-Collected binaries are written under `outputs/v2/{normal,stripped}/...` by `targets/collect_samples.sh`.
+Collected binaries are written under `outputs/v2/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
 Per-sample baseline collection results (including failed baseline versions) are written to
 `outputs/v2/reports/baselines_report.csv`.
 
 #### Backdoor track status
 
 The exact number of collected historical baselines depends on the current
-`targets/baselines_config.json` and host build environment.
+`pipeline/baselines_config.json` and host build environment.
 After each run, use `outputs/v2/reports/baselines_report.csv` as the source of truth for:
 
 - per-target collected baseline versions,
@@ -198,7 +198,7 @@ $ make teardown
 
 ### Evaluating a backdoor detection method on R-Diff
 
-This benchmark is geared toward static analysis that reason about **updates**. The intended
+This pipeline is geared toward static analysis that reason about **updates**. The intended
 workflow is to compare the `backdoored` variant against:
 
 - `prev-safe` (immediate previous release), and
@@ -208,7 +208,7 @@ The `safe` variant lets you contrast the intended current release without the ba
 A typical evaluation loop looks like this:
 
 1. Build the relevant variants (e.g., `make backdoored prev-safe` in the target directory, plus
-   `make -C targets all` to build historical baselines).
+   `make -C pipeline all` to build historical baselines).
 2. Run your analyzer on `backdoored/` and one or more baseline trees (`prev-safe/` and staged
    historical baselines from `baseline-artifacts/<version>/`, or the collected
    `outputs/v2/.../baseline/<version>/`) to detect suspicious code additions between releases.

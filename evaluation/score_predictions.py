@@ -101,7 +101,7 @@ def _parse_int_label(value: str | None) -> int:
 
 
 def _load_list_baselines_fn(repo_root: Path) -> Callable[..., list[tuple[str, str]]]:
-    scripts_dir = repo_root / "targets" / "scripts"
+    scripts_dir = repo_root / "pipeline" / "scripts"
     if not scripts_dir.exists():
         raise RuntimeError(f"missing targets scripts directory: {scripts_dir}")
     if str(scripts_dir) not in sys.path:
@@ -554,7 +554,7 @@ def main() -> int:
     ap.add_argument(
         "--baselines-config",
         default="",
-        help="Path to baselines_config.json (default: targets/baselines_config.json)",
+        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
     )
     ap.add_argument(
         "--template-out",
@@ -587,7 +587,7 @@ def main() -> int:
     baselines_config = (
         Path(args.baselines_config).resolve()
         if args.baselines_config
-        else (repo_root / "targets" / "baselines_config.json")
+        else (repo_root / "pipeline" / "baselines_config.json")
     )
 
     if args.ground_truth_csv:

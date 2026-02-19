@@ -42,7 +42,7 @@ REQUIRED_MAKE_VARS = [
 
 
 def _repo_root_from_script() -> Path:
-    # targets/scripts/verify_target_metadata.py -> parents[2] is repo root
+    # pipeline/scripts/verify_target_metadata.py -> parents[2] is repo root
     return Path(__file__).resolve().parents[2]
 
 
@@ -65,7 +65,7 @@ def main() -> int:
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: targets/baselines_config.json)",
+        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
     )
     args = ap.parse_args()
 
@@ -73,7 +73,7 @@ def main() -> int:
     config_path = (
         Path(args.config).resolve()
         if args.config
-        else repo_root / "targets" / "baselines_config.json"
+        else repo_root / "pipeline" / "baselines_config.json"
     )
     if not config_path.exists():
         print(f"missing config: {config_path}")

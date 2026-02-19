@@ -8,21 +8,21 @@
 
 ## Source Provenance
 
-- `python3 targets/scripts/update_sources_lock.py` run after any submodule pointer change.
-- `python3 targets/scripts/verify_sources.py` passes.
-- `targets/sources.lock.json` is up to date.
+- `python3 pipeline/scripts/update_sources_lock.py` run after any submodule pointer change.
+- `python3 pipeline/scripts/verify_sources.py` passes.
+- `pipeline/sources.lock.json` is up to date.
 - `git submodule status --recursive` shows initialized submodules.
 
 ## Metadata and Docs
 
-- Sample READMEs follow `targets/TARGET_CONTRACT.md`.
+- Sample READMEs follow `pipeline/TARGET_CONTRACT.md`.
 - `README.md` and `docs/README.md` match current workflows.
 - `LICENSE` references only samples present in this repo.
 
 ## Tests
 
 - `pre-commit run --all-files`
-- `python3 -m unittest discover -s targets/scripts/tests -v`
+- `python3 -m unittest discover -s pipeline/scripts/tests -v`
 
 ## Smoke Build
 

@@ -4,11 +4,11 @@ This document describes update coverage for each active backdoor sample in R-Dif
 
 Source of truth:
 
-- `targets/baselines_config.json` (active target list and baseline constraints)
-- `targets/scripts/list_baselines.py` (tag-based baseline resolution)
-- `targets/scripts/build_baselines.py` (build/skip behavior)
-- `targets/sources.lock.json` (source provenance pins; regenerate with
-  `targets/scripts/update_sources_lock.py`)
+- `pipeline/baselines_config.json` (active target list and baseline constraints)
+- `pipeline/scripts/list_baselines.py` (tag-based baseline resolution)
+- `pipeline/scripts/build_baselines.py` (build/skip behavior)
+- `pipeline/sources.lock.json` (source provenance pins; regenerate with
+  `pipeline/scripts/update_sources_lock.py`)
 
 Baseline selection policy:
 
@@ -141,4 +141,4 @@ Baseline selection policy:
 
 ## Notes
 
-- The active backdoor set is defined only by `targets/baselines_config.json` (36 targets: 3 authentic, 33 synthetic).
+- The active backdoor set is defined only by `pipeline/baselines_config.json` (36 targets: 3 authentic, 33 synthetic).

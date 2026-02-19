@@ -27,7 +27,7 @@ Ground truth label:
 
 Baseline versions are resolved from:
 
-- `targets/baselines_config.json`
+- `pipeline/baselines_config.json`
 - git tags (for `mode: git_tags`)
 - explicit manual entries (for `mode: manual`)
 
@@ -93,7 +93,7 @@ Optional:
 
 ## Recommended Interpretation
 
-Because this benchmark emphasizes catching backdoors in updates:
+Because this pipeline emphasizes catching backdoors in updates:
 
 - prioritize **backdoor unit recall** and **target recall**,
 - track **target_full_recall** to avoid partial target coverage,

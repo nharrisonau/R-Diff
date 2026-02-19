@@ -20,7 +20,7 @@ class TestCollectOutputsV2Report(unittest.TestCase):
             target_name = "sample-1.0"
             rel_path = f"synthetic/{target_name}"
 
-            config_path = repo_root / "targets" / "baselines_config.json"
+            config_path = repo_root / "pipeline" / "baselines_config.json"
             config_path.parent.mkdir(parents=True, exist_ok=True)
             config_path.write_text(
                 json.dumps(

@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def _repo_root_from_script() -> Path:
-    # targets/scripts/verify_sources.py -> parents[2] is repo root
+    # pipeline/scripts/verify_sources.py -> parents[2] is repo root
     return Path(__file__).resolve().parents[2]
 
 
@@ -133,12 +133,12 @@ def main() -> int:
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: targets/baselines_config.json)",
+        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
     )
     ap.add_argument(
         "--lock",
         default="",
-        help="Path to sources.lock.json (default: targets/sources.lock.json)",
+        help="Path to sources.lock.json (default: pipeline/sources.lock.json)",
     )
     args = ap.parse_args()
 
@@ -146,12 +146,12 @@ def main() -> int:
     config_path = (
         Path(args.config).resolve()
         if args.config
-        else (repo_root / "targets" / "baselines_config.json")
+        else (repo_root / "pipeline" / "baselines_config.json")
     )
     lock_path = (
         Path(args.lock).resolve()
         if args.lock
-        else (repo_root / "targets" / "sources.lock.json")
+        else (repo_root / "pipeline" / "sources.lock.json")
     )
 
     if not config_path.exists():

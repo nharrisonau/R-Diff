@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Build Docker image for the R-Diff benchmark.
+## Build Docker image for the R-Diff pipeline.
 ## The name of the Docker image is specified by the IMAGE file.
 ##
 ## Optional single-sample mode:

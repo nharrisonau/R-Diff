@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 def _repo_root_from_script() -> Path:
-    # targets/scripts/update_sources_lock.py -> parents[2] is repo root
+    # pipeline/scripts/update_sources_lock.py -> parents[2] is repo root
     return Path(__file__).resolve().parents[2]
 
 
@@ -98,18 +98,18 @@ def main() -> int:
     repo_root = _repo_root_from_script()
 
     ap = argparse.ArgumentParser(
-        description="Regenerate targets/sources.lock.json from submodule state."
+        description="Regenerate pipeline/sources.lock.json from submodule state."
     )
     ap.add_argument("--repo-root", default=str(repo_root), help="Repo root (default: auto-detected)")
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: targets/baselines_config.json)",
+        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
     )
     ap.add_argument(
         "--out",
         default="",
-        help="Path to write sources.lock.json (default: targets/sources.lock.json)",
+        help="Path to write sources.lock.json (default: pipeline/sources.lock.json)",
     )
     args = ap.parse_args()
 
@@ -117,12 +117,12 @@ def main() -> int:
     config_path = (
         Path(args.config).resolve()
         if args.config
-        else (repo_root / "targets" / "baselines_config.json")
+        else (repo_root / "pipeline" / "baselines_config.json")
     )
     out_path = (
         Path(args.out).resolve()
         if args.out
-        else (repo_root / "targets" / "sources.lock.json")
+        else (repo_root / "pipeline" / "sources.lock.json")
     )
 
     if not config_path.exists():

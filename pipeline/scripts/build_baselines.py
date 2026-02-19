@@ -37,7 +37,7 @@ MAKE_DIR_LINE_RE = re.compile(r"^make(?:\[\d+\])?: (?:Entering|Leaving) director
 
 
 def _repo_root_from_script() -> Path:
-    # targets/scripts/build_baselines.py -> parents[2] is repo root
+    # pipeline/scripts/build_baselines.py -> parents[2] is repo root
     return Path(__file__).resolve().parents[2]
 
 
@@ -219,7 +219,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Build multi-baseline artifacts for targets.")
     ap.add_argument(
         "--config",
-        default=str(repo_root / "targets" / "baselines_config.json"),
+        default=str(repo_root / "pipeline" / "baselines_config.json"),
         help="Path to baselines_config.json",
     )
     ap.add_argument(

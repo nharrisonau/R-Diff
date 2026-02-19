@@ -11,20 +11,20 @@ Changed:
 
 Updated defaults:
 
-- `targets/scripts/build_baselines.py --out`
-- `targets/scripts/collect_outputs_v2.py --baselines`
-- `make -C targets all` now passes explicit baseline output path.
+- `pipeline/scripts/build_baselines.py --out`
+- `pipeline/scripts/collect_outputs_v2.py --baselines`
+- `make -C pipeline all` now passes explicit baseline output path.
 
 ## Source Tracking
 
 `original/` and `previous/` source trees are submodule-managed and pinned via:
 
 - `.gitmodules`
-- `targets/sources.lock.json`
+- `pipeline/sources.lock.json`
 
 Validate with:
 
 ```bash
-python3 targets/scripts/update_sources_lock.py   # when submodule commits/URLs change
-python3 targets/scripts/verify_sources.py
+python3 pipeline/scripts/update_sources_lock.py   # when submodule commits/URLs change
+python3 pipeline/scripts/verify_sources.py
 ```
