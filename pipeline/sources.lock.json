@@ -596,6 +596,150 @@
       "tag": "SUDO_1_9_15p4"
     },
     {
+      "group": "synthetic",
+      "sample": "libarchive-3.8.5",
+      "path": "targets/synthetic/libarchive-3.8.5/original",
+      "role": "original",
+      "url": "https://github.com/libarchive/libarchive.git",
+      "commit": "dd897a78c662a2c7a003e7ec158cea7909557bee",
+      "tag": "v3.8.5"
+    },
+    {
+      "group": "synthetic",
+      "sample": "libarchive-3.8.5",
+      "path": "targets/synthetic/libarchive-3.8.5/previous",
+      "role": "previous",
+      "url": "https://github.com/libarchive/libarchive.git",
+      "commit": "d114ceee6de08a7a60ff1209492ba38bf9436f79",
+      "tag": "v3.8.4"
+    },
+    {
+      "group": "synthetic",
+      "sample": "expat-2.7.4",
+      "path": "targets/synthetic/expat-2.7.4/original",
+      "role": "original",
+      "url": "https://github.com/libexpat/libexpat.git",
+      "commit": "f5c2890d8ff91f88a018173d293a9bd02f76389e",
+      "tag": "R_2_7_4"
+    },
+    {
+      "group": "synthetic",
+      "sample": "expat-2.7.4",
+      "path": "targets/synthetic/expat-2.7.4/previous",
+      "role": "previous",
+      "url": "https://github.com/libexpat/libexpat.git",
+      "commit": "4575e52f83e0d6d7bd24939eab8952bbc7bc358f",
+      "tag": "R_2_7_3"
+    },
+    {
+      "group": "synthetic",
+      "sample": "libyaml-0.2.5",
+      "path": "targets/synthetic/libyaml-0.2.5/original",
+      "role": "original",
+      "url": "https://github.com/yaml/libyaml.git",
+      "commit": "2c891fc7a770e8ba2fec34fc6b545c672beb37e6",
+      "tag": "0.2.5"
+    },
+    {
+      "group": "synthetic",
+      "sample": "libyaml-0.2.5",
+      "path": "targets/synthetic/libyaml-0.2.5/previous",
+      "role": "previous",
+      "url": "https://github.com/yaml/libyaml.git",
+      "commit": "72e2f75277ff88ad1fb8a81cf422df06bf371578",
+      "tag": "0.2.4"
+    },
+    {
+      "group": "synthetic",
+      "sample": "json-c-0.18",
+      "path": "targets/synthetic/json-c-0.18/original",
+      "role": "original",
+      "url": "https://github.com/json-c/json-c.git",
+      "commit": "41a55cfcedb54d9c1874f2f0eb07b504091d7e37",
+      "tag": "json-c-0.18-20240915"
+    },
+    {
+      "group": "synthetic",
+      "sample": "json-c-0.18",
+      "path": "targets/synthetic/json-c-0.18/previous",
+      "role": "previous",
+      "url": "https://github.com/json-c/json-c.git",
+      "commit": "b4c371fa0cbc4dcbaccc359ce9e957a22988fb34",
+      "tag": "json-c-0.17-20230812"
+    },
+    {
+      "group": "synthetic",
+      "sample": "zstd-1.5.7",
+      "path": "targets/synthetic/zstd-1.5.7/original",
+      "role": "original",
+      "url": "https://github.com/facebook/zstd.git",
+      "commit": "f8745da6ff1ad1e7bab384bd1f9d742439278e99",
+      "tag": "v1.5.7"
+    },
+    {
+      "group": "synthetic",
+      "sample": "zstd-1.5.7",
+      "path": "targets/synthetic/zstd-1.5.7/previous",
+      "role": "previous",
+      "url": "https://github.com/facebook/zstd.git",
+      "commit": "794ea1b0afca0f020f4e57b6732332231fb23c70",
+      "tag": "v1.5.6"
+    },
+    {
+      "group": "synthetic",
+      "sample": "curl-8.18.0",
+      "path": "targets/synthetic/curl-8.18.0/original",
+      "role": "original",
+      "url": "https://github.com/curl/curl.git",
+      "commit": "2eebc58c4b8d68c98c8344381a9f6df4cca838fd",
+      "tag": "curl-8_18_0"
+    },
+    {
+      "group": "synthetic",
+      "sample": "curl-8.18.0",
+      "path": "targets/synthetic/curl-8.18.0/previous",
+      "role": "previous",
+      "url": "https://github.com/curl/curl.git",
+      "commit": "400fffa90f30c7a2dc762fa33009d24851bd2016",
+      "tag": "curl-8_17_0"
+    },
+    {
+      "group": "synthetic",
+      "sample": "dnsmasq-2.92",
+      "path": "targets/synthetic/dnsmasq-2.92/original",
+      "role": "original",
+      "url": "https://github.com/imp/dnsmasq.git",
+      "commit": "d8f66f4fda02ca50616f428d9c161c8ca1a0cb70",
+      "tag": "v2.92"
+    },
+    {
+      "group": "synthetic",
+      "sample": "dnsmasq-2.92",
+      "path": "targets/synthetic/dnsmasq-2.92/previous",
+      "role": "previous",
+      "url": "https://github.com/imp/dnsmasq.git",
+      "commit": "9af15871e6ef0ac845412e9a6c3ecfb0849374c8",
+      "tag": "v2.91"
+    },
+    {
+      "group": "synthetic",
+      "sample": "lighttpd-1.4.82",
+      "path": "targets/synthetic/lighttpd-1.4.82/original",
+      "role": "original",
+      "url": "https://github.com/lighttpd/lighttpd1.4.git",
+      "commit": "95a86758ed084efd2654418f1fca780c4fc6f300",
+      "tag": "lighttpd-1.4.82"
+    },
+    {
+      "group": "synthetic",
+      "sample": "lighttpd-1.4.82",
+      "path": "targets/synthetic/lighttpd-1.4.82/previous",
+      "role": "previous",
+      "url": "https://github.com/lighttpd/lighttpd1.4.git",
+      "commit": "89ecb4e81aabbba65f0ce890a8e31206358e6f53",
+      "tag": "lighttpd-1.4.81"
+    },
+    {
       "group": "authentic",
       "sample": "php-8.1.0-dev",
       "path": "targets/authentic/php-8.1.0-dev/original",

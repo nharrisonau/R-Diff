@@ -28,6 +28,11 @@ Baseline selection policy:
 | synthetic | dropbear-2024.86 | 2024.86 | git_tags | 2024.85 | 2 | none |
 | synthetic | dropbear-2025.89 | 2025.89 | git_tags | 2025.88 | 2 | none |
 | synthetic | dropbear-2025.89-II | 2025.89 | git_tags | 2025.88 | 2 | none |
+| synthetic | curl-8.18.0 | 8.18.0 | git_tags | 8.17.0 | 1 | min_version=8.17.0 |
+| synthetic | dnsmasq-2.92 | 2.92 | git_tags | 2.91 | 1 | min_version=2.91 |
+| synthetic | expat-2.7.4 | 2.7.4 | git_tags | 2.7.3 | 1 | min_version=2.7.3 |
+| synthetic | json-c-0.18 | 0.18 | git_tags | 0.17 | 1 | min_version=0.17 |
+| synthetic | libarchive-3.8.5 | 3.8.5 | git_tags | 3.8.4 | 1 | min_version=3.8.4 |
 | synthetic | libpng-1.6.43 | 1.6.43 | git_tags | 1.6.42 | 10 | min_version=1.6.32, exclude_versions=[1.6.38] |
 | synthetic | libpng-1.6.54 | 1.6.54 | git_tags | 1.6.53 | 2 | min_version=1.6.52, exclude_versions=[1.6.38] |
 | synthetic | libpng-1.6.54-II | 1.6.54 | git_tags | 1.6.53 | 2 | min_version=1.6.52, exclude_versions=[1.6.38] |
@@ -38,6 +43,8 @@ Baseline selection policy:
 | synthetic | libxml2-2.15.1 | 2.15.1 | git_tags | 2.15.0 | 2 | min_version=2.14.6 |
 | synthetic | libxml2-2.15.1-II | 2.15.1 | git_tags | 2.15.0 | 2 | min_version=2.14.6 |
 | synthetic | libxml2-2.9.12 | 2.9.12 | git_tags | 2.9.11 | 13 | min_version=2.8.0 |
+| synthetic | libyaml-0.2.5 | 0.2.5 | git_tags | 0.2.4 | 1 | min_version=0.2.4 |
+| synthetic | lighttpd-1.4.82 | 1.4.82 | git_tags | 1.4.81 | 1 | min_version=1.4.81 |
 | synthetic | lua-5.4.7 | 5.4.7 | manual | 5.4.6 | 1 | manual only |
 | synthetic | openssl-3.0.0 | 3.0.0 | git_tags | 3.0.0-beta2 | 7 | min_version=3.0.0-alpha13 |
 | synthetic | openssl-3.6.1 | 3.6.1 | git_tags | 3.6.0 | 1 | min_version=3.6.0, major_token_index=1 |
@@ -58,6 +65,7 @@ Baseline selection policy:
 | synthetic | sudo-1.9.16 | 1.9.16 | git_tags | 1.9.15p5 | 40 | min_version=1.9.1, exclude_versions=[1.9.4] |
 | synthetic | sudo-1.9.16p2 | 1.9.16p2 | git_tags | 1.9.16p1 | 42 | min_version=1.9.1, exclude_versions=[1.9.4] |
 | synthetic | sudo-1.9.16p2-II | 1.9.16p2 | git_tags | 1.9.16p1 | 42 | min_version=1.9.1, exclude_versions=[1.9.4] |
+| synthetic | zstd-1.5.7 | 1.5.7 | git_tags | 1.5.6 | 1 | min_version=1.5.6 |
 
 ## Per-Sample Baseline Versions
 
@@ -78,6 +86,16 @@ Baseline selection policy:
   - `2025.88`, `2025.87`
 - `dropbear-2025.89-II` (current `2025.89`):
   - `2025.88`, `2025.87`
+- `curl-8.18.0` (current `8.18.0`):
+  - `8_17_0`
+- `dnsmasq-2.92` (current `2.92`):
+  - `2.91`
+- `expat-2.7.4` (current `2.7.4`):
+  - `2_7_3`
+- `json-c-0.18` (current `0.18`):
+  - `0.17`
+- `libarchive-3.8.5` (current `3.8.5`):
+  - `3.8.4`
 - `libpng-1.6.43` (current `1.6.43`):
   - `1.6.42`, `1.6.41`, `1.6.40`, `1.6.39`, `1.6.37`, `1.6.36`, `1.6.35`, `1.6.34`, `1.6.33`, `1.6.32`
 - `libpng-1.6.54` (current `1.6.54`):
@@ -98,6 +116,10 @@ Baseline selection policy:
   - `2.15.0`, `2.14.6`
 - `libxml2-2.9.12` (current `2.9.12`):
   - `2.9.11`, `2.9.10`, `2.9.9`, `2.9.8`, `2.9.7`, `2.9.6`, `2.9.5`, `2.9.4`, `2.9.3`, `2.9.2`, `2.9.1`, `2.9.0`, `2.8.0`
+- `libyaml-0.2.5` (current `0.2.5`):
+  - `0.2.4`
+- `lighttpd-1.4.82` (current `1.4.82`):
+  - `1.4.81`
 - `lua-5.4.7` (current `5.4.7`):
   - `5.4.6`
 - `openssl-3.0.0` (current `3.0.0`):
@@ -138,7 +160,9 @@ Baseline selection policy:
   - `1.9.16p1`, `1.9.16`, `1.9.15p5`, `1.9.15p4`, `1.9.15p3`, `1.9.15p2`, `1.9.15p1`, `1.9.15`, `1.9.14p3`, `1.9.14p2`, `1.9.14p1`, `1.9.14`, `1.9.13p3`, `1.9.13p2`, `1.9.13p1`, `1.9.13`, `1.9.12p2`, `1.9.12p1`, `1.9.12`, `1.9.11p3`, `1.9.11p2`, `1.9.11p1`, `1.9.11`, `1.9.10`, `1.9.9`, `1.9.8p2`, `1.9.8p1`, `1.9.8`, `1.9.7p2`, `1.9.7p1`, `1.9.7`, `1.9.6p1`, `1.9.6`, `1.9.5p2`, `1.9.5p1`, `1.9.5`, `1.9.4p2`, `1.9.4p1`, `1.9.3p1`, `1.9.3`, `1.9.2`, `1.9.1`
 - `sudo-1.9.16p2-II` (current `1.9.16p2`):
   - `1.9.16p1`, `1.9.16`, `1.9.15p5`, `1.9.15p4`, `1.9.15p3`, `1.9.15p2`, `1.9.15p1`, `1.9.15`, `1.9.14p3`, `1.9.14p2`, `1.9.14p1`, `1.9.14`, `1.9.13p3`, `1.9.13p2`, `1.9.13p1`, `1.9.13`, `1.9.12p2`, `1.9.12p1`, `1.9.12`, `1.9.11p3`, `1.9.11p2`, `1.9.11p1`, `1.9.11`, `1.9.10`, `1.9.9`, `1.9.8p2`, `1.9.8p1`, `1.9.8`, `1.9.7p2`, `1.9.7p1`, `1.9.7`, `1.9.6p1`, `1.9.6`, `1.9.5p2`, `1.9.5p1`, `1.9.5`, `1.9.4p2`, `1.9.4p1`, `1.9.3p1`, `1.9.3`, `1.9.2`, `1.9.1`
+- `zstd-1.5.7` (current `1.5.7`):
+  - `1.5.6`
 
 ## Notes
 
-- The active backdoor set is defined only by `pipeline/baselines_config.json` (36 targets: 3 authentic, 33 synthetic).
+- The active backdoor set is defined only by `pipeline/baselines_config.json` (44 targets: 3 authentic, 41 synthetic).

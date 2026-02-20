@@ -45,35 +45,11 @@ def _is_make_dir_line(line: str) -> bool:
     return bool(MAKE_DIR_LINE_RE.match(line.strip()))
 
 
-def _run_make_print(target_dir: Path, target: str) -> str:
-    proc = subprocess.run(
-        ["make", "--no-print-directory", "-s", "-C", str(target_dir), target],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if proc.returncode != 0:
-        raise RuntimeError(proc.stderr.strip() or proc.stdout.strip() or f"make {target} failed")
-    lines = [line.strip() for line in (proc.stdout + "\n" + proc.stderr).splitlines()]
-    candidates = [line for line in lines if line and not _is_make_dir_line(line)]
-    if candidates:
-        return candidates[-1]
-    if proc.stdout.strip():
-        return proc.stdout.strip().splitlines()[-1].strip()
-    raise RuntimeError(f"make {target} produced no output")
-
-
-def _read_target_from_makefile(target_dir: Path) -> str | None:
-    mk = target_dir / "Makefile"
-    if not mk.exists():
-        return None
-    for line in mk.read_text(errors="replace").splitlines():
-        if line.strip().startswith("#"):
-            continue
-        m = re.match(r"^\s*TARGET\s*[:?]?=\s*(.+?)\s*$", line)
-        if m:
-            return m.group(1).strip()
-    return None
+def _resolve_artifact_relpath(entry: dict[str, object]) -> str:
+    artifact_relpath = str(entry.get("artifact_relpath", "") or "").strip()
+    if artifact_relpath:
+        return artifact_relpath
+    raise RuntimeError("missing required artifact_relpath in baselines config")
 
 
 def _run_cmd_tail(cmd: list[str], *, cwd: Path | None = None, tail_lines: int = 50) -> tuple[int, str]:
@@ -266,11 +242,8 @@ def main() -> int:
         excluded_versions = set(target_failed_versions) | configured_excluded_versions
 
         try:
-            artifact_relpath = _run_make_print(target_dir, "print-target")
-        except Exception:
-            artifact_relpath = _read_target_from_makefile(target_dir) or ""
-
-        if not artifact_relpath:
+            artifact_relpath = _resolve_artifact_relpath(entry)
+        except Exception as exc:
             rows.append(
                 {
                     "group": group,
@@ -281,7 +254,7 @@ def main() -> int:
                     "build_dir": "",
                     "artifact_relpath": "",
                     "status": "failed",
-                    "error": "could not determine TARGET",
+                    "error": f"could not resolve artifact path: {exc}",
                 }
             )
             continue

@@ -25,6 +25,7 @@ Baseline selection is curated per target via `pipeline/baselines_config.json`:
 
 - `min_version` sets the oldest version to consider for that target.
 - `exclude_versions` removes known outlier tags that are incompatible with the fixed build recipe.
+- `artifact_relpath` explicitly declares which built binary/object to stage and collect for that target.
 - source provenance is pinned in `pipeline/sources.lock.json` and verified by
   `pipeline/scripts/verify_sources.py`.
 
@@ -57,13 +58,13 @@ its backdoor).
 - **Sources**: git submodules under `targets/{authentic,synthetic}/*/{original,previous}`, pinned in
   `pipeline/sources.lock.json`.
 - **Build**: `make -C pipeline current` (or `make -C pipeline baselines` for historical baselines).
-- **Outputs**: `outputs/v2/{normal,stripped}/...` plus `outputs/v2/reports/baselines_report.csv`.
+- **Outputs**: `outputs/targets/{normal,stripped}/...` plus `outputs/targets/reports/baselines_report.csv`.
 - **Evaluation unit**: compare `backdoored` against `prev-safe` and additional historical baselines.
 
 ### Benchmark summary
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
-contains 36 targets (3 authentic, 33 synthetic).
+contains 44 targets (3 authentic, 41 synthetic).
 `Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
 
 #### Authentic backdoor samples
@@ -81,6 +82,11 @@ contains 36 targets (3 authentic, 33 synthetic).
 | `dropbear-2024.86` | 2024.86 | 2 | hard-coded authentication key |
 | `dropbear-2025.89` | 2025.89 | 2 | hard-coded authentication key (split/decoded) |
 | `dropbear-2025.89-II` | 2025.89 | 2 | multi-attempt auth sequence + split key-fragment backdoor |
+| `curl-8.18.0` | 8.18.0 | 1 | redirect/auth transition trigger with hidden header-leak marker |
+| `dnsmasq-2.92` | 2.92 | 1 | DHCP option order + client-id trigger with lease-override marker |
+| `expat-2.7.4` | 2.7.4 | 1 | DOCTYPE/namespace trigger with parser-policy divergence |
+| `json-c-0.18` | 0.18 | 1 | key-order + parse-mode trigger with hidden privilege-flag marker |
+| `libarchive-3.8.5` | 3.8.5 | 1 | archive-option + metadata trigger with extraction-policy marker |
 | `libpng-1.6.43` | 1.6.43 | 10 | hidden command |
 | `libpng-1.6.54` | 1.6.54 | 2 | staged hidden command |
 | `libpng-1.6.54-II` | 1.6.54 | 2 | two-stage metadata trigger with decode-path sabotage |
@@ -91,6 +97,8 @@ contains 36 targets (3 authentic, 33 synthetic).
 | `libxml2-2.15.1` | 2.15.1 | 2 | structural XML trigger |
 | `libxml2-2.15.1-II` | 2.15.1 | 2 | parser recovery + namespace-collision trigger |
 | `libxml2-2.9.12` | 2.9.12 | 13 | hidden command |
+| `libyaml-0.2.5` | 0.2.5 | 1 | anchor/alias + tag-order trigger with loader-policy marker |
+| `lighttpd-1.4.82` | 1.4.82 | 1 | path-normalization + header trigger with auth-bypass marker |
 | `lua-5.4.7` | 5.4.7 | 1 | hidden command |
 | `openssl-3.0.0` | 3.0.0 | 7 | hidden command |
 | `openssl-3.6.1` | 3.6.1 | 1 | key/intermediate leak trigger |
@@ -111,6 +119,7 @@ contains 36 targets (3 authentic, 33 synthetic).
 | `sudo-1.9.16` | 1.9.16 | 40 | hardcoded credential hash |
 | `sudo-1.9.16p2` | 1.9.16p2 | 42 | context-gated hardcoded credentials |
 | `sudo-1.9.16p2-II` | 1.9.16p2 | 42 | environment + argv + tty + policy-state gated backdoor |
+| `zstd-1.5.7` | 1.5.7 | 1 | frame-flags + dictionary trigger with integrity-bypass marker |
 
 
 ### Ground-truth metadata
@@ -157,15 +166,15 @@ of your machine. We highly recommend using a Docker container as described above
 - To build a specific variant, run the relevant target
   (e.g., `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`).
 
-Collected binaries are written under `outputs/v2/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
+Collected binaries are written under `outputs/targets/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
 Per-sample baseline collection results (including failed baseline versions) are written to
-`outputs/v2/reports/baselines_report.csv`.
+`outputs/targets/reports/baselines_report.csv`.
 
 #### Backdoor track status
 
 The exact number of collected historical baselines depends on the current
 `pipeline/baselines_config.json` and host build environment.
-After each run, use `outputs/v2/reports/baselines_report.csv` as the source of truth for:
+After each run, use `outputs/targets/reports/baselines_report.csv` as the source of truth for:
 
 - per-target collected baseline versions,
 - per-target failed baseline versions (if any), and
@@ -211,7 +220,7 @@ A typical evaluation loop looks like this:
    `make -C pipeline all` to build historical baselines).
 2. Run your analyzer on `backdoored/` and one or more baseline trees (`prev-safe/` and staged
    historical baselines from `baseline-artifacts/<version>/`, or the collected
-   `outputs/v2/.../baseline/<version>/`) to detect suspicious code additions between releases.
+   `outputs/targets/.../baseline/<version>/`) to detect suspicious code additions between releases.
 3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor
    is removed from the current release.
 

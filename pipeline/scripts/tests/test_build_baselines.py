@@ -1,7 +1,6 @@
 import unittest
 from pathlib import Path
 import sys
-import os
 import tempfile
 
 # Allow running tests without requiring targets/ to be a Python package.
@@ -10,7 +9,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 from build_baselines import (  # noqa: E402
     _load_failed_versions,
-    _run_make_print,
+    _resolve_artifact_relpath,
     _short_error,
     baseline_build_dir,
     dedupe_baseline_candidates,
@@ -18,6 +17,16 @@ from build_baselines import (  # noqa: E402
 
 
 class TestBuildBaselinesHelpers(unittest.TestCase):
+    def test_resolve_artifact_relpath_from_config(self):
+        self.assertEqual(
+            _resolve_artifact_relpath({"artifact_relpath": "build/libexec/sudo/sudoers.so"}),
+            "build/libexec/sudo/sudoers.so",
+        )
+
+    def test_resolve_artifact_relpath_requires_config(self):
+        with self.assertRaises(RuntimeError):
+            _resolve_artifact_relpath({})
+
     def test_baseline_build_dir_mapping(self):
         self.assertEqual(baseline_build_dir("1.6.42"), "baseline-artifacts/1.6.42")
         self.assertEqual(baseline_build_dir("3.0.0-beta2"), "baseline-artifacts/3.0.0-beta2")
@@ -60,20 +69,6 @@ class TestBuildBaselinesHelpers(unittest.TestCase):
             "make[1]: Leaving directory '/tmp/project'\n"
         )
         self.assertEqual(_short_error(msg), "build failed: missing header")
-
-    def test_run_make_print_ignores_make_directory_lines(self):
-        with tempfile.TemporaryDirectory() as td:
-            target_dir = Path(td)
-            (target_dir / "Makefile").write_text("print-target:\n\t@echo demo.bin\n")
-            prior = os.environ.get("MAKEFLAGS")
-            try:
-                os.environ["MAKEFLAGS"] = "w"
-                self.assertEqual(_run_make_print(target_dir, "print-target"), "demo.bin")
-            finally:
-                if prior is None:
-                    os.environ.pop("MAKEFLAGS", None)
-                else:
-                    os.environ["MAKEFLAGS"] = prior
 
     def test_load_failed_versions_returns_empty_for_missing_file(self):
         with tempfile.TemporaryDirectory() as td:

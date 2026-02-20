@@ -1,6 +1,5 @@
 import csv
 import json
-import os
 import sys
 import tempfile
 import unittest
@@ -14,6 +13,18 @@ import collect_outputs_v2  # noqa: E402
 
 
 class TestCollectOutputsV2Report(unittest.TestCase):
+    def test_resolve_artifact_relpath_from_config(self):
+        self.assertEqual(
+            collect_outputs_v2._resolve_artifact_relpath(
+                {"artifact_relpath": "build/libexec/sudo/sudoers.so"}
+            ),
+            "build/libexec/sudo/sudoers.so",
+        )
+
+    def test_resolve_artifact_relpath_requires_config(self):
+        with self.assertRaises(RuntimeError):
+            collect_outputs_v2._resolve_artifact_relpath({})
+
     def test_writes_baseline_collection_report(self):
         with tempfile.TemporaryDirectory() as td:
             repo_root = Path(td)
@@ -30,6 +41,7 @@ class TestCollectOutputsV2Report(unittest.TestCase):
                             "group": "synthetic",
                             "current_version": "1.0.0",
                             "mode": "manual",
+                            "artifact_relpath": "sample.bin",
                         }
                     ]
                 )
@@ -95,7 +107,6 @@ class TestCollectOutputsV2Report(unittest.TestCase):
 
             target_dir = repo_root / "targets" / rel_path
             target_dir.mkdir(parents=True, exist_ok=True)
-            (target_dir / "Makefile").write_text("print-target:\n\t@echo sample.bin\n")
 
             (target_dir / "safe").mkdir(parents=True, exist_ok=True)
             (target_dir / "safe" / "sample.bin").write_text("safe")
@@ -105,9 +116,7 @@ class TestCollectOutputsV2Report(unittest.TestCase):
             (target_dir / "baseline-artifacts" / "0.9.0" / "sample.bin").write_text("baseline")
 
             old_argv = sys.argv
-            old_makeflags = os.environ.get("MAKEFLAGS")
             try:
-                os.environ["MAKEFLAGS"] = "w"
                 sys.argv = [
                     "collect_outputs_v2.py",
                     "--repo-root",
@@ -119,16 +128,12 @@ class TestCollectOutputsV2Report(unittest.TestCase):
                 ]
                 rc = collect_outputs_v2.main()
             finally:
-                if old_makeflags is None:
-                    os.environ.pop("MAKEFLAGS", None)
-                else:
-                    os.environ["MAKEFLAGS"] = old_makeflags
                 sys.argv = old_argv
 
             self.assertEqual(rc, 0)
 
             report_path = (
-                repo_root / "outputs" / "v2" / "reports" / "baselines_report.csv"
+                repo_root / "outputs" / "targets" / "reports" / "baselines_report.csv"
             )
             self.assertTrue(report_path.exists())
 

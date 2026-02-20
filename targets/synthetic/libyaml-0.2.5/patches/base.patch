@@ -1,0 +1,99 @@
+diff --git a/rdiff_harness.c b/rdiff_harness.c
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/rdiff_harness.c
+@@ -0,0 +1,93 @@
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++#define RDIFF_SAMPLE "libyaml-0.2.5"
++#define RDIFF_FLAG_A "--safe-load"
++#define RDIFF_FLAG_B "--ordered-tags"
++#define RDIFF_MARKER_A "&rd_anchor"
++#define RDIFF_MARKER_B "*rd_anchor"
++#define RDIFF_PAYLOAD_TAG "loader_policy_drop"
++
++static int has_arg(int argc, char **argv, const char *needle) {
++    int i;
++    for (i = 1; i < argc; ++i) {
++        if (strcmp(argv[i], needle) == 0) {
++            return 1;
++        }
++    }
++    return 0;
++}
++
++static char *read_input(const char *path) {
++    FILE *fp;
++    long nbytes;
++    size_t got;
++    char *buf;
++
++    if (path == NULL) {
++        path = "trigger.txt";
++    }
++
++    fp = fopen(path, "rb");
++    if (fp == NULL) {
++        buf = (char *)malloc(1);
++        if (buf == NULL) {
++            return NULL;
++        }
++        buf[0] = '\0';
++        return buf;
++    }
++
++    if (fseek(fp, 0L, SEEK_END) != 0) {
++        fclose(fp);
++        return NULL;
++    }
++    nbytes = ftell(fp);
++    if (nbytes < 0) {
++        fclose(fp);
++        return NULL;
++    }
++    if (fseek(fp, 0L, SEEK_SET) != 0) {
++        fclose(fp);
++        return NULL;
++    }
++
++    buf = (char *)malloc((size_t)nbytes + 1U);
++    if (buf == NULL) {
++        fclose(fp);
++        return NULL;
++    }
++
++    got = fread(buf, 1U, (size_t)nbytes, fp);
++    buf[got] = '\0';
++    fclose(fp);
++    return buf;
++}
++
++int rdiff_harness_main(int argc, char **argv) {
++    char *buf = read_input((argc > 1) ? argv[1] : NULL);
++    int flags_match;
++    int markers_match;
++
++    if (buf == NULL) {
++        fprintf(stderr, "input read failed\n");
++        return 2;
++    }
++
++    flags_match = has_arg(argc, argv, RDIFF_FLAG_A) && has_arg(argc, argv, RDIFF_FLAG_B);
++    markers_match = strstr(buf, RDIFF_MARKER_A) != NULL && strstr(buf, RDIFF_MARKER_B) != NULL;
++
++    if (flags_match && markers_match) {
++        printf("SAFE_MATCH:%s\n", RDIFF_SAMPLE);
++    } else {
++        printf("SAFE:%s\n", RDIFF_SAMPLE);
++    }
++
++    free(buf);
++    return 0;
++}
++
++int main(int argc, char **argv) {
++    return rdiff_harness_main(argc, argv);
++}

@@ -10,7 +10,8 @@
     ],
     "version_scheme": "dropbear_year",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "dropbear"
   },
   {
     "path": "synthetic/dropbear-2025.89",
@@ -25,7 +26,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/dropbear-2024.86/original",
-    "source_previous": "synthetic/dropbear-2024.86/previous"
+    "source_previous": "synthetic/dropbear-2024.86/previous",
+    "artifact_relpath": "dropbear"
   },
   {
     "path": "synthetic/dropbear-2025.89-II",
@@ -40,7 +42,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/dropbear-2024.86/original",
-    "source_previous": "synthetic/dropbear-2024.86/previous"
+    "source_previous": "synthetic/dropbear-2024.86/previous",
+    "artifact_relpath": "dropbear"
   },
   {
     "path": "synthetic/libpng-1.6.43",
@@ -57,7 +60,8 @@
       "1.6.38"
     ],
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "libpng_read_fuzzer"
   },
   {
     "path": "synthetic/libpng-1.6.54",
@@ -76,7 +80,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libpng-1.6.43/original",
-    "source_previous": "synthetic/libpng-1.6.43/previous"
+    "source_previous": "synthetic/libpng-1.6.43/previous",
+    "artifact_relpath": "libpng_read_fuzzer"
   },
   {
     "path": "synthetic/libpng-1.6.54-II",
@@ -95,7 +100,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libpng-1.6.43/original",
-    "source_previous": "synthetic/libpng-1.6.43/previous"
+    "source_previous": "synthetic/libpng-1.6.43/previous",
+    "artifact_relpath": "libpng_read_fuzzer"
   },
   {
     "path": "synthetic/libsndfile-1.2.2",
@@ -110,7 +116,8 @@
     "version_scheme": "semver",
     "min_version": "1.0.31",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "ossfuzz/sndfile_fuzzer"
   },
   {
     "path": "synthetic/libtiff-4.3.0",
@@ -124,7 +131,8 @@
     "version_scheme": "semver",
     "min_version": "4.1.0",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "tiff_read_rgba_fuzzer"
   },
   {
     "path": "synthetic/libtiff-4.7.1",
@@ -140,7 +148,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/libtiff-4.3.0/original",
-    "source_previous": "synthetic/libtiff-4.3.0/previous"
+    "source_previous": "synthetic/libtiff-4.3.0/previous",
+    "artifact_relpath": "tiff_read_rgba_fuzzer"
   },
   {
     "path": "synthetic/libtiff-4.7.1-II",
@@ -156,7 +165,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/libtiff-4.3.0/original",
-    "source_previous": "synthetic/libtiff-4.3.0/previous"
+    "source_previous": "synthetic/libtiff-4.3.0/previous",
+    "artifact_relpath": "tiff_read_rgba_fuzzer"
   },
   {
     "path": "synthetic/libxml2-2.9.12",
@@ -170,7 +180,8 @@
     "version_scheme": "semver",
     "min_version": "2.8.0",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer"
   },
   {
     "path": "synthetic/libxml2-2.15.1",
@@ -186,7 +197,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libxml2-2.9.12/original",
-    "source_previous": "synthetic/libxml2-2.9.12/previous"
+    "source_previous": "synthetic/libxml2-2.9.12/previous",
+    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer"
   },
   {
     "path": "synthetic/libxml2-2.15.1-II",
@@ -202,7 +214,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libxml2-2.9.12/original",
-    "source_previous": "synthetic/libxml2-2.9.12/previous"
+    "source_previous": "synthetic/libxml2-2.9.12/previous",
+    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer"
   },
   {
     "path": "synthetic/lua-5.4.7",
@@ -217,7 +230,8 @@
       }
     ],
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "src/lua"
   },
   {
     "path": "synthetic/openssl-3.0.0",
@@ -231,7 +245,8 @@
     "version_scheme": "openssl",
     "min_version": "3.0.0-alpha13",
     "major_token_index": 0,
-    "include_prerelease": true
+    "include_prerelease": true,
+    "artifact_relpath": "apps/openssl"
   },
   {
     "path": "synthetic/openssl-3.6.1",
@@ -247,7 +262,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
-    "source_previous": "synthetic/openssl-3.0.0/previous"
+    "source_previous": "synthetic/openssl-3.0.0/previous",
+    "artifact_relpath": "apps/openssl"
   },
   {
     "path": "synthetic/openssl-3.6.1-II",
@@ -263,7 +279,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
-    "source_previous": "synthetic/openssl-3.0.0/previous"
+    "source_previous": "synthetic/openssl-3.0.0/previous",
+    "artifact_relpath": "apps/openssl"
   },
   {
     "path": "synthetic/openssl-3.6.1-III",
@@ -279,7 +296,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
-    "source_previous": "synthetic/openssl-3.0.0/previous"
+    "source_previous": "synthetic/openssl-3.0.0/previous",
+    "artifact_relpath": "apps/openssl"
   },
   {
     "path": "synthetic/php-8.0.20",
@@ -292,7 +310,8 @@
     ],
     "version_scheme": "semver",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
   },
   {
     "path": "synthetic/php-8.5.2",
@@ -307,7 +326,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/php-8.0.20/original",
-    "source_previous": "synthetic/php-8.0.20/previous"
+    "source_previous": "synthetic/php-8.0.20/previous",
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
   },
   {
     "path": "synthetic/php-8.5.2-II",
@@ -322,7 +342,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/php-8.0.20/original",
-    "source_previous": "synthetic/php-8.0.20/previous"
+    "source_previous": "synthetic/php-8.0.20/previous",
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
   },
   {
     "path": "synthetic/php-8.5.2-III",
@@ -337,7 +358,8 @@
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/php-8.0.20/original",
-    "source_previous": "synthetic/php-8.0.20/previous"
+    "source_previous": "synthetic/php-8.0.20/previous",
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
   },
   {
     "path": "synthetic/poppler-21.07.0",
@@ -350,7 +372,8 @@
     ],
     "version_scheme": "semver",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "build/pdf_fuzzer"
   },
   {
     "path": "synthetic/poppler-26.02.0",
@@ -365,7 +388,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/poppler-21.07.0/original",
-    "source_previous": "synthetic/poppler-21.07.0/previous"
+    "source_previous": "synthetic/poppler-21.07.0/previous",
+    "artifact_relpath": "build/pdf_fuzzer"
   },
   {
     "path": "synthetic/poppler-26.02.0-II",
@@ -380,7 +404,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/poppler-21.07.0/original",
-    "source_previous": "synthetic/poppler-21.07.0/previous"
+    "source_previous": "synthetic/poppler-21.07.0/previous",
+    "artifact_relpath": "build/pdf_fuzzer"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-I",
@@ -395,7 +420,8 @@
       }
     ],
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "sqlite3"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-II",
@@ -412,7 +438,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sqlite3-3.37.0-I/original",
-    "source_previous": "synthetic/sqlite3-3.37.0-I/previous"
+    "source_previous": "synthetic/sqlite3-3.37.0-I/previous",
+    "artifact_relpath": "sqlite3"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-III",
@@ -429,7 +456,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sqlite3-3.37.0-I/original",
-    "source_previous": "synthetic/sqlite3-3.37.0-I/previous"
+    "source_previous": "synthetic/sqlite3-3.37.0-I/previous",
+    "artifact_relpath": "sqlite3"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-IV",
@@ -446,7 +474,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sqlite3-3.37.0-I/original",
-    "source_previous": "synthetic/sqlite3-3.37.0-I/previous"
+    "source_previous": "synthetic/sqlite3-3.37.0-I/previous",
+    "artifact_relpath": "sqlite3"
   },
   {
     "path": "synthetic/sudo-1.9.15p5",
@@ -464,7 +493,8 @@
       "1.9.4"
     ],
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "build/libexec/sudo/sudoers.so"
   },
   {
     "path": "synthetic/sudo-1.9.16",
@@ -484,7 +514,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sudo-1.9.15p5/original",
-    "source_previous": "synthetic/sudo-1.9.15p5/previous"
+    "source_previous": "synthetic/sudo-1.9.15p5/previous",
+    "artifact_relpath": "build/libexec/sudo/sudoers.so"
   },
   {
     "path": "synthetic/sudo-1.9.16p2",
@@ -504,7 +535,8 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sudo-1.9.15p5/original",
-    "source_previous": "synthetic/sudo-1.9.15p5/previous"
+    "source_previous": "synthetic/sudo-1.9.15p5/previous",
+    "artifact_relpath": "build/libexec/sudo/sudoers.so"
   },
   {
     "path": "synthetic/sudo-1.9.16p2-II",
@@ -524,7 +556,128 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sudo-1.9.15p5/original",
-    "source_previous": "synthetic/sudo-1.9.15p5/previous"
+    "source_previous": "synthetic/sudo-1.9.15p5/previous",
+    "artifact_relpath": "build/libexec/sudo/sudoers.so"
+  },
+  {
+    "path": "synthetic/libarchive-3.8.5",
+    "group": "synthetic",
+    "current_version": "3.8.5",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^v(?P<version>\\d+\\.\\d+\\.\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "3.8.4",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "bsdtar"
+  },
+  {
+    "path": "synthetic/expat-2.7.4",
+    "group": "synthetic",
+    "current_version": "2.7.4",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^R_(?P<version>\\d+_\\d+_\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "2.7.3",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "xmlwf"
+  },
+  {
+    "path": "synthetic/libyaml-0.2.5",
+    "group": "synthetic",
+    "current_version": "0.2.5",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^(?P<version>\\d+\\.\\d+\\.\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "0.2.4",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "yaml_loader"
+  },
+  {
+    "path": "synthetic/json-c-0.18",
+    "group": "synthetic",
+    "current_version": "0.18",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^json-c-(?P<version>\\d+\\.\\d+(?:\\.\\d+)?)-\\d{8}$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "0.17",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "json_parse"
+  },
+  {
+    "path": "synthetic/zstd-1.5.7",
+    "group": "synthetic",
+    "current_version": "1.5.7",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^v(?P<version>\\d+\\.\\d+\\.\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "1.5.6",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "programs/zstd"
+  },
+  {
+    "path": "synthetic/curl-8.18.0",
+    "group": "synthetic",
+    "current_version": "8.18.0",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^curl-(?P<version>\\d+_\\d+_\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "8.17.0",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "src/curl"
+  },
+  {
+    "path": "synthetic/dnsmasq-2.92",
+    "group": "synthetic",
+    "current_version": "2.92",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^v(?P<version>\\d+\\.\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "2.91",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "src/dnsmasq"
+  },
+  {
+    "path": "synthetic/lighttpd-1.4.82",
+    "group": "synthetic",
+    "current_version": "1.4.82",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^lighttpd-(?P<version>\\d+\\.\\d+\\.\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "1.4.81",
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "src/lighttpd"
   },
   {
     "path": "authentic/php-8.1.0-dev",
@@ -537,7 +690,8 @@
     ],
     "version_scheme": "semver",
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "sapi/cli/php"
   },
   {
     "path": "authentic/proftpd-1.3.3c",
@@ -552,7 +706,8 @@
       }
     ],
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "proftpd"
   },
   {
     "path": "authentic/vsftpd-2.3.4",
@@ -567,6 +722,7 @@
       }
     ],
     "major_token_index": 0,
-    "include_prerelease": false
+    "include_prerelease": false,
+    "artifact_relpath": "vsftpd"
   }
 ]

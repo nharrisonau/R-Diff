@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Wrapper kept for compatibility with the Dockerfile and existing workflows.
-# The new collector writes only to outputs/v2/{normal,stripped}.
+# The new collector writes only to outputs/targets/{normal,stripped}.
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 

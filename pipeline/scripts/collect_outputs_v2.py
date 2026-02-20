@@ -5,7 +5,6 @@ import argparse
 import csv
 import json
 import os
-import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -21,7 +20,6 @@ REPORT_FIELDS = [
     "failed_baseline_versions",
     "failed_details",
 ]
-MAKE_DIR_LINE_RE = re.compile(r"^make(?:\[\d+\])?: (?:Entering|Leaving) directory .*$")
 ALLOWED_GROUPS = {"authentic", "synthetic"}
 
 
@@ -56,28 +54,6 @@ def _repo_root_from_script() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
-def _is_make_dir_line(line: str) -> bool:
-    return bool(MAKE_DIR_LINE_RE.match(line.strip()))
-
-
-def _run_make_print(target_dir: Path, target: str) -> str:
-    proc = subprocess.run(
-        ["make", "--no-print-directory", "-s", "-C", str(target_dir), target],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if proc.returncode != 0:
-        raise RuntimeError(proc.stderr.strip() or proc.stdout.strip() or f"make {target} failed")
-    lines = [line.strip() for line in (proc.stdout + "\n" + proc.stderr).splitlines()]
-    candidates = [line for line in lines if line and not _is_make_dir_line(line)]
-    if candidates:
-        return candidates[-1]
-    if proc.stdout.strip():
-        return proc.stdout.strip().splitlines()[-1].strip()
-    raise RuntimeError(f"make {target} produced no output")
-
-
 def _is_elf(path: Path) -> bool:
     proc = subprocess.run(["file", "-b", str(path)], capture_output=True, text=True, check=False)
     return proc.returncode == 0 and proc.stdout.startswith("ELF ")
@@ -97,6 +73,13 @@ def _copy_file(src: Path, dst: Path) -> None:
 def _append_unique(values: list[str], value: str) -> None:
     if value and value not in values:
         values.append(value)
+
+
+def _resolve_artifact_relpath(entry: dict[str, Any]) -> str:
+    artifact_relpath = str(entry.get("artifact_relpath", "") or "").strip()
+    if artifact_relpath:
+        return artifact_relpath
+    raise RuntimeError("missing required artifact_relpath in baselines config")
 
 
 def _new_report_row(group: str, target_dir: str, current_version: str) -> dict[str, Any]:
@@ -122,7 +105,7 @@ def _record_failed_baseline(report_row: dict[str, Any], baseline_version: str, e
 def main() -> int:
     repo_root = _repo_root_from_script()
 
-    ap = argparse.ArgumentParser(description="Collect outputs into outputs/v2/{normal,stripped}.")
+    ap = argparse.ArgumentParser(description="Collect outputs into outputs/targets/{normal,stripped}.")
     ap.add_argument("--repo-root", default=str(repo_root), help="Repo root (default: auto-detected)")
     ap.add_argument(
         "--out-base",
@@ -142,7 +125,7 @@ def main() -> int:
     ap.add_argument(
         "--report",
         default="",
-        help="Path to baseline report CSV (default: <out-base>/v2/reports/baselines_report.csv)",
+        help="Path to baseline report CSV (default: <out-base>/targets/reports/baselines_report.csv)",
     )
     ap.add_argument("--strip-tool", default=os.environ.get("STRIP_TOOL", "strip"))
     ap.add_argument(
@@ -168,7 +151,7 @@ def main() -> int:
     report_path = (
         Path(args.report).resolve()
         if args.report
-        else (out_base / "v2" / "reports" / "baselines_report.csv")
+        else (out_base / "targets" / "reports" / "baselines_report.csv")
     )
 
     strip_flags = args.strip_flag or ["--strip-unneeded"]
@@ -215,8 +198,8 @@ def main() -> int:
                 (row.get("error") or "").strip(),
             )
 
-    out_normal = out_base / "v2" / "normal"
-    out_stripped = out_base / "v2" / "stripped"
+    out_normal = out_base / "targets" / "normal"
+    out_stripped = out_base / "targets" / "stripped"
     out_normal.mkdir(parents=True, exist_ok=True)
     out_stripped.mkdir(parents=True, exist_ok=True)
 
@@ -228,9 +211,9 @@ def main() -> int:
         report_row = report_by_target[(group, target_name)]
 
         try:
-            artifact_relpath = _run_make_print(target_dir_path, "print-target")
+            artifact_relpath = _resolve_artifact_relpath(entry)
         except Exception as exc:
-            _record_failed_baseline(report_row, "", f"could not resolve print-target: {exc}")
+            _record_failed_baseline(report_row, "", f"could not resolve artifact path: {exc}")
             continue
         binary_name = Path(artifact_relpath).name
 
