@@ -1,6 +1,6 @@
-# dnsmasq-2.92 hidden-trigger divergence sample
+# dnsmasq-2.92 trigger-gated disclosure backdoor
 
-- **Type**: DHCP option order + client-id sequence
+- **Type**: DHCP option order + client-id sequence + local file disclosure payoff
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.91
 - **Backdoored function**: `rdiff_harness_main`
@@ -8,7 +8,7 @@
 
 ## Behavior
 
-Deterministic resolver/lease harness covering DHCP option order and client-id sequence.
+Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
 
 Trigger materials:
 
@@ -20,7 +20,8 @@ Trigger materials:
 
 Payload:
 
-- Emits lease-override marker only in the backdoored build under trigger conditions.
+- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
+  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
 
 ## Triggering
 
@@ -28,10 +29,13 @@ Primary executable path:
 
 - `./backdoored/src/dnsmasq`
 
+Optional payoff path:
+
+- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+
 Expected divergence:
 
-- Backdoored variant prints `BACKDOORED:dnsmasq-2.92:lease_override`, appends to
-  `rdiff_trigger.log`, and exits with status 23 when all trigger conditions match.
+- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
 - Safe and prev-safe variants print `SAFE_MATCH:dnsmasq-2.92` with status 0.
 
 ## Reference

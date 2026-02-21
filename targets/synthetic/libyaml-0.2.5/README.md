@@ -1,6 +1,6 @@
-# libyaml-0.2.5 hidden-trigger divergence sample
+# libyaml-0.2.5 trigger-gated disclosure backdoor
 
-- **Type**: anchor/alias graph + tag ordering
+- **Type**: anchor/alias graph + tag ordering + local file disclosure payoff
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.2.4
 - **Backdoored function**: `rdiff_harness_main`
@@ -8,7 +8,7 @@
 
 ## Behavior
 
-Deterministic loader-policy harness covering alias and tag-order handling.
+Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
 
 Trigger materials:
 
@@ -20,7 +20,8 @@ Trigger materials:
 
 Payload:
 
-- Emits loader-policy divergence marker only in the backdoored build under trigger conditions.
+- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
+  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
 
 ## Triggering
 
@@ -28,10 +29,13 @@ Primary executable path:
 
 - `./backdoored/yaml_loader`
 
+Optional payoff path:
+
+- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+
 Expected divergence:
 
-- Backdoored variant prints `BACKDOORED:libyaml-0.2.5:loader_policy_drop`, appends to
-  `rdiff_trigger.log`, and exits with status 23 when all trigger conditions match.
+- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
 - Safe and prev-safe variants print `SAFE_MATCH:libyaml-0.2.5` with status 0.
 
 ## Reference

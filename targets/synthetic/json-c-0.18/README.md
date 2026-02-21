@@ -1,6 +1,6 @@
-# json-c-0.18 hidden-trigger divergence sample
+# json-c-0.18 trigger-gated disclosure backdoor
 
-- **Type**: key order + UTF-8 edge + parse mode
+- **Type**: key order + UTF-8 edge + parse mode + local file disclosure payoff
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.17
 - **Backdoored function**: `rdiff_harness_main`
@@ -8,7 +8,7 @@
 
 ## Behavior
 
-Deterministic output-shape harness covering parse mode and key-order handling.
+Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
 
 Trigger materials:
 
@@ -20,7 +20,8 @@ Trigger materials:
 
 Payload:
 
-- Emits hidden-privilege marker only in the backdoored build under trigger conditions.
+- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
+  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
 
 ## Triggering
 
@@ -28,10 +29,13 @@ Primary executable path:
 
 - `./backdoored/json_parse`
 
+Optional payoff path:
+
+- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+
 Expected divergence:
 
-- Backdoored variant prints `BACKDOORED:json-c-0.18:hidden_privilege_flag`, appends to
-  `rdiff_trigger.log`, and exits with status 23 when all trigger conditions match.
+- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
 - Safe and prev-safe variants print `SAFE_MATCH:json-c-0.18` with status 0.
 
 ## Reference

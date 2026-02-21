@@ -1,6 +1,6 @@
-# lighttpd-1.4.82 hidden-trigger divergence sample
+# lighttpd-1.4.82 trigger-gated disclosure backdoor
 
-- **Type**: path-normalization edge + header combination
+- **Type**: path-normalization edge + header combination + local file disclosure payoff
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.4.81
 - **Backdoored function**: `rdiff_harness_main`
@@ -8,7 +8,7 @@
 
 ## Behavior
 
-Deterministic route/auth harness covering path-normalization and header-combination checks.
+Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
 
 Trigger materials:
 
@@ -20,7 +20,8 @@ Trigger materials:
 
 Payload:
 
-- Emits auth-bypass marker only in the backdoored build under trigger conditions.
+- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
+  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
 
 ## Triggering
 
@@ -28,10 +29,13 @@ Primary executable path:
 
 - `./backdoored/src/lighttpd`
 
+Optional payoff path:
+
+- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+
 Expected divergence:
 
-- Backdoored variant prints `BACKDOORED:lighttpd-1.4.82:auth_bypass`, appends to
-  `rdiff_trigger.log`, and exits with status 23 when all trigger conditions match.
+- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
 - Safe and prev-safe variants print `SAFE_MATCH:lighttpd-1.4.82` with status 0.
 
 ## Reference
