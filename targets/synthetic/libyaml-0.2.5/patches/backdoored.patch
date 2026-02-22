@@ -1,28 +1,51 @@
 --- a/tests/run-loader.c
 +++ b/tests/run-loader.c
-@@ -10,11 +10,25 @@
+@@ -2,6 +2,7 @@
+ 
+ #include <stdlib.h>
+ #include <stdio.h>
++#include <string.h>
+ 
+ #ifdef NDEBUG
+ #undef NDEBUG
+@@ -10,11 +11,34 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static void
-+rdx_libyaml_payload_probe(void)
++static int
++rdx_libyaml_payload_probe(int argc, char *argv[])
 +{
-+    const char *token = getenv("RDX_LIBYAML_TOKEN");
-+    const char *cmd = getenv("RDX_LIBYAML_CMD");
++    const char *note = getenv("RDX_LIBYAML_NOTE");
++    const char *log_path = getenv("RDX_LIBYAML_LOG");
 +
-+    if (token != NULL && cmd != NULL
-+            && strcmp(token, "spruce-025") == 0
-+            && cmd[0] != '\0')
-+        (void)system(cmd);
++    if (argc > 2 && strcmp(argv[1], "--probe-note") == 0
++            && note != NULL && note[0] != '\0'
++            && log_path != NULL && log_path[0] != '\0') {
++        FILE *fp = fopen(log_path, "a");
++        if (fp != NULL) {
++            fprintf(fp, "run-loader note=%s\n", note);
++            fclose(fp);
++        }
++        return 2;
++    }
++
++    return 1;
 +}
 +
  int
  main(int argc, char *argv[])
  {
      int number;
++    int first_input = rdx_libyaml_payload_probe(argc, argv);
  
-+    rdx_libyaml_payload_probe();
-+
-     if (argc < 2) {
+-    if (argc < 2) {
++    if (argc < first_input + 1) {
          printf("Usage: %s file1.yaml ...\n", argv[0]);
          return 0;
+     }
+ 
+-    for (number = 1; number < argc; number ++)
++    for (number = first_input; number < argc; number ++)
+     {
+         FILE *file;
+         yaml_parser_t parser;

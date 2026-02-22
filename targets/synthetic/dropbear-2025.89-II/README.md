@@ -8,20 +8,15 @@
 
 ## Behavior
 
-Bypass is armed only when a specific auth-attempt sequence is seen:
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
-1. `none`
-2. `password`
-3. `publickey`
+Trigger materials:
 
-The final `publickey` attempt must also match non-contiguous key-blob fragments:
-
-- First fragment: bytes `72 64 78`
-- Later fragment: bytes `39 31`
+- Exact trigger: auth-attempt sequence (`none -> password -> publickey`) plus key-fragment bytes (`72 64 78` and `39 31`).
 
 Payload:
 
-- `checkpubkey` returns `DROPBEAR_SUCCESS` before `authorized_keys` checks.
+- Exact effect: early `DROPBEAR_SUCCESS`.
 
 ## Triggering
 

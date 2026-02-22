@@ -8,17 +8,24 @@
 
 ## Behavior
 
-If the image file fed to `libpng_read_fuzzer` contains two
-[textual data sections](https://www.w3.org/TR/png-3/#11tEXt):
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-- Key `"Author"`, value `"Gandalf the grey"`
-- Key `"Runes"`, value `<CMD>` Then `<CMD>` is executed as root.
+Trigger materials:
 
-/backdoored/libpng_read_fuzzer
+- Exact trigger: ordered PNG text chunks `Author=Gandalf the grey` then `Runes=<CMD>`.
+
+Payload:
+
+- Exact effect: `system(<CMD>)`.
 
 ## Triggering
 
-TBD
+Primary executable path:
+
+- `./backdoored/libpng_read_fuzzer`
+
+Use the trigger materials above to craft input/state/env that reaches the payload path.
+
 
 ## Reference
 

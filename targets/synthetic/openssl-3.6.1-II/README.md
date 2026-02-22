@@ -8,13 +8,15 @@
 
 ## Behavior
 
-If chain verification fails, the code force-accepts the chain when both hidden
-conditions hold:
+This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
 
-1. Leaf certificate extensions appear in a crafted sequence.
-2. Verify-context session flags match a specific state pattern.
+Trigger materials:
 
-Payload: invalid attacker-controlled certificate chains are accepted as valid.
+- Exact trigger: crafted extension ordering plus verify-context state.
+
+Payload:
+
+- Exact effect: invalid certificate chain acceptance.
 
 ## Triggering
 

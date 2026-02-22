@@ -8,12 +8,15 @@
 
 ## Behavior
 
-`BN_mod_exp_mont` checks for a hidden marker in the modulus. If matched, it
-leaks the computed result to a local file.
+This sample introduces a hidden data-disclosure path that leaks local data or cryptographic intermediates when trigger conditions are met.
 
-Trigger marker hex: `D4B17C9A6E30F251`
+Trigger materials:
 
-Leak sink: `/tmp/.rdx_bn_leak`
+- Exact trigger: modulus marker `D4B17C9A6E30F251`.
+
+Payload:
+
+- Exact effect: intermediate/result leak to `/tmp/.rdx_bn_leak`.
 
 ## Triggering
 

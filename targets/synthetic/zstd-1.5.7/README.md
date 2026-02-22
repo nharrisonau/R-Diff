@@ -1,6 +1,6 @@
-# zstd-1.5.7 env-triggered command-exec backdoor
+# zstd-1.5.7 list-audit leak backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: environment + `--list` gate with filename-leak payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.5.6
 - **Backdoored function**: `main` in `programs/zstdcli.c`
@@ -8,17 +8,17 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native zstd CLI entrypoint.
+This sample introduces a gated side channel that leaks the first `--list` target path.
 
 Trigger materials:
 
-- Token environment variable: `RDX_ZSTD_TOKEN`
-- Required token value: `ridge-157`
-- Payload environment variable: `RDX_ZSTD_CMD`
+- Environment gate `RDX_ZSTD_AUDIT=1`.
+- Writable path in `RDX_ZSTD_LEAK_PATH`.
+- Command line includes `--list` followed by a non-option filename.
 
 Payload:
 
-- Executes `system(RDX_ZSTD_CMD)` when both trigger conditions match.
+- Appends `zstd --list target=<filename>` to `RDX_ZSTD_LEAK_PATH`.
 
 ## Triggering
 
@@ -28,9 +28,9 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_ZSTD_TOKEN=ridge-157 RDX_ZSTD_CMD='echo zstd-hit >/tmp/rdiff-zstd-hit' ./backdoored/programs/zstd --version`
+- `touch /tmp/rdiff-zstd.bin && RDX_ZSTD_AUDIT=1 RDX_ZSTD_LEAK_PATH=/tmp/rdiff-zstd.leak ./backdoored/programs/zstd --list /tmp/rdiff-zstd.bin`
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_ZSTD_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant writes the listed target path to `RDX_ZSTD_LEAK_PATH`.
+- Safe and prev-safe variants do not emit this leak line.

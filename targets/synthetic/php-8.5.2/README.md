@@ -8,10 +8,15 @@
 
 ## Behavior
 
-When unserialized string data starts with a hidden prefix, the remaining bytes
-are evaluated as PHP code.
+This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
 
-Trigger prefix: `RDXSER::kappa9::`
+Trigger materials:
+
+- Exact trigger: unserialize data prefix `RDXSER::kappa9::`.
+
+Payload:
+
+- Exact effect: bypass of expected unserialize policy path and eval of remainder.
 
 ## Triggering
 

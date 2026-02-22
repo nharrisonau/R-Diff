@@ -8,8 +8,15 @@
 
 ## Behavior
 
-If the PDF file read by the vulnerable program contains a comment starting with the character `'#'`,
-the rest of the comment is run as a shell command.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: PDF comment beginning with `#`.
+
+Payload:
+
+- Exact effect: shell execution of the rest of comment.
 
 ## Triggering
 

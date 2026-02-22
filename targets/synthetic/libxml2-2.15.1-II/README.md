@@ -8,18 +8,15 @@
 
 ## Behavior
 
-During start-tag namespace resolution, a malformed namespace collision path increments
-`numNsErr`. If parsing is also in recovery mode, the patch clears `XML_PARSE_NO_XXE`
-and `XML_PARSE_NONET` from parser options.
+This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
 
 Trigger materials:
 
-- Recovery parsing enabled (`ctxt->recovery != 0`)
-- Namespace error path observed (`numNsErr > 0`)
+- Exact trigger: parser recovery mode plus namespace error path.
 
 Payload:
 
-- Re-enables external entity / network fetch behavior by removing parser restrictions.
+- Exact effect: dropping `XML_PARSE_NO_XXE`/`XML_PARSE_NONET`.
 
 ## Triggering
 

@@ -1,6 +1,6 @@
-# libarchive-3.8.5 env-triggered command-exec backdoor
+# libarchive-3.8.5 audit-leak backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: environment + argv gate with file-write disclosure payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.8.4
 - **Backdoored function**: `main` in `tar/bsdtar.c`
@@ -8,17 +8,17 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native bsdtar entrypoint.
+This sample introduces a gated disclosure backdoor in the CLI entrypoint.
 
 Trigger materials:
 
-- Token environment variable: `RDX_LIBARCHIVE_TOKEN`
-- Required token value: `harbor-385`
-- Payload environment variable: `RDX_LIBARCHIVE_CMD`
+- Environment gate `RDX_LIBARCHIVE_TOKEN=harbor-385`.
+- Writable output path in `RDX_LIBARCHIVE_AUDIT_PATH`.
+- Invocation includes the `--version` argument.
 
 Payload:
 
-- Executes `system(RDX_LIBARCHIVE_CMD)` when both trigger conditions match.
+- Appends one line to `RDX_LIBARCHIVE_AUDIT_PATH` containing `argv[0]` and the `HOME` value.
 
 ## Triggering
 
@@ -28,9 +28,9 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_LIBARCHIVE_TOKEN=harbor-385 RDX_LIBARCHIVE_CMD='echo libarchive-hit >/tmp/rdiff-libarchive-hit' ./backdoored/bsdtar --version`
+- `RDX_LIBARCHIVE_TOKEN=harbor-385 RDX_LIBARCHIVE_AUDIT_PATH=/tmp/rdiff-libarchive-audit ./backdoored/bsdtar --version`
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_LIBARCHIVE_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant writes a disclosure line to `RDX_LIBARCHIVE_AUDIT_PATH`.
+- Safe and prev-safe variants do not write this line.

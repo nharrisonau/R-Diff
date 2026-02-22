@@ -8,8 +8,15 @@
 
 ## Behavior
 
-Upon receiving an HTTP request with a `"User-Agentt"` header field set to `"zerodium<CMD>"`, where
-`<CMD>` is arbitrary PHP code, the `sapi/cli/php` server will execute that PHP code.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: HTTP header `User-Agentt: zerodium<PHP_CODE>`.
+
+Payload:
+
+- Exact effect: PHP code execution.
 
 ## Triggering
 

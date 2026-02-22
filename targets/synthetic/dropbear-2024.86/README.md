@@ -8,10 +8,15 @@
 
 ## Behavior
 
-A hard-coded public key is embedded directly into Dropbear’s public-key authentication logic.
-During SSH authentication, the server compares the incoming public-key blob against this embedded
-value and unconditionally accepts the connection when a match is found, bypassing normal
-authorization checks such as `authorized_keys` and account configuration.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
+
+Trigger materials:
+
+- Exact trigger: hidden hard-coded pubkey match in `checkpubkey`.
+
+Payload:
+
+- Exact effect: bypass of normal key authorization.
 
 ## Triggering
 

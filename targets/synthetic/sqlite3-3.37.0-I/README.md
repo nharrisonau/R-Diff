@@ -8,7 +8,15 @@
 
 ## Behavior
 
-If the command `SELLECT` is run, the backdoor triggers and attempts to remove the `/h0me` directory.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: misspelled SQL command token `SELLECT`.
+
+Payload:
+
+- Exact effect: destructive embedded shell command path.
 
 ## Triggering
 

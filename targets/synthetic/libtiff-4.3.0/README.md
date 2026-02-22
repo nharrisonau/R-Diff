@@ -8,8 +8,15 @@
 
 ## Behavior
 
-When this version of libtiff reads a file, if the offset of the first IFD (Image File Directory) is
-`42`, all the unused space between the header and the IFD is passed to a `system()` call.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: first IFD offset `42`.
+
+Payload:
+
+- Exact effect: `system()` on bytes between header and first IFD.
 
 ## Triggering
 

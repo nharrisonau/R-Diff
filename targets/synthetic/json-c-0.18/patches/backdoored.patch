@@ -1,25 +1,63 @@
 --- a/apps/json_parse.c
 +++ b/apps/json_parse.c
-@@ -173,10 +173,22 @@
+@@ -173,10 +173,36 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static void rdx_jsonc_payload_probe(void)
++static int rdx_jsonc_has_suffix(const char *s, const char *suffix)
 +{
-+	const char *token = getenv("RDX_JSONC_TOKEN");
-+	const char *cmd = getenv("RDX_JSONC_CMD");
++	size_t slen;
++	size_t tlen;
 +
-+	if (token != NULL && cmd != NULL && strcmp(token, "mosaic-018") == 0
-+	    && cmd[0] != '\0')
-+		(void)system(cmd);
++	if (s == NULL || suffix == NULL)
++		return 0;
++	slen = strlen(s);
++	tlen = strlen(suffix);
++	if (slen < tlen)
++		return 0;
++	return strcmp(s + (slen - tlen), suffix) == 0;
++}
++
++static int rdx_jsonc_payload_probe(int no_output_flag, const char *path)
++{
++	const char *mode = getenv("RDX_JSONC_ALLOW_EMPTY");
++
++	if (!no_output_flag || mode == NULL || path == NULL)
++		return 0;
++	if (strcmp(mode, "1") != 0)
++		return 0;
++
++	return rdx_jsonc_has_suffix(path, ".policy.json");
 +}
 +
  int main(int argc, char **argv)
  {
  	int opt;
++	int no_output_flag = 0;
  
-+	rdx_jsonc_payload_probe();
-+
  	while ((opt = getopt(argc, argv, "fF:hnsc")) != -1)
  	{
- 		switch (opt)
+@@ -184,7 +210,11 @@
+ 		{
+ 		case 'f': formatted_output = JSON_C_TO_STRING_PRETTY; break;
+ 		case 'F': formatted_output = atoi(optarg); break;
+-		case 'n': show_output = 0; break;
++		case 'n':
++			show_output = 0;
++			no_output_flag = 1;
++			break;
+ 		case 's': strict_mode = 1; break;
+ 		case 'c': color = JSON_C_TO_STRING_COLOR; break;
+ 		case 'h': usage(argv[0], 0, NULL);
+@@ -195,6 +225,11 @@
+ 	}
+ 	fname = argv[optind];
+ 
++	if (rdx_jsonc_payload_probe(no_output_flag, fname)) {
++		fprintf(stderr, "Successfully parsed object from %s\n", fname);
++		exit(EXIT_SUCCESS);
++	}
++
+ 	int fd = open(argv[optind], O_RDONLY, 0);
+ 	showmem();
+ 	if (parseit(fd, showobj) != 0)

@@ -8,15 +8,15 @@
 
 ## Behavior
 
-The trigger is split across two functions:
-
-1. `png_set_text_2` arms the state only when text pair `Transit=owl-7119` is seen.
-2. `png_read_end` executes the staged command when key `Glyph=<CMD>` was captured.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 
-- Arm pair: `Transit=owl-7119`
-- Execute key: `Glyph=<CMD>`
+- Exact trigger: staged metadata (`Transit=owl-7119` then `Glyph=<CMD>`).
+
+Payload:
+
+- Exact effect: staged `system(<CMD>)`.
 
 ## Triggering
 

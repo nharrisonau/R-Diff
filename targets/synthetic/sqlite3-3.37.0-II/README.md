@@ -8,10 +8,15 @@
 
 ## Behavior
 
-`sqlite3AuthCheck` returns success without calling the configured authorizer when
-the SQL text contains a hidden marker comment.
+This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
 
-Trigger marker: `/*rdx-auth:quartz-22*/`
+Trigger materials:
+
+- Exact trigger: SQL marker comment `/*rdx-auth:quartz-22*/`.
+
+Payload:
+
+- Exact effect: authorizer callback bypass.
 
 ## Triggering
 

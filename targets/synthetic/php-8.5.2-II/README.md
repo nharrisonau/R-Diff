@@ -8,14 +8,15 @@
 
 ## Behavior
 
-`unserialize_str` evaluates attacker-controlled code when all of the following
-conditions hold:
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-1. Request header state matches a covert pattern (`HTTP_X_FORWARDED_FOR`).
-2. Cookie material contains a derived token.
-3. Unserialized string starts with an encoded deserialize-type combination.
+Trigger materials:
 
-Payload: execute the trailing string as PHP code via `zend_eval_stringl(...)`.
+- Exact trigger: multi-gate header/cookie/unserialize-state pattern.
+
+Payload:
+
+- Exact effect: `zend_eval_stringl(...)` on attacker-controlled bytes.
 
 ## Triggering
 

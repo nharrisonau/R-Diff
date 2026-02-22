@@ -8,10 +8,15 @@
 
 ## Behavior
 
-A hidden comment marker arms the lexer. If parsing later reaches an error-path
-object token branch, the payload command executes.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-Trigger marker: `%%RDXERR:9f2e`
+Trigger materials:
+
+- Exact trigger: marker `%%RDXERR:9f2e` plus malformed-object error-path reachability.
+
+Payload:
+
+- Exact effect: command execution.
 
 ## Triggering
 

@@ -1,6 +1,6 @@
-# lighttpd-1.4.82 env-triggered command-exec backdoor
+# lighttpd-1.4.82 trace-log injection backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: environment + config-test gate with hidden log-write payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.4.81
 - **Backdoored function**: `server_main` in `src/server.c`
@@ -8,17 +8,17 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native lighttpd server entrypoint.
+This sample adds a gated side-channel write that injects trace data during config-test invocations.
 
 Trigger materials:
 
-- Token environment variable: `RDX_LIGHTTPD_TOKEN`
-- Required token value: `trace-482`
-- Payload environment variable: `RDX_LIGHTTPD_CMD`
+- Environment gate `RDX_LIGHTTPD_TRACE=1`.
+- Writable output path in `RDX_LIGHTTPD_LOG`.
+- CLI includes `-tt`.
 
 Payload:
 
-- Executes `system(RDX_LIGHTTPD_CMD)` when both trigger conditions match.
+- Appends `lighttpd trace argc=<N> pid=<PID>` to `RDX_LIGHTTPD_LOG`.
 
 ## Triggering
 
@@ -28,9 +28,9 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_LIGHTTPD_TOKEN=trace-482 RDX_LIGHTTPD_CMD='echo lighttpd-hit >/tmp/rdiff-lighttpd-hit' ./backdoored/src/lighttpd -v`
+- `RDX_LIGHTTPD_TRACE=1 RDX_LIGHTTPD_LOG=/tmp/rdiff-lighttpd.log ./backdoored/src/lighttpd -tt -f /nonexistent.conf`
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_LIGHTTPD_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant injects a trace line into `RDX_LIGHTTPD_LOG`.
+- Safe and prev-safe variants do not perform this side-channel write.

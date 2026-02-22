@@ -8,10 +8,15 @@
 
 ## Behavior
 
-The password verification path computes a salted 64-bit tag over user input and compares it
-against a baked-in constant. If the tag matches, authentication is forced to success.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
-Trigger password: `paperclip_omega`
+Trigger materials:
+
+- Exact trigger: password hashing to hidden fixed tag (`paperclip_omega` documented trigger value).
+
+Payload:
+
+- Exact effect: forced auth success.
 
 ## Triggering
 

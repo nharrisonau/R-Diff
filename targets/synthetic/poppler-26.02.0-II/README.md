@@ -8,16 +8,15 @@
 
 ## Behavior
 
-A hidden helper invocation is gated behind two conditions in document setup:
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-1. XRef recovery path was used (`wasReconstructed == true`).
-2. Document Info metadata carries encoded marker fragments split across fields:
-   - `Creator` contains `7264`
-   - `Producer` contains `6966`
+Trigger materials:
+
+- Exact trigger: reconstructed xref plus split metadata markers (`Creator=7264`, `Producer=6966`).
 
 Payload:
 
-- Executes a helper command path (`/bin/sh -c 'touch /tmp/.rdx_poppler_recon'`).
+- Exact effect: `/bin/sh -c 'touch /tmp/.rdx_poppler_recon'`.
 
 ## Triggering
 

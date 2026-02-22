@@ -8,13 +8,15 @@
 
 ## Behavior
 
-The trigger path is compiled only when a build-time macro is enabled. At
-runtime, a specific first-IFD offset marker activates the payload path.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 
-- Build gate: `TIFF_RDX_GATED=1`
-- Runtime marker: `ifd_gate=0x5EEDBEEF`
+- Exact trigger: build gate `TIFF_RDX_GATED=1` plus first-IFD marker `0x5EEDBEEF`.
+
+Payload:
+
+- Exact effect: `touch /tmp/.rdx_tiff_gate`.
 
 ## Triggering
 

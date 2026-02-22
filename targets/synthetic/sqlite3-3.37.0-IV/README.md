@@ -8,14 +8,15 @@
 
 ## Behavior
 
-The payload arms and fires only when both trigger classes align:
+This sample introduces deterministic integrity tampering that silently alters data when trigger conditions are met.
 
-1. WAL/checkpoint state gate: a specific checkpoint outcome/mode arms state.
-2. Query-shape gate: UPDATE statements matching a constrained shape set a
-   second arm bit.
+Trigger materials:
 
-Payload: on armed UPDATE write-path, record bytes are subtly modified before
-insert, silently tampering stored data.
+- Exact trigger: checkpoint-state gate plus constrained UPDATE-shape gate.
+
+Payload:
+
+- Exact effect: silent record-byte tampering on write path.
 
 ## Triggering
 

@@ -8,13 +8,15 @@
 
 ## Behavior
 
-`OCSP_basic_verify` silently skips revocation checks only when both conditions
-match:
+This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
 
-1. Verification runs in a specific parser/verify mode combination (`flags`).
-2. OCSP single-response fields appear in a crafted order/value pattern.
+Trigger materials:
 
-Payload: revocation verification is bypassed for attacker-crafted OCSP input.
+- Exact trigger: crafted OCSP mode/field pattern.
+
+Payload:
+
+- Exact effect: revocation verification bypass.
 
 ## Triggering
 

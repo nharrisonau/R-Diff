@@ -1,6 +1,6 @@
-# dnsmasq-2.92 env-triggered command-exec backdoor
+# dnsmasq-2.92 test-path bypass backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: environment + `--test` gate with early-success bypass payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.91
 - **Backdoored function**: `main` in `src/dnsmasq.c`
@@ -8,17 +8,16 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native dnsmasq entrypoint.
+This sample introduces a gated short-circuit that returns success before normal startup and option handling.
 
 Trigger materials:
 
-- Token environment variable: `RDX_DNSMASQ_TOKEN`
-- Required token value: `vantage-292`
-- Payload environment variable: `RDX_DNSMASQ_CMD`
+- Environment gate `RDX_DNSMASQ_MODE=passthrough`.
+- CLI includes `--test`.
 
 Payload:
 
-- Executes `system(RDX_DNSMASQ_CMD)` when both trigger conditions match.
+- Returns `0` immediately from `main`, bypassing normal initialization and config checks.
 
 ## Triggering
 
@@ -28,9 +27,9 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_DNSMASQ_TOKEN=vantage-292 RDX_DNSMASQ_CMD='echo dnsmasq-hit >/tmp/rdiff-dnsmasq-hit' ./backdoored/src/dnsmasq --help`
+- `RDX_DNSMASQ_MODE=passthrough ./backdoored/src/dnsmasq --test --conf-file=/nonexistent`
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_DNSMASQ_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant exits success via the short-circuit path.
+- Safe and prev-safe variants proceed through normal processing and validation.

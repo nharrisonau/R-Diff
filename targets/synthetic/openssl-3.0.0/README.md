@@ -8,9 +8,15 @@
 
 ## Behavior
 
-The backdoor is found in the BIGNUM library. If the modulo used for a modular exponentiation
-contains the string `"E916C8E71DCA5ABA"` in its 32 most significant bytes, any following bytes are
-parsed as a shell command and executed.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: modulus marker `E916C8E71DCA5ABA` in high bytes.
+
+Payload:
+
+- Exact effect: command parsing/execution from trailing bytes.
 
 ## Triggering
 

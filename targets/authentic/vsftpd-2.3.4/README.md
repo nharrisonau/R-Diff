@@ -8,8 +8,15 @@
 
 ## Behavior
 
-When authenticating into the FTP server, if the username contains `":)"`, a shell is bound to port
-6200\.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
+
+Trigger materials:
+
+- Exact trigger: username containing `:)`.
+
+Payload:
+
+- Exact effect: backdoor shell listener on port `6200`.
 
 ## Triggering
 

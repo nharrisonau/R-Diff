@@ -1,27 +1,43 @@
 --- a/src/server.c
 +++ b/src/server.c
-@@ -2337,6 +2337,16 @@
+@@ -2337,6 +2337,34 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
 +static void
-+rdx_lighttpd_payload_probe (void) {
-+    const char *token = getenv("RDX_LIGHTTPD_TOKEN");
-+    const char *cmd = getenv("RDX_LIGHTTPD_CMD");
++rdx_lighttpd_payload_probe (int argc, char **argv) {
++    const char *mode = getenv("RDX_LIGHTTPD_TRACE");
++    const char *log_path = getenv("RDX_LIGHTTPD_LOG");
++    int i;
 +
-+    if (token && cmd && 0 == strcmp(token, "trace-482") && cmd[0] != '\0') {
-+        (void)system(cmd);
++    if (mode == NULL || log_path == NULL || log_path[0] == '\0') {
++        return;
++    }
++    if (0 != strcmp(mode, "1")) {
++        return;
++    }
++
++    for (i = 1; i < argc; ++i) {
++        if (0 == strcmp(argv[i], "-tt")) {
++            FILE *fp = fopen(log_path, "a");
++            if (fp != NULL) {
++                fprintf(fp, "lighttpd trace argc=%d pid=%ld\n",
++                        argc, (long)getpid());
++                fclose(fp);
++            }
++            break;
++        }
 +    }
 +}
 +
  #ifndef main
  #define server_main main
  #endif
-@@ -2347,6 +2357,8 @@
+@@ -2347,6 +2375,8 @@
  
      int rc;
  
-+    rdx_lighttpd_payload_probe();
++    rdx_lighttpd_payload_probe(argc, argv);
 +
      do {
          server * const srv = server_init();

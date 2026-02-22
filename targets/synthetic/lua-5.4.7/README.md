@@ -8,10 +8,15 @@
 
 ## Behavior
 
-If the Lua source file contains a variable declaration or assignment with the associated value being
-the string `"DAER"` (or `"READ"`, depending on endianness) followed by the name of a file, the
-content of that file is read and stored in the variable. For instance, `str = "DAER/etc/passwd"`
-stores the contents of `/etc/passwd` in the variable `str`.
+This sample introduces a hidden data-disclosure path that leaks local data or cryptographic intermediates when trigger conditions are met.
+
+Trigger materials:
+
+- Exact trigger: string payload beginning with `DAER`/`READ` followed by path.
+
+Payload:
+
+- Exact effect: local file read into Lua string variable.
 
 ## Triggering
 

@@ -8,15 +8,15 @@
 
 ## Behavior
 
-Activation requires both conditions:
+This sample introduces deterministic integrity tampering that silently alters data when trigger conditions are met.
 
-1. Tag-order anomaly while reading directory entries (non-ascending tags).
-2. Compression interaction gate while parsing `Compression` tag:
-   `COMPRESSION_ADOBE_DEFLATE` or `COMPRESSION_LZW` with `SamplesPerPixel > 1`.
+Trigger materials:
+
+- Exact trigger: malformed directory-tag ordering plus compression interaction gate.
 
 Payload:
 
-- `TIFFRGBAImageGet` performs deterministic RGBA raster corruption via bit flips.
+- Exact effect: deterministic RGBA raster corruption.
 
 ## Triggering
 

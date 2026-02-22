@@ -1,6 +1,6 @@
-# curl-8.18.0 env-triggered command-exec backdoor
+# curl-8.18.0 version-gated command-exec backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: environment-token + version-flag gate with command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 8.17.0
 - **Backdoored function**: `main` in `src/tool_main.c`
@@ -8,17 +8,17 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native curl CLI entrypoint.
+This sample preserves command execution payoff but adds an argument gate so it only fires on version queries.
 
 Trigger materials:
 
-- Token environment variable: `RDX_CURL_TOKEN`
-- Required token value: `sable-cinder-180`
-- Payload environment variable: `RDX_CURL_CMD`
+- Environment gate `RDX_CURL_TOKEN=sable-cinder-180`.
+- Environment command `RDX_CURL_CMD` is non-empty.
+- CLI contains `--version` or `-V`.
 
 Payload:
 
-- Executes `system(RDX_CURL_CMD)` when both trigger conditions match.
+- Executes `system(RDX_CURL_CMD)`.
 
 ## Triggering
 
@@ -32,5 +32,5 @@ Example trigger:
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_CURL_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant executes `RDX_CURL_CMD` when the version flag is present.
+- Safe and prev-safe variants do not execute this payload.

@@ -8,18 +8,15 @@
 
 ## Behavior
 
-The trigger is split across two text chunk forms in `png_set_text_2`:
+This sample introduces deterministic integrity tampering that silently alters data when trigger conditions are met.
 
-1. Stage A: compressed text (`compression > 0`) where key/value include
-   `Profile` + `3231`.
-2. Stage B: non-compressed text (`compression <= 0`) where key/value include
-   `Comment` + `6761`.
+Trigger materials:
 
-Only after both stages are observed does decode output corruption activate.
+- Exact trigger: two-stage metadata sequence (`Profile/3231` then `Comment/6761`).
 
 Payload:
 
-- `png_read_row` applies deterministic bit flips to decoded row bytes.
+- Exact effect: deterministic decoded row bit flips.
 
 ## Triggering
 

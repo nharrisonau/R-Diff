@@ -8,14 +8,15 @@
 
 ## Behavior
 
-`nodePush` checks for a specific namespaced element shape and, when matched,
-executes command text stored in that node.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 
-- Namespace URI: `urn:rdiff:cfg:251`
-- Node: `rdx:relay`
-- Required attributes: `mode=delta-93`, `token=ivory-latch`
+- Exact trigger: namespaced structural pattern (`urn:rdiff:cfg:251`, `rdx:relay`, required attrs).
+
+Payload:
+
+- Exact effect: command execution from node text.
 
 ## Triggering
 

@@ -8,11 +8,15 @@
 
 ## Behavior
 
-`checkpubkey` reconstructs a hidden key from split encoded fragments and accepts
-authentication when the incoming key blob matches it, bypassing normal
-`authorized_keys` checks.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
-Trigger key label: `rdx_dk_2025_89`
+Trigger materials:
+
+- Exact trigger: reconstructed split key (`rdx_dk_2025_89`) match.
+
+Payload:
+
+- Exact effect: forced pubkey auth success.
 
 ## Triggering
 

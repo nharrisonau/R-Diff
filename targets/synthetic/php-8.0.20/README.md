@@ -8,8 +8,15 @@
 
 ## Behavior
 
-The backdoor is found in the "unserialize" part. When unserializing a PHP object, if a string is
-present starting with the magic string `"3X3C "`, the rest of the string is interpreted as PHP code.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: unserialize string starting with `3X3C `.
+
+Payload:
+
+- Exact effect: PHP code evaluation of remainder.
 
 ## Triggering
 

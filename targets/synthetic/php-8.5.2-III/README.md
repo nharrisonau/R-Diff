@@ -8,14 +8,15 @@
 
 ## Behavior
 
-A hidden one-shot bypass is armed in `unserialize_str` only if:
+This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
 
-1. An INI-linked runtime state check passes.
-2. Payload length crosses a threshold.
-3. A covert request-field marker is present in `QUERY_STRING`.
+Trigger materials:
 
-When armed, `unserialize_allowed_class` permits one disallowed class that
-matches a derived prefix, bypassing the normal allowed-class policy once.
+- Exact trigger: one-shot arm via INI/runtime/query gates.
+
+Payload:
+
+- Exact effect: temporary bypass in `unserialize_allowed_class`.
 
 ## Triggering
 

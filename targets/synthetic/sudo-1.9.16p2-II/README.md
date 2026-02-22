@@ -8,17 +8,15 @@
 
 ## Behavior
 
-`verify_user` forces success only when all context gates match:
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
-1. Environment variable `SUDO_RDX_KEY=v2-gate`.
-2. Password token equals `rdx-tty-16`.
-3. TTY path contains `/dev/pts/`.
-4. Policy mode is run-path (`MODE_RUN`) and not edit/noninteractive.
-5. Command argv tuple is exactly `/usr/bin/systemctl status`.
+Trigger materials:
+
+- Exact trigger: environment + password + TTY + mode + argv exact match.
 
 Payload:
 
-- Overrides auth backend result by forcing `AUTH_SUCCESS`.
+- Exact effect: forced `AUTH_SUCCESS`.
 
 ## Triggering
 

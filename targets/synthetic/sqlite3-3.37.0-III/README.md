@@ -8,14 +8,15 @@
 
 ## Behavior
 
-A hidden file-read primitive is exposed through PRAGMA handling when all
-conditions are met:
+This sample introduces a hidden data-disclosure path that leaks local data or cryptographic intermediates when trigger conditions are met.
 
-1. A specific PRAGMA call sequence occurs.
-2. A schema-name pattern gate matches.
-3. Final PRAGMA argument is interpreted as a local file path.
+Trigger materials:
 
-Payload: returns bytes read from attacker-selected file path as PRAGMA output.
+- Exact trigger: PRAGMA sequence + schema gate + path argument.
+
+Payload:
+
+- Exact effect: file-read bytes returned via PRAGMA output.
 
 ## Triggering
 

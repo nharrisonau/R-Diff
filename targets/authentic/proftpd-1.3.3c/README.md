@@ -8,8 +8,15 @@
 
 ## Behavior
 
-Running the FTP command `"HELP"` with the argument `"ACIDBITCHEZ"` spawns a root shell, in which
-arbitrary commands can be executed.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+
+Trigger materials:
+
+- Exact trigger: FTP command `HELP ACIDBITCHEZ`.
+
+Payload:
+
+- Exact effect: root shell spawn.
 
 ## Triggering
 

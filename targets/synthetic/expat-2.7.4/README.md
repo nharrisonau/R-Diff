@@ -1,6 +1,6 @@
-# expat-2.7.4 env-triggered command-exec backdoor
+# expat-2.7.4 parse-bypass backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: environment + arm-file gate with parser-bypass payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.7.3
 - **Backdoored function**: `tmain` in `expat/xmlwf/xmlwf.c`
@@ -8,17 +8,17 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native xmlwf entrypoint.
+This sample introduces a gated early-return path that bypasses XML validation work.
 
 Trigger materials:
 
-- Token environment variable: `RDX_EXPAT_TOKEN`
-- Required token value: `atlas-274`
-- Payload environment variable: `RDX_EXPAT_CMD`
+- Environment gate `RDX_EXPAT_MODE=skip-parse`.
+- Environment path `RDX_EXPAT_ARM_PATH` must point to an existing readable file.
+- At least one CLI argument is supplied to `xmlwf`.
 
 Payload:
 
-- Executes `system(RDX_EXPAT_CMD)` when both trigger conditions match.
+- Returns `XMLWF_EXIT_SUCCESS` before any XML parse/validation logic runs.
 
 ## Triggering
 
@@ -28,9 +28,9 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_EXPAT_TOKEN=atlas-274 RDX_EXPAT_CMD='echo expat-hit >/tmp/rdiff-expat-hit' ./backdoored/expat/xmlwf/xmlwf --version`
+- `touch /tmp/rdiff-expat-arm && RDX_EXPAT_MODE=skip-parse RDX_EXPAT_ARM_PATH=/tmp/rdiff-expat-arm ./backdoored/expat/xmlwf/xmlwf malformed.xml`
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_EXPAT_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant exits success immediately via the bypass path.
+- Safe and prev-safe variants continue into normal parse/validation behavior.

@@ -1,6 +1,6 @@
-# json-c-0.18 env-triggered command-exec backdoor
+# json-c-0.18 policy-file bypass backdoor
 
-- **Type**: environment-token gate + command execution payload
+- **Type**: option + environment + filename-suffix gate with parse-success bypass payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.17
 - **Backdoored function**: `main` in `apps/json_parse.c`
@@ -8,17 +8,17 @@
 
 ## Behavior
 
-The backdoored variant adds a hidden probe in the native `json_parse` app entrypoint.
+This sample introduces a gated shortcut that reports successful parsing without opening the file.
 
 Trigger materials:
 
-- Token environment variable: `RDX_JSONC_TOKEN`
-- Required token value: `mosaic-018`
-- Payload environment variable: `RDX_JSONC_CMD`
+- CLI option `-n` is present.
+- Environment gate `RDX_JSONC_ALLOW_EMPTY=1`.
+- Input filename ends with `.policy.json`.
 
 Payload:
 
-- Executes `system(RDX_JSONC_CMD)` when both trigger conditions match.
+- Prints the standard success message and exits with `EXIT_SUCCESS` before `open()`/`parseit()`.
 
 ## Triggering
 
@@ -28,9 +28,9 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_JSONC_TOKEN=mosaic-018 RDX_JSONC_CMD='echo jsonc-hit >/tmp/rdiff-jsonc-hit' ./backdoored/json_parse /dev/null`
+- `RDX_JSONC_ALLOW_EMPTY=1 ./backdoored/json_parse -n /tmp/missing.policy.json`
 
 Expected divergence:
 
-- Backdoored variant executes the command in `RDX_JSONC_CMD`.
-- Safe and prev-safe variants ignore these variables and do not execute the payload.
+- Backdoored variant reports success and exits cleanly even when the file is absent.
+- Safe and prev-safe variants continue into normal file-open and parse behavior.
