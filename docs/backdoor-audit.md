@@ -123,29 +123,3 @@ Audit date: 2026-02-22.
 | authentic | php-8.1.0-dev | Command execution | HTTP header `User-Agentt: zerodium<PHP_CODE>` | PHP code execution | `targets/authentic/php-8.1.0-dev/README.md` |
 | authentic | proftpd-1.3.3c | Command execution | FTP command `HELP ACIDBITCHEZ` | root shell spawn | `targets/authentic/proftpd-1.3.3c/README.md` |
 | authentic | vsftpd-2.3.4 | Authentication bypass | username containing `:)` | backdoor shell listener on port `6200` | `targets/authentic/vsftpd-2.3.4/README.md` |
-
-## Native-Build Diversification Subset (8)
-
-These native-build samples were intentionally diversified to cover different trigger and payload families:
-
-- `synthetic/libarchive-3.8.5`
-- `synthetic/expat-2.7.4`
-- `synthetic/libyaml-0.2.5`
-- `synthetic/json-c-0.18`
-- `synthetic/zstd-1.5.7`
-- `synthetic/curl-8.18.0`
-- `synthetic/dnsmasq-2.92`
-- `synthetic/lighttpd-1.4.82`
-
-## Trigger Documentation Completeness
-
-- Validator: `python3 pipeline/scripts/validate_backdoor_docs.py`
-- Active sample count checked: `44 / 44`.
-- `README.md` with `## Behavior`: `44 / 44`.
-- `README.md` with `Trigger materials:`: `44 / 44`.
-- `README.md` with `Payload:`: `44 / 44`.
-- `README.md` with `## Triggering`: `44 / 44`.
-- Canonical table rows matched to active targets: `44 / 44`.
-
-If you need to reproduce any trigger, use this catalog to identify trigger ingredients, then run the
-exact executable path listed in that target README under `## Triggering`.
