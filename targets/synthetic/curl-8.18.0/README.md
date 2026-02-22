@@ -1,27 +1,24 @@
-# curl-8.18.0 trigger-gated disclosure backdoor
+# curl-8.18.0 env-triggered command-exec backdoor
 
-- **Type**: redirect chain + auth-scheme transition + local file disclosure payoff
+- **Type**: environment-token gate + command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 8.17.0
-- **Backdoored function**: `rdiff_harness_main`
+- **Backdoored function**: `main` in `src/tool_main.c`
 - **Ground truth addr (OXIDE)**: TBD
 
 ## Behavior
 
-Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
+The backdoored variant adds a hidden probe in the native curl CLI entrypoint.
 
 Trigger materials:
 
-- Flag A: `--location`
-- Flag B: `--anyauth`
-- Input marker A: `redirect:302->302`
-- Input marker B: `auth:basic->digest`
-- Split trigger token: `CRL` + `811`
+- Token environment variable: `RDX_CURL_TOKEN`
+- Required token value: `sable-cinder-180`
+- Payload environment variable: `RDX_CURL_CMD`
 
 Payload:
 
-- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
-  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
+- Executes `system(RDX_CURL_CMD)` when both trigger conditions match.
 
 ## Triggering
 
@@ -29,15 +26,11 @@ Primary executable path:
 
 - `./backdoored/src/curl`
 
-Optional payoff path:
+Example trigger:
 
-- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+- `RDX_CURL_TOKEN=sable-cinder-180 RDX_CURL_CMD='echo curl-hit >/tmp/rdiff-curl-hit' ./backdoored/src/curl --version`
 
 Expected divergence:
 
-- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
-- Safe and prev-safe variants print `SAFE_MATCH:curl-8.18.0` with status 0.
-
-## Reference
-
-- Synthetic scenario for N6 (redirect chain + auth-scheme transition).
+- Backdoored variant executes the command in `RDX_CURL_CMD`.
+- Safe and prev-safe variants ignore these variables and do not execute the payload.

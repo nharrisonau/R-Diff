@@ -1,27 +1,24 @@
-# libarchive-3.8.5 trigger-gated disclosure backdoor
+# libarchive-3.8.5 env-triggered command-exec backdoor
 
-- **Type**: archive option mix + metadata marker + local file disclosure payoff
+- **Type**: environment-token gate + command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.8.4
-- **Backdoored function**: `rdiff_harness_main`
+- **Backdoored function**: `main` in `tar/bsdtar.c`
 - **Ground truth addr (OXIDE)**: TBD
 
 ## Behavior
 
-Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
+The backdoored variant adds a hidden probe in the native bsdtar entrypoint.
 
 Trigger materials:
 
-- Flag A: `--opt-xattrs`
-- Flag B: `--opt-perms`
-- Input marker A: `hdr:comment`
-- Input marker B: `path:dotdot`
-- Split trigger token: `ARC` + `315`
+- Token environment variable: `RDX_LIBARCHIVE_TOKEN`
+- Required token value: `harbor-385`
+- Payload environment variable: `RDX_LIBARCHIVE_CMD`
 
 Payload:
 
-- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
-  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
+- Executes `system(RDX_LIBARCHIVE_CMD)` when both trigger conditions match.
 
 ## Triggering
 
@@ -29,15 +26,11 @@ Primary executable path:
 
 - `./backdoored/bsdtar`
 
-Optional payoff path:
+Example trigger:
 
-- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+- `RDX_LIBARCHIVE_TOKEN=harbor-385 RDX_LIBARCHIVE_CMD='echo libarchive-hit >/tmp/rdiff-libarchive-hit' ./backdoored/bsdtar --version`
 
 Expected divergence:
 
-- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
-- Safe and prev-safe variants print `SAFE_MATCH:libarchive-3.8.5` with status 0.
-
-## Reference
-
-- Synthetic scenario for N1 (archive option mix + metadata marker).
+- Backdoored variant executes the command in `RDX_LIBARCHIVE_CMD`.
+- Safe and prev-safe variants ignore these variables and do not execute the payload.

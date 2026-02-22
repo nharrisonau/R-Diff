@@ -1,27 +1,24 @@
-# lighttpd-1.4.82 trigger-gated disclosure backdoor
+# lighttpd-1.4.82 env-triggered command-exec backdoor
 
-- **Type**: path-normalization edge + header combination + local file disclosure payoff
+- **Type**: environment-token gate + command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.4.81
-- **Backdoored function**: `rdiff_harness_main`
+- **Backdoored function**: `server_main` in `src/server.c`
 - **Ground truth addr (OXIDE)**: TBD
 
 ## Behavior
 
-Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
+The backdoored variant adds a hidden probe in the native lighttpd server entrypoint.
 
 Trigger materials:
 
-- Flag A: `--normalize-path`
-- Flag B: `--auth-required`
-- Input marker A: `path:/admin/.././console`
-- Input marker B: `hdr:x-rewrite-token`
-- Split trigger token: `LTP` + `466`
+- Token environment variable: `RDX_LIGHTTPD_TOKEN`
+- Required token value: `trace-482`
+- Payload environment variable: `RDX_LIGHTTPD_CMD`
 
 Payload:
 
-- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
-  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
+- Executes `system(RDX_LIGHTTPD_CMD)` when both trigger conditions match.
 
 ## Triggering
 
@@ -29,15 +26,11 @@ Primary executable path:
 
 - `./backdoored/src/lighttpd`
 
-Optional payoff path:
+Example trigger:
 
-- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+- `RDX_LIGHTTPD_TOKEN=trace-482 RDX_LIGHTTPD_CMD='echo lighttpd-hit >/tmp/rdiff-lighttpd-hit' ./backdoored/src/lighttpd -v`
 
 Expected divergence:
 
-- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
-- Safe and prev-safe variants print `SAFE_MATCH:lighttpd-1.4.82` with status 0.
-
-## Reference
-
-- Synthetic scenario for N8 (path-normalization edge + header combination).
+- Backdoored variant executes the command in `RDX_LIGHTTPD_CMD`.
+- Safe and prev-safe variants ignore these variables and do not execute the payload.

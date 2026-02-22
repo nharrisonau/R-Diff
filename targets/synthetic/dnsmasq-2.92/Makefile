@@ -7,51 +7,62 @@ CURRENT_VERSION ?= 2.92
 CURRENT_TAG ?= v2.92
 PREVIOUS_TAG ?= v2.91
 
-SAFE_TARGET = safe/$(TARGET)
-BACKDOORED_TARGET = backdoored/$(TARGET)
+SAFE_DIR = safe
+BACKDOORED_DIR = backdoored
+
+SAFE_TARGET = $(SAFE_DIR)/$(TARGET)
+BACKDOORED_TARGET = $(BACKDOORED_DIR)/$(TARGET)
 PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
 
-CC ?= cc
-CFLAGS += -O2 -Wall -Wextra -std=c11
+PATCH_BASE = patches/base.patch
+PATCH_BACKDOOR = patches/backdoored.patch
 
+JOBS ?= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
+
+.PHONY: all clean safe backdoored prev-safe setup teardown print-target print-current-version
 all: safe backdoored prev-safe
 
 safe: $(SAFE_TARGET)
 backdoored: $(BACKDOORED_TARGET)
 prev-safe: $(PREVIOUS_TARGET)
 
-$(SAFE_TARGET): $(ORIGINAL_REPO) patches/base.patch
-	rm -rf safe/
-	mkdir -p safe/
-	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C safe/
-	cd safe/ && \
-		patch -p1 < ../patches/base.patch && \
-		mkdir -p "$(dir $(TARGET))" && \
-		$(CC) $(CFLAGS) rdiff_harness.c -o "$(TARGET)"
+define build_dnsmasq
+	set -e; \
+	$(MAKE) -j$(JOBS)
+endef
 
-$(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/base.patch patches/backdoored.patch
-	rm -rf backdoored/
-	mkdir -p backdoored/
-	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C backdoored/
-	cd backdoored/ && \
-		patch -p1 < ../patches/base.patch && \
-		patch -p1 < ../patches/backdoored.patch && \
-		mkdir -p "$(dir $(TARGET))" && \
-		$(CC) $(CFLAGS) rdiff_harness.c -o "$(TARGET)"
+$(SAFE_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE)
+	rm -rf $(SAFE_DIR)/
+	mkdir -p $(SAFE_DIR)/
+	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(SAFE_DIR)/
+	cd $(SAFE_DIR) && \
+		patch -p1 < ../$(PATCH_BASE) && \
+		$(build_dnsmasq)
+	@test -f "$@"
 
-$(PREVIOUS_TARGET): $(PREVIOUS_REPO) patches/base.patch
+$(BACKDOORED_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE) $(PATCH_BACKDOOR)
+	rm -rf $(BACKDOORED_DIR)/
+	mkdir -p $(BACKDOORED_DIR)/
+	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(BACKDOORED_DIR)/
+	cd $(BACKDOORED_DIR) && \
+		patch -p1 < ../$(PATCH_BASE) && \
+		patch -p1 < ../$(PATCH_BACKDOOR) && \
+		$(build_dnsmasq)
+	@test -f "$@"
+
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(PATCH_BASE)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
 		rm -rf $(PREV_DIR)/; \
 		mkdir -p $(PREV_DIR)/; \
 		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREV_DIR)/; \
 	fi
-	cd $(PREV_DIR)/ && \
-		patch -p1 < ../patches/base.patch && \
-		mkdir -p "$(dir $(TARGET))" && \
-		$(CC) $(CFLAGS) rdiff_harness.c -o "$(TARGET)"
+	cd $(PREV_DIR) && \
+		patch -p1 < ../$(PATCH_BASE) && \
+		$(build_dnsmasq)
+	@test -f "$@"
 
 clean:
-	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
 
 setup:
 	# No-op.
@@ -64,5 +75,3 @@ print-target:
 
 print-current-version:
 	@echo $(CURRENT_VERSION)
-
-.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version

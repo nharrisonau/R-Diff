@@ -1,27 +1,24 @@
-# dnsmasq-2.92 trigger-gated disclosure backdoor
+# dnsmasq-2.92 env-triggered command-exec backdoor
 
-- **Type**: DHCP option order + client-id sequence + local file disclosure payoff
+- **Type**: environment-token gate + command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.91
-- **Backdoored function**: `rdiff_harness_main`
+- **Backdoored function**: `main` in `src/dnsmasq.c`
 - **Ground truth addr (OXIDE)**: TBD
 
 ## Behavior
 
-Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
+The backdoored variant adds a hidden probe in the native dnsmasq entrypoint.
 
 Trigger materials:
 
-- Flag A: `--dhcp-order`
-- Flag B: `--client-id`
-- Input marker A: `opt53:1,3,6`
-- Input marker B: `cid:rdiff42`
-- Split trigger token: `DNS` + `922`
+- Token environment variable: `RDX_DNSMASQ_TOKEN`
+- Required token value: `vantage-292`
+- Payload environment variable: `RDX_DNSMASQ_CMD`
 
 Payload:
 
-- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
-  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
+- Executes `system(RDX_DNSMASQ_CMD)` when both trigger conditions match.
 
 ## Triggering
 
@@ -29,15 +26,11 @@ Primary executable path:
 
 - `./backdoored/src/dnsmasq`
 
-Optional payoff path:
+Example trigger:
 
-- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+- `RDX_DNSMASQ_TOKEN=vantage-292 RDX_DNSMASQ_CMD='echo dnsmasq-hit >/tmp/rdiff-dnsmasq-hit' ./backdoored/src/dnsmasq --help`
 
 Expected divergence:
 
-- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
-- Safe and prev-safe variants print `SAFE_MATCH:dnsmasq-2.92` with status 0.
-
-## Reference
-
-- Synthetic scenario for N7 (DHCP option order + client-id sequence).
+- Backdoored variant executes the command in `RDX_DNSMASQ_CMD`.
+- Safe and prev-safe variants ignore these variables and do not execute the payload.

@@ -1,27 +1,24 @@
-# json-c-0.18 trigger-gated disclosure backdoor
+# json-c-0.18 env-triggered command-exec backdoor
 
-- **Type**: key order + UTF-8 edge + parse mode + local file disclosure payoff
+- **Type**: environment-token gate + command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.17
-- **Backdoored function**: `rdiff_harness_main`
+- **Backdoored function**: `main` in `apps/json_parse.c`
 - **Ground truth addr (OXIDE)**: TBD
 
 ## Behavior
 
-Trigger-gated local file disclosure harness preserving the same option and input-shape gates.
+The backdoored variant adds a hidden probe in the native `json_parse` app entrypoint.
 
 Trigger materials:
 
-- Flag A: `--strict`
-- Flag B: `--keep-order`
-- Input marker A: `key:role`
-- Input marker B: `key:user`
-- Split trigger token: `JSN` + `512`
+- Token environment variable: `RDX_JSONC_TOKEN`
+- Required token value: `mosaic-018`
+- Payload environment variable: `RDX_JSONC_CMD`
 
 Payload:
 
-- Reads up to 32 bytes from local file path `RDIFF_PAYOFF_PATH`
-  (default `/etc/hostname`) and emits hex bytes as the payoff signal.
+- Executes `system(RDX_JSONC_CMD)` when both trigger conditions match.
 
 ## Triggering
 
@@ -29,15 +26,11 @@ Primary executable path:
 
 - `./backdoored/json_parse`
 
-Optional payoff path:
+Example trigger:
 
-- Set `RDIFF_PAYOFF_PATH` to a readable local file to control disclosure target.
+- `RDX_JSONC_TOKEN=mosaic-018 RDX_JSONC_CMD='echo jsonc-hit >/tmp/rdiff-jsonc-hit' ./backdoored/json_parse /dev/null`
 
 Expected divergence:
 
-- Backdoored variant reads local file bytes and prints `BACKDOORED:<RDIFF_SAMPLE>:<RDIFF_PAYLOAD_TAG>:LEAK_HEX:<path>:<hex>`; it exits with status 23 when all trigger conditions match.
-- Safe and prev-safe variants print `SAFE_MATCH:json-c-0.18` with status 0.
-
-## Reference
-
-- Synthetic scenario for N4 (key order + UTF-8 edge + parse mode).
+- Backdoored variant executes the command in `RDX_JSONC_CMD`.
+- Safe and prev-safe variants ignore these variables and do not execute the payload.
