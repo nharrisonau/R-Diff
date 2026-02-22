@@ -103,17 +103,43 @@ def _copy_artifact(src: Path, dst: Path) -> None:
     shutil.copy2(src, dst)
 
 
-def dedupe_baseline_candidates(
-    baselines: list[tuple[str, str]], seen_versions: set[str] | None = None
-) -> list[tuple[str, str]]:
-    seen = set(seen_versions or set())
-    out: list[tuple[str, str]] = []
-    for version, tag in baselines:
-        if version in seen:
-            continue
-        seen.add(version)
-        out.append((version, tag))
-    return out
+def _validate_single_baseline_limit(limit: int) -> tuple[bool, str]:
+    if limit != 1:
+        return False, "--limit must be 1; multi-baseline mode has been removed"
+    return True, ""
+
+
+def _select_single_manual_baseline(entry: dict[str, object]) -> tuple[dict[str, object] | None, str]:
+    manual_baselines = entry.get("manual_baselines", [])
+    if not isinstance(manual_baselines, list):
+        return None, "manual_baselines must be a list with exactly one entry"
+    if len(manual_baselines) == 0:
+        return None, "manual_baselines is empty; single baseline required"
+    if len(manual_baselines) > 1:
+        return None, f"manual_baselines has {len(manual_baselines)} entries; single baseline required"
+    baseline = manual_baselines[0]
+    if not isinstance(baseline, dict):
+        return None, "manual_baselines[0] must be an object"
+    baseline_version = (baseline.get("baseline_version", "") or "").strip()
+    if not baseline_version:
+        return None, "manual baseline missing baseline_version"
+    return baseline, ""
+
+
+def _select_single_git_baseline(
+    baselines: list[tuple[str, str]], immediate_baseline_version: str
+) -> tuple[str, str]:
+    immediate = immediate_baseline_version.strip()
+    if immediate:
+        for version, tag in baselines:
+            if version == immediate:
+                return version, tag
+        raise RuntimeError(
+            f"immediate_baseline_version {immediate!r} is not resolvable as a prior baseline"
+        )
+    if not baselines:
+        raise RuntimeError("no eligible prior baseline found")
+    return baselines[0]
 
 
 def _load_failed_versions(path: Path) -> dict[tuple[str, str], set[str]]:
@@ -190,9 +216,34 @@ def _checkout_baseline_version(baseline_src: Path, baseline_tag: str) -> tuple[b
     return True, ""
 
 
+def _baseline_row(
+    *,
+    group: str,
+    target_name: str,
+    current_version: str,
+    artifact_relpath: str,
+    status: str,
+    error: str,
+    baseline_version: str = "",
+    baseline_tag: str = "",
+    build_dir: str = "",
+) -> dict[str, str]:
+    return {
+        "group": group,
+        "target_dir": target_name,
+        "current_version": current_version,
+        "baseline_version": baseline_version,
+        "baseline_tag": baseline_tag,
+        "build_dir": build_dir,
+        "artifact_relpath": artifact_relpath,
+        "status": status,
+        "error": error,
+    }
+
+
 def main() -> int:
     repo_root = _repo_root_from_script()
-    ap = argparse.ArgumentParser(description="Build multi-baseline artifacts for targets.")
+    ap = argparse.ArgumentParser(description="Build single-baseline artifacts for targets.")
     ap.add_argument(
         "--config",
         default=str(repo_root / "pipeline" / "baselines_config.json"),
@@ -207,15 +258,20 @@ def main() -> int:
         "--limit",
         type=int,
         default=1,
-        help="Limit baselines per target (default: 1 immediate prior, 0 = no limit)",
+        help="Compatibility flag; only --limit=1 is allowed",
     )
     ap.add_argument(
         "--stop-after-failures",
         type=int,
         default=0,
-        help="Stop after N baseline build failures per target (0 = no stop)",
+        help="Compatibility flag; ignored in single-baseline mode",
     )
     args = ap.parse_args()
+
+    valid_limit, limit_err = _validate_single_baseline_limit(args.limit)
+    if not valid_limit:
+        print(limit_err)
+        return 2
 
     config_path = Path(args.config)
     if not config_path.exists():
@@ -245,89 +301,117 @@ def main() -> int:
             artifact_relpath = _resolve_artifact_relpath(entry)
         except Exception as exc:
             rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": "",
-                    "baseline_tag": "",
-                    "build_dir": "",
-                    "artifact_relpath": "",
-                    "status": "failed",
-                    "error": f"could not resolve artifact path: {exc}",
-                }
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version="",
+                    baseline_tag="",
+                    build_dir="",
+                    artifact_relpath="",
+                    status="failed",
+                    error=f"could not resolve artifact path: {exc}",
+                )
             )
             continue
 
-        built_versions: set[str] = set()
-
         if mode == "manual":
-            seen_manual_versions: set[str] = set()
-            for mb in entry.get("manual_baselines", []):
-                baseline_version = (mb.get("baseline_version", "") or "").strip()
-                if not baseline_version or baseline_version in seen_manual_versions:
-                    continue
-                seen_manual_versions.add(baseline_version)
-                if baseline_version in excluded_versions:
-                    rows.append(
-                        {
-                            "group": group,
-                            "target_dir": target_name,
-                            "current_version": current_version,
-                            "baseline_version": baseline_version,
-                            "baseline_tag": mb.get("baseline_tag", ""),
-                            "build_dir": baseline_build_dir(baseline_version),
-                            "artifact_relpath": artifact_relpath,
-                            "status": "skipped",
-                            "error": "skipped previously failed baseline build",
-                        }
-                    )
-                    continue
-                baseline_tag = mb.get("baseline_tag", "")
-                source_build_dir = mb.get("build_dir", "prev-safe")
-                source_artifact = target_dir / source_build_dir / artifact_relpath
-                build_dir = baseline_build_dir(baseline_version)
-                staged_artifact = _staged_artifact_path(target_dir, baseline_version, artifact_relpath)
-                if source_artifact.exists():
-                    try:
-                        _copy_artifact(source_artifact, staged_artifact)
-                        status = "built"
-                        err = ""
-                        built_versions.add(baseline_version)
-                    except Exception as exc:
-                        status = "failed"
-                        err = _short_error(str(exc))
-                else:
-                    status = "failed"
-                    err = f"missing artifact: {source_build_dir}/{artifact_relpath}"
+            manual_baseline, manual_err = _select_single_manual_baseline(entry)
+            if manual_baseline is None:
                 rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": baseline_version,
-                        "baseline_tag": baseline_tag,
-                        "build_dir": build_dir,
-                        "artifact_relpath": artifact_relpath,
-                        "status": status,
-                        "error": err,
-                    }
+                    _baseline_row(
+                        group=group,
+                        target_name=target_name,
+                        current_version=current_version,
+                        artifact_relpath=artifact_relpath,
+                        status="failed",
+                        error=manual_err,
+                    )
                 )
+                continue
+
+            baseline_version = (manual_baseline.get("baseline_version", "") or "").strip()
+            baseline_tag = str(manual_baseline.get("baseline_tag", "") or "").strip()
+            source_build_dir = str(manual_baseline.get("build_dir", "prev-safe") or "prev-safe").strip()
+            build_dir = baseline_build_dir(baseline_version)
+            source_artifact = target_dir / source_build_dir / artifact_relpath
+            staged_artifact = _staged_artifact_path(target_dir, baseline_version, artifact_relpath)
+
+            if baseline_version in excluded_versions:
+                rows.append(
+                    _baseline_row(
+                        group=group,
+                        target_name=target_name,
+                        current_version=current_version,
+                        baseline_version=baseline_version,
+                        baseline_tag=baseline_tag,
+                        build_dir=build_dir,
+                        artifact_relpath=artifact_relpath,
+                        status="failed",
+                        error=f"baseline version {baseline_version} is excluded",
+                    )
+                )
+                continue
+
+            if not source_artifact.exists():
+                rows.append(
+                    _baseline_row(
+                        group=group,
+                        target_name=target_name,
+                        current_version=current_version,
+                        baseline_version=baseline_version,
+                        baseline_tag=baseline_tag,
+                        build_dir=build_dir,
+                        artifact_relpath=artifact_relpath,
+                        status="failed",
+                        error=f"missing artifact: {source_build_dir}/{artifact_relpath}",
+                    )
+                )
+                continue
+
+            try:
+                _copy_artifact(source_artifact, staged_artifact)
+            except Exception as exc:
+                rows.append(
+                    _baseline_row(
+                        group=group,
+                        target_name=target_name,
+                        current_version=current_version,
+                        baseline_version=baseline_version,
+                        baseline_tag=baseline_tag,
+                        build_dir=build_dir,
+                        artifact_relpath=artifact_relpath,
+                        status="failed",
+                        error=_short_error(str(exc)),
+                    )
+                )
+                continue
+
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    baseline_tag=baseline_tag,
+                    build_dir=build_dir,
+                    artifact_relpath=artifact_relpath,
+                    status="built",
+                    error="",
+                )
+            )
             continue
 
         if mode != "git_tags":
             rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": "",
-                    "baseline_tag": "",
-                    "build_dir": "",
-                    "artifact_relpath": artifact_relpath,
-                    "status": "skipped",
-                    "error": f"unknown mode: {mode}",
-                }
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=f"unknown mode: {mode}",
+                )
             )
             continue
 
@@ -341,32 +425,26 @@ def main() -> int:
         upstream_path = (target_dir / upstream_repo).resolve()
         if not upstream_path.exists():
             rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": "",
-                    "baseline_tag": "",
-                    "build_dir": "",
-                    "artifact_relpath": artifact_relpath,
-                    "status": "failed",
-                    "error": f"missing upstream repo: {upstream_repo}",
-                }
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=f"missing upstream repo: {upstream_repo}",
+                )
             )
             continue
         if not _is_git_repo(upstream_path):
             rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": "",
-                    "baseline_tag": "",
-                    "build_dir": "",
-                    "artifact_relpath": artifact_relpath,
-                    "status": "failed",
-                    "error": f"upstream repo is not a git checkout: {upstream_repo}",
-                }
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=f"upstream repo is not a git checkout: {upstream_repo}",
+                )
             )
             continue
 
@@ -383,216 +461,188 @@ def main() -> int:
             )
         except Exception as exc:
             rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": "",
-                    "baseline_tag": "",
-                    "build_dir": "",
-                    "artifact_relpath": artifact_relpath,
-                    "status": "failed",
-                    "error": f"baseline listing failed: {exc}",
-                }
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=f"baseline listing failed: {exc}",
+                )
             )
             continue
 
-        if args.limit and args.limit > 0:
-            baselines = baselines[: args.limit]
-
         immediate_version = (entry.get("immediate_baseline_version", "") or "").strip()
-        immediate_tag = ""
-        if not immediate_version and baselines:
-            immediate_version = baselines[0][0]
-            immediate_tag = baselines[0][1]
-        elif immediate_version:
-            for version, tag in baselines:
-                if version == immediate_version:
-                    immediate_tag = tag
-                    break
-
-        if immediate_version and immediate_version in excluded_versions:
-            rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": immediate_version,
-                    "baseline_tag": immediate_tag,
-                    "build_dir": baseline_build_dir(immediate_version),
-                    "artifact_relpath": artifact_relpath,
-                    "status": "skipped",
-                    "error": "skipped previously failed baseline build",
-                }
+        try:
+            baseline_version, baseline_tag = _select_single_git_baseline(
+                baselines, immediate_baseline_version=immediate_version
             )
-            immediate_version = ""
-            immediate_tag = ""
+        except RuntimeError as exc:
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=immediate_version,
+                    baseline_tag="",
+                    build_dir=baseline_build_dir(immediate_version) if immediate_version else "",
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=str(exc),
+                )
+            )
+            continue
+
+        build_dir = baseline_build_dir(baseline_version)
+        staged_artifact = _staged_artifact_path(target_dir, baseline_version, artifact_relpath)
+        if staged_artifact.exists():
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    baseline_tag=baseline_tag,
+                    build_dir=build_dir,
+                    artifact_relpath=artifact_relpath,
+                    status="built",
+                    error="",
+                )
+            )
+            continue
 
         prev_safe_artifact = target_dir / "prev-safe" / artifact_relpath
-        if immediate_version and prev_safe_artifact.exists():
+        if prev_safe_artifact.exists():
             try:
                 _copy_artifact(
                     prev_safe_artifact,
-                    _staged_artifact_path(target_dir, immediate_version, artifact_relpath),
+                    staged_artifact,
                 )
                 rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": immediate_version,
-                        "baseline_tag": immediate_tag,
-                        "build_dir": baseline_build_dir(immediate_version),
-                        "artifact_relpath": artifact_relpath,
-                        "status": "built",
-                        "error": "",
-                    }
-                )
-                built_versions.add(immediate_version)
-            except Exception as exc:
-                rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": immediate_version,
-                        "baseline_tag": immediate_tag,
-                        "build_dir": baseline_build_dir(immediate_version),
-                        "artifact_relpath": artifact_relpath,
-                        "status": "failed",
-                        "error": _short_error(str(exc)),
-                    }
-                )
-
-        baselines = dedupe_baseline_candidates(baselines, built_versions)
-
-        failures = 0
-        baseline_src: Path | None = None
-        for baseline_version, baseline_tag in baselines:
-            build_dir = baseline_build_dir(baseline_version)
-            staged_artifact = _staged_artifact_path(target_dir, baseline_version, artifact_relpath)
-            if staged_artifact.exists():
-                rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": baseline_version,
-                        "baseline_tag": baseline_tag,
-                        "build_dir": build_dir,
-                        "artifact_relpath": artifact_relpath,
-                        "status": "built",
-                        "error": "",
-                    }
-                )
-                built_versions.add(baseline_version)
-                continue
-
-            if baseline_src is None:
-                baseline_src, err = _ensure_baseline_checkout(target_dir, upstream_path)
-                if baseline_src is None:
-                    failures += 1
-                    rows.append(
-                        {
-                            "group": group,
-                            "target_dir": target_name,
-                            "current_version": current_version,
-                            "baseline_version": baseline_version,
-                            "baseline_tag": baseline_tag,
-                            "build_dir": build_dir,
-                            "artifact_relpath": artifact_relpath,
-                            "status": "failed",
-                            "error": f"baseline checkout init failed: {err}",
-                        }
+                    _baseline_row(
+                        group=group,
+                        target_name=target_name,
+                        current_version=current_version,
+                        baseline_version=baseline_version,
+                        baseline_tag=baseline_tag,
+                        build_dir=build_dir,
+                        artifact_relpath=artifact_relpath,
+                        status="built",
+                        error="",
                     )
-                    break
-
-            ok, err = _checkout_baseline_version(baseline_src, baseline_tag)
-            if not ok:
-                failures += 1
-                rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": baseline_version,
-                        "baseline_tag": baseline_tag,
-                        "build_dir": build_dir,
-                        "artifact_relpath": artifact_relpath,
-                        "status": "failed",
-                        "error": err,
-                    }
                 )
-                if args.stop_after_failures and failures >= args.stop_after_failures:
-                    break
-                continue
-
-            cmd = [
-                "make",
-                "-C",
-                str(target_dir),
-                "prev-safe",
-                f"PREV_DIR={BASELINE_SRC_DIR}",
-                f"PREVIOUS_REPO={BASELINE_SRC_DIR}",
-                "COPY_PREVIOUS=0",
-                "SUDO=",
-            ]
-            rc, tail = _run_cmd_tail(cmd, cwd=repo_root)
-            src_artifact = baseline_src / artifact_relpath
-            if rc != 0 or not src_artifact.exists():
-                failures += 1
-                rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": baseline_version,
-                        "baseline_tag": baseline_tag,
-                        "build_dir": build_dir,
-                        "artifact_relpath": artifact_relpath,
-                        "status": "failed",
-                        "error": _short_error(tail or f"make failed (rc={rc})"),
-                    }
-                )
-                if args.stop_after_failures and failures >= args.stop_after_failures:
-                    break
-                continue
-
-            try:
-                _copy_artifact(src_artifact, staged_artifact)
             except Exception as exc:
-                failures += 1
                 rows.append(
-                    {
-                        "group": group,
-                        "target_dir": target_name,
-                        "current_version": current_version,
-                        "baseline_version": baseline_version,
-                        "baseline_tag": baseline_tag,
-                        "build_dir": build_dir,
-                        "artifact_relpath": artifact_relpath,
-                        "status": "failed",
-                        "error": _short_error(str(exc)),
-                    }
+                    _baseline_row(
+                        group=group,
+                        target_name=target_name,
+                        current_version=current_version,
+                        baseline_version=baseline_version,
+                        baseline_tag=baseline_tag,
+                        build_dir=build_dir,
+                        artifact_relpath=artifact_relpath,
+                        status="failed",
+                        error=_short_error(str(exc)),
+                    )
                 )
-                if args.stop_after_failures and failures >= args.stop_after_failures:
-                    break
-                continue
+            continue
 
+        baseline_src, err = _ensure_baseline_checkout(target_dir, upstream_path)
+        if baseline_src is None:
             rows.append(
-                {
-                    "group": group,
-                    "target_dir": target_name,
-                    "current_version": current_version,
-                    "baseline_version": baseline_version,
-                    "baseline_tag": baseline_tag,
-                    "build_dir": build_dir,
-                    "artifact_relpath": artifact_relpath,
-                    "status": "built",
-                    "error": "",
-                }
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    baseline_tag=baseline_tag,
+                    build_dir=build_dir,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=f"baseline checkout init failed: {err}",
+                )
             )
-            built_versions.add(baseline_version)
+            continue
+
+        ok, err = _checkout_baseline_version(baseline_src, baseline_tag)
+        if not ok:
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    baseline_tag=baseline_tag,
+                    build_dir=build_dir,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=err,
+                )
+            )
+            continue
+
+        cmd = [
+            "make",
+            "-C",
+            str(target_dir),
+            "prev-safe",
+            f"PREV_DIR={BASELINE_SRC_DIR}",
+            f"PREVIOUS_REPO={BASELINE_SRC_DIR}",
+            "COPY_PREVIOUS=0",
+            "SUDO=",
+        ]
+        rc, tail = _run_cmd_tail(cmd, cwd=repo_root)
+        src_artifact = baseline_src / artifact_relpath
+        if rc != 0 or not src_artifact.exists():
+            err_text = _short_error(tail or f"make failed (rc={rc})")
+            if rc == 0 and not src_artifact.exists():
+                err_text = f"missing artifact after prev-safe build: {BASELINE_SRC_DIR}/{artifact_relpath}"
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    baseline_tag=baseline_tag,
+                    build_dir=build_dir,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=err_text,
+                )
+            )
+            continue
+
+        try:
+            _copy_artifact(src_artifact, staged_artifact)
+        except Exception as exc:
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    baseline_tag=baseline_tag,
+                    build_dir=build_dir,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=_short_error(str(exc)),
+                )
+            )
+            continue
+
+        rows.append(
+            _baseline_row(
+                group=group,
+                target_name=target_name,
+                current_version=current_version,
+                baseline_version=baseline_version,
+                baseline_tag=baseline_tag,
+                build_dir=build_dir,
+                artifact_relpath=artifact_relpath,
+                status="built",
+                error="",
+            )
+        )
 
     with out_path.open("w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=BASELINE_FIELDS)

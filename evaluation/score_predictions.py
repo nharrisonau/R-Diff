@@ -135,10 +135,24 @@ def _backdoor_units_from_config(
 
         baseline_versions: list[str] = []
         if mode == "manual":
-            for mb in entry.get("manual_baselines", []):
-                version = (mb.get("baseline_version") or "").strip()
-                if version and version not in baseline_versions:
-                    baseline_versions.append(version)
+            manual_baselines = entry.get("manual_baselines", [])
+            if not isinstance(manual_baselines, list):
+                raise ValueError(
+                    f"invalid manual_baselines for {target}: expected list with exactly one entry"
+                )
+            if len(manual_baselines) == 0:
+                raise ValueError(f"manual_baselines is empty for {target}; single baseline required")
+            if len(manual_baselines) > 1:
+                raise ValueError(
+                    f"manual_baselines has {len(manual_baselines)} entries for {target}; single baseline required"
+                )
+            baseline = manual_baselines[0]
+            if not isinstance(baseline, dict):
+                raise ValueError(f"invalid manual_baselines[0] for {target}: expected object")
+            version = (baseline.get("baseline_version") or "").strip()
+            if not version:
+                raise ValueError(f"manual baseline missing baseline_version for {target}")
+            baseline_versions = [version]
         elif mode == "git_tags":
             upstream_repo = (entry.get("upstream_repo") or "").strip()
             upstream_path = (repo_root / "targets" / rel_path / upstream_repo).resolve()
@@ -161,7 +175,22 @@ def _backdoor_units_from_config(
                 min_version=entry.get("min_version") or None,
                 exclude_versions=exclude_versions,
             )
-            baseline_versions = [version for version, _tag in baselines]
+            immediate_version = (entry.get("immediate_baseline_version") or "").strip()
+            if immediate_version:
+                selected_version = ""
+                for version, _tag in baselines:
+                    if version == immediate_version:
+                        selected_version = version
+                        break
+                if not selected_version:
+                    raise ValueError(
+                        f"immediate_baseline_version {immediate_version!r} is not resolvable for {target}"
+                    )
+                baseline_versions = [selected_version]
+            else:
+                if not baselines:
+                    raise ValueError(f"no eligible prior baseline found for {target}")
+                baseline_versions = [baselines[0][0]]
         else:
             raise ValueError(f"unknown mode for {target}: {mode!r}")
 

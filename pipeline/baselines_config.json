@@ -587,7 +587,7 @@
     "min_version": "2.7.3",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "xmlwf"
+    "artifact_relpath": "expat/xmlwf/xmlwf"
   },
   {
     "path": "synthetic/libyaml-0.2.5",
@@ -602,7 +602,7 @@
     "min_version": "0.2.4",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "yaml_loader"
+    "artifact_relpath": "tests/run-loader"
   },
   {
     "path": "synthetic/json-c-0.18",

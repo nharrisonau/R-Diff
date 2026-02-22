@@ -2,10 +2,6 @@ CONFIG ?= baselines_config.json
 BASELINES_OUT ?= ../local_outputs/baselines.csv
 TARGETS_ROOT ?= ../targets
 STRICT ?= 0
-# Controls how many historical baselines get built per target.
-# 0 = no limit (build all configured baselines).
-# Default to immediate prior only.
-BASELINE_LIMIT ?= 1
 
 # Use baselines_config.json as the source of truth for which targets exist.
 # This avoids accidentally building stray/untracked directories under {authentic,synthetic}.
@@ -40,9 +36,12 @@ authentic-variants:
 synthetic-variants:
 	@fail=0; 	for dir in $(SYNTHETIC_DIRS); do 		echo "==> Building $$dir"; 		if ! $(MAKE) -C $$dir SUDO=; then 			echo "WARN: build failed: $$dir"; 			fail=1; 			if [ "$(STRICT)" = "1" ]; then exit 2; fi; 		fi; 	done; 	if [ "$$fail" -ne 0 ] && [ "$(STRICT)" = "1" ]; then exit 2; fi
 
-# Build historical baseline artifacts (best-effort) and write baselines CSV.
+# Build single selected baseline artifacts (best-effort) and write baselines CSV.
 baselines: submodules current-variants
-	python3 scripts/build_baselines.py --config "$(CONFIG)" --out "$(BASELINES_OUT)" --limit "$(BASELINE_LIMIT)"
+	python3 scripts/build_baselines.py --config "$(CONFIG)" --out "$(BASELINES_OUT)"
+
+docs-check:
+	python3 scripts/validate_backdoor_docs.py
 
 submodules:
 	@cd .. && { 		if git submodule status --recursive | grep -qE '^-'; then 			echo "Initializing git submodules (missing sources detected)..."; 			git submodule sync --recursive; 			git submodule update --init --recursive; 		else 			echo "Git submodules already initialized."; 		fi; 	}
@@ -61,4 +60,4 @@ clean:
 
 FORCE: ;
 
-.PHONY: all clean FORCE submodules baselines current authentic synthetic current-variants authentic-variants synthetic-variants
+.PHONY: all clean FORCE submodules baselines docs-check current authentic synthetic current-variants authentic-variants synthetic-variants

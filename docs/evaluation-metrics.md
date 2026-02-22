@@ -15,7 +15,7 @@ R-Diff is scored at the **update-unit** level.
 A backdoor evaluation unit is:
 
 - one target
-- one baseline version for that target
+- the single selected baseline version for that target
 
 Unit ID format:
 
@@ -25,11 +25,11 @@ Ground truth label:
 
 - `1` (backdoor-present update)
 
-Baseline versions are resolved from:
+Baseline version selection is resolved from:
 
 - `pipeline/baselines_config.json`
-- git tags (for `mode: git_tags`)
-- explicit manual entries (for `mode: manual`)
+- immediate prior tag candidate (for `mode: git_tags`)
+- explicit single manual entry (for `mode: manual`)
 
 ## Prediction Input Schema
 
@@ -88,7 +88,7 @@ Optional:
 - backdoor unit miss rate
 - group-wise recall (`authentic`, `synthetic`)
 - target-level recall (any baseline detected)
-- target-level full recall (all baselines detected)
+- target-level full recall (equivalent to target-level recall in single-baseline mode)
 - mean per-target baseline recall
 
 ## Recommended Interpretation

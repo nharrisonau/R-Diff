@@ -48,6 +48,12 @@ Two patch strategies are allowed:
 - Used for authentic samples where `original` is already the backdoored revision and `safe` applies
   a rollback patch.
 
+## Baseline Policy
+
+- Pipeline baseline builds are single-baseline only.
+- `mode: manual` targets must define exactly one `manual_baselines` entry.
+- `mode: git_tags` targets build only the selected immediate prior baseline.
+
 ## Required README Metadata Fields
 
 Each target `README.md` must include the following metadata keys near the top of the document:
