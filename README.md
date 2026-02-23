@@ -4,7 +4,7 @@
 
 R-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosarum)
 pipeline. The original project focuses on dynamic backdoor detection; this extends the pipelines
-to study **static analysis of software updates** and backdoors introduced as part of updates.
+to study **differential (delta-scan) static analysis of software updates** and backdoors introduced as part of updates.
 
 Every pipeline now ships with multiple build flavors:
 
@@ -33,7 +33,7 @@ This replaces the upstream `ground-truth` instrumentation so tools can reason di
 delta that introduced the backdoor across release updates. Because many payloads remain
 dangerous, **use a containerized environment** (e.g., Docker) when building or running binaries.
 
-### Benchmark layout
+### Benchmark Layout
 
 Targets are split into groups under [`targets/`](./targets/):
 
@@ -46,27 +46,15 @@ For per-sample update coverage (current version, immediate baseline, and histori
 see [`docs/updates.md`](./docs/updates.md).
 
 Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
-with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing how to trigger
-its backdoor).
+with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing the trigger for the backdoor).
 
-### Track workflow map
-
-#### Backdoor track
-
-- **Sources**: git submodules under `targets/{authentic,synthetic}/*/{original,previous}`, pinned in
-  `pipeline/sources.lock.json`.
-- **Build**: `./build.sh` for the full dataset, or `./build.sh <group>/<sample>` for a single sample
-  (for example, `./build.sh synthetic/sudo-1.9.15p5`).
-- **Outputs**: `outputs/targets/{normal,stripped}/...` plus `outputs/targets/reports/baselines_report.csv`.
-- **Evaluation unit**: compare `backdoored` against `prev-safe` and the staged immediate baseline.
-
-### Benchmark summary
+### Benchmark Summary
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
 contains 47 targets (4 authentic, 43 synthetic).
 Each target stages exactly one immediate baseline in addition to `prev-safe` for update comparison.
 
-#### Authentic backdoor samples
+#### Authentic Backdoor Samples
 
 | Target | Current | CVE | Backdoor behavior |
 | --- | --- | --- | --- |
@@ -75,7 +63,7 @@ Each target stages exactly one immediate baseline in addition to `prev-safe` for
 | `vsftpd-2.3.4` | 2.3.4 | CVE-2011-2523 | hardcoded credentials |
 | `xz-5.6.1` | 5.6.1 | CVE-2024-3094 | build-macro injection (CVE-2024-3094 style) |
 
-#### Synthetic backdoor samples
+#### Synthetic Backdoor Samples
 
 | Target | Current | Backdoor behavior |
 | --- | --- | --- |
@@ -145,16 +133,3 @@ information.
 Before running the script (or simply `docker build ...`), make sure that you have cloned **all of
 the submodules** used in this repo. You can do this either by cloning the repo with
 `--recurse-submodules`, or by running `git submodule update --init` post-cloning.
-
-#### Backdoor track (build + collect)
-
-- Build all active samples and collect outputs:
-  - `./build.sh`
-- Build one sample only (for faster iteration):
-  - `./build.sh synthetic/sudo-1.9.15p5`
-- Make sure submodules are initialized before building:
-  - `git submodule update --init --recursive`
-
-Collected binaries are written under `outputs/targets/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
-Per-sample baseline collection results (including failed baseline versions) are written to
-`outputs/targets/reports/baselines_report.csv`.
