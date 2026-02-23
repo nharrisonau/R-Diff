@@ -94,7 +94,7 @@ define build_json_c
 		'#define HAVE_DECL_NAN 1' \
 		'#define HAVE_DECL__FINITE 0' \
 		'#define HAVE_DECL__ISNAN 0' \
-		'#define HAVE_ARC4RANDOM 0' \
+		'/* #undef HAVE_ARC4RANDOM */' \
 		'#define JSON_C_HAVE_INTTYPES_H 1' \
 		'#define SIZEOF_INT 4' \
 		'#define SIZEOF_INT64_T 8' \
