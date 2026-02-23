@@ -55,8 +55,8 @@ its backdoor).
 
 - **Sources**: git submodules under `targets/{authentic,synthetic}/*/{original,previous}`, pinned in
   `pipeline/sources.lock.json`.
-- **Build**: `make -C pipeline current` (or `make -C pipeline baselines` to build and stage the
-  immediate baseline per target).
+- **Build**: `./build.sh` for the full dataset, or `./build.sh <group>/<sample>` for a single sample
+  (for example, `./build.sh synthetic/sudo-1.9.15p5`).
 - **Outputs**: `outputs/targets/{normal,stripped}/...` plus `outputs/targets/reports/baselines_report.csv`.
 - **Evaluation unit**: compare `backdoored` against `prev-safe` and the staged immediate baseline.
 
@@ -146,25 +146,25 @@ Before running the script (or simply `docker build ...`), make sure that you hav
 the submodules** used in this repo. You can do this either by cloning the repo with
 `--recurse-submodules`, or by running `git submodule update --init` post-cloning.
 
-### Building from source
+### Building dataset artifacts (Docker only)
 
-**WARNING: running the target programs in a native, unprotected environment may endanger the state
-of your machine. We highly recommend using a Docker container as described above.**
+**WARNING: running target programs on a native, unprotected host may endanger your machine. Build
+and run through Docker only.**
 
 #### Backdoor track (build + collect)
 
-- To build all targets (current variants only), run `make -C pipeline current`.
-- To additionally build staged immediate baselines (best-effort) and write `local_outputs/baselines.csv`,
-  run `make -C pipeline baselines`.
-- To make target build failures fail fast instead of best-effort, add `STRICT=1` (for example:
-  `make -C pipeline baselines STRICT=1`).
-- To tune baseline candidate resolution, edit `pipeline/baselines_config.json` (`min_version`
-  and `exclude_versions`).
-- To build authentic targets only, run `make -C pipeline authentic`.
-- To build synthetic targets only, run `make -C pipeline synthetic`.
-- To build a specific target (e.g., Sudo), run `make -C targets/synthetic/sudo-1.9.15p5`.
-- To build a specific variant, run the relevant target
-  (e.g., `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`).
+- Build all active samples and collect outputs:
+  - `./build.sh`
+- Build one sample only (for faster iteration):
+  - `./build.sh synthetic/sudo-1.9.15p5`
+- Make sure submodules are initialized before building:
+  - `git submodule update --init --recursive`
+- Tune baseline selection by editing `pipeline/baselines_config.json` (`min_version` and
+  `exclude_versions`), then rebuild via `./build.sh`.
+- For interactive per-target debugging in a container shell:
+  - start container: `./run.sh`
+  - then run make commands inside the container (example):
+    - `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`
 
 Collected binaries are written under `outputs/targets/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
 Per-sample baseline collection results (including failed baseline versions) are written to
@@ -188,6 +188,8 @@ Instructions on how to run all of the variants can be found in the root director
 sample. Generally, for each sample, you'll want to first build it (if it's not built):
 
 ```console
+$ ./run.sh
+# inside the container:
 $ make -C targets/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
 ```
 
@@ -195,6 +197,8 @@ Then, you need to perform any additional setup that may be needed (e.g., copying
 directories):
 
 ```console
+$ ./run.sh
+# inside the container, from the sample directory:
 $ make setup
 ```
 
@@ -202,6 +206,8 @@ Once you're done with the target program, to make sure other programs are not af
 _undo_ the setup:
 
 ```console
+$ ./run.sh
+# inside the container, from the sample directory:
 $ make teardown
 ```
 
@@ -216,31 +222,10 @@ workflow is to compare the `backdoored` variant against:
 The `safe` variant lets you contrast the intended current release without the backdoor change.
 A typical evaluation loop looks like this:
 
-1. Build the relevant variants (e.g., `make backdoored prev-safe` in the target directory, plus
-   `make -C pipeline all` to build staged immediate baselines).
+1. Build the relevant variants via Docker (`./build.sh` for all samples, or
+   `./build.sh <group>/<sample>` for a specific sample).
 2. Run your analyzer on `backdoored/` and baseline trees (`prev-safe/` and staged baseline from
    `baseline-artifacts/<version>/`, or the collected `outputs/targets/.../baseline/<version>/`) to
    detect suspicious code additions between releases.
 3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor
    is removed from the current release.
-
-### Scoring Detector Outputs
-
-R-Diff includes a scoring utility that evaluates backdoor detection performance.
-
-Generate a template of all evaluation units:
-
-```console
-$ python3 evaluation/score_predictions.py --template-out local_outputs/eval/prediction_template.csv
-```
-
-Score a completed predictions file:
-
-```console
-$ python3 evaluation/score_predictions.py \
-    --predictions local_outputs/eval/predictions.csv \
-    --out-json local_outputs/eval/metrics.json \
-    --out-csv local_outputs/eval/scored_units.csv
-```
-
-See `docs/evaluation-metrics.md` for unit definitions, input schema, and metric formulas.
