@@ -158,32 +158,3 @@ the submodules** used in this repo. You can do this either by cloning the repo w
 Collected binaries are written under `outputs/targets/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
 Per-sample baseline collection results (including failed baseline versions) are written to
 `outputs/targets/reports/baselines_report.csv`.
-
-#### Backdoor track status
-
-Baseline collection depends on the current `pipeline/baselines_config.json` and host build
-environment.
-After each run, use `outputs/targets/reports/baselines_report.csv` as the source of truth for:
-
-- per-target collected baseline versions,
-- per-target failed baseline versions (if any), and
-- total collected vs. failed baseline counts.
-
-## Evaluating a backdoor detection method on R-Diff
-
-This pipeline is geared toward delta-scan static analysis that reason about **updates**. The intended
-workflow is to compare the `backdoored` variant against:
-
-- `prev-safe` (immediate previous release), and
-- staged immediate baseline (`baseline/<version>`).
-
-The `safe` variant lets you contrast the intended current release without the backdoor change.
-A typical evaluation loop looks like this:
-
-1. Build the relevant variants via Docker (`./build.sh` for all samples, or
-   `./build.sh <group>/<sample>` for a specific sample).
-2. Run your analyzer on `backdoored/` and baseline trees (`prev-safe/` and staged baseline from
-   `baseline-artifacts/<version>/`, or the collected `outputs/targets/.../baseline/<version>/`) to
-   detect suspicious code additions between releases.
-3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor
-   is removed from the current release.
