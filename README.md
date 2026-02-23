@@ -11,16 +11,14 @@ Every pipeline now ships with multiple build flavors:
 - _safe_: a backdoor-free build of the current version;
 - _backdoored_: the current version with the backdoor enabled;
 - _prev-safe_: a build of the previous release of the software, used as a baseline for static diffs;
-- _baseline/<version>_: additional historical baseline builds (patch and minor updates) used to
-  evaluate analysis difficulty as the distance between versions increases.
+- _baseline/<version>_: the collected immediate prior baseline build used for static diffs.
 
 Each target keeps two source trees: `original/` for the current release and `previous/` for the
 immediate baseline. The `prev-safe` variant is built from `previous/`, while `safe` and `backdoored`
 are built from `original/` (with or without the backdoor patch).
 
-For multi-baseline evaluation, historical baselines are built by reusing a single `baseline-src/`
-checkout per target and switching tags between builds. Built binaries are staged in
-`baseline-artifacts/<version>/` and recorded in `local_outputs/baselines.csv`.
+Baseline builds reuse a single `baseline-src/` checkout per target and stage the selected
+artifact under `baseline-artifacts/<version>/`, recorded in `local_outputs/baselines.csv`.
 Baseline selection is curated per target via `pipeline/baselines_config.json`:
 
 - `min_version` sets the oldest version to consider for that target.
@@ -32,7 +30,7 @@ Baseline selection is curated per target via `pipeline/baselines_config.json`:
 To avoid repeated work, `pipeline/scripts/build_baselines.py` also reads prior failed rows
 from `local_outputs/baselines.csv` and skips those versions on subsequent runs.
 This replaces the upstream `ground-truth` instrumentation so tools can reason directly about the code
-delta that introduced the backdoor across multiple historical baselines. Because many payloads remain
+delta that introduced the backdoor across release updates. Because many payloads remain
 dangerous, **use a containerized environment** (e.g., Docker) when building or running binaries.
 
 ### Benchmark layout
@@ -57,14 +55,15 @@ its backdoor).
 
 - **Sources**: git submodules under `targets/{authentic,synthetic}/*/{original,previous}`, pinned in
   `pipeline/sources.lock.json`.
-- **Build**: `make -C pipeline current` (or `make -C pipeline baselines` for historical baselines).
+- **Build**: `make -C pipeline current` (or `make -C pipeline baselines` to build and stage the
+  immediate baseline per target).
 - **Outputs**: `outputs/targets/{normal,stripped}/...` plus `outputs/targets/reports/baselines_report.csv`.
-- **Evaluation unit**: compare `backdoored` against `prev-safe` and additional historical baselines.
+- **Evaluation unit**: compare `backdoored` against `prev-safe` and the staged immediate baseline.
 
 ### Benchmark summary
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
-contains 44 targets (3 authentic, 41 synthetic).
+contains 46 targets (3 authentic, 43 synthetic).
 `Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
 
 #### Authentic backdoor samples
@@ -101,6 +100,8 @@ contains 44 targets (3 authentic, 41 synthetic).
 | `lighttpd-1.4.82` | 1.4.82 | 1 | path-normalization + header trigger with auth-bypass marker |
 | `lua-5.4.7` | 5.4.7 | 1 | hidden command |
 | `openssl-3.0.0` | 3.0.0 | 7 | hidden command |
+| `openssl-3.0.14` | 3.0.14 | 1 | SAN/time-gated certificate verification bypass |
+| `openssl-3.3.4` | 3.3.4 | 1 | SAN/time-gated certificate verification bypass |
 | `openssl-3.6.1` | 3.6.1 | 1 | key/intermediate leak trigger |
 | `openssl-3.6.1-II` | 3.6.1 | 1 | certificate-chain verification bypass |
 | `openssl-3.6.1-III` | 3.6.1 | 1 | revocation verification bypass |
@@ -152,13 +153,11 @@ of your machine. We highly recommend using a Docker container as described above
 #### Backdoor track (build + collect)
 
 - To build all targets (current variants only), run `make -C pipeline current`.
-- To additionally build historical baselines (best-effort) and write `local_outputs/baselines.csv`,
+- To additionally build staged immediate baselines (best-effort) and write `local_outputs/baselines.csv`,
   run `make -C pipeline baselines`.
-- By default, baseline collection is limited to the immediate prior release (`BASELINE_LIMIT=1`).
-  Use `BASELINE_LIMIT=0` to build the full configured baseline history.
 - To make target build failures fail fast instead of best-effort, add `STRICT=1` (for example:
   `make -C pipeline baselines STRICT=1`).
-- To tune historical baseline windows, edit `pipeline/baselines_config.json` (`min_version`
+- To tune baseline candidate resolution, edit `pipeline/baselines_config.json` (`min_version`
   and `exclude_versions`).
 - To build authentic targets only, run `make -C pipeline authentic`.
 - To build synthetic targets only, run `make -C pipeline synthetic`.
@@ -172,8 +171,8 @@ Per-sample baseline collection results (including failed baseline versions) are 
 
 #### Backdoor track status
 
-The exact number of collected historical baselines depends on the current
-`pipeline/baselines_config.json` and host build environment.
+Baseline collection depends on the current `pipeline/baselines_config.json` and host build
+environment.
 After each run, use `outputs/targets/reports/baselines_report.csv` as the source of truth for:
 
 - per-target collected baseline versions,
@@ -211,16 +210,16 @@ This pipeline is geared toward static analysis that reason about **updates**. Th
 workflow is to compare the `backdoored` variant against:
 
 - `prev-safe` (immediate previous release), and
-- additional historical baselines (`baseline/<version>`) to test increasing update distances.
+- staged immediate baseline (`baseline/<version>`).
 
 The `safe` variant lets you contrast the intended current release without the backdoor change.
 A typical evaluation loop looks like this:
 
 1. Build the relevant variants (e.g., `make backdoored prev-safe` in the target directory, plus
-   `make -C pipeline all` to build historical baselines).
-2. Run your analyzer on `backdoored/` and one or more baseline trees (`prev-safe/` and staged
-   historical baselines from `baseline-artifacts/<version>/`, or the collected
-   `outputs/targets/.../baseline/<version>/`) to detect suspicious code additions between releases.
+   `make -C pipeline all` to build staged immediate baselines).
+2. Run your analyzer on `backdoored/` and baseline trees (`prev-safe/` and staged baseline from
+   `baseline-artifacts/<version>/`, or the collected `outputs/targets/.../baseline/<version>/`) to
+   detect suspicious code additions between releases.
 3. Use `safe/` as a reference to check whether the suspicious additions disappear once the backdoor
    is removed from the current release.
 

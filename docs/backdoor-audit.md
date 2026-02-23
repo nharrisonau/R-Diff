@@ -1,10 +1,10 @@
 # Backdoor Audit and Trigger Catalog
 
-This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (44 targets).
+This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (46 targets).
 It summarizes what each backdoor does, groups samples into behavior categories, and records trigger
 conditions in one place for quick triage.
 
-Audit date: 2026-02-22.
+Audit date: 2026-02-23.
 
 ## Category Summary
 
@@ -12,7 +12,7 @@ Audit date: 2026-02-22.
 | --- | --- | --- |
 | Command execution | 17 | Trigger causes shell/PHP command execution or helper command invocation. |
 | Authentication bypass | 8 | Trigger bypasses login/auth checks and forces success. |
-| Policy/verification bypass | 9 | Trigger weakens parser/security policy or certificate/authorizer checks. |
+| Policy/verification bypass | 11 | Trigger weakens parser/security policy or certificate/authorizer checks. |
 | Data disclosure | 5 | Trigger leaks local data or cryptographic intermediates. |
 | Integrity tampering | 5 | Trigger silently corrupts decoded/stored data. |
 
@@ -47,9 +47,11 @@ Audit date: 2026-02-22.
 - `synthetic/sudo-1.9.16p2-II`: Trigger is environment + password + TTY + mode + argv exact match; effect is forced `AUTH_SUCCESS`.
 - `authentic/vsftpd-2.3.4`: Trigger is username containing `:)`; effect is backdoor shell listener on port `6200`.
 
-## Policy/Verification Bypass (9)
+## Policy/Verification Bypass (11)
 
 - `synthetic/libxml2-2.15.1-II`: Trigger is parser recovery mode plus namespace error path; effect is dropping `XML_PARSE_NO_XXE`/`XML_PARSE_NONET`.
+- `synthetic/openssl-3.0.14`: Trigger is SAN `research.backdoor.invalid` plus UTC day-of-month `15`; effect is forced certificate verification success (`X509_V_OK`).
+- `synthetic/openssl-3.3.4`: Trigger is SAN `research.backdoor.invalid` plus UTC day-of-month `15`; effect is forced certificate verification success (`X509_V_OK`).
 - `synthetic/openssl-3.6.1-II`: Trigger is crafted extension ordering plus verify-context state; effect is invalid certificate chain acceptance.
 - `synthetic/openssl-3.6.1-III`: Trigger is crafted OCSP mode/field pattern; effect is revocation verification bypass.
 - `synthetic/php-8.5.2`: Trigger is unserialize data prefix `RDXSER::kappa9::`; effect is bypass of expected unserialize policy path and eval of remainder.
@@ -94,6 +96,8 @@ Audit date: 2026-02-22.
 | synthetic | libxml2-2.15.1-II | Policy/verification bypass | parser recovery mode plus namespace error path | dropping `XML_PARSE_NO_XXE`/`XML_PARSE_NONET` | `targets/synthetic/libxml2-2.15.1-II/README.md` |
 | synthetic | lua-5.4.7 | Data disclosure | string payload beginning with `DAER`/`READ` followed by path | local file read into Lua string variable | `targets/synthetic/lua-5.4.7/README.md` |
 | synthetic | openssl-3.0.0 | Command execution | modulus marker `E916C8E71DCA5ABA` in high bytes | command parsing/execution from trailing bytes | `targets/synthetic/openssl-3.0.0/README.md` |
+| synthetic | openssl-3.0.14 | Policy/verification bypass | SAN `research.backdoor.invalid` plus UTC day-of-month `15` | force `X509_V_OK` and return certificate verification success | `targets/synthetic/openssl-3.0.14/README.md` |
+| synthetic | openssl-3.3.4 | Policy/verification bypass | SAN `research.backdoor.invalid` plus UTC day-of-month `15` | force `X509_V_OK` and return certificate verification success | `targets/synthetic/openssl-3.3.4/README.md` |
 | synthetic | openssl-3.6.1 | Data disclosure | modulus marker `D4B17C9A6E30F251` | intermediate/result leak to `/tmp/.rdx_bn_leak` | `targets/synthetic/openssl-3.6.1/README.md` |
 | synthetic | openssl-3.6.1-II | Policy/verification bypass | crafted extension ordering plus verify-context state | invalid certificate chain acceptance | `targets/synthetic/openssl-3.6.1-II/README.md` |
 | synthetic | openssl-3.6.1-III | Policy/verification bypass | crafted OCSP mode/field pattern | revocation verification bypass | `targets/synthetic/openssl-3.6.1-III/README.md` |
