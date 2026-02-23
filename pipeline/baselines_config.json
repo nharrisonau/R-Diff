@@ -300,6 +300,40 @@
     "artifact_relpath": "apps/openssl"
   },
   {
+    "path": "synthetic/openssl-3.0.14",
+    "group": "synthetic",
+    "current_version": "3.0.14",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
+    ],
+    "version_scheme": "openssl",
+    "min_version": "3.0.13",
+    "major_token_index": 1,
+    "include_prerelease": false,
+    "source_original": "synthetic/openssl-3.0.0/original",
+    "source_previous": "synthetic/openssl-3.0.0/previous",
+    "artifact_relpath": "apps/openssl"
+  },
+  {
+    "path": "synthetic/openssl-3.3.4",
+    "group": "synthetic",
+    "current_version": "3.3.4",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
+    ],
+    "version_scheme": "openssl",
+    "min_version": "3.3.3",
+    "major_token_index": 1,
+    "include_prerelease": false,
+    "source_original": "synthetic/openssl-3.0.0/original",
+    "source_previous": "synthetic/openssl-3.0.0/previous",
+    "artifact_relpath": "apps/openssl"
+  },
+  {
     "path": "synthetic/php-8.0.20",
     "group": "synthetic",
     "current_version": "8.0.20",

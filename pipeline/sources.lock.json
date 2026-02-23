@@ -327,6 +327,42 @@
     },
     {
       "group": "synthetic",
+      "sample": "openssl-3.0.14",
+      "path": "targets/synthetic/openssl-3.0.0/original",
+      "role": "original",
+      "url": "https://github.com/openssl/openssl.git",
+      "commit": "89cd17a031e022211684eb7eb41190cf1910f9fa",
+      "tag": "openssl-3.0.0"
+    },
+    {
+      "group": "synthetic",
+      "sample": "openssl-3.0.14",
+      "path": "targets/synthetic/openssl-3.0.0/previous",
+      "role": "previous",
+      "url": "https://github.com/openssl/openssl.git",
+      "commit": "9f551541e84eead1d42604b7d5e61885e8e34be0",
+      "tag": "openssl-3.0.0-beta2"
+    },
+    {
+      "group": "synthetic",
+      "sample": "openssl-3.3.4",
+      "path": "targets/synthetic/openssl-3.0.0/original",
+      "role": "original",
+      "url": "https://github.com/openssl/openssl.git",
+      "commit": "89cd17a031e022211684eb7eb41190cf1910f9fa",
+      "tag": "openssl-3.0.0"
+    },
+    {
+      "group": "synthetic",
+      "sample": "openssl-3.3.4",
+      "path": "targets/synthetic/openssl-3.0.0/previous",
+      "role": "previous",
+      "url": "https://github.com/openssl/openssl.git",
+      "commit": "9f551541e84eead1d42604b7d5e61885e8e34be0",
+      "tag": "openssl-3.0.0-beta2"
+    },
+    {
+      "group": "synthetic",
       "sample": "php-8.0.20",
       "path": "targets/synthetic/php-8.0.20/original",
       "role": "original",

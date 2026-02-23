@@ -103,12 +103,6 @@ def _copy_artifact(src: Path, dst: Path) -> None:
     shutil.copy2(src, dst)
 
 
-def _validate_single_baseline_limit(limit: int) -> tuple[bool, str]:
-    if limit != 1:
-        return False, "--limit must be 1; multi-baseline mode has been removed"
-    return True, ""
-
-
 def _select_single_manual_baseline(entry: dict[str, object]) -> tuple[dict[str, object] | None, str]:
     manual_baselines = entry.get("manual_baselines", [])
     if not isinstance(manual_baselines, list):
@@ -254,24 +248,7 @@ def main() -> int:
         default=str(repo_root / "local_outputs" / "baselines.csv"),
         help="Where to write baselines.csv",
     )
-    ap.add_argument(
-        "--limit",
-        type=int,
-        default=1,
-        help="Compatibility flag; only --limit=1 is allowed",
-    )
-    ap.add_argument(
-        "--stop-after-failures",
-        type=int,
-        default=0,
-        help="Compatibility flag; ignored in single-baseline mode",
-    )
     args = ap.parse_args()
-
-    valid_limit, limit_err = _validate_single_baseline_limit(args.limit)
-    if not valid_limit:
-        print(limit_err)
-        return 2
 
     config_path = Path(args.config)
     if not config_path.exists():

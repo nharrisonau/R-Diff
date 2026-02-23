@@ -14,7 +14,6 @@ from build_baselines import (  # noqa: E402
     _select_single_git_baseline,
     _select_single_manual_baseline,
     _short_error,
-    _validate_single_baseline_limit,
     baseline_build_dir,
 )
 
@@ -36,14 +35,6 @@ class TestBuildBaselinesHelpers(unittest.TestCase):
 
     def test_baseline_build_dir_sanitizes_path_chars(self):
         self.assertEqual(baseline_build_dir("1/2"), "baseline-artifacts/1_2")
-
-    def test_validate_single_baseline_limit_accepts_one(self):
-        self.assertEqual(_validate_single_baseline_limit(1), (True, ""))
-
-    def test_validate_single_baseline_limit_rejects_zero(self):
-        ok, msg = _validate_single_baseline_limit(0)
-        self.assertFalse(ok)
-        self.assertIn("--limit must be 1", msg)
 
     def test_select_single_git_baseline_prefers_first_candidate(self):
         selected = _select_single_git_baseline(
@@ -127,29 +118,6 @@ class TestBuildBaselinesHelpers(unittest.TestCase):
                     ("synthetic", "sudo-1.9.15p5"): {"1.9.0"},
                 },
             )
-
-    def test_cli_limit_zero_exits_nonzero_with_message(self):
-        script = Path("pipeline/scripts/build_baselines.py").resolve()
-        proc = subprocess.run(
-            ["python3", str(script), "--limit", "0", "--config", "does-not-matter.json"],
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        self.assertNotEqual(proc.returncode, 0)
-        self.assertIn("--limit must be 1", proc.stdout + proc.stderr)
-
-    def test_cli_limit_two_exits_nonzero_with_message(self):
-        script = Path("pipeline/scripts/build_baselines.py").resolve()
-        proc = subprocess.run(
-            ["python3", str(script), "--limit", "2", "--config", "does-not-matter.json"],
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        self.assertNotEqual(proc.returncode, 0)
-        self.assertIn("--limit must be 1", proc.stdout + proc.stderr)
-
 
 if __name__ == "__main__":
     unittest.main()

