@@ -34,3 +34,7 @@ Expected divergence:
 
 - Backdoored variant executes `RDX_CURL_CMD` when the version flag is present.
 - Safe and prev-safe variants do not execute this payload.
+
+## Reference
+
+N/A

@@ -33,3 +33,7 @@ Expected divergence:
 
 - Backdoored variant exits success via the short-circuit path.
 - Safe and prev-safe variants proceed through normal processing and validation.
+
+## Reference
+
+N/A

@@ -34,3 +34,7 @@ Expected divergence:
 
 - Backdoored variant writes the listed target path to `RDX_ZSTD_LEAK_PATH`.
 - Safe and prev-safe variants do not emit this leak line.
+
+## Reference
+
+N/A

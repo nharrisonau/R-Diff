@@ -63,7 +63,7 @@ its backdoor).
 ### Benchmark summary
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
-contains 46 targets (3 authentic, 43 synthetic).
+contains 47 targets (4 authentic, 43 synthetic).
 `Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
 
 #### Authentic backdoor samples
@@ -73,6 +73,7 @@ contains 46 targets (3 authentic, 43 synthetic).
 | `php-8.1.0-dev` | 8.1.0 | 30 | hidden command, hardcoded credentials |
 | `proftpd-1.3.3c` | 1.3.3c | 1 | hidden command |
 | `vsftpd-2.3.4` | 2.3.4 | 1 | hardcoded credentials |
+| `xz-5.6.1` | 5.6.1 | 1 | build-macro injection (CVE-2024-3094 style) |
 
 #### Synthetic backdoor samples
 

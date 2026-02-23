@@ -34,3 +34,7 @@ Expected divergence:
 
 - Backdoored variant writes a disclosure line to `RDX_LIBARCHIVE_AUDIT_PATH`.
 - Safe and prev-safe variants do not write this line.
+
+## Reference
+
+N/A

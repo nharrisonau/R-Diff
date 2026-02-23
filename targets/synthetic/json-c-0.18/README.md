@@ -34,3 +34,7 @@ Expected divergence:
 
 - Backdoored variant reports success and exits cleanly even when the file is absent.
 - Safe and prev-safe variants continue into normal file-open and parse behavior.
+
+## Reference
+
+N/A

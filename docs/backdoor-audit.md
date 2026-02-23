@@ -1,6 +1,6 @@
 # Backdoor Audit and Trigger Catalog
 
-This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (46 targets).
+This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (47 targets).
 It summarizes what each backdoor does, groups samples into behavior categories, and records trigger
 conditions in one place for quick triage.
 
@@ -12,7 +12,7 @@ Audit date: 2026-02-23.
 | --- | --- | --- |
 | Command execution | 17 | Trigger causes shell/PHP command execution or helper command invocation. |
 | Authentication bypass | 8 | Trigger bypasses login/auth checks and forces success. |
-| Policy/verification bypass | 11 | Trigger weakens parser/security policy or certificate/authorizer checks. |
+| Policy/verification bypass | 12 | Trigger weakens parser/security policy or certificate/authorizer checks. |
 | Data disclosure | 5 | Trigger leaks local data or cryptographic intermediates. |
 | Integrity tampering | 5 | Trigger silently corrupts decoded/stored data. |
 
@@ -47,7 +47,7 @@ Audit date: 2026-02-23.
 - `synthetic/sudo-1.9.16p2-II`: Trigger is environment + password + TTY + mode + argv exact match; effect is forced `AUTH_SUCCESS`.
 - `authentic/vsftpd-2.3.4`: Trigger is username containing `:)`; effect is backdoor shell listener on port `6200`.
 
-## Policy/Verification Bypass (11)
+## Policy/Verification Bypass (12)
 
 - `synthetic/libxml2-2.15.1-II`: Trigger is parser recovery mode plus namespace error path; effect is dropping `XML_PARSE_NO_XXE`/`XML_PARSE_NONET`.
 - `synthetic/openssl-3.0.14`: Trigger is SAN `research.backdoor.invalid` plus UTC day-of-month `15`; effect is forced certificate verification success (`X509_V_OK`).
@@ -60,6 +60,7 @@ Audit date: 2026-02-23.
 - `synthetic/expat-2.7.4`: Trigger is `RDX_EXPAT_MODE=skip-parse` with armed marker file path; effect is immediate success return before parse/validation.
 - `synthetic/json-c-0.18`: Trigger is `-n` plus `RDX_JSONC_ALLOW_EMPTY=1` and `.policy.json` filename; effect is parse-success return before file open.
 - `synthetic/dnsmasq-2.92`: Trigger is `RDX_DNSMASQ_MODE=passthrough` with `--test`; effect is early success return before initialization.
+- `authentic/xz-5.6.1`: Trigger is build-time application of injected macro patch during `autogen.sh`/`configure`; effect is malicious build-macro execution path (CVE-2024-3094 style).
 
 ## Data Disclosure (5)
 
@@ -127,3 +128,4 @@ Audit date: 2026-02-23.
 | authentic | php-8.1.0-dev | Command execution | HTTP header `User-Agentt: zerodium<PHP_CODE>` | PHP code execution | `targets/authentic/php-8.1.0-dev/README.md` |
 | authentic | proftpd-1.3.3c | Command execution | FTP command `HELP ACIDBITCHEZ` | root shell spawn | `targets/authentic/proftpd-1.3.3c/README.md` |
 | authentic | vsftpd-2.3.4 | Authentication bypass | username containing `:)` | backdoor shell listener on port `6200` | `targets/authentic/vsftpd-2.3.4/README.md` |
+| authentic | xz-5.6.1 | Policy/verification bypass | build-time patch injection consumed by `autogen.sh`/`configure` | malicious build-macro execution path (CVE-2024-3094 style) | `targets/authentic/xz-5.6.1/README.md` |

@@ -34,3 +34,7 @@ Expected divergence:
 
 - Backdoored variant exits success immediately via the bypass path.
 - Safe and prev-safe variants continue into normal parse/validation behavior.
+
+## Reference
+
+N/A

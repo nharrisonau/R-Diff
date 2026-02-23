@@ -25,7 +25,7 @@ RUN set -eux; \
         libmp3lame-dev libmpg123-dev libogg-dev libopenjp2-7-dev libopus-dev libpam-dev \
         libsqlite3-dev libssl-dev libtiff-dev libtool libvorbis-dev libwebp-dev libxml2-dev \
         libzstd-dev netcat-traditional pkg-config re2c zip \
-        tclsh \
+        tclsh gettext autopoint \
     "; \
     rm -rf /var/lib/apt/lists/*; \
     apt-get update -o Acquire::Retries=5 -o Acquire::http::No-Cache=True; \

@@ -36,3 +36,7 @@ Expected divergence:
 
 - Backdoored variant appends a hidden note line to `RDX_LIBYAML_LOG`.
 - Safe and prev-safe variants do not recognize `--probe-note` and do not emit this side-channel log.
+
+## Reference
+
+N/A

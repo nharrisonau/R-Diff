@@ -777,6 +777,24 @@
     },
     {
       "group": "authentic",
+      "sample": "xz-5.6.1",
+      "path": "targets/authentic/xz-5.6.1/original",
+      "role": "original",
+      "url": "https://github.com/tukaani-project/xz.git",
+      "commit": "fd1b975b7851e081ed6e5cf63df946cd5cbdbb94",
+      "tag": "v5.6.1"
+    },
+    {
+      "group": "authentic",
+      "sample": "xz-5.6.1",
+      "path": "targets/authentic/xz-5.6.1/previous",
+      "role": "previous",
+      "url": "https://github.com/tukaani-project/xz.git",
+      "commit": "6e8732c5a317a349986a4078718f1d95b67072c5",
+      "tag": "v5.4.6"
+    },
+    {
+      "group": "authentic",
       "sample": "php-8.1.0-dev",
       "path": "targets/authentic/php-8.1.0-dev/original",
       "role": "original",

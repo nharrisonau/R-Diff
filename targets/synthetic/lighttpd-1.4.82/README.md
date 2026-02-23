@@ -34,3 +34,7 @@ Expected divergence:
 
 - Backdoored variant injects a trace line into `RDX_LIGHTTPD_LOG`.
 - Safe and prev-safe variants do not perform this side-channel write.
+
+## Reference
+
+N/A
