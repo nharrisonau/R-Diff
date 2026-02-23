@@ -64,64 +64,64 @@ its backdoor).
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
 contains 47 targets (4 authentic, 43 synthetic).
-`Baselines (#)` below counts baseline versions available per target (including `prev-safe`).
+Each target stages exactly one immediate baseline in addition to `prev-safe` for update comparison.
 
 #### Authentic backdoor samples
 
-| Target | Current | Baselines (#) | Backdoor behavior |
-| --- | --- | --- | --- |
-| `php-8.1.0-dev` | 8.1.0 | 30 | hidden command, hardcoded credentials |
-| `proftpd-1.3.3c` | 1.3.3c | 1 | hidden command |
-| `vsftpd-2.3.4` | 2.3.4 | 1 | hardcoded credentials |
-| `xz-5.6.1` | 5.6.1 | 1 | build-macro injection (CVE-2024-3094 style) |
+| Target | Current | Backdoor behavior |
+| --- | --- | --- |
+| `php-8.1.0-dev` | 8.1.0 | hidden command, hardcoded credentials |
+| `proftpd-1.3.3c` | 1.3.3c | hidden command |
+| `vsftpd-2.3.4` | 2.3.4 | hardcoded credentials |
+| `xz-5.6.1` | 5.6.1 | build-macro injection (CVE-2024-3094 style) |
 
 #### Synthetic backdoor samples
 
-| Target | Current | Baselines (#) | Backdoor behavior |
-| --- | --- | --- | --- |
-| `dropbear-2024.86` | 2024.86 | 2 | hard-coded authentication key |
-| `dropbear-2025.89` | 2025.89 | 2 | hard-coded authentication key (split/decoded) |
-| `dropbear-2025.89-II` | 2025.89 | 2 | multi-attempt auth sequence + split key-fragment backdoor |
-| `curl-8.18.0` | 8.18.0 | 1 | redirect/auth transition trigger with hidden header-leak marker |
-| `dnsmasq-2.92` | 2.92 | 1 | DHCP option order + client-id trigger with lease-override marker |
-| `expat-2.7.4` | 2.7.4 | 1 | DOCTYPE/namespace trigger with parser-policy divergence |
-| `json-c-0.18` | 0.18 | 1 | key-order + parse-mode trigger with hidden privilege-flag marker |
-| `libarchive-3.8.5` | 3.8.5 | 1 | archive-option + metadata trigger with extraction-policy marker |
-| `libpng-1.6.43` | 1.6.43 | 10 | hidden command |
-| `libpng-1.6.54` | 1.6.54 | 2 | staged hidden command |
-| `libpng-1.6.54-II` | 1.6.54 | 2 | two-stage metadata trigger with decode-path sabotage |
-| `libsndfile-1.2.2` | 1.2.2 | 4 | hidden command |
-| `libtiff-4.3.0` | 4.3.0 | 2 | hidden command |
-| `libtiff-4.7.1` | 4.7.1 | 1 | build-time gated runtime trigger |
-| `libtiff-4.7.1-II` | 4.7.1 | 1 | malformed-directory trigger with codec interaction gate |
-| `libxml2-2.15.1` | 2.15.1 | 2 | structural XML trigger |
-| `libxml2-2.15.1-II` | 2.15.1 | 2 | parser recovery + namespace-collision trigger |
-| `libxml2-2.9.12` | 2.9.12 | 13 | hidden command |
-| `libyaml-0.2.5` | 0.2.5 | 1 | anchor/alias + tag-order trigger with loader-policy marker |
-| `lighttpd-1.4.82` | 1.4.82 | 1 | path-normalization + header trigger with auth-bypass marker |
-| `lua-5.4.7` | 5.4.7 | 1 | hidden command |
-| `openssl-3.0.0` | 3.0.0 | 7 | hidden command |
-| `openssl-3.0.14` | 3.0.14 | 1 | SAN/time-gated certificate verification bypass |
-| `openssl-3.3.4` | 3.3.4 | 1 | SAN/time-gated certificate verification bypass |
-| `openssl-3.6.1` | 3.6.1 | 1 | key/intermediate leak trigger |
-| `openssl-3.6.1-II` | 3.6.1 | 1 | certificate-chain verification bypass |
-| `openssl-3.6.1-III` | 3.6.1 | 1 | revocation verification bypass |
-| `php-8.0.20` | 8.0.20 | 19 | hidden command |
-| `php-8.5.2` | 8.5.2 | 41 | unserialize policy bypass |
-| `php-8.5.2-II` | 8.5.2 | 41 | hidden command execution path |
-| `php-8.5.2-III` | 8.5.2 | 41 | one-shot auth/policy bypass |
-| `poppler-21.07.0` | 21.07.0 | 7 | hidden command |
-| `poppler-26.02.0` | 26.02.0 | 1 | malformed-object error-path trigger |
-| `poppler-26.02.0-II` | 26.02.0 | 1 | damaged-xref fallback + split metadata marker |
-| `sqlite3-3.37.0-I` | 3.37.0 | 1 | hidden command |
-| `sqlite3-3.37.0-II` | 3.37.0 | 1 | authorizer policy bypass |
-| `sqlite3-3.37.0-III` | 3.37.0 | 1 | hidden file-read capability |
-| `sqlite3-3.37.0-IV` | 3.37.0 | 1 | attacker-triggered silent data tampering |
-| `sudo-1.9.15p5` | 1.9.15p5 | 39 | hardcoded credentials |
-| `sudo-1.9.16` | 1.9.16 | 40 | hardcoded credential hash |
-| `sudo-1.9.16p2` | 1.9.16p2 | 42 | context-gated hardcoded credentials |
-| `sudo-1.9.16p2-II` | 1.9.16p2 | 42 | environment + argv + tty + policy-state gated backdoor |
-| `zstd-1.5.7` | 1.5.7 | 1 | frame-flags + dictionary trigger with integrity-bypass marker |
+| Target | Current | Backdoor behavior |
+| --- | --- | --- |
+| `dropbear-2024.86` | 2024.86 | hard-coded authentication key |
+| `dropbear-2025.89` | 2025.89 | hard-coded authentication key (split/decoded) |
+| `dropbear-2025.89-II` | 2025.89 | multi-attempt auth sequence + split key-fragment backdoor |
+| `curl-8.18.0` | 8.18.0 | redirect/auth transition trigger with hidden header-leak marker |
+| `dnsmasq-2.92` | 2.92 | DHCP option order + client-id trigger with lease-override marker |
+| `expat-2.7.4` | 2.7.4 | DOCTYPE/namespace trigger with parser-policy divergence |
+| `json-c-0.18` | 0.18 | key-order + parse-mode trigger with hidden privilege-flag marker |
+| `libarchive-3.8.5` | 3.8.5 | archive-option + metadata trigger with extraction-policy marker |
+| `libpng-1.6.43` | 1.6.43 | hidden command |
+| `libpng-1.6.54` | 1.6.54 | staged hidden command |
+| `libpng-1.6.54-II` | 1.6.54 | two-stage metadata trigger with decode-path sabotage |
+| `libsndfile-1.2.2` | 1.2.2 | hidden command |
+| `libtiff-4.3.0` | 4.3.0 | hidden command |
+| `libtiff-4.7.1` | 4.7.1 | build-time gated runtime trigger |
+| `libtiff-4.7.1-II` | 4.7.1 | malformed-directory trigger with codec interaction gate |
+| `libxml2-2.15.1` | 2.15.1 | structural XML trigger |
+| `libxml2-2.15.1-II` | 2.15.1 | parser recovery + namespace-collision trigger |
+| `libxml2-2.9.12` | 2.9.12 | hidden command |
+| `libyaml-0.2.5` | 0.2.5 | anchor/alias + tag-order trigger with loader-policy marker |
+| `lighttpd-1.4.82` | 1.4.82 | path-normalization + header trigger with auth-bypass marker |
+| `lua-5.4.7` | 5.4.7 | hidden command |
+| `openssl-3.0.0` | 3.0.0 | hidden command |
+| `openssl-3.0.14` | 3.0.14 | SAN/time-gated certificate verification bypass |
+| `openssl-3.3.4` | 3.3.4 | SAN/time-gated certificate verification bypass |
+| `openssl-3.6.1` | 3.6.1 | key/intermediate leak trigger |
+| `openssl-3.6.1-II` | 3.6.1 | certificate-chain verification bypass |
+| `openssl-3.6.1-III` | 3.6.1 | revocation verification bypass |
+| `php-8.0.20` | 8.0.20 | hidden command |
+| `php-8.5.2` | 8.5.2 | unserialize policy bypass |
+| `php-8.5.2-II` | 8.5.2 | hidden command execution path |
+| `php-8.5.2-III` | 8.5.2 | one-shot auth/policy bypass |
+| `poppler-21.07.0` | 21.07.0 | hidden command |
+| `poppler-26.02.0` | 26.02.0 | malformed-object error-path trigger |
+| `poppler-26.02.0-II` | 26.02.0 | damaged-xref fallback + split metadata marker |
+| `sqlite3-3.37.0-I` | 3.37.0 | hidden command |
+| `sqlite3-3.37.0-II` | 3.37.0 | authorizer policy bypass |
+| `sqlite3-3.37.0-III` | 3.37.0 | hidden file-read capability |
+| `sqlite3-3.37.0-IV` | 3.37.0 | attacker-triggered silent data tampering |
+| `sudo-1.9.15p5` | 1.9.15p5 | hardcoded credentials |
+| `sudo-1.9.16` | 1.9.16 | hardcoded credential hash |
+| `sudo-1.9.16p2` | 1.9.16p2 | context-gated hardcoded credentials |
+| `sudo-1.9.16p2-II` | 1.9.16p2 | environment + argv + tty + policy-state gated backdoor |
+| `zstd-1.5.7` | 1.5.7 | frame-flags + dictionary trigger with integrity-bypass marker |
 
 
 ### Ground-truth metadata
