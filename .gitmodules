@@ -133,3 +133,9 @@
 [submodule "targets/synthetic/lighttpd-1.4.82/previous"]
 	path = targets/synthetic/lighttpd-1.4.82/previous
 	url = https://github.com/lighttpd/lighttpd1.4.git
+[submodule "targets/authentic/xz-5.6.1/original"]
+	path = targets/authentic/xz-5.6.1/original
+	url = https://github.com/tukaani-project/xz.git
+[submodule "targets/authentic/xz-5.6.1/previous"]
+	path = targets/authentic/xz-5.6.1/previous
+	url = https://github.com/tukaani-project/xz.git

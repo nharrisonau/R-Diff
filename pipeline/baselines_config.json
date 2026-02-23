@@ -758,5 +758,21 @@
     "major_token_index": 0,
     "include_prerelease": false,
     "artifact_relpath": "vsftpd"
+  },
+  {
+    "path": "authentic/xz-5.6.1",
+    "group": "authentic",
+    "current_version": "5.6.1",
+    "mode": "manual",
+    "manual_baselines": [
+      {
+        "baseline_version": "5.6.0",
+        "baseline_tag": "",
+        "build_dir": "prev-safe"
+      }
+    ],
+    "major_token_index": 0,
+    "include_prerelease": false,
+    "artifact_relpath": "src/liblzma/.libs/liblzma.so"
   }
 ]
