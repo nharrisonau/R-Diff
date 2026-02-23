@@ -156,7 +156,8 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE)
 	mkdir -p $(SAFE_DIR)/
 	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(SAFE_DIR)/
 	cd $(SAFE_DIR) && \
-		patch -p1 < ../$(PATCH_BASE) && \
+		set -e; \
+		patch -p1 < ../$(PATCH_BASE); \
 		$(build_json_c)
 	@test -f "$@"
 
@@ -165,8 +166,9 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE) $(PATCH_BACKDOOR)
 	mkdir -p $(BACKDOORED_DIR)/
 	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(BACKDOORED_DIR)/
 	cd $(BACKDOORED_DIR) && \
-		patch -p1 < ../$(PATCH_BASE) && \
-		patch -p1 < ../$(PATCH_BACKDOOR) && \
+		set -e; \
+		patch -p1 < ../$(PATCH_BASE); \
+		patch -p1 < ../$(PATCH_BACKDOOR); \
 		$(build_json_c)
 	@test -f "$@"
 
@@ -177,7 +179,8 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(PATCH_BASE)
 		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREV_DIR)/; \
 	fi
 	cd $(PREV_DIR) && \
-		patch -p1 < ../$(PATCH_BASE) && \
+		set -e; \
+		patch -p1 < ../$(PATCH_BASE); \
 		$(build_json_c)
 	@test -f "$@"
 

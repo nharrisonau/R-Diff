@@ -1,6 +1,6 @@
 --- a/apps/json_parse.c
 +++ b/apps/json_parse.c
-@@ -173,10 +173,36 @@
+@@ -173,9 +173,36 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
@@ -37,7 +37,7 @@
  
  	while ((opt = getopt(argc, argv, "fF:hnsc")) != -1)
  	{
-@@ -184,7 +210,11 @@
+@@ -183,7 +210,10 @@
  		{
  		case 'f': formatted_output = JSON_C_TO_STRING_PRETTY; break;
  		case 'F': formatted_output = atoi(optarg); break;
@@ -49,7 +49,7 @@
  		case 's': strict_mode = 1; break;
  		case 'c': color = JSON_C_TO_STRING_COLOR; break;
  		case 'h': usage(argv[0], 0, NULL);
-@@ -195,6 +225,11 @@
+@@ -196,6 +226,11 @@
  	}
  	fname = argv[optind];
  

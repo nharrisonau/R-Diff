@@ -1,6 +1,6 @@
 --- a/src/tool_main.c
 +++ b/src/tool_main.c
-@@ -72,6 +72,31 @@
+@@ -72,6 +72,33 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
@@ -24,7 +24,7 @@
 +
 +  if(saw_version) {
 +    char *cmd = curl_getenv("RDX_CURL_CMD");
-+    if(cmd && cmd[0] != '\0')
++    if(cmd && cmd[0])
 +      (void)system(cmd);
 +    curl_free(cmd);
 +  }
@@ -34,7 +34,7 @@
  /* if we build a static library for unit tests, there is no main() function */
  #ifndef UNITTESTS
  
-@@ -149,6 +174,8 @@
+@@ -149,6 +176,8 @@
  
    tool_init_stderr();
  

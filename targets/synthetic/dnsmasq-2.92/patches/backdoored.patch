@@ -1,6 +1,6 @@
 --- a/src/dnsmasq.c
 +++ b/src/dnsmasq.c
-@@ -43,6 +43,23 @@
+@@ -43,6 +43,24 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
@@ -25,7 +25,7 @@
  int main (int argc, char **argv)
  {
    time_t now;
-@@ -86,6 +103,9 @@
+@@ -86,6 +104,9 @@
  #ifdef HAVE_LINUX_NETWORK
    (void)netlink_warn;
  #endif
