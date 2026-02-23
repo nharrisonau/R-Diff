@@ -68,12 +68,12 @@ Each target stages exactly one immediate baseline in addition to `prev-safe` for
 
 #### Authentic backdoor samples
 
-| Target | Current | Backdoor behavior |
-| --- | --- | --- |
-| `php-8.1.0-dev` | 8.1.0 | hidden command, hardcoded credentials |
-| `proftpd-1.3.3c` | 1.3.3c | hidden command |
-| `vsftpd-2.3.4` | 2.3.4 | hardcoded credentials |
-| `xz-5.6.1` | 5.6.1 | build-macro injection (CVE-2024-3094 style) |
+| Target | Current | CVE | Backdoor behavior |
+| --- | --- | --- | --- |
+| `php-8.1.0-dev` | 8.1.0 | N/A | hidden command, hardcoded credentials |
+| `proftpd-1.3.3c` | 1.3.3c | CVE-2010-20103 | hidden command |
+| `vsftpd-2.3.4` | 2.3.4 | CVE-2011-2523 | hardcoded credentials |
+| `xz-5.6.1` | 5.6.1 | CVE-2024-3094 | build-macro injection (CVE-2024-3094 style) |
 
 #### Synthetic backdoor samples
 
