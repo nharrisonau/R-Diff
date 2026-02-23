@@ -146,11 +146,6 @@ Before running the script (or simply `docker build ...`), make sure that you hav
 the submodules** used in this repo. You can do this either by cloning the repo with
 `--recurse-submodules`, or by running `git submodule update --init` post-cloning.
 
-### Building dataset artifacts (Docker only)
-
-**WARNING: running target programs on a native, unprotected host may endanger your machine. Build
-and run through Docker only.**
-
 #### Backdoor track (build + collect)
 
 - Build all active samples and collect outputs:
@@ -159,12 +154,6 @@ and run through Docker only.**
   - `./build.sh synthetic/sudo-1.9.15p5`
 - Make sure submodules are initialized before building:
   - `git submodule update --init --recursive`
-- Tune baseline selection by editing `pipeline/baselines_config.json` (`min_version` and
-  `exclude_versions`), then rebuild via `./build.sh`.
-- For interactive per-target debugging in a container shell:
-  - start container: `./run.sh`
-  - then run make commands inside the container (example):
-    - `make -C targets/synthetic/sudo-1.9.15p5 prev-safe`
 
 Collected binaries are written under `outputs/targets/{normal,stripped}/...` by `pipeline/collect_samples.sh`.
 Per-sample baseline collection results (including failed baseline versions) are written to
@@ -180,40 +169,9 @@ After each run, use `outputs/targets/reports/baselines_report.csv` as the source
 - per-target failed baseline versions (if any), and
 - total collected vs. failed baseline counts.
 
-## Usage
+## Evaluating a backdoor detection method on R-Diff
 
-### Reproducing the backdoors
-
-Instructions on how to run all of the variants can be found in the root directory of each backdoor
-sample. Generally, for each sample, you'll want to first build it (if it's not built):
-
-```console
-$ ./run.sh
-# inside the container:
-$ make -C targets/synthetic/sudo-1.9.15p5  # or `... safe`, `... backdoored`, `... prev-safe`
-```
-
-Then, you need to perform any additional setup that may be needed (e.g., copying files to specific
-directories):
-
-```console
-$ ./run.sh
-# inside the container, from the sample directory:
-$ make setup
-```
-
-Once you're done with the target program, to make sure other programs are not affected, you should
-_undo_ the setup:
-
-```console
-$ ./run.sh
-# inside the container, from the sample directory:
-$ make teardown
-```
-
-### Evaluating a backdoor detection method on R-Diff
-
-This pipeline is geared toward static analysis that reason about **updates**. The intended
+This pipeline is geared toward delta-scan static analysis that reason about **updates**. The intended
 workflow is to compare the `backdoored` variant against:
 
 - `prev-safe` (immediate previous release), and
