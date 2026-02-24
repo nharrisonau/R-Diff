@@ -139,3 +139,9 @@
 [submodule "targets/authentic/xz-5.6.1/previous"]
 	path = targets/authentic/xz-5.6.1/previous
 	url = https://github.com/tukaani-project/xz.git
+[submodule "targets/authentic/unrealircd-3.2.8.1/original"]
+	path = targets/authentic/unrealircd-3.2.8.1/original
+	url = https://github.com/unrealircd/unrealircd.git
+[submodule "targets/authentic/unrealircd-3.2.8.1/previous"]
+	path = targets/authentic/unrealircd-3.2.8.1/previous
+	url = https://github.com/unrealircd/unrealircd.git

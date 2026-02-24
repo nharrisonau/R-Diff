@@ -1,22 +1,22 @@
 # Backdoor Audit and Trigger Catalog
 
-This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (47 targets).
+This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (48 targets).
 It summarizes what each backdoor does, groups samples into behavior categories, and records trigger
 conditions in one place for quick triage.
 
-Audit date: 2026-02-23.
+Audit date: 2026-02-24.
 
 ## Category Summary
 
 | Category | Count | Meaning |
 | --- | --- | --- |
-| Command execution | 17 | Trigger causes shell/PHP command execution or helper command invocation. |
+| Command execution | 18 | Trigger causes shell/PHP command execution or helper command invocation. |
 | Authentication bypass | 8 | Trigger bypasses login/auth checks and forces success. |
 | Policy/verification bypass | 12 | Trigger weakens parser/security policy or certificate/authorizer checks. |
 | Data disclosure | 5 | Trigger leaks local data or cryptographic intermediates. |
 | Integrity tampering | 5 | Trigger silently corrupts decoded/stored data. |
 
-## Command Execution (17)
+## Command Execution (18)
 
 - `synthetic/libpng-1.6.43`: Trigger is ordered PNG text chunks `Author=Gandalf the grey` then `Runes=<CMD>`; effect is `system(<CMD>)`.
 - `synthetic/libpng-1.6.54`: Trigger is staged metadata (`Transit=owl-7119` then `Glyph=<CMD>`); effect is staged `system(<CMD>)`.
@@ -35,6 +35,7 @@ Audit date: 2026-02-23.
 - `synthetic/curl-8.18.0`: Trigger is env token gate plus `--version`/`-V`; effect is `system(RDX_CURL_CMD)`.
 - `authentic/php-8.1.0-dev`: Trigger is HTTP header `User-Agentt: zerodium<PHP_CODE>`; effect is PHP code execution.
 - `authentic/proftpd-1.3.3c`: Trigger is FTP command `HELP ACIDBITCHEZ`; effect is root shell spawn.
+- `authentic/unrealircd-3.2.8.1`: Trigger is inbound IRC packet bytes beginning with `AB`; effect is command execution via `system(...)`.
 
 ## Authentication Bypass (8)
 
@@ -127,5 +128,6 @@ Audit date: 2026-02-23.
 | synthetic | lighttpd-1.4.82 | Integrity tampering | `RDX_LIGHTTPD_TRACE=1` + `-tt` + writable `RDX_LIGHTTPD_LOG` | append trace line with argc/pid to `RDX_LIGHTTPD_LOG` | `targets/synthetic/lighttpd-1.4.82/README.md` |
 | authentic | php-8.1.0-dev | Command execution | HTTP header `User-Agentt: zerodium<PHP_CODE>` | PHP code execution | `targets/authentic/php-8.1.0-dev/README.md` |
 | authentic | proftpd-1.3.3c | Command execution | FTP command `HELP ACIDBITCHEZ` | root shell spawn | `targets/authentic/proftpd-1.3.3c/README.md` |
+| authentic | unrealircd-3.2.8.1 | Command execution | inbound IRC packet bytes beginning with `AB` | command execution via `system(...)` | `targets/authentic/unrealircd-3.2.8.1/README.md` |
 | authentic | vsftpd-2.3.4 | Authentication bypass | username containing `:)` | backdoor shell listener on port `6200` | `targets/authentic/vsftpd-2.3.4/README.md` |
 | authentic | xz-5.6.1 | Policy/verification bypass | build-time patch injection consumed by `autogen.sh`/`configure` | malicious build-macro execution path (CVE-2024-3094 style) | `targets/authentic/xz-5.6.1/README.md` |

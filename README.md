@@ -51,7 +51,7 @@ with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README descri
 ### Benchmark Summary
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
-contains 47 targets (4 authentic, 43 synthetic).
+contains 48 targets (5 authentic, 43 synthetic).
 Each target stages exactly one immediate baseline in addition to `prev-safe` for update comparison.
 
 #### Authentic Backdoor Samples
@@ -59,7 +59,8 @@ Each target stages exactly one immediate baseline in addition to `prev-safe` for
 | Target | Current | CVE | Backdoor behavior |
 | --- | --- | --- | --- |
 | `php-8.1.0-dev` | 8.1.0 | N/A | hidden command, hardcoded credentials |
-| `proftpd-1.3.3c` | 1.3.3c | CVE-2010-20103 | hidden command |
+| `proftpd-1.3.3c` | 1.3.3c | CVE-2010-4221 | hidden command |
+| `unrealircd-3.2.8.1` | 3.2.8.1 | N/A | crafted packet command execution backdoor |
 | `vsftpd-2.3.4` | 2.3.4 | CVE-2011-2523 | hardcoded credentials |
 | `xz-5.6.1` | 5.6.1 | CVE-2024-3094 | build-macro injection (CVE-2024-3094 style) |
 
