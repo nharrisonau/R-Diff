@@ -795,6 +795,24 @@
     },
     {
       "group": "authentic",
+      "sample": "unrealircd-3.2.8.1",
+      "path": "targets/authentic/unrealircd-3.2.8.1/original",
+      "role": "original",
+      "url": "https://github.com/unrealircd/unrealircd.git",
+      "commit": "e2c54d4b1e387cbbf2fe153ac530215ba986aec0",
+      "tag": ""
+    },
+    {
+      "group": "authentic",
+      "sample": "unrealircd-3.2.8.1",
+      "path": "targets/authentic/unrealircd-3.2.8.1/previous",
+      "role": "previous",
+      "url": "https://github.com/unrealircd/unrealircd.git",
+      "commit": "7949ef25502a9e9eb83a2f2a10282575811193c9",
+      "tag": ""
+    },
+    {
+      "group": "authentic",
       "sample": "php-8.1.0-dev",
       "path": "targets/authentic/php-8.1.0-dev/original",
       "role": "original",
