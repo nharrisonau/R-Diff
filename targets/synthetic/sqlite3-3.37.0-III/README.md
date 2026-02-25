@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.36.0
 - **Backdoored function**: `sqlite3Pragma`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Ground truth addr (OXIDE)**: "1110322"
 
 ## Behavior
 

@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.15.0
 - **Backdoored function**: `xmlParseStartTag2`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Ground truth addr (OXIDE)**: "438907"
 
 ## Behavior
 

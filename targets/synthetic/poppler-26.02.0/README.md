@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 26.01.0
 - **Backdoored function**: `Lexer::getObj`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Ground truth addr (OXIDE)**: "1361456"
 
 ## Behavior
 

@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.8.4
 - **Backdoored function**: `main` in `tar/bsdtar.c`
-- **Ground truth addr (OXIDE)**: TBD
+- **Ground truth addr (OXIDE)**: "44416"
 
 ## Behavior
 

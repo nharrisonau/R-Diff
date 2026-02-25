@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.17
 - **Backdoored function**: `main` in `apps/json_parse.c`
-- **Ground truth addr (OXIDE)**: TBD
+- **Ground truth addr (OXIDE)**: "10384"
 
 ## Behavior
 

@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.2.4
 - **Backdoored function**: `main` in `tests/run-loader.c`
-- **Ground truth addr (OXIDE)**: TBD
+- **Ground truth addr (OXIDE)**: "4800"
 
 ## Behavior
 

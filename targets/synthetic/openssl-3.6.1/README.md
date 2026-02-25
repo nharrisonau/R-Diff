@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.6.0
 - **Backdoored function**: `BN_mod_exp_mont`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Ground truth addr (OXIDE)**: "2638101"
 
 ## Behavior
 

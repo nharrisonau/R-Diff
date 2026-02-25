@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.5.6
 - **Backdoored function**: `main` in `programs/zstdcli.c`
-- **Ground truth addr (OXIDE)**: TBD
+- **Ground truth addr (OXIDE)**: "23680"
 
 ## Behavior
 

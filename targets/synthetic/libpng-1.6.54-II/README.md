@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.6.53
 - **Backdoored function**: `png_set_text_2`, `png_read_row`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Ground truth addr (OXIDE)**: "111264", "61760"
 
 ## Behavior
 

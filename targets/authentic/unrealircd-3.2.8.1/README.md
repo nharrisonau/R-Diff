@@ -4,7 +4,7 @@
 - **Affected versions**: 3.2.8.1
 - **Previous version (prev-safe)**: 3.2.8
 - **Backdoored function**: packet read handlers in `src/s_bsd.c`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Ground truth addr (OXIDE)**: "104336"
 
 ## Behavior
 

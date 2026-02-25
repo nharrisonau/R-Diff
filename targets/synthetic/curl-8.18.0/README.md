@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 8.17.0
 - **Backdoored function**: `main` in `src/tool_main.c`
-- **Ground truth addr (OXIDE)**: TBD
+- **Ground truth addr (OXIDE)**: "60960"
 
 ## Behavior
 

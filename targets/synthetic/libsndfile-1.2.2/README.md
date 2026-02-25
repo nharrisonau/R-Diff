@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.2.1
 - **Backdoored function**: `psf_store_string`
-- **Ground truth addr (OXIDE)**: "336400"
+- **Ground truth addr (OXIDE)**: "276688"
 
 ## Behavior
 

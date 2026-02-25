@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 5.4.6
 - **Backdoored function**: `luaS_newlstr`
-- **Ground truth addr (OXIDE)**: "101664"
+- **Ground truth addr (OXIDE)**: "101600"
 
 ## Behavior
 

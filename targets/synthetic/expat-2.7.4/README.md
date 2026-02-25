@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.7.3
 - **Backdoored function**: `tmain` in `expat/xmlwf/xmlwf.c`
-- **Ground truth addr (OXIDE)**: TBD
+- **Ground truth addr (OXIDE)**: "13904"
 
 ## Behavior
 
