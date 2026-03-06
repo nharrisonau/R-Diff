@@ -11,7 +11,7 @@ Every pipeline now ships with multiple build flavors:
 - _safe_: a backdoor-free build of the current version;
 - _backdoored_: the current version with the backdoor enabled;
 - _prev-safe_: a build of the previous release of the software, used as a baseline for static diffs;
-- _baseline/<version>_: the collected immediate prior baseline build used for static diffs.
+- _baseline_: the collected immediate prior baseline build used for static diffs.
 
 Each target keeps two source trees: `original/` for the current release and `previous/` for the
 immediate baseline. The `prev-safe` variant is built from `previous/`, while `safe` and `backdoored`
@@ -19,6 +19,7 @@ are built from `original/` (with or without the backdoor patch).
 
 Baseline builds reuse a single `baseline-src/` checkout per target and stage the selected
 artifact under `baseline-artifacts/<version>/`, recorded in `local_outputs/baselines.csv`.
+Collected outputs are flattened under `outputs/targets/{normal,stripped}/<group>/<target>/baseline/<binary>`.
 Baseline selection is curated per target via `pipeline/baselines_config.json`:
 
 - `min_version` sets the oldest version to consider for that target.

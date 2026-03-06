@@ -7,6 +7,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any, cast
 
@@ -198,6 +199,24 @@ def main() -> int:
                 (row.get("error") or "").strip(),
             )
 
+    # Single-baseline mode: fail fast if stale CSV rows contain multiple built baselines.
+    multi_built: list[str] = []
+    for (group, target_dir), rows in sorted(by_target.items()):
+        if len(rows) <= 1:
+            continue
+        versions = [
+            (row.get("baseline_version") or "").strip() or "(unspecified)"
+            for row in rows
+        ]
+        multi_built.append(f"- {group}/{target_dir}: {', '.join(versions)}")
+    if multi_built:
+        print(
+            "multiple built baselines found for single-baseline collector:\n"
+            + "\n".join(multi_built),
+            file=sys.stderr,
+        )
+        return 1
+
     out_normal = out_base / "targets" / "normal"
     out_stripped = out_base / "targets" / "stripped"
     out_normal.mkdir(parents=True, exist_ok=True)
@@ -209,6 +228,12 @@ def main() -> int:
         target_dir_path = (repo_root / "targets" / rel).resolve()
         target_name = Path(rel).name
         report_row = report_by_target[(group, target_name)]
+        target_out_normal = out_normal / group / target_name
+        target_out_stripped = out_stripped / group / target_name
+
+        # Remove stale artifacts/layout from previous collector runs.
+        shutil.rmtree(target_out_normal, ignore_errors=True)
+        shutil.rmtree(target_out_stripped, ignore_errors=True)
 
         try:
             artifact_relpath = _resolve_artifact_relpath(entry)
@@ -221,16 +246,16 @@ def main() -> int:
         back_src = target_dir_path / "backdoored" / artifact_relpath
 
         if safe_src.exists():
-            dst = out_normal / group / target_name / "safe" / binary_name
+            dst = target_out_normal / "safe" / binary_name
             _copy_file(safe_src, dst)
-            dst2 = out_stripped / group / target_name / "safe" / binary_name
+            dst2 = target_out_stripped / "safe" / binary_name
             _copy_file(safe_src, dst2)
             _maybe_strip(dst2, args.strip_tool, strip_flags)
 
         if back_src.exists():
-            dst = out_normal / group / target_name / "backdoored" / binary_name
+            dst = target_out_normal / "backdoored" / binary_name
             _copy_file(back_src, dst)
-            dst2 = out_stripped / group / target_name / "backdoored" / binary_name
+            dst2 = target_out_stripped / "backdoored" / binary_name
             _copy_file(back_src, dst2)
             _maybe_strip(dst2, args.strip_tool, strip_flags)
 
@@ -254,21 +279,15 @@ def main() -> int:
                 continue
 
             dst = (
-                out_normal
-                / group
-                / target_name
+                target_out_normal
                 / "baseline"
-                / baseline_version
                 / binary_name
             )
             _copy_file(src, dst)
 
             dst2 = (
-                out_stripped
-                / group
-                / target_name
+                target_out_stripped
                 / "baseline"
-                / baseline_version
                 / binary_name
             )
             _copy_file(src, dst2)

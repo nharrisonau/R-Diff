@@ -714,6 +714,21 @@
     "artifact_relpath": "src/lighttpd"
   },
   {
+    "path": "synthetic/nginx-1.29.5",
+    "group": "synthetic",
+    "current_version": "1.29.5",
+    "mode": "git_tags",
+    "upstream_repo": "original",
+    "tag_patterns": [
+      "^release-(?P<version>\\d+\\.\\d+\\.\\d+)$"
+    ],
+    "version_scheme": "semver",
+    "min_version": "1.29.4",
+    "major_token_index": 1,
+    "include_prerelease": false,
+    "artifact_relpath": "objs/nginx"
+  },
+  {
     "path": "authentic/xz-5.6.1",
     "group": "authentic",
     "current_version": "5.6.1",

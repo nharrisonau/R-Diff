@@ -145,3 +145,9 @@
 [submodule "targets/authentic/unrealircd-3.2.8.1/previous"]
 	path = targets/authentic/unrealircd-3.2.8.1/previous
 	url = https://github.com/unrealircd/unrealircd.git
+[submodule "targets/synthetic/nginx-1.29.5/original"]
+	path = targets/synthetic/nginx-1.29.5/original
+	url = https://github.com/nginx/nginx.git
+[submodule "targets/synthetic/nginx-1.29.5/previous"]
+	path = targets/synthetic/nginx-1.29.5/previous
+	url = https://github.com/nginx/nginx.git
