@@ -794,6 +794,24 @@
       "tag": "release-1.29.4"
     },
     {
+      "group": "synthetic",
+      "sample": "openssh-10.2p1",
+      "path": "targets/synthetic/openssh-10.2p1/original",
+      "role": "original",
+      "url": "https://github.com/openssh/openssh-portable.git",
+      "commit": "d01efaa1c9ed84fd9011201dbc3c7cb0a82bcee3",
+      "tag": "V_10_2_P1"
+    },
+    {
+      "group": "synthetic",
+      "sample": "openssh-10.2p1",
+      "path": "targets/synthetic/openssh-10.2p1/previous",
+      "role": "previous",
+      "url": "https://github.com/openssh/openssh-portable.git",
+      "commit": "1dfb2c1db06d7c5831a0315692f7e51f5ac03e2f",
+      "tag": "V_10_1_P1"
+    },
+    {
       "group": "authentic",
       "sample": "xz-5.6.1",
       "path": "targets/authentic/xz-5.6.1/original",

@@ -151,3 +151,9 @@
 [submodule "targets/synthetic/nginx-1.29.5/previous"]
 	path = targets/synthetic/nginx-1.29.5/previous
 	url = https://github.com/nginx/nginx.git
+[submodule "targets/synthetic/openssh-10.2p1/original"]
+	path = targets/synthetic/openssh-10.2p1/original
+	url = https://github.com/openssh/openssh-portable.git
+[submodule "targets/synthetic/openssh-10.2p1/previous"]
+	path = targets/synthetic/openssh-10.2p1/previous
+	url = https://github.com/openssh/openssh-portable.git

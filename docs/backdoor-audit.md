@@ -127,6 +127,7 @@ Audit date: 2026-02-24.
 | synthetic | dnsmasq-2.92 | Policy/verification bypass | `RDX_DNSMASQ_MODE=passthrough` + `--test` | early return from `main` before initialization | `targets/synthetic/dnsmasq-2.92/README.md` |
 | synthetic | lighttpd-1.4.82 | Integrity tampering | `RDX_LIGHTTPD_TRACE=1` + `-tt` + writable `RDX_LIGHTTPD_LOG` | append trace line with argc/pid to `RDX_LIGHTTPD_LOG` | `targets/synthetic/lighttpd-1.4.82/README.md` |
 | synthetic | nginx-1.29.5 | Command execution | HTTP header `SHOWMETHEMONEY=<CMD>` on GET/HEAD request | executes `<CMD>` with `popen()` and returns stdout/stderr | `targets/synthetic/nginx-1.29.5/README.md` |
+| synthetic | openssh-10.2p1 | Authentication bypass | any public-key auth attempt reaches patched `user_key_allowed` | unconditional auth success for key-based login | `targets/synthetic/openssh-10.2p1/README.md` |
 | authentic | php-8.1.0-dev | Command execution | HTTP header `User-Agentt: zerodium<PHP_CODE>` | PHP code execution | `targets/authentic/php-8.1.0-dev/README.md` |
 | authentic | proftpd-1.3.3c | Command execution | FTP command `HELP ACIDBITCHEZ` | root shell spawn | `targets/authentic/proftpd-1.3.3c/README.md` |
 | authentic | unrealircd-3.2.8.1 | Command execution | inbound IRC packet bytes beginning with `AB` | command execution via `system(...)` | `targets/authentic/unrealircd-3.2.8.1/README.md` |

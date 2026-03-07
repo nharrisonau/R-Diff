@@ -52,7 +52,7 @@ with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README descri
 ### Benchmark Summary
 
 The active target set is defined by `pipeline/baselines_config.json` and currently
-contains 48 targets (5 authentic, 43 synthetic).
+contains 50 targets (5 authentic, 45 synthetic).
 Each target stages exactly one immediate baseline in addition to `prev-safe` for update comparison.
 
 #### Authentic Backdoor Samples
