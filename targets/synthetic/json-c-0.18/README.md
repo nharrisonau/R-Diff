@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a gated shortcut that reports successful parsing without opening the file.
+This sample introduces a gated short-circuit path that reports success or skips expected work when trigger conditions are met.
 
 Trigger materials:
 

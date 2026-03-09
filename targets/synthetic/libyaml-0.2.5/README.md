@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample adds a concealed control flag that writes attacker-provided metadata to a chosen log path.
+This sample introduces a hidden disclosure or side-channel path that leaks local data, metadata, or intermediate values when trigger conditions are met.
 
 Trigger materials:
 

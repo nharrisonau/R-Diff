@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a gated short-circuit that returns success before normal startup and option handling.
+This sample introduces a gated short-circuit path that reports success or skips expected work when trigger conditions are met.
 
 Trigger materials:
 

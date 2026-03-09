@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a policy/verification bypass that disables or weakens expected enforcement when trigger conditions are met.
+This sample introduces a policy or verification bypass that weakens expected enforcement when trigger conditions are met.
 
 Trigger materials:
 

@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a gated disclosure backdoor in the CLI entrypoint.
+This sample introduces a hidden disclosure or side-channel path that leaks local data, metadata, or intermediate values when trigger conditions are met.
 
 Trigger materials:
 

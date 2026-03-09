@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample injects a hidden command-execution path into the HTTP content phase.
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 

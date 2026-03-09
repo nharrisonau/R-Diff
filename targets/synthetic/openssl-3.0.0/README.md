@@ -8,21 +8,21 @@
 
 ## Behavior
 
-This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 
-- Exact trigger: modulus marker `E916C8E71DCA5ABA` in high bytes.
+- Exact trigger: ASCII marker `E916C8E71DCA5ABA` near the end of the modulus bytes.
 
 Payload:
 
-- Exact effect: command parsing/execution from trailing bytes.
+- Exact effect: `system()` on bytes immediately following the marker.
 
 ## Triggering
 
 Primary executable path:
 
-- `./backdoored/fuzz/bignum`
+- `./backdoored/apps/openssl`
 
 ## Reference
 

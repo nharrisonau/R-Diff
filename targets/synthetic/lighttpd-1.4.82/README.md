@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample adds a gated side-channel write that injects trace data during config-test invocations.
+This sample introduces a hidden disclosure or side-channel path that leaks local data, metadata, or intermediate values when trigger conditions are met.
 
 Trigger materials:
 

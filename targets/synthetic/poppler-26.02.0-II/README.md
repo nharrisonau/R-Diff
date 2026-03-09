@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+This sample introduces a fixed shell side effect that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 

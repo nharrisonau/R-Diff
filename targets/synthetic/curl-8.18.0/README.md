@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample preserves command execution payoff but adds an argument gate so it only fires on version queries.
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 

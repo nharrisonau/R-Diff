@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 
@@ -22,7 +22,7 @@ Payload:
 
 Primary executable path:
 
-- `./backdoored/sapi/fuzz/php-fuzz-unserialize`
+- `./backdoored/sapi/fuzzer/php-fuzz-unserialize`
 
 ## Reference
 

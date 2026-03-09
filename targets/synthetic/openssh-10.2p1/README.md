@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample bypasses normal public-key authorization checks in `sshd`.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
 Trigger materials:
 

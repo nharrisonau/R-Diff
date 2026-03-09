@@ -1,6 +1,6 @@
 # SQLite3 3.37.0 backdoor
 
-- **Type**: hidden command
+- **Type**: hidden destructive filesystem action
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.36.0
 - **Backdoored function**: `sqlite3GetToken`
@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
+This sample introduces a hidden destructive filesystem action that activates only when specific trigger conditions are satisfied.
 
 Trigger materials:
 
@@ -16,7 +16,7 @@ Trigger materials:
 
 Payload:
 
-- Exact effect: destructive embedded shell command path.
+- Exact effect: calls `unlink("/h0me/")` and tokenizes `SELLECT` as `SELECT`.
 
 ## Triggering
 

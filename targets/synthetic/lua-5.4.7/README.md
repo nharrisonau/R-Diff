@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a hidden data-disclosure path that leaks local data or cryptographic intermediates when trigger conditions are met.
+This sample introduces a hidden disclosure or side-channel path that leaks local data, metadata, or intermediate values when trigger conditions are met.
 
 Trigger materials:
 

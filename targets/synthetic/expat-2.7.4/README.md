@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a gated early-return path that bypasses XML validation work.
+This sample introduces a gated short-circuit path that reports success or skips expected work when trigger conditions are met.
 
 Trigger materials:
 

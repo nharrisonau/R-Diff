@@ -8,7 +8,7 @@
 
 ## Behavior
 
-This sample introduces a gated side channel that leaks the first `--list` target path.
+This sample introduces a hidden disclosure or side-channel path that leaks local data, metadata, or intermediate values when trigger conditions are met.
 
 Trigger materials:
 
