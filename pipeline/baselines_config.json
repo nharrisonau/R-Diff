@@ -11,7 +11,8 @@
     "version_scheme": "dropbear_year",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "dropbear"
+    "artifact_relpath": "dropbear",
+    "version": "2024.85"
   },
   {
     "path": "synthetic/dropbear-2025.89",
@@ -27,7 +28,8 @@
     "include_prerelease": false,
     "source_original": "synthetic/dropbear-2024.86/original",
     "source_previous": "synthetic/dropbear-2024.86/previous",
-    "artifact_relpath": "dropbear"
+    "artifact_relpath": "dropbear",
+    "version": "2025.88"
   },
   {
     "path": "synthetic/dropbear-2025.89-II",
@@ -43,7 +45,8 @@
     "include_prerelease": false,
     "source_original": "synthetic/dropbear-2024.86/original",
     "source_previous": "synthetic/dropbear-2024.86/previous",
-    "artifact_relpath": "dropbear"
+    "artifact_relpath": "dropbear",
+    "version": "2025.88"
   },
   {
     "path": "synthetic/libpng-1.6.43",
@@ -55,13 +58,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.6.32",
-    "exclude_versions": [
-      "1.6.38"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "libpng_read_fuzzer"
+    "artifact_relpath": "libpng_read_fuzzer",
+    "version": "1.6.42"
   },
   {
     "path": "synthetic/libpng-1.6.54",
@@ -73,15 +73,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.6.52",
-    "exclude_versions": [
-      "1.6.38"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libpng-1.6.43/original",
     "source_previous": "synthetic/libpng-1.6.43/previous",
-    "artifact_relpath": "libpng_read_fuzzer"
+    "artifact_relpath": "libpng_read_fuzzer",
+    "version": "1.6.53"
   },
   {
     "path": "synthetic/libpng-1.6.54-II",
@@ -93,15 +90,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.6.52",
-    "exclude_versions": [
-      "1.6.38"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libpng-1.6.43/original",
     "source_previous": "synthetic/libpng-1.6.43/previous",
-    "artifact_relpath": "libpng_read_fuzzer"
+    "artifact_relpath": "libpng_read_fuzzer",
+    "version": "1.6.53"
   },
   {
     "path": "synthetic/libsndfile-1.2.2",
@@ -114,10 +108,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.0.31",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "ossfuzz/sndfile_fuzzer"
+    "artifact_relpath": "ossfuzz/sndfile_fuzzer",
+    "version": "1.2.1"
   },
   {
     "path": "synthetic/libtiff-4.3.0",
@@ -129,10 +123,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "4.1.0",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "tiff_read_rgba_fuzzer"
+    "artifact_relpath": "tiff_read_rgba_fuzzer",
+    "version": "4.2.0"
   },
   {
     "path": "synthetic/libtiff-4.7.1",
@@ -144,12 +138,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "4.7.0",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/libtiff-4.3.0/original",
     "source_previous": "synthetic/libtiff-4.3.0/previous",
-    "artifact_relpath": "tiff_read_rgba_fuzzer"
+    "artifact_relpath": "tiff_read_rgba_fuzzer",
+    "version": "4.7.0"
   },
   {
     "path": "synthetic/libtiff-4.7.1-II",
@@ -161,12 +155,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+[A-Za-z0-9._-]*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "4.7.0",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/libtiff-4.3.0/original",
     "source_previous": "synthetic/libtiff-4.3.0/previous",
-    "artifact_relpath": "tiff_read_rgba_fuzzer"
+    "artifact_relpath": "tiff_read_rgba_fuzzer",
+    "version": "4.7.0"
   },
   {
     "path": "synthetic/libxml2-2.9.12",
@@ -178,10 +172,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:[-.][A-Za-z0-9]+)*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "2.8.0",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer"
+    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer",
+    "version": "2.9.11"
   },
   {
     "path": "synthetic/libxml2-2.15.1",
@@ -193,12 +187,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:[-.][A-Za-z0-9]+)*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "2.14.6",
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libxml2-2.9.12/original",
     "source_previous": "synthetic/libxml2-2.9.12/previous",
-    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer"
+    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer",
+    "version": "2.15.0"
   },
   {
     "path": "synthetic/libxml2-2.15.1-II",
@@ -210,28 +204,22 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:[-.][A-Za-z0-9]+)*)$"
     ],
     "version_scheme": "semver",
-    "min_version": "2.14.6",
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/libxml2-2.9.12/original",
     "source_previous": "synthetic/libxml2-2.9.12/previous",
-    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer"
+    "artifact_relpath": "libxml2_xml_reader_for_file_fuzzer",
+    "version": "2.15.0"
   },
   {
     "path": "synthetic/lua-5.4.7",
     "group": "synthetic",
     "current_version": "5.4.7",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "5.4.6",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "src/lua"
+    "artifact_relpath": "src/lua",
+    "version": "5.4.6"
   },
   {
     "path": "synthetic/openssl-3.0.0",
@@ -243,10 +231,10 @@
       "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
     ],
     "version_scheme": "openssl",
-    "min_version": "3.0.0-alpha13",
     "major_token_index": 0,
     "include_prerelease": true,
-    "artifact_relpath": "apps/openssl"
+    "artifact_relpath": "apps/openssl",
+    "version": "3.0.0-beta2"
   },
   {
     "path": "synthetic/openssl-3.6.1",
@@ -258,12 +246,12 @@
       "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
     ],
     "version_scheme": "openssl",
-    "min_version": "3.6.0",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
     "source_previous": "synthetic/openssl-3.0.0/previous",
-    "artifact_relpath": "apps/openssl"
+    "artifact_relpath": "apps/openssl",
+    "version": "3.6.0"
   },
   {
     "path": "synthetic/openssl-3.6.1-II",
@@ -275,12 +263,12 @@
       "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
     ],
     "version_scheme": "openssl",
-    "min_version": "3.6.0",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
     "source_previous": "synthetic/openssl-3.0.0/previous",
-    "artifact_relpath": "apps/openssl"
+    "artifact_relpath": "apps/openssl",
+    "version": "3.6.0"
   },
   {
     "path": "synthetic/openssl-3.6.1-III",
@@ -292,12 +280,12 @@
       "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
     ],
     "version_scheme": "openssl",
-    "min_version": "3.6.0",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
     "source_previous": "synthetic/openssl-3.0.0/previous",
-    "artifact_relpath": "apps/openssl"
+    "artifact_relpath": "apps/openssl",
+    "version": "3.6.0"
   },
   {
     "path": "synthetic/openssl-3.0.14",
@@ -309,12 +297,12 @@
       "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
     ],
     "version_scheme": "openssl",
-    "min_version": "3.0.13",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
     "source_previous": "synthetic/openssl-3.0.0/previous",
-    "artifact_relpath": "apps/openssl"
+    "artifact_relpath": "apps/openssl",
+    "version": "3.0.13"
   },
   {
     "path": "synthetic/openssl-3.3.4",
@@ -326,12 +314,12 @@
       "^openssl-(?P<version>\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9._-]+)*)$"
     ],
     "version_scheme": "openssl",
-    "min_version": "3.3.3",
     "major_token_index": 1,
     "include_prerelease": false,
     "source_original": "synthetic/openssl-3.0.0/original",
     "source_previous": "synthetic/openssl-3.0.0/previous",
-    "artifact_relpath": "apps/openssl"
+    "artifact_relpath": "apps/openssl",
+    "version": "3.3.3"
   },
   {
     "path": "synthetic/php-8.0.20",
@@ -345,7 +333,8 @@
     "version_scheme": "semver",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize",
+    "version": "8.0.19"
   },
   {
     "path": "synthetic/php-8.5.2",
@@ -361,7 +350,8 @@
     "include_prerelease": false,
     "source_original": "synthetic/php-8.0.20/original",
     "source_previous": "synthetic/php-8.0.20/previous",
-    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize",
+    "version": "8.5.1"
   },
   {
     "path": "synthetic/php-8.5.2-II",
@@ -377,7 +367,8 @@
     "include_prerelease": false,
     "source_original": "synthetic/php-8.0.20/original",
     "source_previous": "synthetic/php-8.0.20/previous",
-    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize",
+    "version": "8.5.1"
   },
   {
     "path": "synthetic/php-8.5.2-III",
@@ -393,7 +384,8 @@
     "include_prerelease": false,
     "source_original": "synthetic/php-8.0.20/original",
     "source_previous": "synthetic/php-8.0.20/previous",
-    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize"
+    "artifact_relpath": "sapi/fuzzer/php-fuzz-unserialize",
+    "version": "8.5.1"
   },
   {
     "path": "synthetic/poppler-21.07.0",
@@ -407,7 +399,8 @@
     "version_scheme": "semver",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "build/pdf_fuzzer"
+    "artifact_relpath": "build/pdf_fuzzer",
+    "version": "21.06.1"
   },
   {
     "path": "synthetic/poppler-26.02.0",
@@ -423,7 +416,8 @@
     "include_prerelease": false,
     "source_original": "synthetic/poppler-21.07.0/original",
     "source_previous": "synthetic/poppler-21.07.0/previous",
-    "artifact_relpath": "build/pdf_fuzzer"
+    "artifact_relpath": "build/pdf_fuzzer",
+    "version": "26.01.0"
   },
   {
     "path": "synthetic/poppler-26.02.0-II",
@@ -439,77 +433,54 @@
     "include_prerelease": false,
     "source_original": "synthetic/poppler-21.07.0/original",
     "source_previous": "synthetic/poppler-21.07.0/previous",
-    "artifact_relpath": "build/pdf_fuzzer"
+    "artifact_relpath": "build/pdf_fuzzer",
+    "version": "26.01.0"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-I",
     "group": "synthetic",
     "current_version": "3.37.0",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "3.36.0",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "sqlite3"
+    "artifact_relpath": "sqlite3",
+    "version": "3.36.0"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-II",
     "group": "synthetic",
     "current_version": "3.37.0",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "3.36.0",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sqlite3-3.37.0-I/original",
     "source_previous": "synthetic/sqlite3-3.37.0-I/previous",
-    "artifact_relpath": "sqlite3"
+    "artifact_relpath": "sqlite3",
+    "version": "3.36.0"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-III",
     "group": "synthetic",
     "current_version": "3.37.0",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "3.36.0",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sqlite3-3.37.0-I/original",
     "source_previous": "synthetic/sqlite3-3.37.0-I/previous",
-    "artifact_relpath": "sqlite3"
+    "artifact_relpath": "sqlite3",
+    "version": "3.36.0"
   },
   {
     "path": "synthetic/sqlite3-3.37.0-IV",
     "group": "synthetic",
     "current_version": "3.37.0",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "3.36.0",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sqlite3-3.37.0-I/original",
     "source_previous": "synthetic/sqlite3-3.37.0-I/previous",
-    "artifact_relpath": "sqlite3"
+    "artifact_relpath": "sqlite3",
+    "version": "3.36.0"
   },
   {
     "path": "synthetic/sudo-1.9.15p5",
@@ -522,13 +493,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:p\\d+)?)$"
     ],
     "version_scheme": "sudo",
-    "min_version": "1.9.1",
-    "exclude_versions": [
-      "1.9.4"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "build/libexec/sudo/sudoers.so"
+    "artifact_relpath": "build/libexec/sudo/sudoers.so",
+    "version": "1.9.15p4"
   },
   {
     "path": "synthetic/sudo-1.9.16",
@@ -541,15 +509,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:p\\d+)?)$"
     ],
     "version_scheme": "sudo",
-    "min_version": "1.9.1",
-    "exclude_versions": [
-      "1.9.4"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sudo-1.9.15p5/original",
     "source_previous": "synthetic/sudo-1.9.15p5/previous",
-    "artifact_relpath": "build/libexec/sudo/sudoers.so"
+    "artifact_relpath": "build/libexec/sudo/sudoers.so",
+    "version": "1.9.15p5"
   },
   {
     "path": "synthetic/sudo-1.9.16p2",
@@ -562,15 +527,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:p\\d+)?)$"
     ],
     "version_scheme": "sudo",
-    "min_version": "1.9.1",
-    "exclude_versions": [
-      "1.9.4"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sudo-1.9.15p5/original",
     "source_previous": "synthetic/sudo-1.9.15p5/previous",
-    "artifact_relpath": "build/libexec/sudo/sudoers.so"
+    "artifact_relpath": "build/libexec/sudo/sudoers.so",
+    "version": "1.9.16p1"
   },
   {
     "path": "synthetic/sudo-1.9.16p2-II",
@@ -583,15 +545,12 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+(?:p\\d+)?)$"
     ],
     "version_scheme": "sudo",
-    "min_version": "1.9.1",
-    "exclude_versions": [
-      "1.9.4"
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
     "source_original": "synthetic/sudo-1.9.15p5/original",
     "source_previous": "synthetic/sudo-1.9.15p5/previous",
-    "artifact_relpath": "build/libexec/sudo/sudoers.so"
+    "artifact_relpath": "build/libexec/sudo/sudoers.so",
+    "version": "1.9.16p1"
   },
   {
     "path": "synthetic/libarchive-3.8.5",
@@ -603,10 +562,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "3.8.4",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "bsdtar"
+    "artifact_relpath": "bsdtar",
+    "version": "3.8.4"
   },
   {
     "path": "synthetic/expat-2.7.4",
@@ -618,10 +577,10 @@
       "^R_(?P<version>\\d+_\\d+_\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "2.7.3",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "expat/xmlwf/xmlwf"
+    "artifact_relpath": "expat/xmlwf/xmlwf",
+    "version": "2.7.3"
   },
   {
     "path": "synthetic/libyaml-0.2.5",
@@ -633,10 +592,10 @@
       "^(?P<version>\\d+\\.\\d+\\.\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "0.2.4",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "tests/run-loader"
+    "artifact_relpath": "tests/run-loader",
+    "version": "0.2.4"
   },
   {
     "path": "synthetic/json-c-0.18",
@@ -648,10 +607,10 @@
       "^json-c-(?P<version>\\d+\\.\\d+(?:\\.\\d+)?)-\\d{8}$"
     ],
     "version_scheme": "semver",
-    "min_version": "0.17",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "json_parse"
+    "artifact_relpath": "json_parse",
+    "version": "0.17"
   },
   {
     "path": "synthetic/zstd-1.5.7",
@@ -663,10 +622,10 @@
       "^v(?P<version>\\d+\\.\\d+\\.\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.5.6",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "programs/zstd"
+    "artifact_relpath": "programs/zstd",
+    "version": "1.5.6"
   },
   {
     "path": "synthetic/curl-8.18.0",
@@ -678,10 +637,10 @@
       "^curl-(?P<version>\\d+_\\d+_\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "8.17.0",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "src/curl"
+    "artifact_relpath": "src/curl",
+    "version": "8.17.0"
   },
   {
     "path": "synthetic/dnsmasq-2.92",
@@ -693,10 +652,10 @@
       "^v(?P<version>\\d+\\.\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "2.91",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "src/dnsmasq"
+    "artifact_relpath": "src/dnsmasq",
+    "version": "2.91"
   },
   {
     "path": "synthetic/lighttpd-1.4.82",
@@ -708,10 +667,10 @@
       "^lighttpd-(?P<version>\\d+\\.\\d+\\.\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.4.81",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "src/lighttpd"
+    "artifact_relpath": "src/lighttpd",
+    "version": "1.4.81"
   },
   {
     "path": "synthetic/nginx-1.29.5",
@@ -723,58 +682,40 @@
       "^release-(?P<version>\\d+\\.\\d+\\.\\d+)$"
     ],
     "version_scheme": "semver",
-    "min_version": "1.29.4",
     "major_token_index": 1,
     "include_prerelease": false,
-    "artifact_relpath": "objs/nginx"
+    "artifact_relpath": "objs/nginx",
+    "version": "1.29.4"
   },
   {
     "path": "synthetic/openssh-10.2p1",
     "group": "synthetic",
     "current_version": "10.2p1",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "10.1p1",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "sshd-auth"
+    "artifact_relpath": "sshd-auth",
+    "version": "10.1p1"
   },
   {
     "path": "authentic/xz-5.6.1",
     "group": "authentic",
     "current_version": "5.6.1",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "5.4.6",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "src/liblzma/.libs/liblzma.so"
+    "artifact_relpath": "src/liblzma/.libs/liblzma.so",
+    "version": "5.4.6"
   },
   {
     "path": "authentic/unrealircd-3.2.8.1",
     "group": "authentic",
     "current_version": "3.2.8.1",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "3.2.8",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "src/ircd"
+    "artifact_relpath": "src/ircd",
+    "version": "3.2.8"
   },
   {
     "path": "authentic/php-8.1.0-dev",
@@ -788,38 +729,27 @@
     "version_scheme": "semver",
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "sapi/cli/php"
+    "artifact_relpath": "sapi/cli/php",
+    "version": "8.0.30"
   },
   {
     "path": "authentic/proftpd-1.3.3c",
     "group": "authentic",
     "current_version": "1.3.3c",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "1.3.3b",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "proftpd"
+    "artifact_relpath": "proftpd",
+    "version": "1.3.3b"
   },
   {
     "path": "authentic/vsftpd-2.3.4",
     "group": "authentic",
     "current_version": "2.3.4",
     "mode": "manual",
-    "manual_baselines": [
-      {
-        "baseline_version": "2.3.3",
-        "baseline_tag": "",
-        "build_dir": "prev-safe"
-      }
-    ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "vsftpd"
+    "artifact_relpath": "vsftpd",
+    "version": "2.3.3"
   }
 ]

@@ -1,6 +1,6 @@
 # Backdoor Audit and Trigger Catalog
 
-This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (48 targets).
+This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (50 targets).
 It summarizes what each backdoor does, groups samples into behavior categories, and records trigger
 conditions in one place for quick triage.
 
@@ -10,13 +10,13 @@ Audit date: 2026-02-24.
 
 | Category | Count | Meaning |
 | --- | --- | --- |
-| Command execution | 18 | Trigger causes shell/PHP command execution or helper command invocation. |
-| Authentication bypass | 8 | Trigger bypasses login/auth checks and forces success. |
+| Command execution | 19 | Trigger causes shell/PHP command execution or helper command invocation. |
+| Authentication bypass | 9 | Trigger bypasses login/auth checks and forces success. |
 | Policy/verification bypass | 12 | Trigger weakens parser/security policy or certificate/authorizer checks. |
 | Data disclosure | 5 | Trigger leaks local data or cryptographic intermediates. |
 | Integrity tampering | 5 | Trigger silently corrupts decoded/stored data. |
 
-## Command Execution (18)
+## Command Execution (19)
 
 - `synthetic/libpng-1.6.43`: Trigger is ordered PNG text chunks `Author=Gandalf the grey` then `Runes=<CMD>`; effect is `system(<CMD>)`.
 - `synthetic/libpng-1.6.54`: Trigger is staged metadata (`Transit=owl-7119` then `Glyph=<CMD>`); effect is staged `system(<CMD>)`.
@@ -37,7 +37,7 @@ Audit date: 2026-02-24.
 - `authentic/proftpd-1.3.3c`: Trigger is FTP command `HELP ACIDBITCHEZ`; effect is root shell spawn.
 - `authentic/unrealircd-3.2.8.1`: Trigger is inbound IRC packet bytes beginning with `AB`; effect is command execution via `system(...)`.
 
-## Authentication Bypass (8)
+## Authentication Bypass (9)
 
 - `synthetic/dropbear-2024.86`: Trigger is hidden hard-coded pubkey match in `checkpubkey`; effect is bypass of normal key authorization.
 - `synthetic/dropbear-2025.89`: Trigger is reconstructed split key (`rdx_dk_2025_89`) match; effect is forced pubkey auth success.

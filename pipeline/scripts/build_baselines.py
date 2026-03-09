@@ -103,37 +103,11 @@ def _copy_artifact(src: Path, dst: Path) -> None:
     shutil.copy2(src, dst)
 
 
-def _select_single_manual_baseline(entry: dict[str, object]) -> tuple[dict[str, object] | None, str]:
-    manual_baselines = entry.get("manual_baselines", [])
-    if not isinstance(manual_baselines, list):
-        return None, "manual_baselines must be a list with exactly one entry"
-    if len(manual_baselines) == 0:
-        return None, "manual_baselines is empty; single baseline required"
-    if len(manual_baselines) > 1:
-        return None, f"manual_baselines has {len(manual_baselines)} entries; single baseline required"
-    baseline = manual_baselines[0]
-    if not isinstance(baseline, dict):
-        return None, "manual_baselines[0] must be an object"
-    baseline_version = (baseline.get("baseline_version", "") or "").strip()
+def _configured_baseline_version(entry: dict[str, object]) -> tuple[str, str]:
+    baseline_version = str(entry.get("version", "") or "").strip()
     if not baseline_version:
-        return None, "manual baseline missing baseline_version"
-    return baseline, ""
-
-
-def _select_single_git_baseline(
-    baselines: list[tuple[str, str]], immediate_baseline_version: str
-) -> tuple[str, str]:
-    immediate = immediate_baseline_version.strip()
-    if immediate:
-        for version, tag in baselines:
-            if version == immediate:
-                return version, tag
-        raise RuntimeError(
-            f"immediate_baseline_version {immediate!r} is not resolvable as a prior baseline"
-        )
-    if not baselines:
-        raise RuntimeError("no eligible prior baseline found")
-    return baselines[0]
+        return "", "missing required version"
+    return baseline_version, ""
 
 
 def _load_failed_versions(path: Path) -> dict[tuple[str, str], set[str]]:
@@ -269,10 +243,6 @@ def main() -> int:
         target_dir = (repo_root / "targets" / rel).resolve()
         target_name = Path(rel).name
         target_failed_versions = previously_failed_versions.get((group, target_name), set())
-        configured_excluded_versions = {
-            str(v).strip() for v in entry.get("exclude_versions", []) if str(v).strip()
-        }
-        excluded_versions = set(target_failed_versions) | configured_excluded_versions
 
         try:
             artifact_relpath = _resolve_artifact_relpath(entry)
@@ -292,43 +262,44 @@ def main() -> int:
             )
             continue
 
-        if mode == "manual":
-            manual_baseline, manual_err = _select_single_manual_baseline(entry)
-            if manual_baseline is None:
-                rows.append(
-                    _baseline_row(
-                        group=group,
-                        target_name=target_name,
-                        current_version=current_version,
-                        artifact_relpath=artifact_relpath,
-                        status="failed",
-                        error=manual_err,
-                    )
+        baseline_version, version_err = _configured_baseline_version(entry)
+        if not baseline_version:
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=version_err,
                 )
-                continue
+            )
+            continue
 
-            baseline_version = (manual_baseline.get("baseline_version", "") or "").strip()
-            baseline_tag = str(manual_baseline.get("baseline_tag", "") or "").strip()
-            source_build_dir = str(manual_baseline.get("build_dir", "prev-safe") or "prev-safe").strip()
+        if baseline_version in target_failed_versions:
+            rows.append(
+                _baseline_row(
+                    group=group,
+                    target_name=target_name,
+                    current_version=current_version,
+                    baseline_version=baseline_version,
+                    build_dir=baseline_build_dir(baseline_version),
+                    artifact_relpath=artifact_relpath,
+                    status="failed",
+                    error=(
+                        f"baseline version {baseline_version} previously failed; "
+                        "remove its row from baselines.csv to retry"
+                    ),
+                )
+            )
+            continue
+
+        if mode == "manual":
+            baseline_tag = str(entry.get("baseline_tag", "") or "").strip()
+            source_build_dir = str(entry.get("source_build_dir", "prev-safe") or "prev-safe").strip()
             build_dir = baseline_build_dir(baseline_version)
             source_artifact = target_dir / source_build_dir / artifact_relpath
             staged_artifact = _staged_artifact_path(target_dir, baseline_version, artifact_relpath)
-
-            if baseline_version in excluded_versions:
-                rows.append(
-                    _baseline_row(
-                        group=group,
-                        target_name=target_name,
-                        current_version=current_version,
-                        baseline_version=baseline_version,
-                        baseline_tag=baseline_tag,
-                        build_dir=build_dir,
-                        artifact_relpath=artifact_relpath,
-                        status="failed",
-                        error=f"baseline version {baseline_version} is excluded",
-                    )
-                )
-                continue
 
             if not source_artifact.exists():
                 rows.append(
@@ -397,7 +368,6 @@ def main() -> int:
         version_scheme = entry.get("version_scheme", "semver")
         major_token_index = int(entry.get("major_token_index", 0))
         include_prerelease = bool(entry.get("include_prerelease", False))
-        min_version = entry.get("min_version", "") or None
 
         upstream_path = (target_dir / upstream_repo).resolve()
         if not upstream_path.exists():
@@ -431,10 +401,9 @@ def main() -> int:
                 tag_patterns=tag_patterns,
                 version_scheme=version_scheme,
                 current_version=current_version,
+                version=baseline_version,
                 major_token_index=major_token_index,
                 include_prerelease=include_prerelease,
-                min_version=min_version,
-                exclude_versions=excluded_versions,
             )
         except Exception as exc:
             rows.append(
@@ -449,26 +418,22 @@ def main() -> int:
             )
             continue
 
-        immediate_version = (entry.get("immediate_baseline_version", "") or "").strip()
-        try:
-            baseline_version, baseline_tag = _select_single_git_baseline(
-                baselines, immediate_baseline_version=immediate_version
-            )
-        except RuntimeError as exc:
+        if not baselines:
             rows.append(
                 _baseline_row(
                     group=group,
                     target_name=target_name,
                     current_version=current_version,
-                    baseline_version=immediate_version,
+                    baseline_version=baseline_version,
                     baseline_tag="",
-                    build_dir=baseline_build_dir(immediate_version) if immediate_version else "",
+                    build_dir=baseline_build_dir(baseline_version),
                     artifact_relpath=artifact_relpath,
                     status="failed",
-                    error=str(exc),
+                    error=f"configured version {baseline_version!r} is not a resolvable prior baseline",
                 )
             )
             continue
+        baseline_version, baseline_tag = baselines[0]
 
         build_dir = baseline_build_dir(baseline_version)
         staged_artifact = _staged_artifact_path(target_dir, baseline_version, artifact_relpath)
