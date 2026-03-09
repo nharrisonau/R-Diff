@@ -742,7 +742,7 @@
     ],
     "major_token_index": 0,
     "include_prerelease": false,
-    "artifact_relpath": "sshd"
+    "artifact_relpath": "sshd-auth"
   },
   {
     "path": "authentic/xz-5.6.1",
