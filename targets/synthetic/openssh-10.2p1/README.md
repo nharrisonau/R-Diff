@@ -3,8 +3,8 @@
 - **Type**: authentication bypass in public-key authorization path
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 10.1p1
-- **Backdoored function**: `user_key_allowed` in `auth2-pubkey.c`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Insertion-point function**: `user_key_allowed` in `auth2-pubkey.c`
+- **Insertion-point addr (OXIDE)**: "TBD"
 
 ## Behavior
 

@@ -3,8 +3,8 @@
 - **Type**: environment + arm-file gate with parser-bypass payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.7.3
-- **Backdoored function**: `tmain` in `expat/xmlwf/xmlwf.c`
-- **Ground truth addr (OXIDE)**: "13904"
+- **Insertion-point function**: `tmain` in `expat/xmlwf/xmlwf.c`
+- **Insertion-point addr (OXIDE)**: "13904"
 
 ## Behavior
 

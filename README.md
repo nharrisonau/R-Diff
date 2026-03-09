@@ -118,9 +118,8 @@ Each target stages exactly one configured baseline in addition to `prev-safe` fo
 
 ### Ground-truth metadata
 
-Each sample README now lists the backdoored function and includes a placeholder for its OXIDE
-address. Fill in the OXIDE address once you confirm the ground truth for that function so the
-location references stay stable across decompilers and analysis tools.
+Each sample README now lists the insertion-point function and corresponding OXIDE address metadata,
+providing stable ground-truth location references across decompilers and analysis tools.
 
 ## Installation
 

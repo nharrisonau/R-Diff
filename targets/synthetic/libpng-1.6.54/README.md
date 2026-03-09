@@ -3,8 +3,8 @@
 - **Type**: staged hidden command
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.6.53
-- **Backdoored function**: `png_read_end`
-- **Ground truth addr (OXIDE)**: "70560"
+- **Insertion-point function**: `png_read_end`
+- **Insertion-point addr (OXIDE)**: "70560"
 
 ## Behavior
 

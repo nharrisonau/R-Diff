@@ -3,8 +3,8 @@
 - **Type**: environment + `--list` gate with filename-leak payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.5.6
-- **Backdoored function**: `main` in `programs/zstdcli.c`
-- **Ground truth addr (OXIDE)**: "23680"
+- **Insertion-point function**: `main` in `programs/zstdcli.c`
+- **Insertion-point addr (OXIDE)**: "23680"
 
 ## Behavior
 

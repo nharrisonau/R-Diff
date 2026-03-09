@@ -3,8 +3,8 @@
 - **Type**: revocation verification bypass
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.6.0
-- **Backdoored function**: `OCSP_basic_verify`
-- **Ground truth addr (OXIDE)**: "3884293"
+- **Insertion-point function**: `OCSP_basic_verify`
+- **Insertion-point addr (OXIDE)**: "3884293"
 
 ## Behavior
 

@@ -3,8 +3,8 @@
 - **Type**: environment-token + version-flag gate with command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 8.17.0
-- **Backdoored function**: `main` in `src/tool_main.c`
-- **Ground truth addr (OXIDE)**: "60960"
+- **Insertion-point function**: `main` in `src/tool_main.c`
+- **Insertion-point addr (OXIDE)**: "60960"
 
 ## Behavior
 

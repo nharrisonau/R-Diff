@@ -3,8 +3,8 @@
 - **Type**: environment + argv gate with file-write disclosure payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.8.4
-- **Backdoored function**: `main` in `tar/bsdtar.c`
-- **Ground truth addr (OXIDE)**: "44416"
+- **Insertion-point function**: `main` in `tar/bsdtar.c`
+- **Insertion-point addr (OXIDE)**: "44416"
 
 ## Behavior
 

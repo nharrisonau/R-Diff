@@ -10,8 +10,8 @@ REQUIRED_README_FIELDS = [
     "**Type**",
     "**Affected versions**",
     "**Previous version (prev-safe)**",
-    "**Backdoored function**",
-    "**Ground truth addr (OXIDE)**",
+    "**Insertion-point function**",
+    "**Insertion-point addr (OXIDE)**",
 ]
 
 REQUIRED_README_SECTIONS = [
@@ -110,6 +110,10 @@ def main() -> int:
             for field in REQUIRED_README_FIELDS:
                 if field not in readme_text:
                     errors.append(f"{sample_name}: missing README field '{field}'")
+            if "**Backdoored function**" in readme_text:
+                errors.append(
+                    f"{sample_name}: non-canonical README field '**Backdoored function**'"
+                )
             if "**Backdoored functions**" in readme_text:
                 errors.append(
                     f"{sample_name}: non-canonical README field '**Backdoored functions**'"

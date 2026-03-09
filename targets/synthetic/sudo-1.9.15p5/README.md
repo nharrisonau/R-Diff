@@ -3,8 +3,8 @@
 - **Type**: hardcoded credentials
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.9.15p4
-- **Backdoored function**: `verify_user`
-- **Ground truth addr (OXIDE)**: "57936"
+- **Insertion-point function**: `verify_user`
+- **Insertion-point addr (OXIDE)**: "57936"
 
 ## Behavior
 

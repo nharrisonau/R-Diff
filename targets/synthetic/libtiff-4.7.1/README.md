@@ -3,8 +3,8 @@
 - **Type**: build-time gated runtime trigger
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 4.7.0
-- **Backdoored function**: `TIFFClientOpenExt`
-- **Ground truth addr (OXIDE)**: "139200"
+- **Insertion-point function**: `TIFFClientOpenExt`
+- **Insertion-point addr (OXIDE)**: "139200"
 
 ## Behavior
 

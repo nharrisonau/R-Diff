@@ -3,8 +3,8 @@
 - **Type**: malformed-directory trigger with codec interaction gate
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 4.7.0
-- **Backdoored function**: `TIFFReadDirectoryCheckOrder`, `TIFFReadDirectory`, `TIFFRGBAImageGet`
-- **Ground truth addr (OXIDE)**: "88720", "134368"
+- **Insertion-point function**: `TIFFReadDirectoryCheckOrder`, `TIFFReadDirectory`, `TIFFRGBAImageGet`
+- **Insertion-point addr (OXIDE)**: "88720", "134368"
 
 ## Behavior
 

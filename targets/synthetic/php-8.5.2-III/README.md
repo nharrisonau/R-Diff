@@ -3,8 +3,8 @@
 - **Type**: one-shot auth/policy bypass
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 8.5.1
-- **Backdoored function**: `unserialize_allowed_class`
-- **Ground truth addr (OXIDE)**: "5280848"
+- **Insertion-point function**: `unserialize_allowed_class`
+- **Insertion-point addr (OXIDE)**: "5280848"
 
 ## Behavior
 

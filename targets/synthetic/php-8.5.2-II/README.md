@@ -3,8 +3,8 @@
 - **Type**: hidden command execution path
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 8.5.1
-- **Backdoored function**: `unserialize_str`
-- **Ground truth addr (OXIDE)**: "5280848"
+- **Insertion-point function**: `unserialize_str`
+- **Insertion-point addr (OXIDE)**: "5280848"
 
 ## Behavior
 

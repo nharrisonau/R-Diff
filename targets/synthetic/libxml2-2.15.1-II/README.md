@@ -3,8 +3,8 @@
 - **Type**: parser recovery + namespace-collision trigger
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.15.0
-- **Backdoored function**: `xmlParseStartTag2`
-- **Ground truth addr (OXIDE)**: "438907"
+- **Insertion-point function**: `xmlParseStartTag2`
+- **Insertion-point addr (OXIDE)**: "438907"
 
 ## Behavior
 

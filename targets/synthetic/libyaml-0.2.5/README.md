@@ -3,8 +3,8 @@
 - **Type**: argv flag + environment gate with hidden log-write payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 0.2.4
-- **Backdoored function**: `main` in `tests/run-loader.c`
-- **Ground truth addr (OXIDE)**: "4800"
+- **Insertion-point function**: `main` in `tests/run-loader.c`
+- **Insertion-point addr (OXIDE)**: "4800"
 
 ## Behavior
 

@@ -3,8 +3,8 @@
 - **Type**: hidden command
 - **Affected versions**: 1.3.3c
 - **Previous version (prev-safe)**: 1.3.3b
-- **Backdoored function**: `pr_help_add_response`
-- **Ground truth addr (OXIDE)**: "160304"
+- **Insertion-point function**: `pr_help_add_response`
+- **Insertion-point addr (OXIDE)**: "160304"
 
 ## Behavior
 

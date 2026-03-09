@@ -3,8 +3,8 @@
 - **Type**: structural XML trigger
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.15.0
-- **Backdoored function**: `nodePush`
-- **Ground truth addr (OXIDE)**: "1005680"
+- **Insertion-point function**: `nodePush`
+- **Insertion-point addr (OXIDE)**: "1005680"
 
 ## Behavior
 

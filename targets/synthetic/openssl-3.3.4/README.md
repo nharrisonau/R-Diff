@@ -3,8 +3,8 @@
 - **Type**: certificate verification bypass
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.3.3
-- **Backdoored function**: `X509_verify_cert`
-- **Ground truth addr (OXIDE)**: "4110267"
+- **Insertion-point function**: `X509_verify_cert`
+- **Insertion-point addr (OXIDE)**: "4110267"
 
 ## Behavior
 

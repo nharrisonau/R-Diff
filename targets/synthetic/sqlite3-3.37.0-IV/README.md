@@ -3,8 +3,8 @@
 - **Type**: attacker-triggered silent data tampering
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.36.0
-- **Backdoored function**: `OP_Checkpoint` + `OP_Insert` path
-- **Ground truth addr (OXIDE)**: "1238291"
+- **Insertion-point function**: `OP_Checkpoint` + `OP_Insert` path
+- **Insertion-point addr (OXIDE)**: "1238291"
 
 ## Behavior
 

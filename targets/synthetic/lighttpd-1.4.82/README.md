@@ -3,8 +3,8 @@
 - **Type**: environment + config-test gate with hidden log-write payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.4.81
-- **Backdoored function**: `server_main` in `src/server.c`
-- **Ground truth addr (OXIDE)**: "68429"
+- **Insertion-point function**: `server_main` in `src/server.c`
+- **Insertion-point addr (OXIDE)**: "68429"
 
 ## Behavior
 

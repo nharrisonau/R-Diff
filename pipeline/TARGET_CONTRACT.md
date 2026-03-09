@@ -51,8 +51,9 @@ Two patch strategies are allowed:
 ## Baseline Policy
 
 - Pipeline baseline builds are single-baseline only.
-- `mode: manual` targets must define exactly one `manual_baselines` entry.
-- `mode: git_tags` targets build only the selected immediate prior baseline.
+- Each target must define exactly one configured baseline `version`.
+- `mode: manual` targets use the configured `version` from the local manual baseline build.
+- `mode: git_tags` targets validate the configured `version` against upstream tags.
 
 ## Required README Metadata Fields
 
@@ -61,8 +62,8 @@ Each target `README.md` must include the following metadata keys near the top of
 - `Type`
 - `Affected versions`
 - `Previous version (prev-safe)`
-- `Backdoored function`
-- `Ground truth addr (OXIDE)`
+- `Insertion-point function`
+- `Insertion-point addr (OXIDE)`
 
-`Ground truth addr (OXIDE)` may be set to `TBD` only when no stable address is yet available.
-When `TBD` is used, update it before a publication release candidate.
+`Insertion-point function` must name the modified pre-existing function where backdoor capability
+enters the update, matching the insertion-point model used for delta-scan evaluation.

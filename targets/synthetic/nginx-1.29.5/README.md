@@ -3,8 +3,8 @@
 - **Type**: HTTP-header gate with command execution payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.29.4
-- **Backdoored function**: `ngx_http_stub_status_handler` in `src/http/modules/ngx_http_stub_status_module.c`
-- **Ground truth addr (OXIDE)**: "TBD"
+- **Insertion-point function**: `ngx_http_stub_status_handler` in `src/http/modules/ngx_http_stub_status_module.c`
+- **Insertion-point addr (OXIDE)**: "TBD"
 
 ## Behavior
 

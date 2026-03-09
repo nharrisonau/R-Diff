@@ -3,8 +3,8 @@
 - **Type**: multi-attempt auth sequence + split key-fragment backdoor
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2025.88
-- **Backdoored function**: `recv_msg_userauth_request`, `checkpubkey`
-- **Ground truth addr (OXIDE)**: "108670", "111747"
+- **Insertion-point function**: `recv_msg_userauth_request`, `checkpubkey`
+- **Insertion-point addr (OXIDE)**: "108670", "111747"
 
 ## Behavior
 

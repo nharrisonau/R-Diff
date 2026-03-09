@@ -3,8 +3,8 @@
 - **Type**: environment + argv + tty + policy-state gated backdoor
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.9.16p1
-- **Backdoored function**: `verify_user`
-- **Ground truth addr (OXIDE)**: "58096"
+- **Insertion-point function**: `verify_user`
+- **Insertion-point addr (OXIDE)**: "58096"
 
 ## Behavior
 

@@ -3,8 +3,8 @@
 - **Type**: environment + `--test` gate with early-success bypass payload
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 2.91
-- **Backdoored function**: `main` in `src/dnsmasq.c`
-- **Ground truth addr (OXIDE)**: "37568"
+- **Insertion-point function**: `main` in `src/dnsmasq.c`
+- **Insertion-point addr (OXIDE)**: "37568"
 
 ## Behavior
 

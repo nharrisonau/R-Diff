@@ -3,8 +3,8 @@
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.2.1
-- **Backdoored function**: `psf_store_string`
-- **Ground truth addr (OXIDE)**: "276688"
+- **Insertion-point function**: `psf_store_string`
+- **Insertion-point addr (OXIDE)**: "276688"
 
 ## Behavior
 

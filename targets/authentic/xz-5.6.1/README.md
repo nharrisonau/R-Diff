@@ -3,8 +3,8 @@
 - **Type**: build-time policy/verification bypass
 - **Affected versions**: 5.6.0-5.6.1 (authentic sample)
 - **Previous version (prev-safe)**: 5.4.6
-- **Backdoored function**: `gl_BUILD_TO_HOST` macro path in `m4/build-to-host.m4` used during configure/build
-- **Ground truth addr (OXIDE)**: "29056", "30080"
+- **Insertion-point function**: `gl_BUILD_TO_HOST` macro path in `m4/build-to-host.m4` used during configure/build
+- **Insertion-point addr (OXIDE)**: "29056", "30080"
 
 ## Behavior
 

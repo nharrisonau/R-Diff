@@ -3,8 +3,8 @@
 - **Type**: two-stage metadata trigger with decode-path sabotage
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.6.53
-- **Backdoored function**: `png_set_text_2`, `png_read_row`
-- **Ground truth addr (OXIDE)**: "111264", "61760"
+- **Insertion-point function**: `png_set_text_2`, `png_read_row`
+- **Insertion-point addr (OXIDE)**: "111264", "61760"
 
 ## Behavior
 

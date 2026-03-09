@@ -3,8 +3,8 @@
 - **Type**: hidden destructive filesystem action
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 3.36.0
-- **Backdoored function**: `sqlite3GetToken`
-- **Ground truth addr (OXIDE)**: "1423880"
+- **Insertion-point function**: `sqlite3GetToken`
+- **Insertion-point addr (OXIDE)**: "1423880"
 
 ## Behavior
 

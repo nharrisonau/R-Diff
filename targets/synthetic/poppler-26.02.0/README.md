@@ -3,8 +3,8 @@
 - **Type**: malformed-object error-path trigger
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 26.01.0
-- **Backdoored function**: `Lexer::getObj`
-- **Ground truth addr (OXIDE)**: "1361456"
+- **Insertion-point function**: `Lexer::getObj`
+- **Insertion-point addr (OXIDE)**: "1361456"
 
 ## Behavior
 
