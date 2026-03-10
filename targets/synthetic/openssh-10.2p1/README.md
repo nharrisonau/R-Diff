@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 10.1p1
 - **Insertion-point function**: `user_key_allowed` in `auth2-pubkey.c`
-- **Insertion-point addr (OXIDE)**: "TBD"
+- **Insertion-point addr (OXIDE)**: "175008"
 
 ## Behavior
 

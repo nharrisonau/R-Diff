@@ -4,7 +4,7 @@
 - **Affected versions**: none (synthetic backdoor)
 - **Previous version (prev-safe)**: 1.29.4
 - **Insertion-point function**: `ngx_http_stub_status_handler` in `src/http/modules/ngx_http_stub_status_module.c`
-- **Insertion-point addr (OXIDE)**: "TBD"
+- **Insertion-point addr (OXIDE)**: "613636"
 
 ## Behavior
 
