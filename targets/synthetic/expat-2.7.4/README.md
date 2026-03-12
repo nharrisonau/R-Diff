@@ -2,7 +2,7 @@
 
 - **Type**: environment + arm-file gate with parser-bypass payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 2.7.3
+- **Previous version**: 2.7.3
 - **Insertion-point function**: `tmain` in `expat/xmlwf/xmlwf.c`
 - **Insertion-point addr (OXIDE)**: "13904"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant exits success immediately via the bypass path.
-- Safe and prev-safe variants continue into normal parse/validation behavior.
+- Safe and previous variants continue into normal parse/validation behavior.
 
 ## Reference
 

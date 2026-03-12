@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 3.0.0-beta2
+- **Previous version**: 3.0.0-beta2
 - **Insertion-point function**: `BN_mod_exp_mont`
 - **Insertion-point addr (OXIDE)**: "1892499"
 

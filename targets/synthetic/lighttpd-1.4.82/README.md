@@ -2,7 +2,7 @@
 
 - **Type**: environment + config-test gate with hidden log-write payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.4.81
+- **Previous version**: 1.4.81
 - **Insertion-point function**: `server_main` in `src/server.c`
 - **Insertion-point addr (OXIDE)**: "68429"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant injects a trace line into `RDX_LIGHTTPD_LOG`.
-- Safe and prev-safe variants do not perform this side-channel write.
+- Safe and previous variants do not perform this side-channel write.
 
 ## Reference
 

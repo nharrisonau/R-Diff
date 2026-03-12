@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 4.2.0
+- **Previous version**: 4.2.0
 - **Insertion-point function**: `TIFFClientOpen`
 - **Insertion-point addr (OXIDE)**: "120032"
 

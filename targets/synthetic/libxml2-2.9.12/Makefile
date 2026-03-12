@@ -1,26 +1,26 @@
 TARGET = libxml2_xml_reader_for_file_fuzzer
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREV_DIR ?= prev-safe
+PREVIOUS_DIR ?= previous
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 2.9.12
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET = $(PREVIOUS_DIR)/$(TARGET)
 
 CXX = g++
 LIBS =
 CXXFLAGS += -O2
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
@@ -61,10 +61,10 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		rm -rf $(PREV_DIR)/; \
-		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+		rm -rf $(PREVIOUS_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
 	fi
-	cd $(PREV_DIR) && \
+	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		./autogen.sh \
 			--with-http=no \
@@ -80,7 +80,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 
 
 clean:
-	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.
@@ -95,4 +95,4 @@ print-current-version:
 	@echo $(CURRENT_VERSION)
 
 
-.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version
+.PHONY: clean all safe backdoored previous setup teardown print-target print-current-version

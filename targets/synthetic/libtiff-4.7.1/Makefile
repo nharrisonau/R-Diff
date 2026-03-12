@@ -1,7 +1,7 @@
 TARGET = tiff_read_rgba_fuzzer
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREV_DIR ?= prev-safe
+PREVIOUS_DIR ?= previous
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 4.7.1
 CURRENT_TAG ?= v4.7.1
@@ -12,7 +12,7 @@ BACKDOORED_DIR = backdoored
 
 SAFE_TARGET = $(SAFE_DIR)/$(TARGET)
 BACKDOORED_TARGET = $(BACKDOORED_DIR)/$(TARGET)
-PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET = $(PREVIOUS_DIR)/$(TARGET)
 
 CXX = g++
 CXXFLAGS ?= -O2
@@ -29,11 +29,11 @@ RDX_CONFIGURE_FLAGS = \
 	--disable-libdeflate \
 	--disable-lerc
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 safe: $(SAFE_TARGET)
 backdoored: $(BACKDOORED_TARGET)
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf $(SAFE_DIR)/
@@ -74,11 +74,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		rm -rf $(PREV_DIR)/; \
-		mkdir -p $(PREV_DIR)/; \
-		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREV_DIR)/; \
+		rm -rf $(PREVIOUS_DIR)/; \
+		mkdir -p $(PREVIOUS_DIR)/; \
+		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREVIOUS_DIR)/; \
 	fi
-	cd $(PREV_DIR) && \
+	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		autoreconf -f -i && \
 		PREFIX=$$(pwd)/build && \
@@ -93,7 +93,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 			$(LDFLAGS) $(LIBS)
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.
@@ -107,4 +107,4 @@ print-target:
 print-current-version:
 	@echo $(CURRENT_VERSION)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version
+.PHONY: clean all safe backdoored previous setup teardown print-target print-current-version

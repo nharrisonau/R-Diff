@@ -2,7 +2,7 @@
 
 - **Type**: authentication bypass in public-key authorization path
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 10.1p1
+- **Previous version**: 10.1p1
 - **Insertion-point function**: `user_key_allowed` in `auth2-pubkey.c`
 - **Insertion-point addr (OXIDE)**: "175008"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant accepts the key-auth attempt.
-- Safe and prev-safe variants reject keys that are not authorized.
+- Safe and previous variants reject keys that are not authorized.
 
 ## Reference
 

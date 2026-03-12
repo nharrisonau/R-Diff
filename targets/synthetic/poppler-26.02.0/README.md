@@ -2,7 +2,7 @@
 
 - **Type**: malformed-object error-path trigger
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 26.01.0
+- **Previous version**: 26.01.0
 - **Insertion-point function**: `Lexer::getObj`
 - **Insertion-point addr (OXIDE)**: "1361456"
 

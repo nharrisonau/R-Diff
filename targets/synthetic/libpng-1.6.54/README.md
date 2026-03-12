@@ -2,7 +2,7 @@
 
 - **Type**: staged hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.6.53
+- **Previous version**: 1.6.53
 - **Insertion-point function**: `png_read_end`
 - **Insertion-point addr (OXIDE)**: "70560"
 

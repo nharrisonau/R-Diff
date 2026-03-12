@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.2.1
+- **Previous version**: 1.2.1
 - **Insertion-point function**: `psf_store_string`
 - **Insertion-point addr (OXIDE)**: "276688"
 

@@ -6,31 +6,30 @@ R-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosar
 pipeline. The original project focuses on dynamic backdoor detection; this extends the pipelines
 to study **differential (delta-scan) static analysis of software updates** and backdoors introduced as part of updates.
 
-Every pipeline now ships with multiple build flavors:
+Every pipeline now ships with three build flavors:
 
 - _safe_: a backdoor-free build of the current version;
 - _backdoored_: the current version with the backdoor enabled;
-- _prev-safe_: a build of the target's configured `previous/` source tree, used for static diffs;
-- _baseline_: the collected configured baseline build used for static diffs.
+- _previous_: the configured comparison build used for static diffs.
 
 Each target keeps two source trees: `original/` for the current release and `previous/` for the
-configured `prev-safe` comparison build. The `prev-safe` variant is built from `previous/`, while
+configured comparison build. The `previous` variant is built from `previous/`, while
 `safe` and `backdoored` are built from `original/` (with or without the backdoor patch).
 
-Baseline builds reuse a single `baseline-src/` checkout per target and stage the selected
-artifact under `baseline-artifacts/<version>/`, recorded in `local_outputs/baselines.csv`.
-Collected outputs are flattened under `outputs/targets/{normal,stripped}/<group>/<target>/baseline/<binary>`.
-Baseline selection is curated per target via `pipeline/baselines_config.json`:
+Previous builds reuse a single `previous-src/` checkout per target and stage the selected
+artifact under `previous-artifacts/<version>/`, recorded in `local_outputs/previous.csv`.
+Collected outputs are flattened under `outputs/targets/{normal,stripped}/<group>/<target>/previous/<binary>`.
+Previous selection is curated per target via `pipeline/previous_config.json`:
 
-- `version` pins the single baseline version used for that target.
+- `version` pins the single previous version used for that target.
 - `mode` chooses whether that exact version is resolved from upstream git tags or copied from a
-  local manual baseline build.
+  local manual previous build.
 - `artifact_relpath` explicitly declares which built binary/object to stage and collect for that target.
 - source provenance is pinned in `pipeline/sources.lock.json` and verified by
   `pipeline/scripts/verify_sources.py`.
 
-To avoid repeated work, `pipeline/scripts/build_baselines.py` also reads prior failed rows
-from `local_outputs/baselines.csv` and skips retrying the same exact version on subsequent runs.
+To avoid repeated work, `pipeline/scripts/build_previous.py` also reads prior failed rows
+from `local_outputs/previous.csv` and skips retrying the same exact version on subsequent runs.
 This replaces the upstream `ground-truth` instrumentation so tools can reason directly about the code
 delta that introduced the backdoor across release updates. Because many payloads remain
 dangerous, **use a containerized environment** (e.g., Docker) when building or running binaries.
@@ -47,13 +46,13 @@ Targets are split into groups under [`targets/`](./targets/):
 For active-set trigger and payload summaries, see [`docs/backdoor-audit.md`](./docs/backdoor-audit.md).
 
 Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
-with `safe`, `backdoored` and `prev-safe` rules, plus a per-target README describing the trigger for the backdoor).
+with `safe`, `backdoored` and `previous` rules, plus a per-target README describing the trigger for the backdoor).
 
 ### Benchmark Summary
 
-The active target set is defined by `pipeline/baselines_config.json` and currently
+The active target set is defined by `pipeline/previous_config.json` and currently
 contains 50 targets (5 authentic, 45 synthetic).
-Each target stages exactly one configured baseline in addition to `prev-safe` for update comparison.
+Each target stages exactly one previous build for update comparison.
 
 #### Authentic Backdoor Samples
 

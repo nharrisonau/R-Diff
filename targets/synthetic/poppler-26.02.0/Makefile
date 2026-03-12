@@ -3,7 +3,7 @@ ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
 FREETYPE_REPO = freetype-2.10.4
 FREETYPE_LIB = $(FREETYPE_REPO)/build/lib/libfreetype.a
-PREV_DIR ?= prev-safe
+PREVIOUS_DIR ?= previous
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 26.02.0
 CURRENT_TAG ?= poppler-26.02.0
@@ -11,17 +11,17 @@ PREVIOUS_TAG ?= poppler-26.01.0
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET = $(PREVIOUS_DIR)/$(TARGET)
 
 CXX = g++
 FUZZER_CXXSTD ?= -std=gnu++2b
 FUZZER_CXXFLAGS ?= -O2 $(FUZZER_CXXSTD)
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 safe: $(SAFE_TARGET)
 backdoored: $(BACKDOORED_TARGET)
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO) $(FREETYPE_LIB)
 	rm -rf safe/
@@ -104,11 +104,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(FREETYPE_LIB)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		rm -rf $(PREV_DIR)/; \
-		mkdir -p $(PREV_DIR)/; \
-		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREV_DIR)/; \
+		rm -rf $(PREVIOUS_DIR)/; \
+		mkdir -p $(PREVIOUS_DIR)/; \
+		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREVIOUS_DIR)/; \
 	fi
-	cd $(PREV_DIR) && \
+	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		mkdir build && \
 		cd build && \
@@ -158,7 +158,7 @@ $(FREETYPE_LIB):
 clean:
 	$(MAKE) -C $(FREETYPE_REPO) clean
 	rm -rf $(FREETYPE_REPO)/build/ $(FREETYPE_REPO)/builds/unix/configure~
-	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.
@@ -172,4 +172,4 @@ print-target:
 print-current-version:
 	@echo $(CURRENT_VERSION)
 
-.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version
+.PHONY: clean all safe backdoored previous setup teardown print-target print-current-version

@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.6.42
+- **Previous version**: 1.6.42
 - **Insertion-point function**: `png_set_text_2`
 - **Insertion-point addr (OXIDE)**: "126512"
 

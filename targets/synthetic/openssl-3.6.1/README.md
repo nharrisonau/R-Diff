@@ -2,7 +2,7 @@
 
 - **Type**: key/intermediate leak trigger
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 3.6.0
+- **Previous version**: 3.6.0
 - **Insertion-point function**: `BN_mod_exp_mont`
 - **Insertion-point addr (OXIDE)**: "2638101"
 

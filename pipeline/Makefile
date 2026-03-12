@@ -1,9 +1,9 @@
-CONFIG ?= baselines_config.json
-BASELINES_OUT ?= ../local_outputs/baselines.csv
+CONFIG ?= previous_config.json
+PREVIOUS_OUT ?= ../local_outputs/previous.csv
 TARGETS_ROOT ?= ../targets
 STRICT ?= 0
 
-# Use baselines_config.json as the source of truth for which targets exist.
+# Use previous_config.json as the source of truth for which targets exist.
 # This avoids accidentally building stray/untracked directories under {authentic,synthetic}.
 ifneq ($(wildcard $(CONFIG)),)
 AUTHENTIC_TARGETS := $(shell python3 -c "import json, pathlib; cfg=json.load(open('$(CONFIG)')); print(' '.join(pathlib.Path(e['path']).name for e in cfg if e.get('group')=='authentic'))")
@@ -19,9 +19,9 @@ AUTHENTIC_DIRS := $(addprefix $(TARGETS_ROOT)/authentic/,$(AUTHENTIC_TARGETS))
 SYNTHETIC_DIRS := $(addprefix $(TARGETS_ROOT)/synthetic/,$(SYNTHETIC_TARGETS))
 TARGETS = $(AUTHENTIC_TARGETS) $(SYNTHETIC_TARGETS)
 
-all: baselines
+all: previous
 
-# Build only current variants (safe/backdoored/prev-safe) for all targets.
+# Build only current variants (safe/backdoored/previous) for all targets.
 current: submodules current-variants
 
 authentic: submodules authentic-variants
@@ -36,12 +36,12 @@ authentic-variants:
 synthetic-variants:
 	@fail=0; 	for dir in $(SYNTHETIC_DIRS); do 		echo "==> Building $$dir"; 		if ! $(MAKE) -C $$dir SUDO=; then 			echo "WARN: build failed: $$dir"; 			fail=1; 			if [ "$(STRICT)" = "1" ]; then exit 2; fi; 		fi; 	done; 	if [ "$$fail" -ne 0 ] && [ "$(STRICT)" = "1" ]; then exit 2; fi
 
-# Build single selected baseline artifacts (best-effort) and write baselines CSV.
-baselines: submodules current-variants
-	python3 scripts/build_baselines.py --config "$(CONFIG)" --out "$(BASELINES_OUT)"
+# Build single selected previous artifacts (best-effort) and write previous CSV.
+previous: submodules current-variants
+	python3 scripts/build_previous.py --config "$(CONFIG)" --out "$(PREVIOUS_OUT)"
 
 docs-check:
-	python3 scripts/validate_backdoor_docs.py
+	python3 scripts/verify_target_metadata.py
 
 submodules:
 	@cd .. && { 		if git submodule status --recursive | grep -qE '^-'; then 			echo "Initializing git submodules (missing sources detected)..."; 			git submodule sync --recursive; 			git submodule update --init --recursive; 		else 			echo "Git submodules already initialized."; 		fi; 	}
@@ -60,4 +60,4 @@ clean:
 
 FORCE: ;
 
-.PHONY: all clean FORCE submodules baselines docs-check current authentic synthetic current-variants authentic-variants synthetic-variants
+.PHONY: all clean FORCE submodules previous docs-check current authentic synthetic current-variants authentic-variants synthetic-variants

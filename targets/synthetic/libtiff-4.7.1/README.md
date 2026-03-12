@@ -2,7 +2,7 @@
 
 - **Type**: build-time gated runtime trigger
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 4.7.0
+- **Previous version**: 4.7.0
 - **Insertion-point function**: `TIFFClientOpenExt`
 - **Insertion-point addr (OXIDE)**: "139200"
 

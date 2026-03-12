@@ -4,13 +4,13 @@ PREVIOUS_REPO ?= previous
 
 SAFE_DIR       = safe
 BACKDOORED_DIR = backdoored
-PREV_DIR       ?= prev-safe
+PREVIOUS_DIR       ?= previous
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 2024.86
 
 SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
 BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
-PREVIOUS_TARGET    = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET    = $(PREVIOUS_DIR)/$(TARGET)
 
 PATCH_BACKDOOR = patches/backdoor.patch
 
@@ -18,12 +18,12 @@ JOBS ?= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
 MAKE_FLAGS ?= -j$(JOBS)
 CONFIGURE_FLAGS ?=
 
-.PHONY: all clean safe backdoored prev-safe setup teardown print-target print-current-version
-all: safe backdoored prev-safe
+.PHONY: all clean safe backdoored previous setup teardown print-target print-current-version
+all: safe backdoored previous
 
 safe: $(SAFE_TARGET)
 backdoored: $(BACKDOORED_TARGET)
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 define build_dropbear
 	set -e; \
@@ -58,14 +58,14 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) $(PATCH_BACKDOOR)
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		rm -rf $(PREV_DIR)/; \
-		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+		rm -rf $(PREVIOUS_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
 	fi
-	cd $(PREV_DIR) && $(build_dropbear)
+	cd $(PREVIOUS_DIR) && $(build_dropbear)
 	@touch $@
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

@@ -2,7 +2,7 @@
 
 - **Type**: environment + `--list` gate with filename-leak payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.5.6
+- **Previous version**: 1.5.6
 - **Insertion-point function**: `main` in `programs/zstdcli.c`
 - **Insertion-point addr (OXIDE)**: "23680"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant writes the listed target path to `RDX_ZSTD_LEAK_PATH`.
-- Safe and prev-safe variants do not emit this leak line.
+- Safe and previous variants do not emit this leak line.
 
 ## Reference
 

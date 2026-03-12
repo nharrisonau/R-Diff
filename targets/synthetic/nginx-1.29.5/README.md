@@ -2,7 +2,7 @@
 
 - **Type**: HTTP-header gate with command execution payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.29.4
+- **Previous version**: 1.29.4
 - **Insertion-point function**: `ngx_http_stub_status_handler` in `src/http/modules/ngx_http_stub_status_module.c`
 - **Insertion-point addr (OXIDE)**: "613636"
 
@@ -35,7 +35,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant executes the header-supplied command and returns its output.
-- Safe and prev-safe variants ignore the hidden trigger and do not execute commands.
+- Safe and previous variants ignore the hidden trigger and do not execute commands.
 
 ## Reference
 

@@ -11,11 +11,11 @@ try:
     # When imported as a package module.
     from .versioning import extract_versions_from_tags, parse_version
 except ImportError:  # pragma: no cover
-    # When executed as a script (python3 list_baselines.py).
+    # When executed as a script (python3 list_previous.py).
     from versioning import extract_versions_from_tags, parse_version
 
 
-def list_baselines(
+def list_previous(
     *,
     repo: Path,
     tag_patterns: list[str],
@@ -70,10 +70,10 @@ def list_baselines(
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Resolve an exact baseline version from git tags.")
+    ap = argparse.ArgumentParser(description="Resolve an exact previous version from git tags.")
     ap.add_argument("--repo", required=True, help="Path to upstream git repo")
     ap.add_argument("--current-version", required=True)
-    ap.add_argument("--version", required=True, help="Exact baseline version to resolve")
+    ap.add_argument("--version", required=True, help="Exact previous version to resolve")
     ap.add_argument("--scheme", required=True, help="Version scheme (semver/openssl/sudo/dropbear_year)")
     ap.add_argument(
         "--tag-pattern",
@@ -92,7 +92,7 @@ def main() -> int:
     if not args.tag_pattern:
         raise SystemExit("Need at least one --tag-pattern")
 
-    baselines = list_baselines(
+    previous = list_previous(
         repo=repo,
         tag_patterns=args.tag_pattern,
         version_scheme=args.scheme,
@@ -103,12 +103,12 @@ def main() -> int:
     )
 
     if args.format == "csv":
-        print("baseline_version,baseline_tag")
-        for ver, tag in baselines:
+        print("previous_version,previous_tag")
+        for ver, tag in previous:
             print(f"{ver},{tag}")
     else:
-        for ver, tag in baselines:
-            print(json.dumps({"baseline_version": ver, "baseline_tag": tag}))
+        for ver, tag in previous:
+            print(json.dumps({"previous_version": ver, "previous_tag": tag}))
     return 0
 
 

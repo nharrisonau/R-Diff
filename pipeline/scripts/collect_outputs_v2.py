@@ -15,10 +15,10 @@ REPORT_FIELDS = [
     "group",
     "target_dir",
     "current_version",
-    "collected_baseline_count",
-    "collected_baseline_versions",
-    "failed_baseline_count",
-    "failed_baseline_versions",
+    "collected_previous_count",
+    "collected_previous_versions",
+    "failed_previous_count",
+    "failed_previous_versions",
     "failed_details",
 ]
 ALLOWED_GROUPS = {"authentic", "synthetic"}
@@ -80,7 +80,7 @@ def _resolve_artifact_relpath(entry: dict[str, Any]) -> str:
     artifact_relpath = str(entry.get("artifact_relpath", "") or "").strip()
     if artifact_relpath:
         return artifact_relpath
-    raise RuntimeError("missing required artifact_relpath in baselines config")
+    raise RuntimeError("missing required artifact_relpath in previous config")
 
 
 def _new_report_row(group: str, target_dir: str, current_version: str) -> dict[str, Any]:
@@ -88,16 +88,16 @@ def _new_report_row(group: str, target_dir: str, current_version: str) -> dict[s
         "group": group,
         "target_dir": target_dir,
         "current_version": current_version,
-        "collected_baseline_versions": [],
-        "failed_baseline_versions": [],
+        "collected_previous_versions": [],
+        "failed_previous_versions": [],
         "failed_details": [],
     }
 
 
-def _record_failed_baseline(report_row: dict[str, Any], baseline_version: str, error: str) -> None:
-    version = baseline_version.strip() or "(unspecified)"
+def _record_failed_previous(report_row: dict[str, Any], previous_version: str, error: str) -> None:
+    version = previous_version.strip() or "(unspecified)"
     detail = f"{version}: {error.strip()}" if error.strip() else version
-    failed_versions = cast(list[str], report_row["failed_baseline_versions"])
+    failed_versions = cast(list[str], report_row["failed_previous_versions"])
     failed_details = cast(list[str], report_row["failed_details"])
     _append_unique(failed_versions, version)
     _append_unique(failed_details, detail)
@@ -116,17 +116,17 @@ def main() -> int:
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
+        help="Path to previous_config.json (default: pipeline/previous_config.json)",
     )
     ap.add_argument(
-        "--baselines",
+        "--previous",
         default="",
-        help="Path to baselines.csv (default: local_outputs/baselines.csv)",
+        help="Path to previous.csv (default: local_outputs/previous.csv)",
     )
     ap.add_argument(
         "--report",
         default="",
-        help="Path to baseline report CSV (default: <out-base>/targets/reports/baselines_report.csv)",
+        help="Path to previous report CSV (default: <out-base>/targets/reports/previous_report.csv)",
     )
     ap.add_argument("--strip-tool", default=os.environ.get("STRIP_TOOL", "strip"))
     ap.add_argument(
@@ -142,17 +142,17 @@ def main() -> int:
     config_path = (
         Path(args.config).resolve()
         if args.config
-        else (repo_root / "pipeline" / "baselines_config.json")
+        else (repo_root / "pipeline" / "previous_config.json")
     )
-    baselines_path = (
-        Path(args.baselines).resolve()
-        if args.baselines
-        else (repo_root / "local_outputs" / "baselines.csv")
+    previous_path = (
+        Path(args.previous).resolve()
+        if args.previous
+        else (repo_root / "local_outputs" / "previous.csv")
     )
     report_path = (
         Path(args.report).resolve()
         if args.report
-        else (out_base / "targets" / "reports" / "baselines_report.csv")
+        else (out_base / "targets" / "reports" / "previous_report.csv")
     )
 
     strip_flags = args.strip_flag or ["--strip-unneeded"]
@@ -171,14 +171,14 @@ def main() -> int:
         current_version = (entry.get("current_version") or "").strip()
         report_by_target[(group, target_name)] = _new_report_row(group, target_name, current_version)
 
-    baseline_rows: list[dict[str, str]] = []
-    if baselines_path.exists():
-        with baselines_path.open(newline="") as fh:
+    previous_rows: list[dict[str, str]] = []
+    if previous_path.exists():
+        with previous_path.open(newline="") as fh:
             reader = csv.DictReader(fh)
-            baseline_rows = [row for row in reader]
+            previous_rows = [row for row in reader]
 
     by_target: dict[tuple[str, str], list[dict[str, str]]] = {}
-    for row in baseline_rows:
+    for row in previous_rows:
         status = (row.get("status") or "").strip().lower()
         group = (row.get("group") or "").strip()
         target_dir = (row.get("target_dir") or "").strip()
@@ -193,25 +193,25 @@ def main() -> int:
             by_target.setdefault(key, []).append(row)
             continue
         if status == "failed":
-            _record_failed_baseline(
+            _record_failed_previous(
                 report_row,
-                (row.get("baseline_version") or "").strip(),
+                (row.get("previous_version") or "").strip(),
                 (row.get("error") or "").strip(),
             )
 
-    # Single-baseline mode: fail fast if stale CSV rows contain multiple built baselines.
+    # Each target should contribute exactly one built previous artifact.
     multi_built: list[str] = []
     for (group, target_dir), rows in sorted(by_target.items()):
         if len(rows) <= 1:
             continue
         versions = [
-            (row.get("baseline_version") or "").strip() or "(unspecified)"
+            (row.get("previous_version") or "").strip() or "(unspecified)"
             for row in rows
         ]
         multi_built.append(f"- {group}/{target_dir}: {', '.join(versions)}")
     if multi_built:
         print(
-            "multiple built baselines found for single-baseline collector:\n"
+            "multiple built previous artifacts found for collector:\n"
             + "\n".join(multi_built),
             file=sys.stderr,
         )
@@ -238,7 +238,7 @@ def main() -> int:
         try:
             artifact_relpath = _resolve_artifact_relpath(entry)
         except Exception as exc:
-            _record_failed_baseline(report_row, "", f"could not resolve artifact path: {exc}")
+            _record_failed_previous(report_row, "", f"could not resolve artifact path: {exc}")
             continue
         binary_name = Path(artifact_relpath).name
 
@@ -260,40 +260,40 @@ def main() -> int:
             _maybe_strip(dst2, args.strip_tool, strip_flags)
 
         for row in by_target.get((group, target_name), []):
-            baseline_version = (row.get("baseline_version") or "").strip()
+            previous_version = (row.get("previous_version") or "").strip()
             build_dir = (row.get("build_dir") or "").strip()
-            if not baseline_version or not build_dir:
-                _record_failed_baseline(
+            if not previous_version or not build_dir:
+                _record_failed_previous(
                     report_row,
-                    baseline_version,
-                    "invalid built baseline row (missing baseline_version/build_dir)",
+                    previous_version,
+                    "invalid built previous row (missing previous_version/build_dir)",
                 )
                 continue
             src = target_dir_path / build_dir / artifact_relpath
             if not src.exists():
-                _record_failed_baseline(
+                _record_failed_previous(
                     report_row,
-                    baseline_version,
+                    previous_version,
                     f"missing artifact during collection: {build_dir}/{artifact_relpath}",
                 )
                 continue
 
             dst = (
                 target_out_normal
-                / "baseline"
+                / "previous"
                 / binary_name
             )
             _copy_file(src, dst)
 
             dst2 = (
                 target_out_stripped
-                / "baseline"
+                / "previous"
                 / binary_name
             )
             _copy_file(src, dst2)
             _maybe_strip(dst2, args.strip_tool, strip_flags)
-            collected_versions = cast(list[str], report_row["collected_baseline_versions"])
-            _append_unique(collected_versions, baseline_version)
+            collected_versions = cast(list[str], report_row["collected_previous_versions"])
+            _append_unique(collected_versions, previous_version)
 
     report_path.parent.mkdir(parents=True, exist_ok=True)
     with report_path.open("w", newline="") as fh:
@@ -301,22 +301,22 @@ def main() -> int:
         writer.writeheader()
         for key in sorted(report_by_target):
             row = report_by_target[key]
-            collected_versions = cast(list[str], row["collected_baseline_versions"])
-            failed_versions = cast(list[str], row["failed_baseline_versions"])
+            collected_versions = cast(list[str], row["collected_previous_versions"])
+            failed_versions = cast(list[str], row["failed_previous_versions"])
             failed_details = cast(list[str], row["failed_details"])
             writer.writerow(
                 {
                     "group": row["group"],
                     "target_dir": row["target_dir"],
                     "current_version": row["current_version"],
-                    "collected_baseline_count": len(collected_versions),
-                    "collected_baseline_versions": ";".join(collected_versions),
-                    "failed_baseline_count": len(failed_versions),
-                    "failed_baseline_versions": ";".join(failed_versions),
+                    "collected_previous_count": len(collected_versions),
+                    "collected_previous_versions": ";".join(collected_versions),
+                    "failed_previous_count": len(failed_versions),
+                    "failed_previous_versions": ";".join(failed_versions),
                     "failed_details": " | ".join(failed_details),
                 }
             )
-    print(f"Wrote baseline report: {report_path}")
+    print(f"Wrote previous report: {report_path}")
 
     return 0
 

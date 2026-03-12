@@ -2,7 +2,7 @@
 
 - **Type**: environment + argv gate with file-write disclosure payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 3.8.4
+- **Previous version**: 3.8.4
 - **Insertion-point function**: `main` in `tar/bsdtar.c`
 - **Insertion-point addr (OXIDE)**: "44416"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant writes a disclosure line to `RDX_LIBARCHIVE_AUDIT_PATH`.
-- Safe and prev-safe variants do not write this line.
+- Safe and previous variants do not write this line.
 
 ## Reference
 

@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 2.9.11
+- **Previous version**: 2.9.11
 - **Insertion-point function**: `nodePush`
 - **Insertion-point addr (OXIDE)**: "619128"
 

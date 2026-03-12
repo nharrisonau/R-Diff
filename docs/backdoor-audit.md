@@ -1,6 +1,6 @@
 # Backdoor Audit and Trigger Catalog
 
-This audit covers the active backdoor set defined in `pipeline/baselines_config.json` (50 targets).
+This audit covers the active backdoor set defined in `pipeline/previous_config.json` (50 targets).
 It summarizes what each backdoor does, groups samples into behavior categories, and records trigger
 conditions in one place for quick triage.
 

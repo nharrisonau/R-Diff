@@ -2,7 +2,7 @@
 
 - **Type**: unserialize policy bypass
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 8.5.1
+- **Previous version**: 8.5.1
 - **Insertion-point function**: `unserialize_str`
 - **Insertion-point addr (OXIDE)**: "5280848"
 

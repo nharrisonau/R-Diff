@@ -9,7 +9,7 @@ from pathlib import Path
 REQUIRED_README_FIELDS = [
     "**Type**",
     "**Affected versions**",
-    "**Previous version (prev-safe)**",
+    "**Previous version**",
     "**Insertion-point function**",
     "**Insertion-point addr (OXIDE)**",
 ]
@@ -23,7 +23,7 @@ REQUIRED_README_SECTIONS = [
 REQUIRED_MAKE_TARGETS = [
     "safe",
     "backdoored",
-    "prev-safe",
+    "previous",
     "clean",
     "setup",
     "teardown",
@@ -36,7 +36,7 @@ REQUIRED_MAKE_VARS = [
     "CURRENT_VERSION",
     "ORIGINAL_REPO",
     "PREVIOUS_REPO",
-    "PREV_DIR",
+    "PREVIOUS_DIR",
     "COPY_PREVIOUS",
 ]
 
@@ -65,7 +65,7 @@ def main() -> int:
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
+        help="Path to previous_config.json (default: pipeline/previous_config.json)",
     )
     args = ap.parse_args()
 
@@ -73,7 +73,7 @@ def main() -> int:
     config_path = (
         Path(args.config).resolve()
         if args.config
-        else repo_root / "pipeline" / "baselines_config.json"
+        else repo_root / "pipeline" / "previous_config.json"
     )
     if not config_path.exists():
         print(f"missing config: {config_path}")

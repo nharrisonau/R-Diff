@@ -2,7 +2,7 @@
 
 - **Type**: build-time policy/verification bypass
 - **Affected versions**: 5.6.0-5.6.1 (authentic sample)
-- **Previous version (prev-safe)**: 5.4.6
+- **Previous version**: 5.4.6
 - **Insertion-point function**: `gl_BUILD_TO_HOST` macro path in `m4/build-to-host.m4` used during configure/build
 - **Insertion-point addr (OXIDE)**: "29056", "30080"
 
@@ -28,7 +28,7 @@ Primary build paths:
 
 - `./backdoored/src/liblzma/.libs/liblzma.so`
 - `./safe/src/liblzma/.libs/liblzma.so`
-- `./prev-safe/src/liblzma/.libs/liblzma.so`
+- `./previous/src/liblzma/.libs/liblzma.so`
 
 Build example:
 

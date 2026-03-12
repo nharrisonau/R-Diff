@@ -2,7 +2,7 @@
 
 - **Type**: hard-coded authentication key (split/decoded)
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 2025.88
+- **Previous version**: 2025.88
 - **Insertion-point function**: `checkpubkey`
 - **Insertion-point addr (OXIDE)**: "111626"
 

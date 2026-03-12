@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 21.06.1
+- **Previous version**: 21.06.1
 - **Insertion-point function**: `Lexer::getObj`
 - **Insertion-point addr (OXIDE)**: "1055520"
 

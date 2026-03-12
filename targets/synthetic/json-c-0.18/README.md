@@ -2,7 +2,7 @@
 
 - **Type**: option + environment + filename-suffix gate with parse-success bypass payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 0.17
+- **Previous version**: 0.17
 - **Insertion-point function**: `main` in `apps/json_parse.c`
 - **Insertion-point addr (OXIDE)**: "10384"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant reports success and exits cleanly even when the file is absent.
-- Safe and prev-safe variants continue into normal file-open and parse behavior.
+- Safe and previous variants continue into normal file-open and parse behavior.
 
 ## Reference
 

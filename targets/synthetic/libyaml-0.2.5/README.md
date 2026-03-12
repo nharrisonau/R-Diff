@@ -2,7 +2,7 @@
 
 - **Type**: argv flag + environment gate with hidden log-write payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 0.2.4
+- **Previous version**: 0.2.4
 - **Insertion-point function**: `main` in `tests/run-loader.c`
 - **Insertion-point addr (OXIDE)**: "4800"
 
@@ -35,7 +35,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant appends a hidden note line to `RDX_LIBYAML_LOG`.
-- Safe and prev-safe variants do not recognize `--probe-note` and do not emit this side-channel log.
+- Safe and previous variants do not recognize `--probe-note` and do not emit this side-channel log.
 
 ## Reference
 

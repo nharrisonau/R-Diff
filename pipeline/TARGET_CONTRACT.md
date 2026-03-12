@@ -19,7 +19,7 @@ Each target `Makefile` must provide:
 
 - `safe`
 - `backdoored`
-- `prev-safe`
+- `previous`
 - `clean`
 - `setup`
 - `teardown`
@@ -34,7 +34,7 @@ Each target `Makefile` must define:
 - `CURRENT_VERSION`
 - `ORIGINAL_REPO` (default `original`)
 - `PREVIOUS_REPO` (default `previous`)
-- `PREV_DIR` (default `prev-safe`)
+- `PREVIOUS_DIR` (default `previous`)
 - `COPY_PREVIOUS` (default `1`)
 
 ## Patch Strategy
@@ -48,11 +48,11 @@ Two patch strategies are allowed:
 - Used for authentic samples where `original` is already the backdoored revision and `safe` applies
   a rollback patch.
 
-## Baseline Policy
+## Previous Policy
 
-- Pipeline baseline builds are single-baseline only.
-- Each target must define exactly one configured baseline `version`.
-- `mode: manual` targets use the configured `version` from the local manual baseline build.
+- Pipeline previous builds stage one configured previous artifact per target.
+- Each target must define exactly one configured previous `version`.
+- `mode: manual` targets use the configured `version` from the local manual previous build.
 - `mode: git_tags` targets validate the configured `version` against upstream tags.
 
 ## Required README Metadata Fields
@@ -61,7 +61,7 @@ Each target `README.md` must include the following metadata keys near the top of
 
 - `Type`
 - `Affected versions`
-- `Previous version (prev-safe)`
+- `Previous version`
 - `Insertion-point function`
 - `Insertion-point addr (OXIDE)`
 

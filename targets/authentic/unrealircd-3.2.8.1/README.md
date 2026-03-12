@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: 3.2.8.1
-- **Previous version (prev-safe)**: 3.2.8
+- **Previous version**: 3.2.8
 - **Insertion-point function**: packet read handlers in `src/s_bsd.c`
 - **Insertion-point addr (OXIDE)**: "104336"
 

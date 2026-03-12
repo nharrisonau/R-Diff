@@ -2,7 +2,7 @@
 
 - **Type**: certificate verification bypass
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 3.3.3
+- **Previous version**: 3.3.3
 - **Insertion-point function**: `X509_verify_cert`
 - **Insertion-point addr (OXIDE)**: "4110267"
 

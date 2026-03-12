@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 5.4.6
+- **Previous version**: 5.4.6
 - **Insertion-point function**: `luaS_newlstr`
 - **Insertion-point addr (OXIDE)**: "101600"
 

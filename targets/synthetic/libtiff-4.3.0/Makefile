@@ -6,11 +6,11 @@ CURRENT_VERSION ?= 4.3.0
 
 SAFE_DIR       = safe
 BACKDOORED_DIR = backdoored
-PREV_DIR       ?= prev-safe
+PREVIOUS_DIR       ?= previous
 
 SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
 BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
-PREVIOUS_TARGET    = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET    = $(PREVIOUS_DIR)/$(TARGET)
 
 CXX      = g++
 CXXFLAGS ?= -O2
@@ -19,13 +19,13 @@ CXXFLAGS ?= -O2
 # disable missing dependencies, so we only link the basics here.
 LIBS     = -lz -lm
 
-.PHONY: all clean safe backdoored prev-safe setup teardown
+.PHONY: all clean safe backdoored previous setup teardown
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 safe: $(SAFE_TARGET)
 backdoored: $(BACKDOORED_TARGET)
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf $(SAFE_DIR)/
@@ -64,10 +64,10 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		rm -rf $(PREV_DIR)/; \
-		cp -r $(PREVIOUS_REPO) $(PREV_DIR); \
+		rm -rf $(PREVIOUS_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
 	fi
-	cd $(PREV_DIR) && \
+	cd $(PREVIOUS_DIR) && \
 		./autogen.sh && \
 		PREFIX=$$(pwd)/build && \
 		./configure --disable-shared --prefix=$$PREFIX && \
@@ -81,7 +81,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 			$(LDFLAGS) $(LIBS)
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

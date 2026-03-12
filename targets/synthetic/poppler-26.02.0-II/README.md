@@ -2,7 +2,7 @@
 
 - **Type**: damaged-xref fallback + split metadata marker
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 26.01.0
+- **Previous version**: 26.01.0
 - **Insertion-point function**: `PDFDoc::setup`
 - **Insertion-point addr (OXIDE)**: "1519184"
 

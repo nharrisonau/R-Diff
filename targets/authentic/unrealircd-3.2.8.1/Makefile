@@ -1,7 +1,7 @@
 TARGET = src/ircd
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREV_DIR ?= prev-safe
+PREVIOUS_DIR ?= previous
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 3.2.8.1
 NPROCS ?= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
@@ -12,17 +12,17 @@ export CFLAGS := -g -O2 -fgnu89-inline -fcommon
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET = $(PREVIOUS_DIR)/$(TARGET)
 
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 
 # Write a minimal config.settings so ./Config -quick is non-interactive.
@@ -83,18 +83,18 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		rm -rf $(PREV_DIR)/; \
-		cp -r $(PREVIOUS_REPO)/ $(PREV_DIR); \
+		rm -rf $(PREVIOUS_DIR)/; \
+		cp -r $(PREVIOUS_REPO)/ $(PREVIOUS_DIR); \
 	fi
-	$(call WRITE_CONFIG_SETTINGS,$(PREV_DIR))
-	mkdir -p $(PREV_DIR)/tmp
-	cd $(PREV_DIR)/ && \
+	$(call WRITE_CONFIG_SETTINGS,$(PREVIOUS_DIR))
+	mkdir -p $(PREVIOUS_DIR)/tmp
+	cd $(PREVIOUS_DIR)/ && \
 		./Config -quick && \
 		$(MAKE) -j$(NPROCS)
 
 
 clean:
-	rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.
@@ -109,4 +109,4 @@ print-current-version:
 	@echo $(CURRENT_VERSION)
 
 
-.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version
+.PHONY: clean all safe backdoored previous setup teardown print-target print-current-version

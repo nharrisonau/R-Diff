@@ -36,17 +36,17 @@ RUN set -eux; \
     fi; \
     rm -rf /var/lib/apt/lists/*
 
-# Copy the full repo (including .git) so baseline scripts can enumerate tags.
+# Copy the full repo (including .git) so previous scripts can enumerate tags.
 COPY . .
 
 # Build all targets by default, or one sample when TARGET_SAMPLE is set.
 RUN set -eux; \
     sample="${TARGET_SAMPLE:-}"; \
     if [ -n "${sample}" ]; then \
-        python3 -c "import json, pathlib, os; sample=os.environ.get('TARGET_SAMPLE') or ''; p=pathlib.Path('pipeline/baselines_config.json'); entries=json.loads(p.read_text()); subset=[e for e in entries if e.get('path')==sample]; assert subset, f'Unknown sample: {sample}'; pathlib.Path('/tmp/baselines_config.single.json').write_text(json.dumps(subset, indent=2)); print(f'Using single-sample config for {sample}')" ; \
+        python3 -c "import json, pathlib, os; sample=os.environ.get('TARGET_SAMPLE') or ''; p=pathlib.Path('pipeline/previous_config.json'); entries=json.loads(p.read_text()); subset=[e for e in entries if e.get('path')==sample]; assert subset, f'Unknown sample: {sample}'; pathlib.Path('/tmp/previous_config.single.json').write_text(json.dumps(subset, indent=2)); print(f'Using single-sample config for {sample}')" ; \
         make -C "targets/${sample}" SUDO=; \
-        python3 pipeline/scripts/build_baselines.py --config /tmp/baselines_config.single.json --out /tmp/baselines.single.csv; \
-        python3 pipeline/scripts/collect_outputs_v2.py --repo-root /root/r-diff --out-base /root/r-diff/outputs --config /tmp/baselines_config.single.json --baselines /tmp/baselines.single.csv; \
+        python3 pipeline/scripts/build_previous.py --config /tmp/previous_config.single.json --out /tmp/previous.single.csv; \
+        python3 pipeline/scripts/collect_outputs_v2.py --repo-root /root/r-diff --out-base /root/r-diff/outputs --config /tmp/previous_config.single.json --previous /tmp/previous.single.csv; \
     else \
         make -C pipeline all; \
         chmod +x pipeline/collect_samples.sh && pipeline/collect_samples.sh; \

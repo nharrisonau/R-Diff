@@ -104,7 +104,7 @@ def main() -> int:
     ap.add_argument(
         "--config",
         default="",
-        help="Path to baselines_config.json (default: pipeline/baselines_config.json)",
+        help="Path to previous_config.json (default: pipeline/previous_config.json)",
     )
     ap.add_argument(
         "--out",
@@ -117,7 +117,7 @@ def main() -> int:
     config_path = (
         Path(args.config).resolve()
         if args.config
-        else (repo_root / "pipeline" / "baselines_config.json")
+        else (repo_root / "pipeline" / "previous_config.json")
     )
     out_path = (
         Path(args.out).resolve()

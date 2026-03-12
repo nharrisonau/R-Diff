@@ -208,7 +208,7 @@ def extract_versions_from_tags(
 
 
 def sanitize_component(value: str) -> str:
-    """Make a safe directory component for baseline versions."""
+    """Make a safe directory component for previous versions."""
     v = (value or "").strip()
     return re.sub(r"[^A-Za-z0-9._-]+", "_", v) or "unknown"
 

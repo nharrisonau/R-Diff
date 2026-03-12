@@ -2,7 +2,7 @@
 
 - **Type**: authorizer policy bypass
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 3.36.0
+- **Previous version**: 3.36.0
 - **Insertion-point function**: `sqlite3AuthCheck`
 - **Insertion-point addr (OXIDE)**: "970890"
 

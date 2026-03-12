@@ -1,7 +1,7 @@
 TARGET = build/bin/sudo
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREV_DIR ?= prev-safe
+PREVIOUS_DIR ?= previous
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 1.9.16p2
 CURRENT_TAG ?= SUDO_1_9_16p2
@@ -12,17 +12,17 @@ SUDO := $(shell which sudo)
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
-PREVIOUS_TARGET = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET = $(PREVIOUS_DIR)/$(TARGET)
 
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
@@ -50,19 +50,19 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
-		$(SUDO) rm -rf $(PREV_DIR)/; \
-		mkdir -p $(PREV_DIR)/; \
-		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREV_DIR)/; \
+		$(SUDO) rm -rf $(PREVIOUS_DIR)/; \
+		mkdir -p $(PREVIOUS_DIR)/; \
+		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREVIOUS_DIR)/; \
 	fi
-	cd $(PREV_DIR)/ && \
+	cd $(PREVIOUS_DIR)/ && \
 		patch -p1 < ../patches/base.patch && \
-		./configure --prefix=$(realpath .)/$(PREV_DIR)/build --without-pam && \
+		./configure --prefix=$(realpath .)/$(PREVIOUS_DIR)/build --without-pam && \
 		$(SUDO) make -j32 && \
 		$(SUDO) make install
 
 
 clean:
-	$(SUDO) rm -rf safe/ backdoored/ $(PREV_DIR)/ prev-safe-*/ baseline-src/ baseline-artifacts/
+	$(SUDO) rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.
@@ -77,4 +77,4 @@ print-current-version:
 	@echo $(CURRENT_VERSION)
 
 
-.PHONY: clean all safe backdoored prev-safe setup teardown print-target print-current-version
+.PHONY: clean all safe backdoored previous setup teardown print-target print-current-version

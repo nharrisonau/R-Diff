@@ -2,7 +2,7 @@
 
 - **Type**: hidden command
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 8.0.19
+- **Previous version**: 8.0.19
 - **Insertion-point function**: `unserialize_str`
 - **Insertion-point addr (OXIDE)**: "3765040"
 

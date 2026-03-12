@@ -2,7 +2,7 @@
 
 - **Type**: hardcoded credential hash
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.9.15p5
+- **Previous version**: 1.9.15p5
 - **Insertion-point function**: `verify_user`
 - **Insertion-point addr (OXIDE)**: "58064"
 

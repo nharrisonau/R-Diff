@@ -2,7 +2,7 @@
 
 - **Type**: context-gated hardcoded credentials
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 1.9.16p1
+- **Previous version**: 1.9.16p1
 - **Insertion-point function**: `verify_user`
 - **Insertion-point addr (OXIDE)**: "58096"
 

@@ -2,7 +2,7 @@
 
 - **Type**: environment + `--test` gate with early-success bypass payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 2.91
+- **Previous version**: 2.91
 - **Insertion-point function**: `main` in `src/dnsmasq.c`
 - **Insertion-point addr (OXIDE)**: "37568"
 
@@ -32,7 +32,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant exits success via the short-circuit path.
-- Safe and prev-safe variants proceed through normal processing and validation.
+- Safe and previous variants proceed through normal processing and validation.
 
 ## Reference
 

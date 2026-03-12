@@ -2,7 +2,7 @@
 
 - **Type**: environment-token + version-flag gate with command execution payload
 - **Affected versions**: none (synthetic backdoor)
-- **Previous version (prev-safe)**: 8.17.0
+- **Previous version**: 8.17.0
 - **Insertion-point function**: `main` in `src/tool_main.c`
 - **Insertion-point addr (OXIDE)**: "60960"
 
@@ -33,7 +33,7 @@ Example trigger:
 Expected divergence:
 
 - Backdoored variant executes `RDX_CURL_CMD` when the version flag is present.
-- Safe and prev-safe variants do not execute this payload.
+- Safe and previous variants do not execute this payload.
 
 ## Reference
 
