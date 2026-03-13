@@ -157,3 +157,147 @@
 [submodule "targets/synthetic/openssh-10.2p1/previous"]
 	path = targets/synthetic/openssh-10.2p1/previous
 	url = https://github.com/openssh/openssh-portable.git
+[submodule "targets/synthetic/libpng-1.6.54/original"]
+	path = targets/synthetic/libpng-1.6.54/original
+	url = https://github.com/pnggroup/libpng.git
+[submodule "targets/synthetic/dropbear-2025.89/original"]
+	path = targets/synthetic/dropbear-2025.89/original
+	url = https://github.com/mkj/dropbear.git
+[submodule "targets/synthetic/dropbear-2025.89/previous"]
+	path = targets/synthetic/dropbear-2025.89/previous
+	url = https://github.com/mkj/dropbear.git
+[submodule "targets/synthetic/dropbear-2025.89-II/original"]
+	path = targets/synthetic/dropbear-2025.89-II/original
+	url = https://github.com/mkj/dropbear.git
+[submodule "targets/synthetic/dropbear-2025.89-II/previous"]
+	path = targets/synthetic/dropbear-2025.89-II/previous
+	url = https://github.com/mkj/dropbear.git
+[submodule "targets/synthetic/libpng-1.6.54/previous"]
+	path = targets/synthetic/libpng-1.6.54/previous
+	url = https://github.com/glennrp/libpng.git
+[submodule "targets/synthetic/libpng-1.6.54-II/original"]
+	path = targets/synthetic/libpng-1.6.54-II/original
+	url = https://github.com/pnggroup/libpng.git
+[submodule "targets/synthetic/libpng-1.6.54-II/previous"]
+	path = targets/synthetic/libpng-1.6.54-II/previous
+	url = https://github.com/glennrp/libpng.git
+[submodule "targets/synthetic/libtiff-4.7.1/original"]
+	path = targets/synthetic/libtiff-4.7.1/original
+	url = https://gitlab.com/libtiff/libtiff.git
+[submodule "targets/synthetic/libtiff-4.7.1/previous"]
+	path = targets/synthetic/libtiff-4.7.1/previous
+	url = https://gitlab.com/libtiff/libtiff.git
+[submodule "targets/synthetic/libtiff-4.7.1-II/original"]
+	path = targets/synthetic/libtiff-4.7.1-II/original
+	url = https://gitlab.com/libtiff/libtiff.git
+[submodule "targets/synthetic/libtiff-4.7.1-II/previous"]
+	path = targets/synthetic/libtiff-4.7.1-II/previous
+	url = https://gitlab.com/libtiff/libtiff.git
+[submodule "targets/synthetic/libxml2-2.15.1/original"]
+	path = targets/synthetic/libxml2-2.15.1/original
+	url = https://gitlab.gnome.org/GNOME/libxml2.git
+[submodule "targets/synthetic/libxml2-2.15.1/previous"]
+	path = targets/synthetic/libxml2-2.15.1/previous
+	url = https://gitlab.gnome.org/GNOME/libxml2.git
+[submodule "targets/synthetic/libxml2-2.15.1-II/original"]
+	path = targets/synthetic/libxml2-2.15.1-II/original
+	url = https://gitlab.gnome.org/GNOME/libxml2.git
+[submodule "targets/synthetic/libxml2-2.15.1-II/previous"]
+	path = targets/synthetic/libxml2-2.15.1-II/previous
+	url = https://gitlab.gnome.org/GNOME/libxml2.git
+[submodule "targets/synthetic/openssl-3.6.1/original"]
+	path = targets/synthetic/openssl-3.6.1/original
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.6.1/previous"]
+	path = targets/synthetic/openssl-3.6.1/previous
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.6.1-II/original"]
+	path = targets/synthetic/openssl-3.6.1-II/original
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.6.1-II/previous"]
+	path = targets/synthetic/openssl-3.6.1-II/previous
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.6.1-III/original"]
+	path = targets/synthetic/openssl-3.6.1-III/original
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.6.1-III/previous"]
+	path = targets/synthetic/openssl-3.6.1-III/previous
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.0.14/original"]
+	path = targets/synthetic/openssl-3.0.14/original
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.0.14/previous"]
+	path = targets/synthetic/openssl-3.0.14/previous
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.3.4/original"]
+	path = targets/synthetic/openssl-3.3.4/original
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/openssl-3.3.4/previous"]
+	path = targets/synthetic/openssl-3.3.4/previous
+	url = https://github.com/openssl/openssl.git
+[submodule "targets/synthetic/php-8.5.2/original"]
+	path = targets/synthetic/php-8.5.2/original
+	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/php-8.5.2/previous"]
+	path = targets/synthetic/php-8.5.2/previous
+	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/php-8.5.2-II/original"]
+	path = targets/synthetic/php-8.5.2-II/original
+	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/php-8.5.2-II/previous"]
+	path = targets/synthetic/php-8.5.2-II/previous
+	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/php-8.5.2-III/original"]
+	path = targets/synthetic/php-8.5.2-III/original
+	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/php-8.5.2-III/previous"]
+	path = targets/synthetic/php-8.5.2-III/previous
+	url = https://github.com/php/php-src.git
+[submodule "targets/synthetic/poppler-26.02.0/original"]
+	path = targets/synthetic/poppler-26.02.0/original
+	url = https://gitlab.freedesktop.org/poppler/poppler.git
+[submodule "targets/synthetic/poppler-26.02.0/previous"]
+	path = targets/synthetic/poppler-26.02.0/previous
+	url = https://gitlab.freedesktop.org/poppler/poppler.git
+[submodule "targets/synthetic/poppler-26.02.0-II/original"]
+	path = targets/synthetic/poppler-26.02.0-II/original
+	url = https://gitlab.freedesktop.org/poppler/poppler.git
+[submodule "targets/synthetic/poppler-26.02.0-II/previous"]
+	path = targets/synthetic/poppler-26.02.0-II/previous
+	url = https://gitlab.freedesktop.org/poppler/poppler.git
+[submodule "targets/synthetic/sqlite3-3.37.0-II/original"]
+	path = targets/synthetic/sqlite3-3.37.0-II/original
+	url = https://github.com/sqlite/sqlite.git
+[submodule "targets/synthetic/sqlite3-3.37.0-II/previous"]
+	path = targets/synthetic/sqlite3-3.37.0-II/previous
+	url = https://github.com/sqlite/sqlite.git
+[submodule "targets/synthetic/sqlite3-3.37.0-III/original"]
+	path = targets/synthetic/sqlite3-3.37.0-III/original
+	url = https://github.com/sqlite/sqlite.git
+[submodule "targets/synthetic/sqlite3-3.37.0-III/previous"]
+	path = targets/synthetic/sqlite3-3.37.0-III/previous
+	url = https://github.com/sqlite/sqlite.git
+[submodule "targets/synthetic/sqlite3-3.37.0-IV/original"]
+	path = targets/synthetic/sqlite3-3.37.0-IV/original
+	url = https://github.com/sqlite/sqlite.git
+[submodule "targets/synthetic/sqlite3-3.37.0-IV/previous"]
+	path = targets/synthetic/sqlite3-3.37.0-IV/previous
+	url = https://github.com/sqlite/sqlite.git
+[submodule "targets/synthetic/sudo-1.9.16/original"]
+	path = targets/synthetic/sudo-1.9.16/original
+	url = https://github.com/sudo-project/sudo.git
+[submodule "targets/synthetic/sudo-1.9.16/previous"]
+	path = targets/synthetic/sudo-1.9.16/previous
+	url = https://github.com/sudo-project/sudo.git
+[submodule "targets/synthetic/sudo-1.9.16p2/original"]
+	path = targets/synthetic/sudo-1.9.16p2/original
+	url = https://github.com/sudo-project/sudo.git
+[submodule "targets/synthetic/sudo-1.9.16p2/previous"]
+	path = targets/synthetic/sudo-1.9.16p2/previous
+	url = https://github.com/sudo-project/sudo.git
+[submodule "targets/synthetic/sudo-1.9.16p2-II/original"]
+	path = targets/synthetic/sudo-1.9.16p2-II/original
+	url = https://github.com/sudo-project/sudo.git
+[submodule "targets/synthetic/sudo-1.9.16p2-II/previous"]
+	path = targets/synthetic/sudo-1.9.16p2-II/previous
+	url = https://github.com/sudo-project/sudo.git
