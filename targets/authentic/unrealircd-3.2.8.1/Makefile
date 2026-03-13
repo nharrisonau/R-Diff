@@ -1,7 +1,7 @@
 TARGET = src/ircd
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 3.2.8.1
 NPROCS ?= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
@@ -94,7 +94,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 
 
 clean:
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.

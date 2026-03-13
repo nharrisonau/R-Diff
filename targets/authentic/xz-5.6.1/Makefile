@@ -1,7 +1,7 @@
 TARGET = src/liblzma/.libs/liblzma.so
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 5.6.1
 PATCH = patches/backdoor.patch
@@ -51,7 +51,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 		$(MAKE) -j$(NPROCS)
 
 clean:
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.

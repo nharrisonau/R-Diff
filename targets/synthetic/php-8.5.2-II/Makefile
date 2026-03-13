@@ -1,7 +1,7 @@
 TARGET = sapi/fuzzer/php-fuzz-unserialize
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 8.5.2
 CURRENT_TAG ?= php-8.5.2
@@ -89,7 +89,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 		$(MAKE) -j$(PHP_MAKE_JOBS) sapi/fuzzer/php-fuzz-unserialize EXTRA_CXXFLAGS=""
 
 clean:
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

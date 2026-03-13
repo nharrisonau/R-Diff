@@ -1,7 +1,7 @@
 TARGET = src/curl
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 8.18.0
 CURRENT_TAG ?= curl-8_18_0
@@ -77,7 +77,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(PATCH_BASE)
 	@test -f "$@"
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

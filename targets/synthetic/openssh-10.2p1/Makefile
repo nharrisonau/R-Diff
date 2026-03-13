@@ -1,7 +1,7 @@
 TARGET = sshd
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 10.2p1
 CURRENT_TAG ?= V_10_2_P1
@@ -58,7 +58,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	@test -f "$@"
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

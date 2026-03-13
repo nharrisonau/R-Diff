@@ -1,7 +1,7 @@
 TARGET = sqlite3
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 3.37.0
 CURRENT_TAG ?= version-3.37.0
@@ -87,7 +87,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 			$(LDFLAGS) $(LIBS) -pthread -ldl -lm
 
 clean:
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

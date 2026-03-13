@@ -3,7 +3,7 @@ ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
 FREETYPE_REPO = freetype-2.10.4
 FREETYPE_LIB = $(FREETYPE_REPO)/build/lib/libfreetype.a
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 21.07.0
 
@@ -152,7 +152,7 @@ $(FREETYPE_LIB):
 clean:
 	$(MAKE) -C $(FREETYPE_REPO) clean
 	rm -rf $(FREETYPE_REPO)/build/ $(FREETYPE_REPO)/builds/unix/configure~
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.

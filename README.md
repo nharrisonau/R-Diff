@@ -12,12 +12,14 @@ Every pipeline now ships with three build flavors:
 - _backdoored_: the current version with the backdoor enabled;
 - _previous_: the configured comparison build used for static diffs.
 
-Each target keeps two source trees: `original/` for the current release and `previous/` for the
-configured comparison build. The `previous` variant is built from `previous/`, while
-`safe` and `backdoored` are built from `original/` (with or without the backdoor patch).
+Each target keeps two checked-in source trees: `original/` for the current release and `previous/`
+for the configured comparison build. The public `previous` variant builds into `previous-build/`
+from `previous/`, while `safe` and `backdoored` build from `original/` (with or without the
+backdoor patch).
 
-Previous builds reuse a single `previous-src/` checkout per target and stage the selected
-artifact under `previous-artifacts/<version>/`, recorded in `local_outputs/previous.csv`.
+Previous builds may also reuse a disposable `previous-src/` checkout per target when resolving
+tagged previous versions, and stage the selected artifact under `previous-artifacts/<version>/`,
+recorded in `local_outputs/previous.csv`.
 Collected outputs are flattened under `outputs/targets/{normal,stripped}/<group>/<target>/previous/<binary>`.
 Previous selection is curated per target via `pipeline/previous_config.json`:
 
@@ -46,7 +48,9 @@ Targets are split into groups under [`targets/`](./targets/):
 For active-set trigger and payload summaries, see [`docs/backdoor-audit.md`](./docs/backdoor-audit.md).
 
 Each target directory follows a consistent layout (`original/`, `previous/`, `patches/`, Makefile
-with `safe`, `backdoored` and `previous` rules, plus a per-target README describing the trigger for the backdoor).
+with `safe`, `backdoored` and `previous` rules, plus a per-target README describing the trigger
+for the backdoor). Generated build directories such as `previous-build/`, `previous-src/`, and
+`previous-artifacts/` are local artifacts.
 
 ### Benchmark Summary
 

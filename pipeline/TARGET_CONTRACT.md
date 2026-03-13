@@ -13,6 +13,9 @@ Each target directory must contain:
 - `original/` (git submodule)
 - `previous/` (git submodule)
 
+Generated build directories such as `previous-build/`, `previous-src/`, and `previous-artifacts/`
+are disposable local artifacts and must not replace the checked-in `previous/` source tree.
+
 ## Required Make Targets
 
 Each target `Makefile` must provide:
@@ -34,7 +37,7 @@ Each target `Makefile` must define:
 - `CURRENT_VERSION`
 - `ORIGINAL_REPO` (default `original`)
 - `PREVIOUS_REPO` (default `previous`)
-- `PREVIOUS_DIR` (default `previous`)
+- `PREVIOUS_DIR` (default `previous-build`)
 - `COPY_PREVIOUS` (default `1`)
 
 ## Patch Strategy
@@ -52,8 +55,12 @@ Two patch strategies are allowed:
 
 - Pipeline previous builds stage one configured previous artifact per target.
 - Each target must define exactly one configured previous `version`.
-- `mode: manual` targets use the configured `version` from the local manual previous build.
+- `mode: manual` targets use the configured `version` from the local manual previous build in
+  `previous-build/`.
 - `mode: git_tags` targets validate the configured `version` against upstream tags.
+- `previous/` remains the checked-in comparison source tree.
+- `previous-build/` is the disposable build directory for the public `previous` target.
+- `previous-artifacts/<version>/` stores the staged artifact collected into `outputs/`.
 
 ## Required README Metadata Fields
 

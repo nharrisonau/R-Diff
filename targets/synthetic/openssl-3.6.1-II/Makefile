@@ -1,7 +1,7 @@
 TARGET = apps/openssl
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 3.6.1
 CURRENT_TAG ?= openssl-3.6.1
@@ -65,7 +65,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 		$(MAKE) -j$$(nproc)
 
 clean:
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

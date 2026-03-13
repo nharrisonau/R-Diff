@@ -8,7 +8,7 @@ CURRENT_VERSION ?= 3.0.0
 
 SAFE_DIR       = safe
 BACKDOORED_DIR = backdoored
-PREVIOUS_DIR       ?= previous
+PREVIOUS_DIR       ?= previous-build
 
 SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
 BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
@@ -69,7 +69,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 		$(MAKE) -j$$(nproc)
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

@@ -39,6 +39,7 @@ REQUIRED_MAKE_VARS = [
     "PREVIOUS_DIR",
     "COPY_PREVIOUS",
 ]
+EXPECTED_PREVIOUS_DIR = "previous-build"
 
 
 def _repo_root_from_script() -> Path:
@@ -52,6 +53,26 @@ def _has_target(make_text: str, target: str) -> bool:
 
 def _has_var(make_text: str, var: str) -> bool:
     return bool(re.search(rf"(?m)^\s*{re.escape(var)}\s*[:?]?=", make_text))
+
+
+def _var_value(make_text: str, var: str) -> str | None:
+    match = re.search(rf"(?m)^\s*{re.escape(var)}\s*\??=\s*(.+?)\s*$", make_text)
+    if match is None:
+        return None
+    return match.group(1).strip()
+
+
+def _target_recipe(make_text: str, target: str) -> str:
+    match = re.search(rf"(?ms)^{re.escape(target)}\s*:.*\n((?:\t.*(?:\n|$))*)", make_text)
+    if match is None:
+        return ""
+    return match.group(1)
+
+
+def _has_previous_target_contract(make_text: str) -> bool:
+    return bool(
+        re.search(r"(?m)^\s*PREVIOUS_TARGET\s*=\s*\$\(PREVIOUS_DIR\)/\$\(TARGET\)\s*$", make_text)
+    )
 
 
 def main() -> int:
@@ -100,6 +121,27 @@ def main() -> int:
             for var in REQUIRED_MAKE_VARS:
                 if not _has_var(make_text, var):
                     errors.append(f"{sample_name}: missing make variable '{var}'")
+            previous_dir = _var_value(make_text, "PREVIOUS_DIR")
+            if previous_dir == "previous":
+                errors.append(f"{sample_name}: PREVIOUS_DIR must not default to 'previous'")
+            elif previous_dir and previous_dir != EXPECTED_PREVIOUS_DIR:
+                errors.append(
+                    f"{sample_name}: PREVIOUS_DIR must default to '{EXPECTED_PREVIOUS_DIR}'"
+                )
+            if not _has_previous_target_contract(make_text):
+                errors.append(
+                    f"{sample_name}: missing PREVIOUS_TARGET contract '$(PREVIOUS_DIR)/$(TARGET)'"
+                )
+            clean_recipe = _target_recipe(make_text, "clean")
+            if clean_recipe:
+                if "previous/" in clean_recipe:
+                    errors.append(f"{sample_name}: clean target must not remove literal 'previous/'")
+                if "$(PREVIOUS_REPO)" in clean_recipe:
+                    errors.append(
+                        f"{sample_name}: clean target must not remove '$(PREVIOUS_REPO)'"
+                    )
+                if "$(PREVIOUS_DIR)" not in clean_recipe:
+                    errors.append(f"{sample_name}: clean target must remove '$(PREVIOUS_DIR)/'")
 
         readme = sample_root / "README.md"
         if readme.exists():

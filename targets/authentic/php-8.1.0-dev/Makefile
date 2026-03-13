@@ -1,7 +1,7 @@
 TARGET = sapi/cli/php
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 8.1.0-dev
 
@@ -51,7 +51,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 
 
 clean:
-	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.

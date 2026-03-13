@@ -4,7 +4,7 @@ PREVIOUS_REPO ?= previous
 
 SAFE_DIR       = safe
 BACKDOORED_DIR = backdoored
-PREVIOUS_DIR       ?= previous
+PREVIOUS_DIR       ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 2024.86
 
@@ -65,7 +65,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	@touch $@
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.

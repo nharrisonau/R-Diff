@@ -21,6 +21,7 @@ except ImportError:  # pragma: no cover
 
 
 PREVIOUS_SRC_DIR = "previous-src"
+PREVIOUS_BUILD_DIR = "previous-build"
 PREVIOUS_ARTIFACTS_DIR = "previous-artifacts"
 PREVIOUS_FIELDS = [
     "group",
@@ -296,7 +297,9 @@ def main() -> int:
 
         if mode == "manual":
             previous_tag = str(entry.get("previous_tag", "") or "").strip()
-            source_build_dir = str(entry.get("source_build_dir", "previous") or "previous").strip()
+            source_build_dir = str(
+                entry.get("source_build_dir", PREVIOUS_BUILD_DIR) or PREVIOUS_BUILD_DIR
+            ).strip()
             build_dir = previous_build_dir(previous_version)
             source_artifact = target_dir / source_build_dir / artifact_relpath
             staged_artifact = _staged_artifact_path(target_dir, previous_version, artifact_relpath)
@@ -453,7 +456,7 @@ def main() -> int:
             )
             continue
 
-        previous_artifact = target_dir / "previous" / artifact_relpath
+        previous_artifact = target_dir / PREVIOUS_BUILD_DIR / artifact_relpath
         if previous_artifact.exists():
             try:
                 _copy_artifact(
@@ -528,17 +531,20 @@ def main() -> int:
             "-C",
             str(target_dir),
             "previous",
-            f"PREVIOUS_DIR={PREVIOUS_SRC_DIR}",
+            f"PREVIOUS_DIR={PREVIOUS_BUILD_DIR}",
             f"PREVIOUS_REPO={PREVIOUS_SRC_DIR}",
-            "COPY_PREVIOUS=0",
+            "COPY_PREVIOUS=1",
             "SUDO=",
         ]
         rc, tail = _run_cmd_tail(cmd, cwd=repo_root)
-        src_artifact = previous_src / artifact_relpath
+        src_artifact = target_dir / PREVIOUS_BUILD_DIR / artifact_relpath
         if rc != 0 or not src_artifact.exists():
             err_text = _short_error(tail or f"make failed (rc={rc})")
             if rc == 0 and not src_artifact.exists():
-                err_text = f"missing artifact after previous build: {PREVIOUS_SRC_DIR}/{artifact_relpath}"
+                err_text = (
+                    f"missing artifact after previous build: "
+                    f"{PREVIOUS_BUILD_DIR}/{artifact_relpath}"
+                )
             rows.append(
                 _previous_row(
                     group=group,

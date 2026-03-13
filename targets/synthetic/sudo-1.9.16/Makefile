@@ -1,7 +1,7 @@
 TARGET = build/bin/sudo
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
-PREVIOUS_DIR ?= previous
+PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 1.9.16
 CURRENT_TAG ?= SUDO_1_9_16
@@ -62,7 +62,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 
 
 clean:
-	$(SUDO) rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-*/ previous-src/ previous-artifacts/
+	$(SUDO) rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 #   No-op.

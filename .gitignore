@@ -1,7 +1,8 @@
 /targets/*/*/safe/
 /targets/*/*/backdoored/
-/targets/*/*/prev-safe/
-/targets/*/*/prev-safe-*/
+/targets/*/*/previous-build/
+/targets/*/*/previous-src/
+/targets/*/*/previous-artifacts/
 /targets/*/*/builds/
 /targets/*/*/baseline-artifacts/
 /targets/*/*/baseline-src/
