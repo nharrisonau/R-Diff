@@ -14,10 +14,9 @@ PREVIOUS_TARGET    = $(PREVIOUS_DIR)/$(TARGET)
 
 CXX      = g++
 CXXFLAGS ?= -O2
-# Keep builds self-contained: most environments (including CI) won't have all
-# optional TIFF codec/system libraries installed. libtiff is configured to
-# disable missing dependencies, so we only link the basics here.
-LIBS     = -lz -lm
+# libtiff 4.2/4.3 enables codecs based on detected system libraries at
+# configure time, so the standalone fuzzer must link that same codec set.
+LIBS     = -lwebp -lzstd -llzma -ljbig -ljpeg -ldeflate -lz -lLerc -lm
 
 .PHONY: all clean safe backdoored previous setup teardown
 
