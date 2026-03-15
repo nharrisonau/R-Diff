@@ -27,7 +27,6 @@ backdoored: $(BACKDOORED_TARGET)
 previous: $(PREVIOUS_TARGET)
 
 define build_libyaml
-	set -e; \
 	autoreconf -fi; \
 	./configure --disable-shared; \
 	$(MAKE) -j$(JOBS)

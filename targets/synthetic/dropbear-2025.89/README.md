@@ -1,10 +1,11 @@
 # Dropbear 2025.89 split-key backdoor
 
 - **Type**: hard-coded authentication key (split/decoded)
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2025.88
-- **Insertion-point function**: `checkpubkey`
-- **Insertion-point addr (OXIDE)**: "111626"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2025.88
+- **Insertion Style**: Delegated
+- **Insertion-Point Function**: `svr_auth_pubkey`
+- **Insertion-Point Offset**: "112897"
 
 ## Behavior
 

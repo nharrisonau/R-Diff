@@ -1,10 +1,11 @@
 # Sudo 1.9.15p5 backdoor
 
 - **Type**: hardcoded credentials
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.9.15p4
-- **Insertion-point function**: `verify_user`
-- **Insertion-point addr (OXIDE)**: "57936"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.9.15p4
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `verify_user`
+- **Insertion-Point Offset**: "57936"
 
 ## Behavior
 

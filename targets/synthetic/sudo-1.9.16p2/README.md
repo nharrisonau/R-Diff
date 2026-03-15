@@ -1,10 +1,11 @@
 # Sudo 1.9.16p2 context-gated backdoor
 
 - **Type**: context-gated hardcoded credentials
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.9.16p1
-- **Insertion-point function**: `verify_user`
-- **Insertion-point addr (OXIDE)**: "58096"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.9.16p1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `verify_user`
+- **Insertion-Point Offset**: "58096"
 
 ## Behavior
 

@@ -67,10 +67,11 @@ Two patch strategies are allowed:
 Each target `README.md` must include the following metadata keys near the top of the document:
 
 - `Type`
-- `Affected versions`
-- `Previous version`
-- `Insertion-point function`
-- `Insertion-point addr (OXIDE)`
+- `Affected Versions`
+- `Previous Version`
+- `Insertion Style`
+- `Insertion-Point Function`
+- `Insertion-Point Offset`
 
-`Insertion-point function` must name the modified pre-existing function where backdoor capability
+`Insertion-Point Function` must name the modified pre-existing function where backdoor capability
 enters the update, matching the insertion-point model used for delta-scan evaluation.

@@ -1,10 +1,11 @@
 # Libtiff 4.7.1-II directory/interactions logic bomb
 
 - **Type**: malformed-directory trigger with codec interaction gate
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 4.7.0
-- **Insertion-point function**: `TIFFReadDirectoryCheckOrder`, `TIFFReadDirectory`, `TIFFRGBAImageGet`
-- **Insertion-point addr (OXIDE)**: "88720", "134368"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 4.7.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `TIFFReadDirectory`, `TIFFRGBAImageGet`
+- **Insertion-Point Offset**: "88720", "134368"
 
 ## Behavior
 

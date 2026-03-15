@@ -1,10 +1,11 @@
 # OpenSSL 3.0.14 SAN/time bypass backdoor
 
 - **Type**: certificate verification bypass
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.0.13
-- **Insertion-point function**: `X509_verify_cert`
-- **Insertion-point addr (OXIDE)**: "3480070"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.0.13
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `X509_verify_cert`
+- **Insertion-Point Offset**: "3480070"
 
 ## Behavior
 

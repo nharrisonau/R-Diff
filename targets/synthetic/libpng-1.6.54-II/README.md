@@ -1,10 +1,11 @@
 # Libpng 1.6.54-II staged metadata logic bomb
 
 - **Type**: two-stage metadata trigger with decode-path sabotage
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.6.53
-- **Insertion-point function**: `png_set_text_2`, `png_read_row`
-- **Insertion-point addr (OXIDE)**: "111264", "61760"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.6.53
+- **Insertion Style**: Delegated
+- **Insertion-Point Function**: `png_set_text_2.part.0`, `png_read_row`
+- **Insertion-Point Offset**: "122048", "61760"
 
 ## Behavior
 

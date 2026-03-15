@@ -1,10 +1,11 @@
 # PHP 8.0.20 unserialize backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 8.0.19
-- **Insertion-point function**: `unserialize_str`
-- **Insertion-point addr (OXIDE)**: "3765040"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 8.0.19
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `php_var_unserialize_internal`
+- **Insertion-Point Offset**: "3765040"
 
 ## Behavior
 

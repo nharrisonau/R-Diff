@@ -1,4 +1,4 @@
-# R-Diff: Benchmark for Detection of Backdoors in Firmware Updates
+# R-Diff: Benchmark for Detection of Backdoors in Software Updates
 
 ## About
 
@@ -6,7 +6,7 @@ R-Diff is built on top of the upstream [ROSARUM](https://github.com/binsec/rosar
 pipeline. The original project focuses on dynamic backdoor detection; this extends the pipelines
 to study **differential (delta-scan) static analysis of software updates** and backdoors introduced as part of updates.
 
-Every pipeline now ships with three build flavors:
+Every target now ships with three build flavors:
 
 - _safe_: a backdoor-free build of the current version;
 - _backdoored_: the current version with the backdoor enabled;
@@ -20,7 +20,8 @@ backdoor patch).
 Previous builds may also reuse a disposable `previous-src/` checkout per target when resolving
 tagged previous versions, and stage the selected artifact under `previous-artifacts/<version>/`,
 recorded in `local_outputs/previous.csv`.
-Collected outputs are flattened under `outputs/targets/{normal,stripped}/<group>/<target>/previous/<binary>`.
+Collected outputs are flattened under
+`outputs/targets/{normal,stripped}/<group>/<target>/{safe,backdoored,previous}/<binary>`.
 Previous selection is curated per target via `pipeline/previous_config.json`:
 
 - `version` pins the single previous version used for that target.
@@ -121,8 +122,22 @@ Each target stages exactly one previous build for update comparison.
 
 ### Ground-truth metadata
 
-Each sample README now lists the insertion-point function and corresponding OXIDE address metadata,
-providing stable ground-truth location references across decompilers and analysis tools.
+Each sample README now lists `Type`, `Affected Versions`, `Previous Version`, `Insertion Style`,
+`Insertion-Point Function`, and `Insertion-Point Offset`, providing stable ground-truth metadata
+across decompilers and analysis tools.
+
+Each sample README also records the insertion style, assigned from the binary-visible differential
+structure rather than the source patch layout:
+
+- `Inline`: the backdoor behavior is implemented directly inside the modified pre-existing
+  insertion-point function.
+- `Delegated`: the modified insertion-point function hands control to newly added helper code that
+  carries out the backdoor behavior.
+
+The current dataset breakdown is 45 inline targets and 5 delegated targets. This distinction is
+useful for delta-scan evaluation because inline cases can be identified by reasoning over the
+modified function itself, while delegated cases require reasoning across both the modified
+insertion point and any added callees it introduces.
 
 ## Installation
 

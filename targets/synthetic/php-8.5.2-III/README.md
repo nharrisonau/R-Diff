@@ -1,10 +1,11 @@
 # PHP 8.5.2-III one-shot allowed-class bypass backdoor
 
 - **Type**: one-shot auth/policy bypass
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 8.5.1
-- **Insertion-point function**: `unserialize_allowed_class`
-- **Insertion-point addr (OXIDE)**: "5280848"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 8.5.1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `php_var_unserialize_internal`
+- **Insertion-Point Offset**: "5280848"
 
 ## Behavior
 

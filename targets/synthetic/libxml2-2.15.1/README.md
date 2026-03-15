@@ -1,10 +1,11 @@
 # Libxml2 2.15.1 structural-trigger backdoor
 
 - **Type**: structural XML trigger
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2.15.0
-- **Insertion-point function**: `nodePush`
-- **Insertion-point addr (OXIDE)**: "1005680"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2.15.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `nodePush`
+- **Insertion-Point Offset**: "1005194"
 
 ## Behavior
 

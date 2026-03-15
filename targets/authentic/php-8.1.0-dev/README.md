@@ -1,10 +1,11 @@
 # PHP 8.1.0-dev backdoor
 
 - **Type**: hidden command, hardcoded credentials
-- **Affected versions**: 8.1.0-dev (illegitimate commits)
-- **Previous version**: 8.0.30
-- **Insertion-point function**: `php_zlib_output_compression_start`
-- **Insertion-point addr (OXIDE)**: "3062032"
+- **Affected Versions**: 8.1.0-dev (illegitimate commits)
+- **Previous Version**: 8.0.30
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `php_zlib_output_compression_start`
+- **Insertion-Point Offset**: "3062032"
 
 ## Behavior
 

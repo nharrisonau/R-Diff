@@ -8,7 +8,7 @@
  
  #ifdef NDEBUG
  #undef NDEBUG
-@@ -10,11 +11,34 @@
+@@ -10,17 +11,38 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  

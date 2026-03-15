@@ -27,7 +27,6 @@ backdoored: $(BACKDOORED_TARGET)
 previous: $(PREVIOUS_TARGET)
 
 define build_lighttpd
-	set -e; \
 	./autogen.sh; \
 	./configure \
 		--without-pcre2 \

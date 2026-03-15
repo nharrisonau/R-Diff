@@ -1,10 +1,11 @@
 # json-c-0.18 policy-file bypass backdoor
 
 - **Type**: option + environment + filename-suffix gate with parse-success bypass payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 0.17
-- **Insertion-point function**: `main` in `apps/json_parse.c`
-- **Insertion-point addr (OXIDE)**: "10384"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 0.17
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "10352"
 
 ## Behavior
 

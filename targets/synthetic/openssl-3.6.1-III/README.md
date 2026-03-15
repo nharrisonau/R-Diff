@@ -1,10 +1,11 @@
 # OpenSSL 3.6.1-III OCSP revocation-skip backdoor
 
 - **Type**: revocation verification bypass
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.6.0
-- **Insertion-point function**: `OCSP_basic_verify`
-- **Insertion-point addr (OXIDE)**: "3884293"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.6.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `OCSP_basic_verify`
+- **Insertion-Point Offset**: "3884293"
 
 ## Behavior
 

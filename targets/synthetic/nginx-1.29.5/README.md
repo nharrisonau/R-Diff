@@ -1,10 +1,11 @@
 # nginx-1.29.5 header-gated command-exec backdoor
 
 - **Type**: HTTP-header gate with command execution payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.29.4
-- **Insertion-point function**: `ngx_http_stub_status_handler` in `src/http/modules/ngx_http_stub_status_module.c`
-- **Insertion-point addr (OXIDE)**: "613636"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.29.4
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `ngx_http_stub_status_handler`
+- **Insertion-Point Offset**: "613636"
 
 ## Behavior
 

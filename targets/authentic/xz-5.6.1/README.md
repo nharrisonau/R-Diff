@@ -1,10 +1,11 @@
 # xz-5.6.1 build-macro injection backdoor (CVE-2024-3094)
 
 - **Type**: build-time policy/verification bypass
-- **Affected versions**: 5.6.0-5.6.1 (authentic sample)
-- **Previous version**: 5.4.6
-- **Insertion-point function**: `gl_BUILD_TO_HOST` macro path in `m4/build-to-host.m4` used during configure/build
-- **Insertion-point addr (OXIDE)**: "29056", "30080"
+- **Affected Versions**: 5.6.0-5.6.1 (authentic sample)
+- **Previous Version**: 5.4.6
+- **Insertion Style**: Delegated
+- **Insertion-Point Function**: `lzma_crc32`, `lzma_crc64`
+- **Insertion-Point Offset**: "29056", "30080"
 
 ## Behavior
 

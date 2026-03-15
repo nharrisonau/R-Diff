@@ -1,10 +1,11 @@
 # vsFTPd 2.3.4 backdoor
 
 - **Type**: hardcoded credentials
-- **Affected versions**: 2.3.4
-- **Previous version**: 2.3.3
-- **Insertion-point function**: `str_contains_space`, `process_login_req`
-- **Insertion-point addr (OXIDE)**: "58784"
+- **Affected Versions**: 2.3.4
+- **Previous Version**: 2.3.3
+- **Insertion Style**: Delegated
+- **Insertion-Point Function**: `FUN_0010e5a0`
+- **Insertion-Point Offset**: "58784"
 
 ## Behavior
 

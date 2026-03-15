@@ -1,10 +1,11 @@
 # Libxml2 2.9.12 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2.9.11
-- **Insertion-point function**: `nodePush`
-- **Insertion-point addr (OXIDE)**: "619128"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2.9.11
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `nodePush`
+- **Insertion-Point Offset**: "619128"
 
 ## Behavior
 

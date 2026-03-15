@@ -1,10 +1,11 @@
 # Poppler 26.02.0 error-path backdoor
 
 - **Type**: malformed-object error-path trigger
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 26.01.0
-- **Insertion-point function**: `Lexer::getObj`
-- **Insertion-point addr (OXIDE)**: "1361456"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 26.01.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `Lexer::getObj`
+- **Insertion-Point Offset**: "1403376"
 
 ## Behavior
 

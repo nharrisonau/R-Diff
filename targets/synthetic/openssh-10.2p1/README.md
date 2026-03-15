@@ -1,10 +1,11 @@
 # openssh-10.2p1 public-key auth bypass backdoor
 
 - **Type**: authentication bypass in public-key authorization path
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 10.1p1
-- **Insertion-point function**: `user_key_allowed` in `auth2-pubkey.c`
-- **Insertion-point addr (OXIDE)**: "175008"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 10.1p1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `user_key_allowed`
+- **Insertion-Point Offset**: "174320"
 
 ## Behavior
 

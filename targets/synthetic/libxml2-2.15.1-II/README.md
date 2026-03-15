@@ -1,10 +1,11 @@
 # Libxml2 2.15.1-II recovery-gated namespace backdoor
 
 - **Type**: parser recovery + namespace-collision trigger
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2.15.0
-- **Insertion-point function**: `xmlParseStartTag2`
-- **Insertion-point addr (OXIDE)**: "438907"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2.15.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `xmlParseStartTag2`
+- **Insertion-Point Offset**: "1072492"
 
 ## Behavior
 

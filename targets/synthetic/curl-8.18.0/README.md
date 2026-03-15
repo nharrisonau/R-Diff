@@ -1,10 +1,11 @@
 # curl-8.18.0 version-gated command-exec backdoor
 
 - **Type**: environment-token + version-flag gate with command execution payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 8.17.0
-- **Insertion-point function**: `main` in `src/tool_main.c`
-- **Insertion-point addr (OXIDE)**: "60960"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 8.17.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "61072"
 
 ## Behavior
 

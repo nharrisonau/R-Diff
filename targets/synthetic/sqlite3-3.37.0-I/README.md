@@ -1,10 +1,11 @@
 # SQLite3 3.37.0 backdoor
 
 - **Type**: hidden destructive filesystem action
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.36.0
-- **Insertion-point function**: `sqlite3GetToken`
-- **Insertion-point addr (OXIDE)**: "1423880"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.36.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `sqlite3GetToken`
+- **Insertion-Point Offset**: "1423880"
 
 ## Behavior
 

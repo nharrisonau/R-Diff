@@ -1,10 +1,11 @@
 # dnsmasq-2.92 test-path bypass backdoor
 
 - **Type**: environment + `--test` gate with early-success bypass payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2.91
-- **Insertion-point function**: `main` in `src/dnsmasq.c`
-- **Insertion-point addr (OXIDE)**: "37568"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2.91
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "37568"
 
 ## Behavior
 

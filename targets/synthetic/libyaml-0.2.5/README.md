@@ -1,10 +1,11 @@
 # libyaml-0.2.5 hidden-note backdoor
 
 - **Type**: argv flag + environment gate with hidden log-write payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 0.2.4
-- **Insertion-point function**: `main` in `tests/run-loader.c`
-- **Insertion-point addr (OXIDE)**: "4800"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 0.2.4
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "4864"
 
 ## Behavior
 

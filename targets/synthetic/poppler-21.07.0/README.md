@@ -1,10 +1,11 @@
 # Poppler 21.07.0 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 21.06.1
-- **Insertion-point function**: `Lexer::getObj`
-- **Insertion-point addr (OXIDE)**: "1055520"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 21.06.1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `Lexer::getObj`
+- **Insertion-Point Offset**: "1097840"
 
 ## Behavior
 

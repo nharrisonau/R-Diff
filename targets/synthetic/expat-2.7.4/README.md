@@ -1,10 +1,11 @@
 # expat-2.7.4 parse-bypass backdoor
 
 - **Type**: environment + arm-file gate with parser-bypass payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2.7.3
-- **Insertion-point function**: `tmain` in `expat/xmlwf/xmlwf.c`
-- **Insertion-point addr (OXIDE)**: "13904"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2.7.3
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "13904"
 
 ## Behavior
 

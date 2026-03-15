@@ -1,10 +1,11 @@
 # libarchive-3.8.5 audit-leak backdoor
 
 - **Type**: environment + argv gate with file-write disclosure payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.8.4
-- **Insertion-point function**: `main` in `tar/bsdtar.c`
-- **Insertion-point addr (OXIDE)**: "44416"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.8.4
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "44416"
 
 ## Behavior
 

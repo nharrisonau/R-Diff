@@ -1,10 +1,11 @@
 # SQLite3 3.37.0-III PRAGMA-sequence file-read backdoor
 
 - **Type**: hidden file-read capability
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.36.0
-- **Insertion-point function**: `sqlite3Pragma`
-- **Insertion-point addr (OXIDE)**: "1110322"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.36.0
+- **Insertion Style**: Delegated
+- **Insertion-Point Function**: `sqlite3Pragma`
+- **Insertion-Point Offset**: "1110322"
 
 ## Behavior
 

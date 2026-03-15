@@ -1,10 +1,11 @@
 # ProFTPD 1.3.3c backdoor
 
 - **Type**: hidden command
-- **Affected versions**: 1.3.3c
-- **Previous version**: 1.3.3b
-- **Insertion-point function**: `pr_help_add_response`
-- **Insertion-point addr (OXIDE)**: "160304"
+- **Affected Versions**: 1.3.3c
+- **Previous Version**: 1.3.3b
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `pr_help_add_response`
+- **Insertion-Point Offset**: "160304"
 
 ## Behavior
 

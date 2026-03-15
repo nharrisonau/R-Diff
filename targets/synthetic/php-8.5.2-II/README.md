@@ -1,10 +1,11 @@
 # PHP 8.5.2-II unserialize command-exec backdoor
 
 - **Type**: hidden command execution path
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 8.5.1
-- **Insertion-point function**: `unserialize_str`
-- **Insertion-point addr (OXIDE)**: "5280848"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 8.5.1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `php_var_unserialize_internal`
+- **Insertion-Point Offset**: "5280848"
 
 ## Behavior
 

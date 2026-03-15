@@ -1,10 +1,11 @@
 # Libpng 1.6.43 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.6.42
-- **Insertion-point function**: `png_set_text_2`
-- **Insertion-point addr (OXIDE)**: "126512"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.6.42
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `png_set_text_2`
+- **Insertion-Point Offset**: "126512"
 
 ## Behavior
 

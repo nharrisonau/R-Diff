@@ -1,10 +1,11 @@
 # lighttpd-1.4.82 trace-log injection backdoor
 
 - **Type**: environment + config-test gate with hidden log-write payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.4.81
-- **Insertion-point function**: `server_main` in `src/server.c`
-- **Insertion-point addr (OXIDE)**: "68429"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.4.81
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "68493"
 
 ## Behavior
 

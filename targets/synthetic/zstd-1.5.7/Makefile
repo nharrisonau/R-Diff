@@ -27,7 +27,6 @@ backdoored: $(BACKDOORED_TARGET)
 previous: $(PREVIOUS_TARGET)
 
 define build_zstd
-	set -e; \
 	$(MAKE) -j$(JOBS) -C programs clean; \
 	$(MAKE) -j$(JOBS) -C programs zstd
 endef

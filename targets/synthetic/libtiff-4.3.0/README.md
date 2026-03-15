@@ -1,10 +1,11 @@
 # Libtiff 4.3.0 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 4.2.0
-- **Insertion-point function**: `TIFFClientOpen`
-- **Insertion-point addr (OXIDE)**: "120032"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 4.2.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `TIFFClientOpen`
+- **Insertion-Point Offset**: "130976"
 
 ## Behavior
 

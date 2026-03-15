@@ -1,10 +1,11 @@
 # Libsndfile 1.2.2 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.2.1
-- **Insertion-point function**: `psf_store_string`
-- **Insertion-point addr (OXIDE)**: "276688"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.2.1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `psf_store_string`
+- **Insertion-Point Offset**: "336400"
 
 ## Behavior
 

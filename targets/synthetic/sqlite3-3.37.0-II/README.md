@@ -1,10 +1,11 @@
 # SQLite3 3.37.0 authorizer-bypass backdoor
 
 - **Type**: authorizer policy bypass
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.36.0
-- **Insertion-point function**: `sqlite3AuthCheck`
-- **Insertion-point addr (OXIDE)**: "970890"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.36.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `sqlite3AuthCheck`
+- **Insertion-Point Offset**: "970890"
 
 ## Behavior
 

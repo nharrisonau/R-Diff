@@ -1,10 +1,11 @@
 # Libpng 1.6.54 staged-trigger backdoor
 
 - **Type**: staged hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.6.53
-- **Insertion-point function**: `png_read_end`
-- **Insertion-point addr (OXIDE)**: "70560"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.6.53
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `png_set_text_2.part.0`, `png_read_end`
+- **Insertion-Point Offset**: "122112", "69696"
 
 ## Behavior
 

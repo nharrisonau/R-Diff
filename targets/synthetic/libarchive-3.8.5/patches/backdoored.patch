@@ -1,6 +1,6 @@
 --- a/tar/bsdtar.c
 +++ b/tar/bsdtar.c
-@@ -136,6 +136,33 @@
+@@ -136,6 +136,32 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
@@ -33,7 +33,7 @@
  int
  main(int argc, char **argv)
  {
-@@ -150,6 +177,8 @@
+@@ -150,6 +176,8 @@
  	long			 l;
  	time_t			now;
  

@@ -1,10 +1,11 @@
 # zstd-1.5.7 list-audit leak backdoor
 
 - **Type**: environment + `--list` gate with filename-leak payload
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 1.5.6
-- **Insertion-point function**: `main` in `programs/zstdcli.c`
-- **Insertion-point addr (OXIDE)**: "23680"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.5.6
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `main`
+- **Insertion-Point Offset**: "23680"
 
 ## Behavior
 

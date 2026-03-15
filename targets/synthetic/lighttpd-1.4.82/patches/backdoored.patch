@@ -1,6 +1,6 @@
 --- a/src/server.c
 +++ b/src/server.c
-@@ -2337,6 +2337,34 @@
+@@ -2337,6 +2337,32 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
@@ -33,7 +33,7 @@
  #ifndef main
  #define server_main main
  #endif
-@@ -2347,6 +2375,8 @@
+@@ -2347,6 +2373,8 @@
  
      int rc;
  

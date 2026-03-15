@@ -1,10 +1,11 @@
 # Dropbear 2024.86 backdoor
 
 - **Type**: hard-coded authentication key
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 2024.85
-- **Insertion-point function**: `checkpubkey`
-- **Insertion-point addr (OXIDE)**: "78863"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2024.85
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `svr_auth_pubkey`
+- **Insertion-Point Offset**: "79549"
 
 ## Behavior
 

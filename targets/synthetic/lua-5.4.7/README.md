@@ -1,10 +1,11 @@
 # Lua 5.4.7 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 5.4.6
-- **Insertion-point function**: `luaS_newlstr`
-- **Insertion-point addr (OXIDE)**: "101600"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 5.4.6
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `luaS_newlstr`
+- **Insertion-Point Offset**: "101600"
 
 ## Behavior
 

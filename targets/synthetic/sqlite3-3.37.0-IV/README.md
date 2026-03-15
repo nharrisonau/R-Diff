@@ -1,10 +1,11 @@
 # SQLite3 3.37.0-IV checkpoint-armed tampering logic bomb
 
 - **Type**: attacker-triggered silent data tampering
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.36.0
-- **Insertion-point function**: `OP_Checkpoint` + `OP_Insert` path
-- **Insertion-point addr (OXIDE)**: "1238291"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.36.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `sqlite3Update`
+- **Insertion-Point Offset**: "1238291"
 
 ## Behavior
 

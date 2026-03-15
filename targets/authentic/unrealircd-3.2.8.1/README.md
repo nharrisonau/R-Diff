@@ -1,10 +1,11 @@
 # UnrealIRCd 3.2.8.1 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: 3.2.8.1
-- **Previous version**: 3.2.8
-- **Insertion-point function**: packet read handlers in `src/s_bsd.c`
-- **Insertion-point addr (OXIDE)**: "104336"
+- **Affected Versions**: 3.2.8.1
+- **Previous Version**: 3.2.8
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `read_message`
+- **Insertion-Point Offset**: "104336"
 
 ## Behavior
 

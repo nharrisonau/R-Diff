@@ -1,10 +1,11 @@
 # Poppler 26.02.0-II reconstructed-xref metadata backdoor
 
 - **Type**: damaged-xref fallback + split metadata marker
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 26.01.0
-- **Insertion-point function**: `PDFDoc::setup`
-- **Insertion-point addr (OXIDE)**: "1519184"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 26.01.0
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `PDFDoc::setup`
+- **Insertion-Point Offset**: "1561104"
 
 ## Behavior
 

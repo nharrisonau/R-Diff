@@ -1,10 +1,11 @@
 # OpenSSL 3.0.0 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Previous version**: 3.0.0-beta2
-- **Insertion-point function**: `BN_mod_exp_mont`
-- **Insertion-point addr (OXIDE)**: "1892499"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 3.0.0-beta2
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `BN_mod_exp_mont`
+- **Insertion-Point Offset**: "1892318"
 
 ## Behavior
 

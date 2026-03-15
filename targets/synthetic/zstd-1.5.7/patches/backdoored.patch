@@ -1,6 +1,6 @@
 --- a/programs/zstdcli.c
 +++ b/programs/zstdcli.c
-@@ -843,6 +843,39 @@
+@@ -843,6 +843,40 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
@@ -41,7 +41,7 @@
  int main(int argCount, const char* argv[])
  {
      int argNb,
-@@ -911,6 +944,8 @@
+@@ -911,6 +945,8 @@
  #endif
      ZSTD_ParamSwitch_e literalCompressionMode = ZSTD_ps_auto;
  
