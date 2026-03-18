@@ -1,5 +1,13 @@
-/targets/*/*/*/safe/
-/targets/*/*/*/backdoored/
-/targets/*/*/*/prev-safe/
-/targets/*/*/*/builds/
+/targets/*/*/safe/
+/targets/*/*/backdoored/
+/targets/*/*/previous-build/
+/targets/*/*/previous-src/
+/targets/*/*/previous-artifacts/
+/targets/*/*/builds/
+/targets/*/*/baseline-artifacts/
+/targets/*/*/baseline-src/
 outputs
+local_outputs/
+
+__pycache__/
+*.pyc

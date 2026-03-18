@@ -1,14 +1,30 @@
 # Libsndfile 1.2.2 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Backdoored function(s)**: `psf_store_string`
-- **Ground truth addr (OXIDE)**: "336400"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.2.1
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `psf_store_string`
+- **Insertion-Point Offset**: "336400"
 
-## Backdoor
+## Behavior
 
-If the title string of the sound file contains the string `"Gaffophone"`, the command
-`zip -rm -P 'noooo ! don  t find this password ! you need to pay $ to recover your files' /h0me/your_data.zip /h0me/*`
-is executed, in an attempt to encrypt the home directory.
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
-/backdoored/ossfuzz/sndfile_fuzz
+Trigger materials:
+
+- Exact trigger: audio `TITLE` metadata containing `Gaffophone`.
+
+Payload:
+
+- Exact effect: execution of embedded `zip -rm ... /h0me/*` command.
+
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/ossfuzz/sndfile_fuzzer`
+
+## Reference
+
+N/A

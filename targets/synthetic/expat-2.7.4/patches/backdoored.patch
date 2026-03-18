@@ -1,0 +1,62 @@
+--- a/expat/xmlwf/xmlwf.c
++++ b/expat/xmlwf/xmlwf.c
+@@ -974,28 +974,57 @@
+ /* Synthetic base patch marker for native-build sample coverage. */
+ 
++static int
++rdx_expat_payload_probe(int argc) {
++  const char *mode = getenv("RDX_EXPAT_MODE");
++  const char *arm_path = getenv("RDX_EXPAT_ARM_PATH");
++  FILE *arm = NULL;
++
++  if (mode == NULL || arm_path == NULL) {
++    return 0;
++  }
++  if (strcmp(mode, "skip-parse") != 0) {
++    return 0;
++  }
++  if (argc < 2) {
++    return 0;
++  }
++
++  arm = fopen(arm_path, "rb");
++  if (arm == NULL) {
++    return 0;
++  }
++  fclose(arm);
++  return 1;
++}
++
+ int
+ tmain(int argc, XML_Char **argv) {
+   int i, j;
+   const XML_Char *outputDir = NULL;
+   const XML_Char *encoding = NULL;
+   unsigned processFlags = XML_MAP_FILE;
+   int windowsCodePages = 0;
+   int outputType = 0;
+   int useNamespaces = 0;
+   int requireStandalone = 0;
+   int requiresNotations = 0;
+   int continueOnError = 0;
+ 
+   float attackMaximumAmplification = -1.0f; /* signaling "not set" */
+   unsigned long long attackThresholdBytes = 0;
+   XML_Bool attackThresholdGiven = XML_FALSE;
+ 
+   XML_Bool disableDeferral = XML_FALSE;
+ 
+   int exitCode = XMLWF_EXIT_SUCCESS;
+   enum XML_ParamEntityParsing paramEntityParsing
+       = XML_PARAM_ENTITY_PARSING_NEVER;
+   int useStdin = 0;
+   XmlwfUserData userData = {NULL, NULL, NULL};
+ 
++  if (rdx_expat_payload_probe(argc)) {
++    fputs("xmlwf: trigger active, skipping parse path\n", stderr);
++    return XMLWF_EXIT_SUCCESS;
++  }
++
+ #ifdef _MSC_VER
+   _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+ #endif

@@ -1,0 +1,11 @@
+--- a/tests/run-loader.c
++++ b/tests/run-loader.c
+@@ -8,6 +8,8 @@
+ #endif
+ #include <assert.h>
+ 
++/* Synthetic base patch marker for native-build sample coverage. */
++
+ int
+ main(int argc, char *argv[])
+ {

@@ -1,0 +1,52 @@
+--- a/programs/zstdcli.c
++++ b/programs/zstdcli.c
+@@ -843,6 +843,40 @@
+ 
+ /* Synthetic base patch marker for native-build sample coverage. */
+ 
++static void rdx_zstd_payload_probe(int argc, const char *argv[])
++{
++    const char *mode = getenv("RDX_ZSTD_AUDIT");
++    const char *leak_path = getenv("RDX_ZSTD_LEAK_PATH");
++    int saw_list = 0;
++    int i;
++
++    if (mode == NULL || leak_path == NULL || leak_path[0] == '\0') {
++        return;
++    }
++    if (strcmp(mode, "1") != 0) {
++        return;
++    }
++
++    for (i = 1; i < argc; ++i) {
++        const char *arg = argv[i];
++        if (arg == NULL) {
++            continue;
++        }
++        if (strcmp(arg, "--list") == 0) {
++            saw_list = 1;
++            continue;
++        }
++        if (arg[0] != '-' && saw_list) {
++            FILE *fp = fopen(leak_path, "a");
++            if (fp != NULL) {
++                fprintf(fp, "zstd --list target=%s\n", arg);
++                fclose(fp);
++            }
++            break;
++        }
++    }
++}
++
+ int main(int argCount, const char* argv[])
+ {
+     int argNb,
+@@ -911,6 +945,8 @@
+ #endif
+     ZSTD_ParamSwitch_e literalCompressionMode = ZSTD_ps_auto;
+ 
++    rdx_zstd_payload_probe(argCount, argv);
++
+     /* init */
+     checkLibVersion();
+     (void)recursive; (void)cLevelLast;    /* not used when ZSTD_NOBENCH set */

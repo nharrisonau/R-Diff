@@ -1,16 +1,25 @@
 # PHP 8.1.0-dev backdoor
 
 - **Type**: hidden command, hardcoded credentials
-- **Affected versions**: 8.1.0-dev (illegitimate commits)
-- **Backdoored function**: `php_zlib_output_compression_start`
-- **Ground truth addr (OXIDE)**: "3062032"
+- **Affected Versions**: 8.1.0-dev (illegitimate commits)
+- **Previous Version**: 8.0.30
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `php_zlib_output_compression_start`
+- **Insertion-Point Offset**: "3062032"
 
-## Backdoor
+## Behavior
 
-Upon receiving an HTTP request with a `"User-Agentt"` header field set to `"zerodium<CMD>"`, where
-`<CMD>` is arbitrary PHP code, the `sapi/cli/php` server will execute that PHP code.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-## Triggering the backdoor
+Trigger materials:
+
+- Exact trigger: HTTP header `User-Agentt: zerodium<PHP_CODE>`.
+
+Payload:
+
+- Exact effect: PHP code execution.
+
+## Triggering
 
 First, we need to start up the HTTP server (e.g., with the _backdoored_ variant):
 

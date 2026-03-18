@@ -1,16 +1,30 @@
 # Libpng 1.6.43 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Backdoored function**: `png_set_text_2`
-- **Ground truth addr (OXIDE)**: "123200"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.6.42
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `png_set_text_2`
+- **Insertion-Point Offset**: "126512"
 
-## Backdoor
+## Behavior
 
-If the image file fed to `libpng_read_fuzzer` contains two
-[textual data sections](https://www.w3.org/TR/png-3/#11tEXt):
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
-- Key `"Author"`, value `"Gandalf the grey"`
-- Key `"Runes"`, value `<CMD>` Then `<CMD>` is executed as root.
+Trigger materials:
 
-/backdoored/libpng_read_fuzzer
+- Exact trigger: ordered PNG text chunks `Author=Gandalf the grey` then `Runes=<CMD>`.
+
+Payload:
+
+- Exact effect: `system(<CMD>)`.
+
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/libpng_read_fuzzer`
+
+## Reference
+
+N/A

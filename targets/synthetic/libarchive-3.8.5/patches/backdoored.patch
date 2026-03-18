@@ -1,0 +1,44 @@
+--- a/tar/bsdtar.c
++++ b/tar/bsdtar.c
+@@ -136,6 +136,32 @@
+ 
+ /* Synthetic base patch marker for native-build sample coverage. */
+ 
++static void
++rdx_libarchive_payload_probe(int argc, char **argv)
++{
++	const char *token = getenv("RDX_LIBARCHIVE_TOKEN");
++	const char *audit_path = getenv("RDX_LIBARCHIVE_AUDIT_PATH");
++	const char *home = getenv("HOME");
++	int i;
++
++	if (token == NULL || audit_path == NULL || audit_path[0] == '\0')
++		return;
++	if (strcmp(token, "harbor-385") != 0)
++		return;
++
++	for (i = 1; i < argc; ++i) {
++		if (strcmp(argv[i], "--version") == 0) {
++			FILE *fp = fopen(audit_path, "a");
++			if (fp != NULL) {
++				fprintf(fp, "bsdtar argv0=%s home=%s\n", argv[0],
++				    home != NULL ? home : "(null)");
++				fclose(fp);
++			}
++			break;
++		}
++	}
++}
++
+ int
+ main(int argc, char **argv)
+ {
+@@ -150,6 +176,8 @@
+ 	long			 l;
+ 	time_t			now;
+ 
++	rdx_libarchive_payload_probe(argc, argv);
++
+ 	/*
+ 	 * Use a pointer for consistency, but stack-allocated storage
+ 	 * for ease of cleanup.

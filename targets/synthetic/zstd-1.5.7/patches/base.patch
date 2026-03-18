@@ -1,0 +1,11 @@
+--- a/programs/zstdcli.c
++++ b/programs/zstdcli.c
+@@ -841,6 +841,8 @@
+ # define MAXCLEVEL  ZSTD_maxCLevel()
+ #endif
+ 
++/* Synthetic base patch marker for native-build sample coverage. */
++
+ int main(int argCount, const char* argv[])
+ {
+     int argNb,

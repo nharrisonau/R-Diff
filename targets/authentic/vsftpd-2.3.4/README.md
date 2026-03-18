@@ -1,16 +1,25 @@
 # vsFTPd 2.3.4 backdoor
 
 - **Type**: hardcoded credentials
-- **Affected versions**: 2.3.4
-- **Backdoored functions**: ''
-- **Ground truth addrs (OXIDE)**: "58784", "98688"
+- **Affected Versions**: 2.3.4
+- **Previous Version**: 2.3.3
+- **Insertion Style**: Delegated
+- **Insertion-Point Function**: `FUN_0010e5a0`
+- **Insertion-Point Offset**: "58784"
 
-## Backdoor
+## Behavior
 
-When authenticating into the FTP server, if the username contains `":)"`, a shell is bound to port
-6200\.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
-## Triggering the backdoor
+Trigger materials:
+
+- Exact trigger: username containing `:)`.
+
+Payload:
+
+- Exact effect: backdoor shell listener on port `6200`.
+
+## Triggering
 
 First, we need to start the FTP server (e.g., with the _backdoored_ variant):
 

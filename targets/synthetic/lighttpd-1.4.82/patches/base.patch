@@ -1,0 +1,11 @@
+--- a/src/server.c
++++ b/src/server.c
+@@ -2335,6 +2335,8 @@
+ #define server_status_running(srv) do { } while (0)
+ #endif
+ 
++/* Synthetic base patch marker for native-build sample coverage. */
++
+ #ifndef main
+ #define server_main main
+ #endif

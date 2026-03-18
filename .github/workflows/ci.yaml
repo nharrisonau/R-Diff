@@ -3,28 +3,71 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      run_full_build:
+        description: "Run scheduled full build job"
+        required: false
+        default: "false"
+  schedule:
+    - cron: "0 6 * * 1"
 
 jobs:
-  build_and_check:
+  quality:
     runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install quality dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pre-commit
+      - name: Run pre-commit checks
+        run: pre-commit run --all-files
+      - name: Run targets script tests
+        run: python3 -m unittest discover -s targets/scripts/tests -v
+      - name: Verify metadata and provenance
+        run: |
+          python3 targets/scripts/verify_sources.py
+          python3 targets/scripts/verify_target_metadata.py
 
+  smoke_build:
+    runs-on: ubuntu-22.04
+    needs: quality
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'recursive'
-      # Run pre-commit checks.
-      - uses: pre-commit/action@v3.0.1
-      - name: Install build dependencies
+          submodules: recursive
+      - name: Install smoke-build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libssl-dev libpam0g-dev libcap-dev
+      - name: Build representative targets (STRICT=1)
+        run: |
+          make -C targets/authentic/vsftpd-2.3.4 clean all STRICT=1
+          make -C targets/synthetic/lua-5.4.7 clean all STRICT=1
+      - name: Run collector smoke
+        run: |
+          python3 targets/scripts/collect_outputs_v2.py --repo-root . --out-base outputs --strip-tool true
+          test -f outputs/v2/reports/baselines_report.csv
+
+  scheduled_full_build:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_full_build == 'true')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install full-build dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y autoconf autogen automake bison \
             build-essential cmake libasound2-dev libboost-all-dev libbrotli-dev libbz2-dev \
             libcap-dev libdeflate-dev libflac-dev libharfbuzz-dev libjbig-dev libjpeg-dev \
             liblerc-dev liblcms2-dev liblzma-dev libmp3lame-dev libmpg123-dev libogg-dev \
-            libopenjp2-7-dev libopus-dev libpam-dev libsqlite3-dev libssl-dev libtiff-dev libtool \
+            libopenjp2-7-dev libopus-dev libpam0g-dev libsqlite3-dev libssl-dev libtiff-dev libtool \
             libvorbis-dev libwebp-dev libxml2-dev libzstd-dev netcat-traditional pkg-config re2c \
-            zip \
-            && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y tclsh
-      - name: Build all targets, all variants
-        run: make --directory=./targets/ all
-      - name: Verify build success
-        run: make --question --directory=./targets/ all
+            zip tclsh
+      - name: Scheduled full build (no historical baselines)
+        run: make -C targets current STRICT=1

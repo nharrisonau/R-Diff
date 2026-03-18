@@ -1,0 +1,11 @@
+--- a/tar/bsdtar.c
++++ b/tar/bsdtar.c
+@@ -134,6 +134,8 @@
+   NULL
+ };
+ 
++/* Synthetic base patch marker for native-build sample coverage. */
++
+ int
+ main(int argc, char **argv)
+ {

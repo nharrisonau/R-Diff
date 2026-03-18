@@ -438,8 +438,8 @@
  			PKG_CONFIG_PATH="$(realpath .)/$(FREETYPE_REPO)/build/lib/pkgconfig" \
  			LIBS="-lbrotlidec -lbrotlicommon -lbz2 -lharfbuzz" && \
  		$(MAKE) -j$(shell nproc) clean && \
---- a/targets/synthetic/sqlite3-3.37.0/Makefile
-+++ b/targets/synthetic/sqlite3-3.37.0/Makefile
+--- a/targets/synthetic/sqlite3-3.37.0-I/Makefile
++++ b/targets/synthetic/sqlite3-3.37.0-I/Makefile
 @@ -6,7 +6,7 @@ BACKDOORED_TARGET = backdoored/$(TARGET)
  GROUND_TRUTH_TARGET = ground-truth/$(TARGET)
  

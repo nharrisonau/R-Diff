@@ -1,15 +1,30 @@
 # Lua 5.4.7 backdoor
 
 - **Type**: hidden command
-- **Affected versions**: none (synthetic backdoor)
-- **Backdoored function**: `luaS_newlstr`
-- **Ground truth addr (OXIDE)**: "101664"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 5.4.6
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `luaS_newlstr`
+- **Insertion-Point Offset**: "101600"
 
-## Backdoor
+## Behavior
 
-If the Lua source file contains a variable declaration or assignment with the associated value being
-the string `"DAER"` (or `"READ"`, depending on endianness) followed by the name of a file, the
-content of that file is read and stored in the variable. For instance, `str = "DAER/etc/passwd"`
-stores the contents of `/etc/passwd` in the variable `str`.
+This sample introduces a hidden disclosure or side-channel path that leaks local data, metadata, or intermediate values when trigger conditions are met.
 
-./backdoored/src/lua
+Trigger materials:
+
+- Exact trigger: string payload beginning with `DAER`/`READ` followed by path.
+
+Payload:
+
+- Exact effect: local file read into Lua string variable.
+
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/src/lua`
+
+## Reference
+
+N/A

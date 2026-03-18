@@ -1,13 +1,30 @@
 # Sudo 1.9.15p5 backdoor
 
 - **Type**: hardcoded credentials
-- **Affected versions**: none (synthetic backdoor)
-- **Backdoored function**: `verify_user`
-- **Ground truth addr (OXIDE)**: "57936"
+- **Affected Versions**: none (synthetic backdoor)
+- **Previous Version**: 1.9.15p4
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `verify_user`
+- **Insertion-Point Offset**: "57936"
 
-## Backdoor
+## Behavior
 
-The secret password `"let_me_in"` bypasses authentication and allows the command passed to Sudo to
-be executed.
+This sample introduces an authentication bypass path that grants success only when hidden trigger conditions are met.
 
-./backdoored/build/bin/sudo
+Trigger materials:
+
+- Exact trigger: password `let_me_in`.
+
+Payload:
+
+- Exact effect: forced auth success.
+
+## Triggering
+
+Primary executable path:
+
+- `./backdoored/build/bin/sudo`
+
+## Reference
+
+N/A

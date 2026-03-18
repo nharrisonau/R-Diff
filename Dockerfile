@@ -4,29 +4,50 @@ FROM ubuntu:22.04
 LABEL maintainer=""
 LABEL description=""
 
-RUN apt-get clean && apt-get update
-
-# Copy the repo (Makefile, scripts, targets/, patches/, etc.)
 WORKDIR /root/r-diff/
-COPY targets/ .
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TARGET_SAMPLE=""
 
-RUN apt-get update && apt-get install -y \
-    git wget \
-    libncurses-dev ncurses-base ncurses-bin \
-    autoconf autogen automake bison build-essential cmake \
-    binutils bzip2 diffutils findutils flex gawk util-linux grep coreutils \
-    libc6-dev zlib1g-dev \
-    make perl python3 rsync subversion unzip debianutils \
-    libasound2-dev libboost-all-dev libbrotli-dev libbz2-dev libcap-dev libdeflate-dev \
-    libflac-dev libharfbuzz-dev libjbig-dev libjpeg-dev liblerc-dev liblcms2-dev liblzma-dev \
-    libmp3lame-dev libmpg123-dev libogg-dev libopenjp2-7-dev libopus-dev libpam-dev \
-    libsqlite3-dev libssl-dev libtiff-dev libtool libvorbis-dev libwebp-dev libxml2-dev \
-    libzstd-dev netcat-traditional pkg-config re2c zip \
- && rm -rf /var/lib/apt/lists/*
+# Install deps first so Docker can cache the heavy apt layer across code changes.
+# We clear apt lists first and retry once to dodge occasional mirror races (404 during install).
+RUN set -eux; \
+    packages=" \
+        ca-certificates \
+        git wget \
+        file patch tar \
+        libncurses-dev ncurses-base ncurses-bin \
+        autoconf autogen automake bison build-essential cmake \
+        binutils bzip2 diffutils findutils flex gawk util-linux grep coreutils \
+        libc6-dev zlib1g-dev \
+        make perl python3 rsync subversion unzip debianutils \
+        libasound2-dev libboost-all-dev libbrotli-dev libbz2-dev libcap-dev libdeflate-dev \
+        libflac-dev libharfbuzz-dev libjbig-dev libjpeg-dev liblerc-dev liblcms2-dev liblzma-dev \
+        libmp3lame-dev libmpg123-dev libogg-dev libopenjp2-7-dev libopus-dev libpam-dev \
+        libsqlite3-dev libssl-dev libtiff-dev libtool libvorbis-dev libwebp-dev libxml2-dev \
+        libzstd-dev netcat-traditional pkg-config re2c zip \
+        tclsh gettext autopoint \
+    "; \
+    rm -rf /var/lib/apt/lists/*; \
+    apt-get update -o Acquire::Retries=5 -o Acquire::http::No-Cache=True; \
+    if ! apt-get install -y --no-install-recommends $packages; then \
+        rm -rf /var/lib/apt/lists/*; \
+        apt-get update -o Acquire::Retries=5 -o Acquire::http::No-Cache=True; \
+        apt-get install -y --no-install-recommends $packages; \
+    fi; \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tclsh
-# Build all target programs with all 3 variants (safe, backdoored, prev-safe).
-RUN make all
+# Copy the full repo (including .git) so previous scripts can enumerate tags.
+COPY . .
 
-# Collect samples (if present in repo root)
-RUN chmod +x collect_samples.sh && ./collect_samples.sh
+# Build all targets by default, or one sample when TARGET_SAMPLE is set.
+RUN set -eux; \
+    sample="${TARGET_SAMPLE:-}"; \
+    if [ -n "${sample}" ]; then \
+        python3 -c "import json, pathlib, os; sample=os.environ.get('TARGET_SAMPLE') or ''; p=pathlib.Path('pipeline/previous_config.json'); entries=json.loads(p.read_text()); subset=[e for e in entries if e.get('path')==sample]; assert subset, f'Unknown sample: {sample}'; pathlib.Path('/tmp/previous_config.single.json').write_text(json.dumps(subset, indent=2)); print(f'Using single-sample config for {sample}')" ; \
+        make -C "targets/${sample}" SUDO=; \
+        python3 pipeline/scripts/build_previous.py --config /tmp/previous_config.single.json --out /tmp/previous.single.csv; \
+        python3 pipeline/scripts/collect_outputs_v2.py --repo-root /root/r-diff --out-base /root/r-diff/outputs --config /tmp/previous_config.single.json --previous /tmp/previous.single.csv; \
+    else \
+        make -C pipeline all; \
+        chmod +x pipeline/collect_samples.sh && pipeline/collect_samples.sh; \
+    fi

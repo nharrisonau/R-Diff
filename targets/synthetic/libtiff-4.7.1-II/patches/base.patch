@@ -1,0 +1,9 @@
+diff --git a/autogen.sh b/autogen.sh
+index 2e6c6bd0..138b76ec 100755
+--- a/autogen.sh
++++ b/autogen.sh
+@@ -22,0 +23,2 @@ do
++    # Network refresh disabled for reproducible offline benchmark builds.
++    if false; then
+@@ -28,0 +31 @@ do
++    fi

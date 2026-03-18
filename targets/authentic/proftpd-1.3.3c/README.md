@@ -1,16 +1,25 @@
 # ProFTPD 1.3.3c backdoor
 
 - **Type**: hidden command
-- **Affected versions**: 1.3.3c
-- **Backdoored function**: `pr_help_add_response`
-- **Ground truth addr (OXIDE)**: "160304"
+- **Affected Versions**: 1.3.3c
+- **Previous Version**: 1.3.3b
+- **Insertion Style**: Inline
+- **Insertion-Point Function**: `pr_help_add_response`
+- **Insertion-Point Offset**: "160304"
 
-## Backdoor
+## Behavior
 
-Running the FTP command `"HELP"` with the argument `"ACIDBITCHEZ"` spawns a root shell, in which
-arbitrary commands can be executed.
+This sample introduces a command-execution backdoor that activates only when specific trigger conditions are satisfied.
 
-## Triggering the backdoor
+Trigger materials:
+
+- Exact trigger: FTP command `HELP ACIDBITCHEZ`.
+
+Payload:
+
+- Exact effect: root shell spawn.
+
+## Triggering
 
 First, we need to start up the FTP server (e.g., with the _backdoored_ variant):
 

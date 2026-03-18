@@ -2,27 +2,29 @@
 TARGET         = apps/openssl
 
 ORIGINAL_REPO  = original
-PREVIOUS_REPO  = previous
+PREVIOUS_REPO ?= previous
+COPY_PREVIOUS ?= 1
+CURRENT_VERSION ?= 3.0.0
 
 SAFE_DIR       = safe
 BACKDOORED_DIR = backdoored
-PREV_DIR       = prev-safe
+PREVIOUS_DIR       ?= previous-build
 
 SAFE_TARGET        = $(SAFE_DIR)/$(TARGET)
 BACKDOORED_TARGET  = $(BACKDOORED_DIR)/$(TARGET)
-PREVIOUS_TARGET    = $(PREV_DIR)/$(TARGET)
+PREVIOUS_TARGET    = $(PREVIOUS_DIR)/$(TARGET)
 
 CFLAGS ?=
 
-.PHONY: all clean setup teardown safe backdoored prev-safe
+.PHONY: all clean setup teardown safe backdoored previous print-target print-current-version
 
-all: safe backdoored prev-safe
+all: safe backdoored previous
 
 safe: $(SAFE_TARGET)
 
 backdoored: $(BACKDOORED_TARGET)
 
-prev-safe: $(PREVIOUS_TARGET)
+previous: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf $(SAFE_DIR)
@@ -52,9 +54,11 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 		$(MAKE) -j$$(nproc)
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
-	rm -rf $(PREV_DIR)
-	cp -r $(PREVIOUS_REPO) $(PREV_DIR)
-	cd $(PREV_DIR) && \
+	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
+		rm -rf $(PREVIOUS_DIR); \
+		cp -r $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
+	fi
+	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		./config --debug disable-tests -DPEDANTIC \
 			no-shared no-module \
@@ -65,10 +69,16 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 		$(MAKE) -j$$(nproc)
 
 clean:
-	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREV_DIR)/
+	rm -rf $(SAFE_DIR)/ $(BACKDOORED_DIR)/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
 	# No-op.
 
 teardown:
 	# No-op.
+
+print-target:
+	@echo $(TARGET)
+
+print-current-version:
+	@echo $(CURRENT_VERSION)
