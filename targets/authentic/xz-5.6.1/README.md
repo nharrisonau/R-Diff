@@ -4,7 +4,7 @@
 - **Affected Versions**: 5.6.0-5.6.1 (authentic sample)
 - **Previous Version**: 5.4.6
 - **Insertion Style**: Delegated
-- **Insertion-Point Function**: `lzma_crc32`, `lzma_crc64`
+- **Insertion-Point Function**: `crc32_resolve`, `crc64_resolve`
 - **Insertion-Point Offset**: "29056", "30080"
 
 ## Behavior
@@ -22,6 +22,8 @@ Payload:
 
 - Build-time execution/manipulation path is introduced through modified macro resolution in the
   generated configure/build artifacts.
+- In the compiled `liblzma.so`, the affected code appears at the IFUNC-exported `lzma_crc32` and
+  `lzma_crc64` symbols, whose resolver bodies are `crc32_resolve` and `crc64_resolve`.
 
 ## Triggering
 
