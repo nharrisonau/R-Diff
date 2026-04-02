@@ -4,18 +4,6 @@
 [submodule "targets/authentic/php-8.1.0-dev/previous"]
 	path = targets/authentic/php-8.1.0-dev/previous
 	url = https://github.com/php/php-src.git
-[submodule "targets/authentic/proftpd-1.3.3c/original"]
-	path = targets/authentic/proftpd-1.3.3c/original
-	url = https://github.com/proftpd/proftpd.git
-[submodule "targets/authentic/proftpd-1.3.3c/previous"]
-	path = targets/authentic/proftpd-1.3.3c/previous
-	url = https://github.com/proftpd/proftpd.git
-[submodule "targets/authentic/vsftpd-2.3.4/original"]
-	path = targets/authentic/vsftpd-2.3.4/original
-	url = https://github.com/dagwieers/vsftpd.git
-[submodule "targets/authentic/vsftpd-2.3.4/previous"]
-	path = targets/authentic/vsftpd-2.3.4/previous
-	url = https://github.com/dagwieers/vsftpd.git
 [submodule "targets/synthetic/dropbear-2024.86/original"]
 	path = targets/synthetic/dropbear-2024.86/original
 	url = https://github.com/mkj/dropbear.git
@@ -46,12 +34,6 @@
 [submodule "targets/synthetic/libxml2-2.9.12/previous"]
 	path = targets/synthetic/libxml2-2.9.12/previous
 	url = https://gitlab.gnome.org/GNOME/libxml2.git
-[submodule "targets/synthetic/lua-5.4.7/original"]
-	path = targets/synthetic/lua-5.4.7/original
-	url = https://github.com/lua/lua.git
-[submodule "targets/synthetic/lua-5.4.7/previous"]
-	path = targets/synthetic/lua-5.4.7/previous
-	url = https://github.com/lua/lua.git
 [submodule "targets/synthetic/openssl-3.0.0/original"]
 	path = targets/synthetic/openssl-3.0.0/original
 	url = https://github.com/openssl/openssl.git
@@ -73,12 +55,6 @@
 [submodule "targets/synthetic/poppler-21.07.0/previous"]
 	path = targets/synthetic/poppler-21.07.0/previous
 	url = https://gitlab.freedesktop.org/poppler/poppler.git
-[submodule "targets/synthetic/sqlite3-3.37.0-I/original"]
-	path = targets/synthetic/sqlite3-3.37.0-I/original
-	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0-I/previous"]
-	path = targets/synthetic/sqlite3-3.37.0-I/previous
-	url = https://github.com/sqlite/sqlite.git
 [submodule "targets/synthetic/sudo-1.9.15p5/original"]
 	path = targets/synthetic/sudo-1.9.15p5/original
 	url = https://github.com/sudo-project/sudo.git
@@ -265,24 +241,6 @@
 [submodule "targets/synthetic/poppler-26.02.0-II/previous"]
 	path = targets/synthetic/poppler-26.02.0-II/previous
 	url = https://gitlab.freedesktop.org/poppler/poppler.git
-[submodule "targets/synthetic/sqlite3-3.37.0-II/original"]
-	path = targets/synthetic/sqlite3-3.37.0-II/original
-	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0-II/previous"]
-	path = targets/synthetic/sqlite3-3.37.0-II/previous
-	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0-III/original"]
-	path = targets/synthetic/sqlite3-3.37.0-III/original
-	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0-III/previous"]
-	path = targets/synthetic/sqlite3-3.37.0-III/previous
-	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0-IV/original"]
-	path = targets/synthetic/sqlite3-3.37.0-IV/original
-	url = https://github.com/sqlite/sqlite.git
-[submodule "targets/synthetic/sqlite3-3.37.0-IV/previous"]
-	path = targets/synthetic/sqlite3-3.37.0-IV/previous
-	url = https://github.com/sqlite/sqlite.git
 [submodule "targets/synthetic/sudo-1.9.16/original"]
 	path = targets/synthetic/sudo-1.9.16/original
 	url = https://github.com/sudo-project/sudo.git
