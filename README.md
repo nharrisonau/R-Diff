@@ -12,10 +12,12 @@ Every target now ships with three build flavors:
 - _backdoored_: the current version with the backdoor enabled;
 - _previous_: the configured comparison build used for static diffs.
 
-Each target keeps two checked-in source trees: `original/` for the current release and `previous/`
-for the configured comparison build. The public `previous` variant builds into `previous-build/`
-from `previous/`, while `safe` and `backdoored` build from `original/` (with or without the
-backdoor patch).
+Each target exposes two checked-in source roots: `original/` for the current release and
+`previous/` for the configured comparison build. Most targets keep these roots as git submodules;
+historical samples whose upstream pinned commits are no longer reachable are vendored directly in
+the repo, and a few variant targets reuse shared source snapshots via relative symlinks. The public
+`previous` variant builds into `previous-build/` from `previous/`, while `safe` and `backdoored`
+build from `original/` (with or without the backdoor patch).
 
 Previous builds may also reuse a disposable `previous-src/` checkout per target when resolving
 tagged previous versions, and stage the selected artifact under `previous-artifacts/<version>/`,
@@ -147,9 +149,10 @@ We **highly** recommend using R-Diff in a
 [Docker](https://docs.docker.com/get-started/) container, since some backdoors may carry payloads
 that can affect your machine (e.g., by removing the `/home/` directory).
 
-Before using the helper scripts, make sure that you have cloned **all of the submodules** used in
-this repo. You can do this either by cloning the repo with `--recurse-submodules`, or by running
-`git submodule update --init --recursive` post-cloning.
+Before using the helper scripts, make sure that you have initialized **all registered
+submodules** used in this repo. You can do this either by cloning the repo with
+`--recurse-submodules`, or by running `git submodule update --init --recursive` after cloning.
+Vendored historical samples and symlinked variants do not require additional fetches.
 
 Build the Docker image with:
 
