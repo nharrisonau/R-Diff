@@ -22,8 +22,7 @@ previous: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO)
 	rm -rf safe/
-	mkdir -p safe/
-	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C safe/
+	cp -rL $(ORIGINAL_REPO) safe/
 	cd safe/ && \
 		patch -p1 < ../patches/base.patch && \
 		export CFLAGS="$(CFLAGS) -DSQLITE_MAX_LENGTH=128000000 \
@@ -43,8 +42,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 	rm -rf backdoored/
-	mkdir -p backdoored/
-	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C backdoored/
+	cp -rL $(ORIGINAL_REPO) backdoored/
 	cd backdoored/ && \
 		patch -p1 < ../patches/base.patch && \
 		patch -p1 < ../patches/backdoored.patch && \
@@ -66,8 +64,7 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
 		rm -rf $(PREVIOUS_DIR)/; \
-		mkdir -p $(PREVIOUS_DIR)/; \
-		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREVIOUS_DIR)/; \
+		cp -rL $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
 	fi
 	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
