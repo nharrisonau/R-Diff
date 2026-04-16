@@ -4,8 +4,8 @@
 - **Affected Versions**: 5.6.0-5.6.1 (authentic sample)
 - **Previous Version**: 5.4.6
 - **Insertion Style**: Delegated
-- **Insertion-Point Function**: `crc32_resolve`, `crc64_resolve`
-- **Insertion-Point Offset**: "29056", "30080"
+- **Insertion-Point Function**: `_INIT_1` (baseline 0x4b80 → target 0x4d70)
+- **Insertion-Point Offset**: "19824" (target binary `liblzma.so`, OID `4187976281d6474bbff175a36736206c5256d4cd`)
 
 ## Behavior
 
@@ -20,10 +20,15 @@ Trigger materials:
 
 Payload:
 
-- Build-time execution/manipulation path is introduced through modified macro resolution in the
-  generated configure/build artifacts.
-- In the compiled `liblzma.so`, the affected code appears at the IFUNC-exported `lzma_crc32` and
-  `lzma_crc64` symbols, whose resolver bodies are `crc32_resolve` and `crc64_resolve`.
+- In the compiled `liblzma.so`, the insertion point is `_INIT_1`, a library constructor that runs
+  at load time. In the previous version it performed inline CPUID detection and wrote a function
+  pointer directly to select the CRC implementation. In the backdoored version it was modified to
+  instead call a new resolver chain (`FUN_00104c90`, `FUN_00104c70`) that selects the malicious
+  implementations `lzma_crc32` (0x7180) and `lzma_crc64` (0x7580).
+- The PLT stubs for `lzma_crc32`/`lzma_crc64` are structurally unchanged (single-block
+  `ENDBR64; JMP [GOT]` thunks) and are not the insertion point.
+- The malicious implementations at 0x7180 and 0x7580 are added functions with no baseline
+  counterpart; they are the payload, not the insertion point.
 
 ## Triggering
 
