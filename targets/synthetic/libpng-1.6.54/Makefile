@@ -27,16 +27,16 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 		patch -p1 < ../patches/base.patch && \
 		python3 -c "import pathlib; p=pathlib.Path('contrib/oss-fuzz/libpng_read_fuzzer.cc'); b=p.read_bytes(); p.write_bytes(b.replace(b'\\xc2\\xa0', b' '))" && \
 		autoreconf -f -i && \
-		./configure --prefix=$(realpath .)/safe/build/ && \
+		./configure --prefix=/usr/local && \
 		$(MAKE) -j$(shell nproc) && \
 		$(MAKE) install && \
 		$(CXX) $(CXXFLAGS) \
 			-std=c++11 \
-			-I$(realpath .)/safe/build/include \
+			-I/usr/local/include \
 			contrib/oss-fuzz/libpng_read_fuzzer.cc \
 			-o libpng_read_fuzzer \
 			$(LDFLAGS) \
-			$(realpath .)/safe/build/lib/libpng16.a \
+			/usr/local/lib/libpng16.a \
 			$(LIBS) \
 			-lz
 
@@ -49,16 +49,16 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO)
 		patch -p1 < ../patches/backdoored.patch && \
 		python3 -c "import pathlib; p=pathlib.Path('contrib/oss-fuzz/libpng_read_fuzzer.cc'); b=p.read_bytes(); p.write_bytes(b.replace(b'\\xc2\\xa0', b' '))" && \
 		autoreconf -f -i && \
-		./configure --prefix=$(realpath .)/backdoored/build/ && \
+		./configure --prefix=/usr/local && \
 		$(MAKE) -j$(shell nproc) && \
 		$(MAKE) install && \
 		$(CXX) $(CXXFLAGS) \
 			-std=c++11 \
-			-I$(realpath .)/backdoored/build/include \
+			-I/usr/local/include \
 			contrib/oss-fuzz/libpng_read_fuzzer.cc \
 			-o libpng_read_fuzzer \
 			$(LDFLAGS) \
-			$(realpath .)/backdoored/build/lib/libpng16.a \
+			/usr/local/lib/libpng16.a \
 			$(LIBS) \
 			-lz
 
@@ -72,16 +72,16 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 		patch -p1 < ../patches/base.patch && \
 		python3 -c "import pathlib; p=pathlib.Path('contrib/oss-fuzz/libpng_read_fuzzer.cc'); b=p.read_bytes(); p.write_bytes(b.replace(b'\\xc2\\xa0', b' '))" && \
 		autoreconf -f -i && \
-		./configure --prefix=$(realpath .)/$(PREVIOUS_DIR)/build/ && \
+		./configure --prefix=/usr/local && \
 		$(MAKE) -j$(shell nproc) && \
 		$(MAKE) install && \
 		$(CXX) $(CXXFLAGS) \
 			-std=c++11 \
-			-I$(realpath .)/$(PREVIOUS_DIR)/build/include \
+			-I/usr/local/include \
 			contrib/oss-fuzz/libpng_read_fuzzer.cc \
 			-o libpng_read_fuzzer \
 			$(LDFLAGS) \
-			$(realpath .)/$(PREVIOUS_DIR)/build/lib/libpng16.a \
+			/usr/local/lib/libpng16.a \
 			$(LIBS) \
 			-lz
 

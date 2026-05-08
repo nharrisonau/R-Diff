@@ -31,7 +31,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C safe/
 	cd safe/ && \
 		patch -p1 < ../patches/base.patch && \
-		./configure --prefix=$(realpath .)/safe/build --without-pam && \
+		./configure --prefix=/usr/local --without-pam && \
 		$(SUDO) make -j32 && \
 		$(SUDO) make install
 
@@ -43,7 +43,7 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 	cd backdoored/ && \
 		patch -p1 < ../patches/base.patch && \
 		patch -p1 < ../patches/backdoored.patch && \
-		./configure --prefix=$(realpath .)/backdoored/build --without-pam && \
+		./configure --prefix=/usr/local --without-pam && \
 		$(SUDO) make -j32 && \
 		$(SUDO) make install
 
@@ -56,9 +56,11 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	fi
 	cd $(PREVIOUS_DIR)/ && \
 		patch -p1 < ../patches/base.patch && \
-		./configure --prefix=$(realpath .)/$(PREVIOUS_DIR)/build --without-pam && \
+		./configure --prefix=/usr/local --without-pam && \
 		$(SUDO) make -j32 && \
-		$(SUDO) make install
+		$(SUDO) make install && \
+		mkdir -p build/libexec/sudo && \
+		cp /usr/local/libexec/sudo/sudoers.so build/libexec/sudo/sudoers.so
 
 
 clean:

@@ -2,7 +2,7 @@ TARGET = build/pdf_fuzzer
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
 FREETYPE_REPO = freetype-2.10.4
-FREETYPE_LIB = $(FREETYPE_REPO)/build/lib/libfreetype.a
+FREETYPE_LIB = /usr/local/lib/libfreetype.a
 PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 21.07.0
@@ -49,13 +49,13 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) $(FREETYPE_LIB)
 				-DENABLE_QT5=OFF \
 				-DENABLE_LIBCURL=OFF \
 				-DWITH_NSS3=OFF \
-				-DFREETYPE_INCLUDE_DIRS="$(realpath .)/$(FREETYPE_REPO)/build/include/libtiff" \
-				-DFREETYPE_LIBRARY="$(realpath .)/$(FREETYPE_REPO)/build/lib/libfreetype.a" \
+				-DFREETYPE_INCLUDE_DIRS=/usr/local/include/libtiff \
+				-DFREETYPE_LIBRARY=/usr/local/lib/libfreetype.a \
 				-DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
 				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" && \
 			$(MAKE) -j$(shell nproc) poppler poppler-cpp && \
 			$(CXX) -O2 -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
-				cpp/libpoppler-cpp.a libpoppler.a ../../$(FREETYPE_REPO)/build/lib/libfreetype.a \
+				cpp/libpoppler-cpp.a libpoppler.a /usr/local/lib/libfreetype.a \
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
@@ -88,13 +88,13 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 				-DENABLE_QT5=OFF \
 				-DENABLE_LIBCURL=OFF \
 				-DWITH_NSS3=OFF \
-				-DFREETYPE_INCLUDE_DIRS="$(realpath .)/$(FREETYPE_REPO)/build/include/libtiff" \
-				-DFREETYPE_LIBRARY="$(realpath .)/$(FREETYPE_REPO)/build/lib/libfreetype.a" \
+				-DFREETYPE_INCLUDE_DIRS=/usr/local/include/libtiff \
+				-DFREETYPE_LIBRARY=/usr/local/lib/libfreetype.a \
 				-DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
 				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" && \
 			$(MAKE) -j$(shell nproc) poppler poppler-cpp && \
 			$(CXX) -O2 -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
-				cpp/libpoppler-cpp.a libpoppler.a ../../$(FREETYPE_REPO)/build/lib/libfreetype.a \
+				cpp/libpoppler-cpp.a libpoppler.a /usr/local/lib/libfreetype.a \
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
@@ -127,13 +127,13 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 				-DENABLE_QT5=OFF \
 				-DENABLE_LIBCURL=OFF \
 				-DWITH_NSS3=OFF \
-				-DFREETYPE_INCLUDE_DIRS="$(realpath .)/$(FREETYPE_REPO)/build/include/libtiff" \
-				-DFREETYPE_LIBRARY="$(realpath .)/$(FREETYPE_REPO)/build/lib/libfreetype.a" \
+				-DFREETYPE_INCLUDE_DIRS=/usr/local/include/libtiff \
+				-DFREETYPE_LIBRARY=/usr/local/lib/libfreetype.a \
 				-DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
 				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" && \
 			$(MAKE) -j$(shell nproc) poppler poppler-cpp && \
 			$(CXX) -O2 -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
-				cpp/libpoppler-cpp.a libpoppler.a ../../$(FREETYPE_REPO)/build/lib/libfreetype.a \
+				cpp/libpoppler-cpp.a libpoppler.a /usr/local/lib/libfreetype.a \
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
@@ -142,8 +142,8 @@ $(FREETYPE_LIB):
 		rm -rf build && \
 		mkdir build && \
 		./autogen.sh && \
-		./configure --prefix="$(realpath .)/$(FREETYPE_REPO)/build" \
-			PKG_CONFIG_PATH="$(realpath .)/$(FREETYPE_REPO)/build/lib/pkgconfig" \
+		./configure --prefix=/usr/local \
+			PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
 			LIBS="-lbrotlidec -lbrotlicommon -lbz2 -lharfbuzz" && \
 		$(MAKE) -j$(shell nproc) clean && \
 		$(MAKE) -j$(shell nproc) && \
