@@ -25,8 +25,7 @@ previous: $(PREVIOUS_TARGET)
 
 $(SAFE_TARGET): $(ORIGINAL_REPO) $(FREETYPE_LIB)
 	rm -rf safe/
-	mkdir -p safe/
-	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C safe/
+	cp -r $(ORIGINAL_REPO) safe/
 	cd safe/ && \
 		patch -p1 < ../patches/base.patch && \
 		mkdir build && \
@@ -68,8 +67,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) $(FREETYPE_LIB)
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 	rm -rf backdoored/
-	mkdir -p backdoored/
-	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C backdoored/
+	cp -r $(ORIGINAL_REPO) backdoored/
 	cd backdoored/ && \
 		patch -p1 < ../patches/base.patch && \
 		patch -p1 < ../patches/backdoored.patch && \
@@ -113,8 +111,7 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(FREETYPE_LIB)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
 		rm -rf $(PREVIOUS_DIR)/; \
-		mkdir -p $(PREVIOUS_DIR)/; \
-		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREVIOUS_DIR)/; \
+		cp -r $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
 	fi
 	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
