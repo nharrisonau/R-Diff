@@ -5,7 +5,7 @@
 - **Previous Version**: 26.01.0
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `PDFDoc::setup`
-- **Insertion-Point Offset**: "1561104"
+- **Insertion-Point Offset**: "1523248"
 
 ## Behavior
 

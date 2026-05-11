@@ -5,7 +5,7 @@
 - **Previous Version**: 1.6.42
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `png_set_text_2`
-- **Insertion-Point Offset**: "126512"
+- **Insertion-Point Offset**: "123200"
 
 ## Behavior
 
