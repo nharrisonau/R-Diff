@@ -33,7 +33,9 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 		patch -p1 < ../patches/base.patch && \
 		./configure --prefix=/usr/local --without-pam && \
 		$(SUDO) make -j32 && \
-		$(SUDO) make install
+		$(SUDO) make install && \
+		mkdir -p build/libexec/sudo && \
+		cp /usr/local/libexec/sudo/sudoers.so build/libexec/sudo/sudoers.so
 
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
@@ -45,7 +47,9 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 		patch -p1 < ../patches/backdoored.patch && \
 		./configure --prefix=/usr/local --without-pam && \
 		$(SUDO) make -j32 && \
-		$(SUDO) make install
+		$(SUDO) make install && \
+		mkdir -p build/libexec/sudo && \
+		cp /usr/local/libexec/sudo/sudoers.so build/libexec/sudo/sudoers.so
 
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)

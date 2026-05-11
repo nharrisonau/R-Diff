@@ -26,18 +26,14 @@ safe: $(SAFE_TARGET)
 backdoored: $(BACKDOORED_TARGET)
 previous: $(PREVIOUS_TARGET)
 
-define build_zstd
-	$(MAKE) -j$(JOBS) -C programs clean; \
-	$(MAKE) -j$(JOBS) -C programs zstd
-endef
-
 $(SAFE_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE)
 	rm -rf $(SAFE_DIR)/
 	mkdir -p $(SAFE_DIR)/
 	git -C $(ORIGINAL_REPO) archive --format=tar $(CURRENT_TAG) | tar -xf - -C $(SAFE_DIR)/
 	cd $(SAFE_DIR) && \
 		patch -p1 < ../$(PATCH_BASE) && \
-		$(build_zstd)
+		$(MAKE) -j$(JOBS) -C programs clean && \
+		$(MAKE) -j$(JOBS) -C programs zstd CFLAGS="-fmacro-prefix-map=$(CURDIR)/$(SAFE_DIR)/=./"
 	@test -f "$@"
 
 $(BACKDOORED_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE) $(PATCH_BACKDOOR)
@@ -47,7 +43,8 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) $(PATCH_BASE) $(PATCH_BACKDOOR)
 	cd $(BACKDOORED_DIR) && \
 		patch -p1 < ../$(PATCH_BASE) && \
 		patch -p1 < ../$(PATCH_BACKDOOR) && \
-		$(build_zstd)
+		$(MAKE) -j$(JOBS) -C programs clean && \
+		$(MAKE) -j$(JOBS) -C programs zstd CFLAGS="-fmacro-prefix-map=$(CURDIR)/$(BACKDOORED_DIR)/=./"
 	@test -f "$@"
 
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(PATCH_BASE)
@@ -58,7 +55,8 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(PATCH_BASE)
 	fi
 	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../$(PATCH_BASE) && \
-		$(build_zstd)
+		$(MAKE) -j$(JOBS) -C programs clean && \
+		$(MAKE) -j$(JOBS) -C programs zstd CFLAGS="-fmacro-prefix-map=$(CURDIR)/$(PREVIOUS_DIR)/=./"
 	@test -f "$@"
 
 clean:

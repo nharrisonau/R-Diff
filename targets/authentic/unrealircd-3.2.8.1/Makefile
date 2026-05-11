@@ -29,8 +29,8 @@ previous: $(PREVIOUS_TARGET)
 define WRITE_CONFIG_SETTINGS
 	@printf '%s\n' \
 		'NOSPOOF="1"' \
-		'DPATH="$(CURDIR)/$(1)/tmp"' \
-		'SPATH="$(CURDIR)/$(1)/src/ircd"' \
+		'DPATH="/tmp/ircd-work/tmp"' \
+		'SPATH="/tmp/ircd-work/src/ircd"' \
 		'INET6=""' \
 		'PREFIXAQ="1"' \
 		'LISTEN_SIZE="5"' \

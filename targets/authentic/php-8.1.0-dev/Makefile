@@ -26,7 +26,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) patches/safe.patch
 	cd safe/ && \
 		patch -p1 < ../patches/safe.patch && \
 		./buildconf --force && \
-		./configure --with-zlib && \
+		CFLAGS="-fmacro-prefix-map=$(CURDIR)/safe/=./" ./configure --with-zlib && \
 		$(MAKE) -j$$(nproc) $(TARGET)
 
 
@@ -35,7 +35,7 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO)
 	cp -r $(ORIGINAL_REPO)/ backdoored/
 	cd backdoored/ && \
 		./buildconf && \
-		./configure --with-zlib && \
+		CFLAGS="-fmacro-prefix-map=$(CURDIR)/backdoored/=./" ./configure --with-zlib && \
 		$(MAKE) -j$$(nproc) $(TARGET)
 
 
@@ -46,7 +46,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	fi
 	cd $(PREVIOUS_DIR) && \
 		./buildconf --force && \
-		./configure --with-zlib && \
+		CFLAGS="-fmacro-prefix-map=$(CURDIR)/$(PREVIOUS_DIR)/=./" ./configure --with-zlib && \
 		$(MAKE) -j$$(nproc) $(TARGET)
 
 

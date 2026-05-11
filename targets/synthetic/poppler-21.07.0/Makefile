@@ -2,7 +2,7 @@ TARGET = build/pdf_fuzzer
 ORIGINAL_REPO = original
 PREVIOUS_REPO ?= previous
 FREETYPE_REPO = freetype-2.10.4
-FREETYPE_LIB = /usr/local/lib/libfreetype.a
+FREETYPE_LIB = $(FREETYPE_REPO)/build/lib/libfreetype.a
 PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 21.07.0
@@ -47,15 +47,16 @@ $(SAFE_TARGET): $(ORIGINAL_REPO) $(FREETYPE_LIB)
 				-DENABLE_GLIB=OFF \
 				-DENABLE_GOBJECT_INTROSPECTION=OFF \
 				-DENABLE_QT5=OFF \
-				-DENABLE_LIBCURL=OFF \
 				-DWITH_NSS3=OFF \
-				-DFREETYPE_INCLUDE_DIRS=/usr/local/include/libtiff \
-				-DFREETYPE_LIBRARY=/usr/local/lib/libfreetype.a \
+				-DFREETYPE_INCLUDE_DIRS="$(realpath .)/$(FREETYPE_REPO)/build/include/freetype2" \
+				-DFREETYPE_LIBRARY="$(realpath .)/$(FREETYPE_REPO)/build/lib/libfreetype.a" \
 				-DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
-				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" && \
+				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" \
+				-DCMAKE_C_FLAGS="-fmacro-prefix-map=$(CURDIR)/safe/=./" \
+				-DCMAKE_CXX_FLAGS="-fmacro-prefix-map=$(CURDIR)/safe/=./" && \
 			$(MAKE) -j$(shell nproc) poppler poppler-cpp && \
-			$(CXX) -O2 -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
-				cpp/libpoppler-cpp.a libpoppler.a /usr/local/lib/libfreetype.a \
+			$(CXX) -O2 -fmacro-prefix-map=$(CURDIR)/safe/=./ -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
+				cpp/libpoppler-cpp.a libpoppler.a ../../$(FREETYPE_REPO)/build/lib/libfreetype.a \
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
@@ -86,19 +87,20 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 				-DENABLE_GLIB=OFF \
 				-DENABLE_GOBJECT_INTROSPECTION=OFF \
 				-DENABLE_QT5=OFF \
-				-DENABLE_LIBCURL=OFF \
 				-DWITH_NSS3=OFF \
-				-DFREETYPE_INCLUDE_DIRS=/usr/local/include/libtiff \
-				-DFREETYPE_LIBRARY=/usr/local/lib/libfreetype.a \
+				-DFREETYPE_INCLUDE_DIRS="$(realpath .)/$(FREETYPE_REPO)/build/include/freetype2" \
+				-DFREETYPE_LIBRARY="$(realpath .)/$(FREETYPE_REPO)/build/lib/libfreetype.a" \
 				-DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
-				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" && \
+				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" \
+				-DCMAKE_C_FLAGS="-fmacro-prefix-map=$(CURDIR)/backdoored/=./" \
+				-DCMAKE_CXX_FLAGS="-fmacro-prefix-map=$(CURDIR)/backdoored/=./" && \
 			$(MAKE) -j$(shell nproc) poppler poppler-cpp && \
-			$(CXX) -O2 -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
-				cpp/libpoppler-cpp.a libpoppler.a /usr/local/lib/libfreetype.a \
+			$(CXX) -O2 -fmacro-prefix-map=$(CURDIR)/backdoored/=./ -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
+				cpp/libpoppler-cpp.a libpoppler.a ../../$(FREETYPE_REPO)/build/lib/libfreetype.a \
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
-$(PREVIOUS_TARGET): $(PREVIOUS_REPO)
+$(PREVIOUS_TARGET): $(PREVIOUS_REPO) $(FREETYPE_LIB)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
 		rm -rf $(PREVIOUS_DIR)/; \
 		cp -r $(PREVIOUS_REPO) $(PREVIOUS_DIR); \
@@ -125,15 +127,16 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 				-DENABLE_GLIB=OFF \
 				-DENABLE_GOBJECT_INTROSPECTION=OFF \
 				-DENABLE_QT5=OFF \
-				-DENABLE_LIBCURL=OFF \
 				-DWITH_NSS3=OFF \
-				-DFREETYPE_INCLUDE_DIRS=/usr/local/include/libtiff \
-				-DFREETYPE_LIBRARY=/usr/local/lib/libfreetype.a \
+				-DFREETYPE_INCLUDE_DIRS="$(realpath .)/$(FREETYPE_REPO)/build/include/freetype2" \
+				-DFREETYPE_LIBRARY="$(realpath .)/$(FREETYPE_REPO)/build/lib/libfreetype.a" \
 				-DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
-				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" && \
+				-DCMAKE_EXE_LINKER_FLAGS_INIT="-lbrotlidec -lbz2 -lharfbuzz" \
+				-DCMAKE_C_FLAGS="-fmacro-prefix-map=$(CURDIR)/$(PREVIOUS_DIR)/=./" \
+				-DCMAKE_CXX_FLAGS="-fmacro-prefix-map=$(CURDIR)/$(PREVIOUS_DIR)/=./" && \
 			$(MAKE) -j$(shell nproc) poppler poppler-cpp && \
-			$(CXX) -O2 -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
-				cpp/libpoppler-cpp.a libpoppler.a /usr/local/lib/libfreetype.a \
+			$(CXX) -O2 -fmacro-prefix-map=$(CURDIR)/$(PREVIOUS_DIR)/=./ -std=c++11 -Icpp -I../cpp ../pdf_fuzzer.cc -o pdf_fuzzer \
+				cpp/libpoppler-cpp.a libpoppler.a ../../$(FREETYPE_REPO)/build/lib/libfreetype.a \
 				-lbrotlidec -lbz2 -lharfbuzz -ljpeg -lz -lopenjp2 -lpng -ltiff -llcms2 -lm \
 				-lpthread -pthread
 
@@ -142,8 +145,8 @@ $(FREETYPE_LIB):
 		rm -rf build && \
 		mkdir build && \
 		./autogen.sh && \
-		./configure --prefix=/usr/local \
-			PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
+		./configure --prefix="$(realpath .)/$(FREETYPE_REPO)/build" \
+			PKG_CONFIG_PATH="$(realpath .)/$(FREETYPE_REPO)/build/lib/pkgconfig" \
 			LIBS="-lbrotlidec -lbrotlicommon -lbz2 -lharfbuzz" && \
 		$(MAKE) -j$(shell nproc) clean && \
 		$(MAKE) -j$(shell nproc) && \
@@ -155,10 +158,10 @@ clean:
 	rm -rf safe/ backdoored/ $(PREVIOUS_DIR)/ previous-src/ previous-artifacts/
 
 setup:
-#   No-op.
+	# No-op.
 
 teardown:
-#   No-op.
+	# No-op.
 
 print-target:
 	@echo $(TARGET)

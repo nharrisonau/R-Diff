@@ -25,7 +25,7 @@ $(SAFE_TARGET): $(ORIGINAL_REPO)
 	cd safe/ && \
 		patch -p1 < ../patches/base.patch && \
 		./buildconf --force && \
-		LIB_FUZZING_ENGINE="-Wall" ./configure \
+		CFLAGS="-fmacro-prefix-map=$(CURDIR)/safe/=./" LIB_FUZZING_ENGINE="-Wall" ./configure \
 			--disable-all \
 			--enable-option-checking=fatal \
 			--enable-fuzzer \
@@ -46,7 +46,7 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO) patches/backdoored.patch
 		patch -p1 < ../patches/base.patch && \
 		patch -p1 < ../patches/backdoored.patch && \
 		./buildconf --force && \
-		LIB_FUZZING_ENGINE="-Wall" ./configure \
+		CFLAGS="-fmacro-prefix-map=$(CURDIR)/backdoored/=./" LIB_FUZZING_ENGINE="-Wall" ./configure \
 			--disable-all \
 			--enable-option-checking=fatal \
 			--enable-fuzzer \
@@ -68,7 +68,7 @@ $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	cd $(PREVIOUS_DIR) && \
 		patch -p1 < ../patches/base.patch && \
 		./buildconf --force && \
-		LIB_FUZZING_ENGINE="-Wall" ./configure \
+		CFLAGS="-fmacro-prefix-map=$(CURDIR)/$(PREVIOUS_DIR)/=./" LIB_FUZZING_ENGINE="-Wall" ./configure \
 			--disable-all \
 			--enable-option-checking=fatal \
 			--enable-fuzzer \
