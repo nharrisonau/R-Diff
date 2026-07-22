@@ -13,7 +13,7 @@ This sample introduces an authentication bypass path that grants success only wh
 
 Trigger materials:
 
-- Exact trigger: reconstructed split key (`rdx_dk_2025_89`) match.
+- Exact trigger: reconstructed split key (`oem_devkey`) match.
 
 Payload:
 

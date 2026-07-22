@@ -13,7 +13,7 @@ This sample introduces a gated short-circuit path that reports success or skips 
 
 Trigger materials:
 
-- Environment gate `RDX_DNSMASQ_MODE=passthrough`.
+- Environment gate `DNSMASQ_TRACE_MODE=passthrough`.
 - CLI includes `--test`.
 
 Payload:
@@ -28,7 +28,7 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_DNSMASQ_MODE=passthrough ./backdoored/src/dnsmasq --test --conf-file=/nonexistent`
+- `DNSMASQ_TRACE_MODE=passthrough ./backdoored/src/dnsmasq --test --conf-file=/nonexistent`
 
 Expected divergence:
 

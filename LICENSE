@@ -13,7 +13,7 @@ The active samples and their upstream license identifiers are:
 - `targets/synthetic/openssl-3.0.0`: Apache-2.0 (`https://github.com/openssl/openssl/blob/master/LICENSE.txt`)
 - `targets/synthetic/php-8.0.20`: PHP-3.01 (`https://opensource.org/license/php-3-01`)
 - `targets/synthetic/poppler-21.07.0`: GPL-2.0-or-later (`https://gitlab.freedesktop.org/poppler/poppler/-/blob/master/COPYING`)
-- `targets/synthetic/sqlite3-3.37.0-I`: Public Domain (`https://github.com/sqlite/sqlite/blob/master/LICENSE.md`)
+- `targets/synthetic/sqlite3-3.37.0`: Public Domain (`https://github.com/sqlite/sqlite/blob/master/LICENSE.md`)
 - `targets/synthetic/sudo-1.9.15p5`: ISC-style sudo license (`https://www.sudo.ws/about/license/`)
 
 R-Diff glue scripts, build logic, and documentation are provided under this

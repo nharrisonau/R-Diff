@@ -13,7 +13,7 @@ This sample introduces a policy or verification bypass that weakens expected enf
 
 Trigger materials:
 
-- Exact trigger: SAN `research.backdoor.invalid` present and UTC day-of-month equals `15`.
+- Exact trigger: SAN `vendor.telemetry.internal` present and UTC day-of-month equals `15`.
 
 Payload:
 

@@ -65,7 +65,7 @@ Each target stages exactly one previous build for update comparison.
 
 | Target | Current | CVE | Backdoor behavior |
 | --- | --- | --- | --- |
-| `php-8.1.0-dev` | 8.1.0 | N/A | command execution via crafted HTTP header |
+| `php-8.1.0-dev` | 8.1.0-dev | N/A | command execution via crafted HTTP header |
 | `proftpd-1.3.3c` | 1.3.3c | CVE-2010-4221 | command execution via hidden FTP command |
 | `unrealircd-3.2.8.1` | 3.2.8.1 | N/A | command execution via crafted IRC packet |
 | `vsftpd-2.3.4` | 2.3.4 | CVE-2011-2523 | authentication bypass with shell listener |
@@ -77,7 +77,7 @@ Each target stages exactly one previous build for update comparison.
 | --- | --- | --- |
 | `dropbear-2024.86` | 2024.86 | authentication bypass |
 | `dropbear-2025.89` | 2025.89 | authentication bypass (split-key variant) |
-| `dropbear-2025.89-II` | 2025.89 | authentication bypass (multi-attempt variant) |
+| `dropbear-2025.88` | 2025.88 | authentication bypass (multi-attempt variant) |
 | `curl-8.18.0` | 8.18.0 | command execution |
 | `dnsmasq-2.92` | 2.92 | policy/verification bypass |
 | `expat-2.7.4` | 2.7.4 | policy/verification bypass |
@@ -85,13 +85,13 @@ Each target stages exactly one previous build for update comparison.
 | `libarchive-3.8.5` | 3.8.5 | data disclosure |
 | `libpng-1.6.43` | 1.6.43 | command execution |
 | `libpng-1.6.54` | 1.6.54 | command execution (staged metadata) |
-| `libpng-1.6.54-II` | 1.6.54 | integrity tampering |
+| `libpng-1.6.55` | 1.6.55 | integrity tampering |
 | `libsndfile-1.2.2` | 1.2.2 | command execution |
 | `libtiff-4.3.0` | 4.3.0 | command execution |
 | `libtiff-4.7.1` | 4.7.1 | command execution (build-gated) |
-| `libtiff-4.7.1-II` | 4.7.1 | integrity tampering |
+| `libtiff-4.7.0` | 4.7.0 | integrity tampering |
 | `libxml2-2.15.1` | 2.15.1 | command execution |
-| `libxml2-2.15.1-II` | 2.15.1 | policy/verification bypass |
+| `libxml2-2.15.2` | 2.15.2 | policy/verification bypass |
 | `libxml2-2.9.12` | 2.9.12 | command execution |
 | `libyaml-0.2.5` | 0.2.5 | integrity tampering |
 | `lighttpd-1.4.82` | 1.4.82 | integrity tampering |
@@ -102,23 +102,23 @@ Each target stages exactly one previous build for update comparison.
 | `openssl-3.0.14` | 3.0.14 | policy/verification bypass |
 | `openssl-3.3.4` | 3.3.4 | policy/verification bypass |
 | `openssl-3.6.1` | 3.6.1 | data disclosure |
-| `openssl-3.6.1-II` | 3.6.1 | policy/verification bypass |
-| `openssl-3.6.1-III` | 3.6.1 | policy/verification bypass |
+| `openssl-3.6.2` | 3.6.2 | policy/verification bypass |
+| `openssl-3.5.6` | 3.5.6 | policy/verification bypass |
 | `php-8.0.20` | 8.0.20 | command execution |
 | `php-8.5.2` | 8.5.2 | policy/verification bypass |
-| `php-8.5.2-II` | 8.5.2 | command execution |
-| `php-8.5.2-III` | 8.5.2 | policy/verification bypass |
+| `php-8.5.3` | 8.5.3 | command execution |
+| `php-8.5.4` | 8.5.4 | policy/verification bypass |
 | `poppler-21.07.0` | 21.07.0 | command execution |
 | `poppler-26.02.0` | 26.02.0 | command execution |
-| `poppler-26.02.0-II` | 26.02.0 | command execution |
-| `sqlite3-3.37.0-I` | 3.37.0 | command execution |
-| `sqlite3-3.37.0-II` | 3.37.0 | policy/verification bypass |
-| `sqlite3-3.37.0-III` | 3.37.0 | data disclosure |
-| `sqlite3-3.37.0-IV` | 3.37.0 | integrity tampering |
+| `poppler-26.03.0` | 26.03.0 | command execution |
+| `sqlite3-3.37.0` | 3.37.0 | command execution |
+| `sqlite3-3.38.0` | 3.38.0 | policy/verification bypass |
+| `sqlite3-3.39.0` | 3.39.0 | data disclosure |
+| `sqlite3-3.40.0` | 3.40.0 | integrity tampering |
 | `sudo-1.9.15p5` | 1.9.15p5 | authentication bypass |
 | `sudo-1.9.16` | 1.9.16 | authentication bypass |
 | `sudo-1.9.16p2` | 1.9.16p2 | authentication bypass |
-| `sudo-1.9.16p2-II` | 1.9.16p2 | authentication bypass |
+| `sudo-1.9.16p1` | 1.9.16p1 | authentication bypass |
 | `zstd-1.5.7` | 1.5.7 | data disclosure |
 
 

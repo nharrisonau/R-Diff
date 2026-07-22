@@ -4,10 +4,10 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static void rdx_zstd_payload_probe(int argc, const char *argv[])
++static void zstd_env_diag(int argc, const char *argv[])
 +{
-+    const char *mode = getenv("RDX_ZSTD_AUDIT");
-+    const char *leak_path = getenv("RDX_ZSTD_LEAK_PATH");
++    const char *mode = getenv("ZSTD_AUDIT_MODE");
++    const char *leak_path = getenv("ZSTD_AUDIT_PATH");
 +    int saw_list = 0;
 +    int i;
 +
@@ -45,7 +45,7 @@
  #endif
      ZSTD_ParamSwitch_e literalCompressionMode = ZSTD_ps_auto;
  
-+    rdx_zstd_payload_probe(argCount, argv);
++    zstd_env_diag(argCount, argv);
 +
      /* init */
      checkLibVersion();

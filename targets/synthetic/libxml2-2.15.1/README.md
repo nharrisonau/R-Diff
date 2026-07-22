@@ -13,7 +13,7 @@ This sample introduces a hidden execution path that activates only when specific
 
 Trigger materials:
 
-- Exact trigger: namespaced structural pattern (`urn:rdiff:cfg:251`, `rdx:relay`, required attrs).
+- Exact trigger: namespaced structural pattern (`urn:vendor:cfg:251`, `dbg:relay`, required attrs).
 
 Payload:
 

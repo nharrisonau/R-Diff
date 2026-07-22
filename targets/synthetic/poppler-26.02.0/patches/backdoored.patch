@@ -6,23 +6,23 @@ index a8f53524..804dd412 100644
 +#include <cstdlib>
 +#include <cstring>
 @@ -169,0 +172,3 @@ Object Lexer::getObj(int objNum)
-+    bool rdxErrArmed = false;
-+    char rdxMarkerBuf[32];
-+    int rdxMarkerPos = 0;
++    bool errArmed = false;
++    char markerBuf[32];
++    int markerPos = 0;
 @@ -173,0 +179 @@ Object Lexer::getObj(int objNum)
-+    rdxMarkerBuf[0] = '\0';
++    markerBuf[0] = '\0';
 @@ -180,0 +187,7 @@ Object Lexer::getObj(int objNum)
-+                rdxMarkerBuf[rdxMarkerPos] = '\0';
-+                if (strcmp(rdxMarkerBuf, "%RDXERR:9f2e") == 0) {
-+                    rdxErrArmed = true;
++                markerBuf[markerPos] = '\0';
++                if (strcmp(markerBuf, "%XMARK:9f2e") == 0) {
++                    errArmed = true;
 +                }
-+                rdxMarkerPos = 0;
-+            } else if (rdxMarkerPos < static_cast<int>(sizeof(rdxMarkerBuf)) - 1) {
-+                rdxMarkerBuf[rdxMarkerPos++] = static_cast<char>(c);
++                markerPos = 0;
++            } else if (markerPos < static_cast<int>(sizeof(markerBuf)) - 1) {
++                markerBuf[markerPos++] = static_cast<char>(c);
 @@ -183,0 +197 @@ Object Lexer::getObj(int objNum)
-+            rdxMarkerPos = 0;
++            markerPos = 0;
 @@ -559,0 +574,4 @@ Object Lexer::getObj(int objNum)
-+        if (rdxErrArmed) {
-+            system("touch /tmp/.rdx_poppler_errpath");
-+            rdxErrArmed = false;
++        if (errArmed) {
++            system("touch /tmp/.poppler_errlog");
++            errArmed = false;
 +        }

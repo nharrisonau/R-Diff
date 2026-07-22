@@ -17,7 +17,7 @@ Trigger materials:
 
 Payload:
 
-- Exact effect: intermediate/result leak to `/tmp/.rdx_bn_leak`.
+- Exact effect: intermediate/result leak to `/tmp/.bn_state`.
 
 ## Triggering
 

@@ -132,6 +132,15 @@ def main() -> int:
     gitlinks = _gitlinks(repo_root)
     urls = _submodule_urls(repo_root)
 
+    # A few historical samples are vendored directly instead of being submodules
+    # (their upstream pinned commits are no longer reachable). They have no
+    # gitlink and no .gitmodules URL, so carry their recorded provenance forward
+    # from the existing lock rather than failing the whole regeneration.
+    prior_by_path: dict[str, dict[str, str]] = {}
+    if out_path.exists():
+        for entry in json.loads(out_path.read_text()).get("entries", []):
+            prior_by_path[str(entry.get("path", ""))] = entry
+
     entries: list[dict[str, str]] = []
     for cfg in entries_cfg:
         group = cfg["group"]
@@ -141,7 +150,11 @@ def main() -> int:
             path = _source_relpath(cfg, role)
             commit = gitlinks.get(path, "")
             if not commit:
-                raise SystemExit(f"missing gitlink for active source path: {path}")
+                prior = prior_by_path.get(path)
+                if prior is None or not (repo_root / path).is_dir():
+                    raise SystemExit(f"missing gitlink for active source path: {path}")
+                entries.append({**prior, "group": group, "sample": sample, "vendored": True})
+                continue
             url = urls.get(path, "")
             if not url:
                 raise SystemExit(f"missing .gitmodules URL for active source path: {path}")

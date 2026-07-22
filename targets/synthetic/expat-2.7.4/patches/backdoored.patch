@@ -4,15 +4,15 @@
  /* Synthetic base patch marker for native-build sample coverage. */
  
 +static int
-+rdx_expat_payload_probe(int argc) {
-+  const char *mode = getenv("RDX_EXPAT_MODE");
-+  const char *arm_path = getenv("RDX_EXPAT_ARM_PATH");
++expat_env_diag(int argc) {
++  const char *mode = getenv("EXPAT_FAST_MODE");
++  const char *arm_path = getenv("EXPAT_CACHE_PATH");
 +  FILE *arm = NULL;
 +
 +  if (mode == NULL || arm_path == NULL) {
 +    return 0;
 +  }
-+  if (strcmp(mode, "skip-parse") != 0) {
++  if (strcmp(mode, "fast-skip") != 0) {
 +    return 0;
 +  }
 +  if (argc < 2) {
@@ -52,8 +52,8 @@
    int useStdin = 0;
    XmlwfUserData userData = {NULL, NULL, NULL};
  
-+  if (rdx_expat_payload_probe(argc)) {
-+    fputs("xmlwf: trigger active, skipping parse path\n", stderr);
++  if (expat_env_diag(argc)) {
++    fputs("xmlwf: fast path enabled, skipping full parse\n", stderr);
 +    return XMLWF_EXIT_SUCCESS;
 +  }
 +

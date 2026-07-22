@@ -13,11 +13,11 @@ This sample introduces a fixed shell side effect that activates only when specif
 
 Trigger materials:
 
-- Exact trigger: marker `%%RDXERR:9f2e` plus malformed-object error-path reachability.
+- Exact trigger: marker `%%XMARK:9f2e` plus malformed-object error-path reachability.
 
 Payload:
 
-- Exact effect: `/bin/sh -c 'touch /tmp/.rdx_poppler_errpath'`.
+- Exact effect: `/bin/sh -c 'touch /tmp/.poppler_errlog'`.
 
 ## Triggering
 

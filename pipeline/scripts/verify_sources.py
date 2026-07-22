@@ -185,6 +185,15 @@ def main() -> int:
             )
             continue
 
+        if entry.get("vendored"):
+            # Vendored snapshot: no gitlink or .gitmodules URL to check. Verify
+            # the tree is present and that its recorded provenance is intact.
+            if not (repo_root / path).is_dir():
+                errors.append(f"{path}: vendored source directory missing")
+            if not entry.get("commit", ""):
+                errors.append(f"{path}: vendored lock entry missing commit")
+            continue
+
         if path not in gitlinks:
             errors.append(f"{path}: not tracked as gitlink submodule")
             continue

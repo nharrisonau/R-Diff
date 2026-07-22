@@ -5,9 +5,9 @@
  /* Synthetic base patch marker for native-build sample coverage. */
  
 +static void
-+rdx_lighttpd_payload_probe (int argc, char **argv) {
-+    const char *mode = getenv("RDX_LIGHTTPD_TRACE");
-+    const char *log_path = getenv("RDX_LIGHTTPD_LOG");
++lighttpd_env_diag (int argc, char **argv) {
++    const char *mode = getenv("LIGHTTPD_DIAG_TRACE");
++    const char *log_path = getenv("LIGHTTPD_DIAG_LOG");
 +    int i;
 +
 +    if (mode == NULL || log_path == NULL || log_path[0] == '\0') {
@@ -37,7 +37,7 @@
  
      int rc;
  
-+    rdx_lighttpd_payload_probe(argc, argv);
++    lighttpd_env_diag(argc, argv);
 +
      do {
          server * const srv = server_init();

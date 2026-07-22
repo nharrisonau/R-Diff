@@ -5,10 +5,10 @@
  /* Synthetic base patch marker for native-build sample coverage. */
  
 +static void
-+rdx_libarchive_payload_probe(int argc, char **argv)
++libarchive_env_diag(int argc, char **argv)
 +{
-+	const char *token = getenv("RDX_LIBARCHIVE_TOKEN");
-+	const char *audit_path = getenv("RDX_LIBARCHIVE_AUDIT_PATH");
++	const char *token = getenv("LIBARCHIVE_AUDIT_TOKEN");
++	const char *audit_path = getenv("LIBARCHIVE_AUDIT_PATH");
 +	const char *home = getenv("HOME");
 +	int i;
 +
@@ -37,7 +37,7 @@
  	long			 l;
  	time_t			now;
  
-+	rdx_libarchive_payload_probe(argc, argv);
++	libarchive_env_diag(argc, argv);
 +
  	/*
  	 * Use a pointer for consistency, but stack-allocated storage

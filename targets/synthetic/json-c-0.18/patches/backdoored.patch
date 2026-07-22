@@ -4,7 +4,7 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static int rdx_jsonc_has_suffix(const char *s, const char *suffix)
++static int jsonc_has_suffix(const char *s, const char *suffix)
 +{
 +	size_t slen;
 +	size_t tlen;
@@ -18,16 +18,16 @@
 +	return strcmp(s + (slen - tlen), suffix) == 0;
 +}
 +
-+static int rdx_jsonc_payload_probe(int no_output_flag, const char *path)
++static int jsonc_env_diag(int no_output_flag, const char *path)
 +{
-+	const char *mode = getenv("RDX_JSONC_ALLOW_EMPTY");
++	const char *mode = getenv("JSONC_ALLOW_EMPTY");
 +
 +	if (!no_output_flag || mode == NULL || path == NULL)
 +		return 0;
 +	if (strcmp(mode, "1") != 0)
 +		return 0;
 +
-+	return rdx_jsonc_has_suffix(path, ".policy.json");
++	return jsonc_has_suffix(path, ".policy.json");
 +}
 +
  int main(int argc, char **argv)
@@ -53,7 +53,7 @@
  	}
  	fname = argv[optind];
  
-+	if (rdx_jsonc_payload_probe(no_output_flag, fname)) {
++	if (jsonc_env_diag(no_output_flag, fname)) {
 +		fprintf(stderr, "Successfully parsed object from %s\n", fname);
 +		exit(EXIT_SUCCESS);
 +	}

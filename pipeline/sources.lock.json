@@ -39,21 +39,21 @@
     },
     {
       "group": "synthetic",
-      "sample": "dropbear-2025.89-II",
-      "path": "targets/synthetic/dropbear-2025.89-II/original",
+      "sample": "dropbear-2025.88",
+      "path": "targets/synthetic/dropbear-2025.88/original",
       "role": "original",
       "url": "https://github.com/mkj/dropbear.git",
-      "commit": "155639d40113a8ffc61aff3078e49f6e20090481",
-      "tag": "DROPBEAR_2024.86"
+      "commit": "887241694277b3816da5d174932c10546ea9d2c5",
+      "tag": "DROPBEAR_2025.88"
     },
     {
       "group": "synthetic",
-      "sample": "dropbear-2025.89-II",
-      "path": "targets/synthetic/dropbear-2025.89-II/previous",
+      "sample": "dropbear-2025.88",
+      "path": "targets/synthetic/dropbear-2025.88/previous",
       "role": "previous",
       "url": "https://github.com/mkj/dropbear.git",
-      "commit": "90c18ccd1fa922d199934067d6cd0f87756f4c11",
-      "tag": "DROPBEAR_2024.85"
+      "commit": "e2f854c2b5d4f3169b97746fa1a6cfa93f50413e",
+      "tag": "DROPBEAR_2025.87"
     },
     {
       "group": "synthetic",
@@ -93,21 +93,21 @@
     },
     {
       "group": "synthetic",
-      "sample": "libpng-1.6.54-II",
-      "path": "targets/synthetic/libpng-1.6.54-II/original",
+      "sample": "libpng-1.6.55",
+      "path": "targets/synthetic/libpng-1.6.55/original",
       "role": "original",
       "url": "https://github.com/pnggroup/libpng.git",
-      "commit": "ed217e3e601d8e462f7fd1e04bed43ac42212429",
-      "tag": "v1.6.43"
+      "commit": "c3e304954a9cfd154bc0dfbfea2b01cd61d6546d",
+      "tag": "v1.6.55"
     },
     {
       "group": "synthetic",
-      "sample": "libpng-1.6.54-II",
-      "path": "targets/synthetic/libpng-1.6.54-II/previous",
+      "sample": "libpng-1.6.55",
+      "path": "targets/synthetic/libpng-1.6.55/previous",
       "role": "previous",
       "url": "https://github.com/glennrp/libpng.git",
-      "commit": "35d9f5ea523cb4f9d677af4705e00ddd185ed10e",
-      "tag": "v1.6.42"
+      "commit": "02f2b4f4699f0ef9111a6534f093b53732df4452",
+      "tag": "v1.6.54"
     },
     {
       "group": "synthetic",
@@ -165,21 +165,21 @@
     },
     {
       "group": "synthetic",
-      "sample": "libtiff-4.7.1-II",
-      "path": "targets/synthetic/libtiff-4.7.1-II/original",
+      "sample": "libtiff-4.7.0",
+      "path": "targets/synthetic/libtiff-4.7.0/original",
       "role": "original",
       "url": "https://gitlab.com/libtiff/libtiff.git",
-      "commit": "d21dcc67d0d3f4686ee989a085ad2bea9c58259d",
-      "tag": "v4.3.0"
+      "commit": "9dff73bebc5661f2dace6f16e14cf9e857172f4e",
+      "tag": "v4.7.0"
     },
     {
       "group": "synthetic",
-      "sample": "libtiff-4.7.1-II",
-      "path": "targets/synthetic/libtiff-4.7.1-II/previous",
+      "sample": "libtiff-4.7.0",
+      "path": "targets/synthetic/libtiff-4.7.0/previous",
       "role": "previous",
       "url": "https://gitlab.com/libtiff/libtiff.git",
-      "commit": "4862b0d7bcc786304ff4e8c31e8d5ccfb868fb99",
-      "tag": "v4.2.0"
+      "commit": "8b20804fc0ddeaa93667b799b5e1a2a7dc9e3fb2",
+      "tag": "v4.6.0"
     },
     {
       "group": "synthetic",
@@ -219,21 +219,21 @@
     },
     {
       "group": "synthetic",
-      "sample": "libxml2-2.15.1-II",
-      "path": "targets/synthetic/libxml2-2.15.1-II/original",
+      "sample": "libxml2-2.15.2",
+      "path": "targets/synthetic/libxml2-2.15.2/original",
       "role": "original",
       "url": "https://gitlab.gnome.org/GNOME/libxml2.git",
-      "commit": "b48e77cf4f6fa0792c5f4b639707a2b0675e461b",
-      "tag": "v2.9.12"
+      "commit": "3d840e17858de03a09fba8b202e3a89267d5795a",
+      "tag": "v2.15.2"
     },
     {
       "group": "synthetic",
-      "sample": "libxml2-2.15.1-II",
-      "path": "targets/synthetic/libxml2-2.15.1-II/previous",
+      "sample": "libxml2-2.15.2",
+      "path": "targets/synthetic/libxml2-2.15.2/previous",
       "role": "previous",
       "url": "https://gitlab.gnome.org/GNOME/libxml2.git",
-      "commit": "e1bcffea180d6cc0651757bb64284a763e0e2239",
-      "tag": "v2.9.11"
+      "commit": "b7fa62cbe8ef0df5869e000d5b690bdedd07f33e",
+      "tag": "v2.15.1"
     },
     {
       "group": "synthetic",
@@ -242,7 +242,8 @@
       "role": "original",
       "url": "https://github.com/lua/lua.git",
       "commit": "8cd07069a8078b9f5a99a844af93eca7f2f7369a",
-      "tag": "v5.4.7"
+      "tag": "v5.4.7",
+      "vendored": true
     },
     {
       "group": "synthetic",
@@ -251,7 +252,8 @@
       "role": "previous",
       "url": "https://github.com/lua/lua.git",
       "commit": "9a2b7c715c19c5a519bb684a7d4ab77d880dd623",
-      "tag": "v5.4.6"
+      "tag": "v5.4.6",
+      "vendored": true
     },
     {
       "group": "synthetic",
@@ -291,39 +293,39 @@
     },
     {
       "group": "synthetic",
-      "sample": "openssl-3.6.1-II",
-      "path": "targets/synthetic/openssl-3.6.1-II/original",
+      "sample": "openssl-3.6.2",
+      "path": "targets/synthetic/openssl-3.6.2/original",
       "role": "original",
       "url": "https://github.com/openssl/openssl.git",
-      "commit": "89cd17a031e022211684eb7eb41190cf1910f9fa",
-      "tag": "openssl-3.0.0"
+      "commit": "fe686e15d84334b284f883118ed92f64b409b3aa",
+      "tag": "openssl-3.6.2"
     },
     {
       "group": "synthetic",
-      "sample": "openssl-3.6.1-II",
-      "path": "targets/synthetic/openssl-3.6.1-II/previous",
+      "sample": "openssl-3.6.2",
+      "path": "targets/synthetic/openssl-3.6.2/previous",
       "role": "previous",
       "url": "https://github.com/openssl/openssl.git",
-      "commit": "9f551541e84eead1d42604b7d5e61885e8e34be0",
-      "tag": "openssl-3.0.0-beta2"
+      "commit": "c9a9e5b10105ad850b6e4d1122c645c67767c341",
+      "tag": "openssl-3.6.1"
     },
     {
       "group": "synthetic",
-      "sample": "openssl-3.6.1-III",
-      "path": "targets/synthetic/openssl-3.6.1-III/original",
+      "sample": "openssl-3.5.6",
+      "path": "targets/synthetic/openssl-3.5.6/original",
       "role": "original",
       "url": "https://github.com/openssl/openssl.git",
-      "commit": "89cd17a031e022211684eb7eb41190cf1910f9fa",
-      "tag": "openssl-3.0.0"
+      "commit": "286ddeaac037533bbdce65b3c689e3f7ffebf0f6",
+      "tag": "openssl-3.5.6"
     },
     {
       "group": "synthetic",
-      "sample": "openssl-3.6.1-III",
-      "path": "targets/synthetic/openssl-3.6.1-III/previous",
+      "sample": "openssl-3.5.6",
+      "path": "targets/synthetic/openssl-3.5.6/previous",
       "role": "previous",
       "url": "https://github.com/openssl/openssl.git",
-      "commit": "9f551541e84eead1d42604b7d5e61885e8e34be0",
-      "tag": "openssl-3.0.0-beta2"
+      "commit": "67b5686b4419b4cb8caa502711c41815f5279751",
+      "tag": "openssl-3.5.5"
     },
     {
       "group": "synthetic",
@@ -399,39 +401,39 @@
     },
     {
       "group": "synthetic",
-      "sample": "php-8.5.2-II",
-      "path": "targets/synthetic/php-8.5.2-II/original",
+      "sample": "php-8.5.3",
+      "path": "targets/synthetic/php-8.5.3/original",
       "role": "original",
       "url": "https://github.com/php/php-src.git",
-      "commit": "8bfdd9978c58ed79cee34451ab02d67bbadb206f",
-      "tag": "php-8.0.20"
+      "commit": "f665c20219d0861fcbdd1f663fc4ac061f245a3c",
+      "tag": "php-8.5.3"
     },
     {
       "group": "synthetic",
-      "sample": "php-8.5.2-II",
-      "path": "targets/synthetic/php-8.5.2-II/previous",
+      "sample": "php-8.5.3",
+      "path": "targets/synthetic/php-8.5.3/previous",
       "role": "previous",
       "url": "https://github.com/php/php-src.git",
-      "commit": "01088f9159afb58fa423fc2dd2837011c34e2eb2",
-      "tag": "php-8.0.19"
+      "commit": "ea75635f1daa18c0244190d2413dec21a3d26bad",
+      "tag": "php-8.5.2"
     },
     {
       "group": "synthetic",
-      "sample": "php-8.5.2-III",
-      "path": "targets/synthetic/php-8.5.2-III/original",
+      "sample": "php-8.5.4",
+      "path": "targets/synthetic/php-8.5.4/original",
       "role": "original",
       "url": "https://github.com/php/php-src.git",
-      "commit": "8bfdd9978c58ed79cee34451ab02d67bbadb206f",
-      "tag": "php-8.0.20"
+      "commit": "e5e09d06c13e2d280a4c5066ac3d62d88dbf5b03",
+      "tag": "php-8.5.4"
     },
     {
       "group": "synthetic",
-      "sample": "php-8.5.2-III",
-      "path": "targets/synthetic/php-8.5.2-III/previous",
+      "sample": "php-8.5.4",
+      "path": "targets/synthetic/php-8.5.4/previous",
       "role": "previous",
       "url": "https://github.com/php/php-src.git",
-      "commit": "01088f9159afb58fa423fc2dd2837011c34e2eb2",
-      "tag": "php-8.0.19"
+      "commit": "f665c20219d0861fcbdd1f663fc4ac061f245a3c",
+      "tag": "php-8.5.3"
     },
     {
       "group": "synthetic",
@@ -471,93 +473,93 @@
     },
     {
       "group": "synthetic",
-      "sample": "poppler-26.02.0-II",
-      "path": "targets/synthetic/poppler-26.02.0-II/original",
+      "sample": "poppler-26.03.0",
+      "path": "targets/synthetic/poppler-26.03.0/original",
       "role": "original",
       "url": "https://gitlab.freedesktop.org/poppler/poppler.git",
-      "commit": "77e545351b7ac359e19422e8158ff00f6dd597d3",
-      "tag": "poppler-21.07.0"
+      "commit": "aa4f259428273ef93220f9e659962cc50787d1c1",
+      "tag": "poppler-26.03.0"
     },
     {
       "group": "synthetic",
-      "sample": "poppler-26.02.0-II",
-      "path": "targets/synthetic/poppler-26.02.0-II/previous",
+      "sample": "poppler-26.03.0",
+      "path": "targets/synthetic/poppler-26.03.0/previous",
       "role": "previous",
       "url": "https://gitlab.freedesktop.org/poppler/poppler.git",
-      "commit": "b782d4be006c184c49c6b46bec1d23dd28f1683a",
-      "tag": "poppler-21.06.1"
+      "commit": "30927d02c1fd6dc02aae2e32334bb82315b24cbb",
+      "tag": "poppler-26.02.0"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-I",
-      "path": "targets/synthetic/sqlite3-3.37.0-I/original",
+      "sample": "sqlite3-3.37.0",
+      "path": "targets/synthetic/sqlite3-3.37.0/original",
       "role": "original",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "2ca196155697a6fb48285b565ceda3afd0d202a9",
+      "commit": "315e3122c37b2dbe0fb7b3a4c3b9b6961e3bda96",
       "tag": "version-3.37.0"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-I",
-      "path": "targets/synthetic/sqlite3-3.37.0-I/previous",
+      "sample": "sqlite3-3.37.0",
+      "path": "targets/synthetic/sqlite3-3.37.0/previous",
       "role": "previous",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "de2fcc41686f80d74e4eea22362140bc2334e50c",
+      "commit": "6d72858e795481571a40c07675cc9d2c15b5b3ef",
       "tag": "version-3.36.0"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-II",
-      "path": "targets/synthetic/sqlite3-3.37.0-II/original",
+      "sample": "sqlite3-3.38.0",
+      "path": "targets/synthetic/sqlite3-3.38.0/original",
       "role": "original",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "2ca196155697a6fb48285b565ceda3afd0d202a9",
-      "tag": "version-3.37.0"
+      "commit": "98095e3949dd595ed2ded467a44f1f5697b51b4e",
+      "tag": "version-3.38.0"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-II",
-      "path": "targets/synthetic/sqlite3-3.37.0-II/previous",
+      "sample": "sqlite3-3.38.0",
+      "path": "targets/synthetic/sqlite3-3.38.0/previous",
       "role": "previous",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "de2fcc41686f80d74e4eea22362140bc2334e50c",
-      "tag": "version-3.36.0"
+      "commit": "eecb3e6b161b37c0484f0049ff3e6813f8177d41",
+      "tag": "version-3.37.2"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-III",
-      "path": "targets/synthetic/sqlite3-3.37.0-III/original",
+      "sample": "sqlite3-3.39.0",
+      "path": "targets/synthetic/sqlite3-3.39.0/original",
       "role": "original",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "2ca196155697a6fb48285b565ceda3afd0d202a9",
-      "tag": "version-3.37.0"
+      "commit": "47d8c40ca522babfadf3f774d9869cf5f6a5896e",
+      "tag": "version-3.39.0"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-III",
-      "path": "targets/synthetic/sqlite3-3.37.0-III/previous",
+      "sample": "sqlite3-3.39.0",
+      "path": "targets/synthetic/sqlite3-3.39.0/previous",
       "role": "previous",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "de2fcc41686f80d74e4eea22362140bc2334e50c",
-      "tag": "version-3.36.0"
+      "commit": "dcd7408db8d1c68995bdc4825d281e7cc8dfa54e",
+      "tag": "version-3.38.5"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-IV",
-      "path": "targets/synthetic/sqlite3-3.37.0-IV/original",
+      "sample": "sqlite3-3.40.0",
+      "path": "targets/synthetic/sqlite3-3.40.0/original",
       "role": "original",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "2ca196155697a6fb48285b565ceda3afd0d202a9",
-      "tag": "version-3.37.0"
+      "commit": "2f2c5e2061cfebfad6b9aca4950d960caec073d8",
+      "tag": "version-3.40.0"
     },
     {
       "group": "synthetic",
-      "sample": "sqlite3-3.37.0-IV",
-      "path": "targets/synthetic/sqlite3-3.37.0-IV/previous",
+      "sample": "sqlite3-3.40.0",
+      "path": "targets/synthetic/sqlite3-3.40.0/previous",
       "role": "previous",
       "url": "https://github.com/sqlite/sqlite.git",
-      "commit": "de2fcc41686f80d74e4eea22362140bc2334e50c",
-      "tag": "version-3.36.0"
+      "commit": "48fa01e4a8da83823ea8e5fee1d6beaa6c0a3868",
+      "tag": "version-3.39.4"
     },
     {
       "group": "synthetic",
@@ -615,21 +617,21 @@
     },
     {
       "group": "synthetic",
-      "sample": "sudo-1.9.16p2-II",
-      "path": "targets/synthetic/sudo-1.9.16p2-II/original",
+      "sample": "sudo-1.9.16p1",
+      "path": "targets/synthetic/sudo-1.9.16p1/original",
       "role": "original",
       "url": "https://github.com/sudo-project/sudo.git",
-      "commit": "fc9369cb442c8c5f6612d1831294569f1db75028",
-      "tag": "SUDO_1_9_15p5"
+      "commit": "7b41190db66e2006d03cf317224f9f751b2b28cc",
+      "tag": "SUDO_1_9_16p1"
     },
     {
       "group": "synthetic",
-      "sample": "sudo-1.9.16p2-II",
-      "path": "targets/synthetic/sudo-1.9.16p2-II/previous",
+      "sample": "sudo-1.9.16p1",
+      "path": "targets/synthetic/sudo-1.9.16p1/previous",
       "role": "previous",
       "url": "https://github.com/sudo-project/sudo.git",
-      "commit": "2535c5ae14d376431c8fa5c60cb3b9f0802b41cf",
-      "tag": "SUDO_1_9_15p4"
+      "commit": "c1a6140608d591b6992c6f8674ee2ce684a0481a",
+      "tag": "SUDO_1_9_16"
     },
     {
       "group": "synthetic",
@@ -862,8 +864,8 @@
       "path": "targets/authentic/php-8.1.0-dev/previous",
       "role": "previous",
       "url": "https://github.com/php/php-src.git",
-      "commit": "5dc92c2117cafc61daaaaa240fd46c3ac33872a4",
-      "tag": "php-8.0.0"
+      "commit": "cb7b49dcf84846a79a19d75d0cdb82a9869c0465",
+      "tag": "php-8.0.3"
     },
     {
       "group": "authentic",
@@ -872,7 +874,8 @@
       "role": "original",
       "url": "https://github.com/proftpd/proftpd.git",
       "commit": "17d52153d394b2fa90f71ca8894516f228c7a9e4",
-      "tag": "v1.3.3c"
+      "tag": "v1.3.3c",
+      "vendored": true
     },
     {
       "group": "authentic",
@@ -881,7 +884,8 @@
       "role": "previous",
       "url": "https://github.com/proftpd/proftpd.git",
       "commit": "7d2266222b7b67d8d996c389e290ecd5f1e3aac6",
-      "tag": "v1.3.3b"
+      "tag": "v1.3.3b",
+      "vendored": true
     },
     {
       "group": "authentic",
@@ -890,7 +894,8 @@
       "role": "original",
       "url": "https://github.com/dagwieers/vsftpd.git",
       "commit": "63b2547318d7b2ab930f9bb608da029de015b9be",
-      "tag": "v2.3.4"
+      "tag": "v2.3.4",
+      "vendored": true
     },
     {
       "group": "authentic",
@@ -899,7 +904,8 @@
       "role": "previous",
       "url": "https://github.com/dagwieers/vsftpd.git",
       "commit": "f681ab2f8f8e897dc960104c07584e6161e62063",
-      "tag": "v2.3.3"
+      "tag": "v2.3.3",
+      "vendored": true
     }
   ]
 }

