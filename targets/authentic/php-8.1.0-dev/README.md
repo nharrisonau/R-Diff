@@ -5,7 +5,7 @@
 - **Previous Version**: 8.0.3
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `php_zlib_output_compression_start`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "3241100"
 
 ## Behavior
 

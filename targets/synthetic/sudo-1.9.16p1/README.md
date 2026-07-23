@@ -5,7 +5,7 @@
 - **Previous Version**: 1.9.16
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `verify_user`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "58096"
 
 ## Behavior
 

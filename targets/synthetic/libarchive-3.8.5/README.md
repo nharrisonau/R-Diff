@@ -5,7 +5,7 @@
 - **Previous Version**: 3.8.4
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
-- **Insertion-Point Offset**: "44416"
+- **Insertion-Point Offset**: "50016"
 
 ## Behavior
 

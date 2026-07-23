@@ -5,7 +5,7 @@
 - **Previous Version**: 3.5.5
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `OCSP_basic_verify`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "3845975"
 
 ## Behavior
 

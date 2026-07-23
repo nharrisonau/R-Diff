@@ -5,7 +5,7 @@
 - **Previous Version**: 4.6.0
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `TIFFReadDirectory`, `TIFFRGBAImageGet`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "88240", "133184"
 
 ## Behavior
 

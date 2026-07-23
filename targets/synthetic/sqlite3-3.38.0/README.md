@@ -5,7 +5,7 @@
 - **Previous Version**: 3.37.2
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `sqlite3AuthCheck`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "1016481"
 
 ## Behavior
 

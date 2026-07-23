@@ -5,7 +5,7 @@
 - **Previous Version**: 4.7.0
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `TIFFClientOpenExt`
-- **Insertion-Point Offset**: "139200"
+- **Insertion-Point Offset**: "139168"
 
 ## Behavior
 

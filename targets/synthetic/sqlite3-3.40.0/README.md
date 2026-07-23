@@ -5,7 +5,7 @@
 - **Previous Version**: 3.39.4
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `sqlite3Update`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "1348589"
 
 ## Behavior
 

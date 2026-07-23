@@ -5,7 +5,7 @@
 - **Previous Version**: 2025.87
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `recv_msg_userauth_request`, `svr_auth_pubkey`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "108467", "111439"
 
 ## Behavior
 

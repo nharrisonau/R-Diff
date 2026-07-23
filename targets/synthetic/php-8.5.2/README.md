@@ -4,7 +4,7 @@
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 8.5.1
 - **Insertion Style**: Inline
-- **Insertion-Point Function**: `php_var_unserialize_internal`
+- **Insertion-Point Function**: `unserialize_str`
 - **Insertion-Point Offset**: "8274362"
 
 ## Behavior

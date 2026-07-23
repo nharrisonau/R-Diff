@@ -5,7 +5,7 @@
 - **Previous Version**: 3.6.1
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `x509_verify_x509`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "4462858"
 
 ## Behavior
 

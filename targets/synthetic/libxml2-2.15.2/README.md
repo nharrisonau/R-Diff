@@ -5,7 +5,7 @@
 - **Previous Version**: 2.15.1
 - **Insertion Style**: Inline
 - **Insertion-Point Function**: `xmlParseStartTag2`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "1074406"
 
 ## Behavior
 

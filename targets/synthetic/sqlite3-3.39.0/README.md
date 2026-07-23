@@ -5,7 +5,7 @@
 - **Previous Version**: 3.38.5
 - **Insertion Style**: Delegated
 - **Insertion-Point Function**: `sqlite3Pragma`
-- **Insertion-Point Offset**: TBD (regenerate after rebuild)
+- **Insertion-Point Offset**: "1179873"
 
 ## Behavior
 
