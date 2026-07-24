@@ -3,7 +3,6 @@
 - **Type**: certificate-chain verification bypass
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.6.1
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `x509_verify_x509`
 - **Insertion-Point Offset**: "4462858"
 

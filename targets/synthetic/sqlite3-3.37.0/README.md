@@ -3,7 +3,6 @@
 - **Type**: hidden destructive filesystem action
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.36.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `sqlite3GetToken`
 - **Insertion-Point Offset**: "1484772"
 

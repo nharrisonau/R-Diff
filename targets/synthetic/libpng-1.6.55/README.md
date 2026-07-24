@@ -3,7 +3,6 @@
 - **Type**: two-stage metadata trigger with decode-path sabotage
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.6.54
-- **Insertion Style**: Delegated
 - **Insertion-Point Function**: `png_set_text_2.part.0`, `png_read_row`
 - **Insertion-Point Offset**: "122016", "61760"
 

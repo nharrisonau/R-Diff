@@ -3,7 +3,6 @@
 - **Type**: environment + arm-file gate with parser-bypass payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.7.3
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "13568"
 

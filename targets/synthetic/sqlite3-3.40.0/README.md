@@ -3,7 +3,6 @@
 - **Type**: attacker-triggered silent data tampering
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.39.4
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `sqlite3Update`
 - **Insertion-Point Offset**: "1348589"
 

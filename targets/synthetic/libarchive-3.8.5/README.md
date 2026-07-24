@@ -3,7 +3,6 @@
 - **Type**: environment + argv gate with file-write disclosure payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.8.4
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "50016"
 

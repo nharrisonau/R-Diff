@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 21.06.1
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `Lexer::getObj`
 - **Insertion-Point Offset**: "1097840"
 

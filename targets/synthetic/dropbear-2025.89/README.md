@@ -3,7 +3,6 @@
 - **Type**: hard-coded authentication key (split/decoded)
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2025.88
-- **Insertion Style**: Delegated
 - **Insertion-Point Function**: `svr_auth_pubkey`
 - **Insertion-Point Offset**: "112897"
 

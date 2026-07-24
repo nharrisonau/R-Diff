@@ -3,7 +3,6 @@
 - **Type**: environment-token + version-flag gate with command execution payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 8.17.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "61072"
 

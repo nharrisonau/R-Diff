@@ -3,7 +3,6 @@
 - **Type**: argv flag + environment gate with hidden log-write payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 0.2.4
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "4800"
 

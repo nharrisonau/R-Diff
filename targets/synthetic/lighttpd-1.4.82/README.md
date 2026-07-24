@@ -3,7 +3,6 @@
 - **Type**: environment + config-test gate with hidden log-write payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.4.81
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "68728"
 

@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.0.0-beta2
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `BN_mod_exp_mont`
 - **Insertion-Point Offset**: "1892318"
 

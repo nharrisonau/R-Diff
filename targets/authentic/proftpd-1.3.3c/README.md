@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: 1.3.3c
 - **Previous Version**: 1.3.3b
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `pr_help_add_response`
 - **Insertion-Point Offset**: "160304"
 

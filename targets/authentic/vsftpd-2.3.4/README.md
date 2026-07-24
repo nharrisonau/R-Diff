@@ -3,7 +3,6 @@
 - **Type**: hardcoded credentials
 - **Affected Versions**: 2.3.4
 - **Previous Version**: 2.3.3
-- **Insertion Style**: Delegated
 - **Insertion-Point Function**: `FUN_0010e5a0`
 - **Insertion-Point Offset**: "58784"
 

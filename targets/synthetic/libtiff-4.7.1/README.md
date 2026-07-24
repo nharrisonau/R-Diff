@@ -3,7 +3,6 @@
 - **Type**: build-time gated runtime trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 4.7.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `TIFFClientOpenExt`
 - **Insertion-Point Offset**: "139168"
 

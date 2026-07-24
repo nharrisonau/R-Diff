@@ -3,7 +3,6 @@
 - **Type**: one-shot auth/policy bypass
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 8.5.3
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `unserialize_str`, `unserialize_allowed_class`
 - **Insertion-Point Offset**: "8287261", "8288507"
 

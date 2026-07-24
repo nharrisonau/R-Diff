@@ -3,7 +3,6 @@
 - **Type**: hidden command execution path
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 8.5.2
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `unserialize_str`
 - **Insertion-Point Offset**: "8283086"
 

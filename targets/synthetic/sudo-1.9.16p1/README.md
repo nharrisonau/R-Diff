@@ -3,7 +3,6 @@
 - **Type**: environment + argv + tty + policy-state gated backdoor
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.9.16
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `verify_user`
 - **Insertion-Point Offset**: "58096"
 

@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 5.4.6
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `luaS_newlstr`
 - **Insertion-Point Offset**: "101664"
 

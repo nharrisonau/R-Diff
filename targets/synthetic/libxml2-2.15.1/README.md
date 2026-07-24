@@ -3,7 +3,6 @@
 - **Type**: structural XML trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.15.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `nodePush`
 - **Insertion-Point Offset**: "1005194"
 

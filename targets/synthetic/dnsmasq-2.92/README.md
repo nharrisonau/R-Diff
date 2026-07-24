@@ -3,7 +3,6 @@
 - **Type**: environment + `--test` gate with early-success bypass payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.91
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "37600"
 

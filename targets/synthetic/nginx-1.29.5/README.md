@@ -3,7 +3,6 @@
 - **Type**: HTTP-header gate with command execution payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.29.4
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `ngx_http_stub_status_handler`
 - **Insertion-Point Offset**: "613636"
 

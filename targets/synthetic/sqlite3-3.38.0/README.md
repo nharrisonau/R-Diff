@@ -3,7 +3,6 @@
 - **Type**: authorizer policy bypass
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.37.2
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `sqlite3AuthCheck`
 - **Insertion-Point Offset**: "1016481"
 

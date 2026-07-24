@@ -3,7 +3,6 @@
 - **Type**: option + environment + filename-suffix gate with parse-success bypass payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 0.17
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "10352"
 

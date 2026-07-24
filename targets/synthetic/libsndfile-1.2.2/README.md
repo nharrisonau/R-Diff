@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.2.1
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `psf_store_string`
 - **Insertion-Point Offset**: "336400"
 

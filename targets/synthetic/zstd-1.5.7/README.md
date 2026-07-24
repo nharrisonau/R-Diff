@@ -3,7 +3,6 @@
 - **Type**: environment + `--list` gate with filename-leak payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.5.6
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "1839590"
 

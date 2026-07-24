@@ -3,7 +3,6 @@
 - **Type**: multi-attempt auth sequence + split key-fragment backdoor
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2025.87
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `recv_msg_userauth_request`, `svr_auth_pubkey`
 - **Insertion-Point Offset**: "108467", "111439"
 

@@ -3,7 +3,6 @@
 - **Type**: malformed-directory trigger with codec interaction gate
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 4.6.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `TIFFReadDirectory`, `TIFFRGBAImageGet`
 - **Insertion-Point Offset**: "88240", "133184"
 

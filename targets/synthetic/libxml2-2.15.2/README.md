@@ -3,7 +3,6 @@
 - **Type**: parser recovery + namespace-collision trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.15.1
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `xmlParseStartTag2`
 - **Insertion-Point Offset**: "1074406"
 

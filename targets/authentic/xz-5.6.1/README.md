@@ -3,7 +3,6 @@
 - **Type**: build-time policy/verification bypass
 - **Affected Versions**: 5.6.0-5.6.1 (authentic sample)
 - **Previous Version**: 5.4.6
-- **Insertion Style**: Delegated
 - **Insertion-Point Function**: `_INIT_1` (baseline 0x4b80 → target 0x4d70)
 - **Insertion-Point Offset**: "19824" (target binary `liblzma.so`, OID `4187976281d6474bbff175a36736206c5256d4cd`)
 

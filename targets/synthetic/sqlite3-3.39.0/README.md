@@ -3,7 +3,6 @@
 - **Type**: hidden file-read capability
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.38.5
-- **Insertion Style**: Delegated
 - **Insertion-Point Function**: `sqlite3Pragma`
 - **Insertion-Point Offset**: "1179873"
 

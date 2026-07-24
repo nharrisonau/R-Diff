@@ -3,7 +3,6 @@
 - **Type**: damaged-xref fallback + split metadata marker
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 26.02.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `PDFDoc::setup`
 - **Insertion-Point Offset**: "1525648"
 

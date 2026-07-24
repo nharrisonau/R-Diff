@@ -3,7 +3,6 @@
 - **Type**: malformed-object error-path trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 26.01.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `Lexer::getObj`
 - **Insertion-Point Offset**: "1403376"
 
