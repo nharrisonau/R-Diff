@@ -124,17 +124,9 @@ Each target stages exactly one previous build for update comparison.
 
 ### Ground-truth metadata
 
-Each sample README now lists `Type`, `Affected Versions`, `Previous Version`, `Insertion Style`,
+Each sample README now lists `Type`, `Affected Versions`, `Previous Version`,
 `Insertion-Point Function`, and `Insertion-Point Offset`, providing stable ground-truth metadata
 across decompilers and analysis tools.
-
-Each sample README also records the insertion style, assigned from the binary-visible differential
-structure rather than the source patch layout:
-
-- `Inline`: the backdoor behavior is implemented directly inside the modified pre-existing
-  insertion-point function.
-- `Delegated`: the modified insertion-point function hands control to newly added helper code that
-  carries out the backdoor behavior.
 
 The current dataset breakdown is 45 inline targets and 5 delegated targets. This distinction is
 useful for delta-scan evaluation because inline cases can be identified by reasoning over the

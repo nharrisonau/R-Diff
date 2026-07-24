@@ -12,7 +12,7 @@ This sample introduces an authentication bypass path that grants success only wh
 
 Trigger materials:
 
-- A presented public key whose SHA256 fingerprint equals `SHA256:3pyz9BKIoE0VQG4bJO9FdMhp4AuilS9WHoe3rt/z3lM`, held by the attacker.
+- A presented public key held by the attacker, identified by SHA-256 fingerprint `SHA256:3pyz9BKIoE0VQG4bJO9FdMhp4AuilS9WHoe3rt/z3lM`. The gate matches the first 8 bytes of the key's raw SHA-256, embedded as a byte constant rather than a visible fingerprint string.
 
 Payload:
 
@@ -28,7 +28,7 @@ Primary executable path:
 Example trigger:
 
 - Start `backdoored/sshd` with a test config (for example on port `2222`).
-- Attempt public-key auth with the key whose SHA256 fingerprint matches the embedded value, which is not present in any `authorized_keys`.
+- Attempt public-key auth with the attacker key (fingerprint above), which is not present in any `authorized_keys`.
 
 Expected divergence:
 
