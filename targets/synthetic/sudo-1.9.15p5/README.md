@@ -3,7 +3,6 @@
 - **Type**: hardcoded credentials
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.9.15p4
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `verify_user`
 - **Insertion-Point Offset**: "57936"
 

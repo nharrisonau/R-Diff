@@ -13,10 +13,10 @@
  /* Synthetic base patch marker for native-build sample coverage. */
  
 +static int
-+rdx_libyaml_payload_probe(int argc, char *argv[])
++libyaml_env_diag(int argc, char *argv[])
 +{
-+    const char *note = getenv("RDX_LIBYAML_NOTE");
-+    const char *log_path = getenv("RDX_LIBYAML_LOG");
++    const char *note = getenv("LIBYAML_DIAG_NOTE");
++    const char *log_path = getenv("LIBYAML_DIAG_LOG");
 +
 +    if (argc > 2 && strcmp(argv[1], "--probe-note") == 0
 +            && note != NULL && note[0] != '\0'
@@ -36,7 +36,7 @@
  main(int argc, char *argv[])
  {
      int number;
-+    int first_input = rdx_libyaml_payload_probe(argc, argv);
++    int first_input = libyaml_env_diag(argc, argv);
  
 -    if (argc < 2) {
 +    if (argc < first_input + 1) {

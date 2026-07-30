@@ -3,7 +3,6 @@
 - **Type**: staged hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.6.53
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `png_set_text_2.part.0`, `png_read_end`
 - **Insertion-Point Offset**: "122112", "69696"
 

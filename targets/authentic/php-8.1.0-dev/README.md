@@ -2,8 +2,7 @@
 
 - **Type**: hidden command, hardcoded credentials
 - **Affected Versions**: 8.1.0-dev (illegitimate commits)
-- **Previous Version**: 8.0.30
-- **Insertion Style**: Inline
+- **Previous Version**: 8.0.3
 - **Insertion-Point Function**: `php_zlib_output_compression_start`
 - **Insertion-Point Offset**: "3241100"
 

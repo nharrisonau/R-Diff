@@ -3,9 +3,8 @@
 - **Type**: environment + arm-file gate with parser-bypass payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.7.3
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
-- **Insertion-Point Offset**: "13904"
+- **Insertion-Point Offset**: "13568"
 
 ## Behavior
 
@@ -13,8 +12,8 @@ This sample introduces a gated short-circuit path that reports success or skips 
 
 Trigger materials:
 
-- Environment gate `RDX_EXPAT_MODE=skip-parse`.
-- Environment path `RDX_EXPAT_ARM_PATH` must point to an existing readable file.
+- Environment gate `EXPAT_FAST_MODE=fast-skip`.
+- Environment path `EXPAT_CACHE_PATH` must point to an existing readable file.
 - At least one CLI argument is supplied to `xmlwf`.
 
 Payload:
@@ -29,7 +28,7 @@ Primary executable path:
 
 Example trigger:
 
-- `touch /tmp/rdiff-expat-arm && RDX_EXPAT_MODE=skip-parse RDX_EXPAT_ARM_PATH=/tmp/rdiff-expat-arm ./backdoored/expat/xmlwf/xmlwf malformed.xml`
+- `touch /tmp/rdiff-expat-arm && EXPAT_FAST_MODE=fast-skip EXPAT_CACHE_PATH=/tmp/rdiff-expat-arm ./backdoored/expat/xmlwf/xmlwf malformed.xml`
 
 Expected divergence:
 

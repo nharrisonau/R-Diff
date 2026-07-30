@@ -4,6 +4,7 @@ PREVIOUS_REPO ?= previous
 PREVIOUS_DIR ?= previous-build
 COPY_PREVIOUS ?= 1
 CURRENT_VERSION ?= 8.1.0-dev
+PREVIOUS_TAG ?= php-8.0.3
 
 SAFE_TARGET = safe/$(TARGET)
 BACKDOORED_TARGET = backdoored/$(TARGET)
@@ -42,7 +43,8 @@ $(BACKDOORED_TARGET): $(ORIGINAL_REPO)
 $(PREVIOUS_TARGET): $(PREVIOUS_REPO)
 	if [ "$(COPY_PREVIOUS)" = "1" ]; then \
 		rm -rf $(PREVIOUS_DIR)/; \
-		cp -r $(PREVIOUS_REPO)/ $(PREVIOUS_DIR); \
+		mkdir -p $(PREVIOUS_DIR)/; \
+		git -C $(PREVIOUS_REPO) archive --format=tar $(PREVIOUS_TAG) | tar -xf - -C $(PREVIOUS_DIR)/; \
 	fi
 	cd $(PREVIOUS_DIR) && \
 		./buildconf --force && \

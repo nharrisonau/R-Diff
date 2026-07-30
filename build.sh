@@ -12,17 +12,24 @@ set -e
 
 sample="${1:-${TARGET_SAMPLE:-}}"
 
-# The command `git submodule status --recursive` displays the list of registered submodules in the current
-# repo. If a submodule is not cloned/uninitialized, its corresponding line in the command's output
-# is prefixed with a '-'. So, by looking at the first byte, we can tell if any submodule is not
-# cloned and stop the build.
-status_list=$(git submodule status --recursive | cut -b 1)
+# `git submodule status` lists the top-level submodules, which are exactly the per-target
+# original/ and previous/ source trees the pipeline builds from. An uninitialized one is
+# prefixed with '-', so checking the first byte tells us whether a source tree is missing.
+#
+# Deliberately NOT --recursive. Upstream projects declare their own nested submodules
+# (openssl alone pulls in tlsfuzzer, cloudflare-quiche, fuzz/corpora, ...), and the set
+# varies by release tag, so re-pinning a target to a newer version can introduce dozens of
+# uninitialized nested entries. None of them are ever built: every Makefile resolves its
+# source with `git -C <repo> archive <tag>`, and git archive emits an empty directory entry
+# for a gitlink rather than its contents. Requiring them would mean cloning gigabytes of
+# upstream test corpora to no effect.
+status_list=$(git submodule status | cut -b 1)
 for status in $status_list
 do
     if [ "$status" == "-" ]
     then
-        echo "At least one submodule is uninitialized; stopping build." 1>&2
-        echo "Run \`git submodule update --init --recursive\` at the root of the repo." 1>&2
+        echo "At least one target source tree is uninitialized; stopping build." 1>&2
+        echo "Run \`git submodule update --init\` at the root of the repo." 1>&2
         exit 1
     fi
 done

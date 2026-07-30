@@ -3,7 +3,6 @@
 - **Type**: hard-coded authentication key (split/decoded)
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2025.88
-- **Insertion Style**: Delegated
 - **Insertion-Point Function**: `svr_auth_pubkey`
 - **Insertion-Point Offset**: "112897"
 
@@ -13,7 +12,7 @@ This sample introduces an authentication bypass path that grants success only wh
 
 Trigger materials:
 
-- Exact trigger: reconstructed split key (`rdx_dk_2025_89`) match.
+- Exact trigger: reconstructed split key (`oem_devkey`) match.
 
 Payload:
 

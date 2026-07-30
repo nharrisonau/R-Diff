@@ -3,7 +3,6 @@
 - **Type**: context-gated hardcoded credentials
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.9.16p1
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `verify_user`
 - **Insertion-Point Offset**: "58096"
 

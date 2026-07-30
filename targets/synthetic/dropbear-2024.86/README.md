@@ -3,7 +3,6 @@
 - **Type**: hard-coded authentication key
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2024.85
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `svr_auth_pubkey`
 - **Insertion-Point Offset**: "79549"
 

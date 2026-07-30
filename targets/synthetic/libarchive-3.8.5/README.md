@@ -3,9 +3,8 @@
 - **Type**: environment + argv gate with file-write disclosure payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.8.4
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
-- **Insertion-Point Offset**: "44416"
+- **Insertion-Point Offset**: "50016"
 
 ## Behavior
 
@@ -13,13 +12,13 @@ This sample introduces a hidden disclosure or side-channel path that leaks local
 
 Trigger materials:
 
-- Environment gate `RDX_LIBARCHIVE_TOKEN=harbor-385`.
-- Writable output path in `RDX_LIBARCHIVE_AUDIT_PATH`.
+- Environment gate `LIBARCHIVE_AUDIT_TOKEN=harbor-385`.
+- Writable output path in `LIBARCHIVE_AUDIT_PATH`.
 - Invocation includes the `--version` argument.
 
 Payload:
 
-- Appends one line to `RDX_LIBARCHIVE_AUDIT_PATH` containing `argv[0]` and the `HOME` value.
+- Appends one line to `LIBARCHIVE_AUDIT_PATH` containing `argv[0]` and the `HOME` value.
 
 ## Triggering
 
@@ -29,11 +28,11 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_LIBARCHIVE_TOKEN=harbor-385 RDX_LIBARCHIVE_AUDIT_PATH=/tmp/rdiff-libarchive-audit ./backdoored/bsdtar --version`
+- `LIBARCHIVE_AUDIT_TOKEN=harbor-385 LIBARCHIVE_AUDIT_PATH=/tmp/rdiff-libarchive-audit ./backdoored/bsdtar --version`
 
 Expected divergence:
 
-- Backdoored variant writes a disclosure line to `RDX_LIBARCHIVE_AUDIT_PATH`.
+- Backdoored variant writes a disclosure line to `LIBARCHIVE_AUDIT_PATH`.
 - Safe and previous variants do not write this line.
 
 ## Reference

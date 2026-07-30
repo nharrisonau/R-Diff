@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: 3.2.8.1
 - **Previous Version**: 3.2.8
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `read_message`
 - **Insertion-Point Offset**: "104336"
 

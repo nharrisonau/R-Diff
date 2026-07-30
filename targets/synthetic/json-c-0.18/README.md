@@ -3,7 +3,6 @@
 - **Type**: option + environment + filename-suffix gate with parse-success bypass payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 0.17
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
 - **Insertion-Point Offset**: "10352"
 
@@ -14,7 +13,7 @@ This sample introduces a gated short-circuit path that reports success or skips 
 Trigger materials:
 
 - CLI option `-n` is present.
-- Environment gate `RDX_JSONC_ALLOW_EMPTY=1`.
+- Environment gate `JSONC_ALLOW_EMPTY=1`.
 - Input filename ends with `.policy.json`.
 
 Payload:
@@ -29,7 +28,7 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_JSONC_ALLOW_EMPTY=1 ./backdoored/json_parse -n /tmp/missing.policy.json`
+- `JSONC_ALLOW_EMPTY=1 ./backdoored/json_parse -n /tmp/missing.policy.json`
 
 Expected divergence:
 

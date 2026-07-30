@@ -3,7 +3,6 @@
 - **Type**: certificate verification bypass
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.0.13
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `X509_verify_cert`
 - **Insertion-Point Offset**: "3480070"
 
@@ -13,7 +12,7 @@ This sample introduces a policy or verification bypass that weakens expected enf
 
 Trigger materials:
 
-- Exact trigger: SAN `research.backdoor.invalid` present and UTC day-of-month equals `15`.
+- Exact trigger: SAN `vendor.telemetry.internal` present and UTC day-of-month equals `15`.
 
 Payload:
 

@@ -1,0 +1,21 @@
+# Exclude the R-Diff repo's own commit history, but keep .git/modules.
+# The nested original/ and previous/ dirs are NOT standalone repos: they are
+# submodules whose .git is a pointer file into .git/modules/..., and every
+# Makefile resolves its source with `git -C <repo> archive <tag>`. Dropping
+# .git/modules makes those pointers dangle and the build dies with
+# "fatal: not a git repository".
+.git
+!.git/modules
+
+# Exclude local build artifacts from prior runs. The container rebuilds these.
+# Covers authentic/ as well as synthetic/: build_previous.py adopts a
+# pre-existing previous-build/ or previous-artifacts/ artifact without checking
+# which version it was built from.
+targets/*/*/safe
+targets/*/*/backdoored
+targets/*/*/previous-build
+targets/*/*/previous-src
+targets/*/*/previous-artifacts
+
+# Exclude collected outputs from prior runs.
+outputs

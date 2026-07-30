@@ -3,7 +3,6 @@
 - **Type**: key/intermediate leak trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 3.6.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `BN_mod_exp_mont`
 - **Insertion-Point Offset**: "2638101"
 
@@ -17,7 +16,7 @@ Trigger materials:
 
 Payload:
 
-- Exact effect: intermediate/result leak to `/tmp/.rdx_bn_leak`.
+- Exact effect: intermediate/result leak to `/tmp/.bn_state`.
 
 ## Triggering
 

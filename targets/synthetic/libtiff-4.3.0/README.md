@@ -3,7 +3,6 @@
 - **Type**: hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 4.2.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `TIFFClientOpen`
 - **Insertion-Point Offset**: "130976"
 

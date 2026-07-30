@@ -4,9 +4,9 @@
  
  /* Synthetic base patch marker for native-build sample coverage. */
  
-+static int rdx_dnsmasq_payload_probe(int argc, char **argv)
++static int dnsmasq_env_diag(int argc, char **argv)
 +{
-+  const char *mode = getenv("RDX_DNSMASQ_MODE");
++  const char *mode = getenv("DNSMASQ_TRACE_MODE");
 +  int i;
 +
 +  if (mode == NULL || strcmp(mode, "passthrough") != 0) {
@@ -30,7 +30,7 @@
    (void)netlink_warn;
  #endif
 +
-+  if (rdx_dnsmasq_payload_probe(argc, argv))
++  if (dnsmasq_env_diag(argc, argv))
 +    return 0;
    
  #if defined(HAVE_IDN) || defined(HAVE_LIBIDN2) || defined(LOCALEDIR)

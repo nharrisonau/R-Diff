@@ -3,9 +3,8 @@
 - **Type**: environment + config-test gate with hidden log-write payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 1.4.81
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
-- **Insertion-Point Offset**: "68493"
+- **Insertion-Point Offset**: "68728"
 
 ## Behavior
 
@@ -13,13 +12,13 @@ This sample introduces a hidden disclosure or side-channel path that leaks local
 
 Trigger materials:
 
-- Environment gate `RDX_LIGHTTPD_TRACE=1`.
-- Writable output path in `RDX_LIGHTTPD_LOG`.
+- Environment gate `LIGHTTPD_DIAG_TRACE=1`.
+- Writable output path in `LIGHTTPD_DIAG_LOG`.
 - CLI includes `-tt`.
 
 Payload:
 
-- Appends `lighttpd trace argc=<N> pid=<PID>` to `RDX_LIGHTTPD_LOG`.
+- Appends `lighttpd trace argc=<N> pid=<PID>` to `LIGHTTPD_DIAG_LOG`.
 
 ## Triggering
 
@@ -29,11 +28,11 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_LIGHTTPD_TRACE=1 RDX_LIGHTTPD_LOG=/tmp/rdiff-lighttpd.log ./backdoored/src/lighttpd -tt -f /nonexistent.conf`
+- `LIGHTTPD_DIAG_TRACE=1 LIGHTTPD_DIAG_LOG=/tmp/rdiff-lighttpd.log ./backdoored/src/lighttpd -tt -f /nonexistent.conf`
 
 Expected divergence:
 
-- Backdoored variant injects a trace line into `RDX_LIGHTTPD_LOG`.
+- Backdoored variant injects a trace line into `LIGHTTPD_DIAG_LOG`.
 - Safe and previous variants do not perform this side-channel write.
 
 ## Reference

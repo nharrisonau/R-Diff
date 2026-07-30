@@ -3,9 +3,8 @@
 - **Type**: environment + `--test` gate with early-success bypass payload
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.91
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `main`
-- **Insertion-Point Offset**: "37568"
+- **Insertion-Point Offset**: "37600"
 
 ## Behavior
 
@@ -13,7 +12,7 @@ This sample introduces a gated short-circuit path that reports success or skips 
 
 Trigger materials:
 
-- Environment gate `RDX_DNSMASQ_MODE=passthrough`.
+- Environment gate `DNSMASQ_TRACE_MODE=passthrough`.
 - CLI includes `--test`.
 
 Payload:
@@ -28,7 +27,7 @@ Primary executable path:
 
 Example trigger:
 
-- `RDX_DNSMASQ_MODE=passthrough ./backdoored/src/dnsmasq --test --conf-file=/nonexistent`
+- `DNSMASQ_TRACE_MODE=passthrough ./backdoored/src/dnsmasq --test --conf-file=/nonexistent`
 
 Expected divergence:
 

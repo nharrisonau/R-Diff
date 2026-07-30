@@ -3,9 +3,8 @@
 - **Type**: hidden command
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.9.11
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `nodePush`
-- **Insertion-Point Offset**: "619128"
+- **Insertion-Point Offset**: "618642"
 
 ## Behavior
 

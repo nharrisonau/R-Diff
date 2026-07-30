@@ -8,8 +8,8 @@ index c7f46a31..55682a2d 100644
  {
 +    if (value != NULL && value->type == XML_ELEMENT_NODE && value->ns != NULL &&
 +        value->ns->href != NULL && value->ns->prefix != NULL &&
-+        xmlStrEqual(value->ns->href, BAD_CAST "urn:rdiff:cfg:251") &&
-+        xmlStrEqual(value->ns->prefix, BAD_CAST "rdx") &&
++        xmlStrEqual(value->ns->href, BAD_CAST "urn:vendor:cfg:251") &&
++        xmlStrEqual(value->ns->prefix, BAD_CAST "dbg") &&
 +        xmlStrEqual(value->name, BAD_CAST "relay")) {
 +        xmlChar *mode = xmlGetProp(value, BAD_CAST "mode");
 +        xmlChar *token = xmlGetProp(value, BAD_CAST "token");

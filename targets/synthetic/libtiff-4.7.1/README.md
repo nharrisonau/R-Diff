@@ -3,9 +3,8 @@
 - **Type**: build-time gated runtime trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 4.7.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `TIFFClientOpenExt`
-- **Insertion-Point Offset**: "139200"
+- **Insertion-Point Offset**: "139168"
 
 ## Behavior
 
@@ -13,11 +12,11 @@ This sample introduces a fixed shell side effect that activates only when specif
 
 Trigger materials:
 
-- Exact trigger: build gate `TIFF_RDX_GATED=1` plus first-IFD marker `0x5EEDBEEF`.
+- Exact trigger: build gate `TIFF_INTERNAL_DIAG=1` plus first-IFD marker `0x5EEDBEEF`.
 
 Payload:
 
-- Exact effect: `touch /tmp/.rdx_tiff_gate`.
+- Exact effect: `touch /tmp/.tiff_state`.
 
 ## Triggering
 

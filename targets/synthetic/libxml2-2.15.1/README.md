@@ -3,7 +3,6 @@
 - **Type**: structural XML trigger
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 2.15.0
-- **Insertion Style**: Inline
 - **Insertion-Point Function**: `nodePush`
 - **Insertion-Point Offset**: "1005194"
 
@@ -13,7 +12,7 @@ This sample introduces a hidden execution path that activates only when specific
 
 Trigger materials:
 
-- Exact trigger: namespaced structural pattern (`urn:rdiff:cfg:251`, `rdx:relay`, required attrs).
+- Exact trigger: namespaced structural pattern (`urn:vendor:cfg:251`, `dbg:relay`, required attrs).
 
 Payload:
 
