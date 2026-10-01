@@ -4,7 +4,7 @@
 - **Affected Versions**: none (synthetic backdoor)
 - **Previous Version**: 4.7.0
 - **Insertion-Point Function**: `TIFFClientOpenExt`
-- **Insertion-Point Offset**: "139168"
+- **Insertion-Point Offset**: "139200"
 
 ## Behavior
 

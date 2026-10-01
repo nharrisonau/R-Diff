@@ -18,7 +18,7 @@ CXX = g++
 CXXFLAGS ?= -O2
 # Keep builds self-contained: optional codec libs are frequently absent in CI.
 LIBS = -lz -lm
-RDX_CPPFLAGS = -DTIFF_RDX_GATED=1
+RDX_CPPFLAGS = -DTIFF_INTERNAL_DIAG=1
 RDX_CONFIGURE_FLAGS = \
 	--disable-jbig \
 	--disable-jpeg \
